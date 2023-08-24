@@ -13,3 +13,4 @@ const readFileAsync = (directory) => {
         });
     });
 };
+
