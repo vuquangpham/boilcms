@@ -4,10 +4,37 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href='/css/admin.css'>
     <title>Admin</title>
 </head>
 <body>
-    <%= title%>
-    <h1>Hello</h1>
+    <div class="container">
+        <div class="header">
+            <div class="header-logo">
+                Logo here
+            </div>
+            <div class="header-action">
+                Hi <%= username%>
+            </div>
+        </div>
+        <div class="admin-menu">
+            <ul>
+                <li class="category category-1 category-active">
+                    <a class="router-link" href="/boiler-admin/posts">DashBoard</a>
+                </li>
+                <li class="category category-2">
+                    <a class="router-link" href="/boiler-admin/posts">Posts</a>
+                </li>
+                <li class="category category-3">
+                    <a class="router-link" href="/boiler-admin/media">Media</a>
+                </li>
+                <li class="category category-4">
+                    <a class="router-link" href="/boiler-admin/pages">Pages</a>
+                </li>
+            </ul>
+        </div>
+        <%= title%>
+        <h1>Hello</h1>
+    </div>
 </body>
 </html>
