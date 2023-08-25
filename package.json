@@ -1,0 +1,27 @@
+{
+  "name": "boilcms",
+  "version": "1.0.0",
+  "description": "A CMS that has been built by Node.js and Express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuquangpham/boilcms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vuquangpham/boilcms/issues"
+  },
+  "homepage": "https://github.com/vuquangpham/boilcms#readme",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7"
+  }
+}
