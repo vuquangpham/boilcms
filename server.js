@@ -11,14 +11,10 @@ class CategoryParent {
     add(category){
         this.baseList.push(category);
     }
-    getTypeArray(){
-        return this.baseList.map(category => category.type);
-        // [ 'posts', 'pages', 'media' ]
-    }
     check(base){
-        const indexOfType = this.getTypeArray().indexOf(base)
-        if(indexOfType !== -1){
-            return this.baseList[indexOfType].type
+        const matchedCategory = this.baseList.find(category => category.type === base)
+        if(matchedCategory){
+            return matchedCategory
         }
         return false
     }
@@ -55,13 +51,13 @@ app.get('/boiler-admin',(req,res) =>{
 
 app.get('/boiler-admin/:base', (req,res) =>{
     const base = req.params.base;
-    const matchedTypeUrl = parent.check(base)
+    const checkUrlCategory = parent.check(base)
 
-    if(!matchedTypeUrl || base !== matchedTypeUrl){
+    if(!checkUrlCategory.type || base !== checkUrlCategory.type){
         res.redirect('/')
     }
-    if(base === matchedTypeUrl){
-        res.render(matchedTypeUrl)
+    if(base === checkUrlCategory.type){
+        res.render(checkUrlCategory)
     }
 })
 
