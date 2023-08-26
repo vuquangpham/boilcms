@@ -1,5 +1,7 @@
 const express = require('express')
 const path = require('path')
+const ejs = require('ejs')
+const readFileAsync = require('./utils')
 
 // Init app
 const app = express();
@@ -28,7 +30,8 @@ class Category {
 }
 const parent = new CategoryParent();
 
-parent.add(new Category('Dashboard','/','posts'))
+parent.add(new Category('Dashboard','/','dashboards'))
+parent.add(new Category('Post','/','posts'))
 parent.add(new Category('Page','/','pages'))
 parent.add(new Category('Media','/','media'))
 
@@ -45,19 +48,31 @@ app.get('/',(req,res) =>{
 app.get('/boiler-admin',(req,res) =>{
     res.render('admin',{
         title: 'Dashboard',
-        username: 'AnhTu'
+        username: 'AnhTu',
+        content: 'Dashboard'
     })
 })
 
-app.get('/boiler-admin/:base', (req,res) =>{
+app.get('/boiler-admin/:base', async (req,res) =>{
     const base = req.params.base;
     const checkUrlCategory = parent.check(base)
 
-    if(!checkUrlCategory.type || base !== checkUrlCategory.type){
-        res.redirect('/')
+    // Check if url is not valid, return to default url
+    if(!checkUrlCategory || base !== checkUrlCategory.type){
+        return res.redirect('/')
     }
+    // get HTML from category file
+    const baseFileName = `${base}.ejs`
+    const data = await readFileAsync(path.join(__dirname, 'views', baseFileName))
+    const getHtml = ejs.render(data)
+
+    // Check if url is correct, return content of file
     if(base === checkUrlCategory.type){
-        res.render(checkUrlCategory.type)
+        res.render('admin',{
+            title: 'Dashboard',
+            username: 'AnhTu',
+            content: getHtml
+        })
     }
 })
 

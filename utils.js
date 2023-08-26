@@ -14,3 +14,4 @@ const readFileAsync = (directory) => {
     });
 };
 
+module.exports = readFileAsync
