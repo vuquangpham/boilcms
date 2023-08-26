@@ -57,7 +57,7 @@ app.get('/boiler-admin/:base', (req,res) =>{
         res.redirect('/')
     }
     if(base === checkUrlCategory.type){
-        res.render(checkUrlCategory)
+        res.render(checkUrlCategory.type)
     }
 })
 
