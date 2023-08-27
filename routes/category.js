@@ -11,14 +11,15 @@ const process = require('process');
 
 const parent = new CategoryParent();
 
-parent.add(new Category('Dashboard','/boiler-admin/dashboards','dashboards'))
-parent.add(new Category('Post','/boiler-admin/posts','posts'))
-parent.add(new Category('Page','/boiler-admin/pages','pages'))
-parent.add(new Category('Media','/boiler-admin/media','media'))
+parent.add(new Category({name: 'Dashboard', url: '/boiler-admin/dashboards', type: 'dashboards'}))
+parent.add(new Category({name: 'Post', url: '/boiler-admin/posts', type: 'posts'}))
+parent.add(new Category({name: 'Page', url: '/boiler-admin/pages', type: 'pages'}))
+parent.add(new Category({name: 'Media', url: '/boiler-admin/media', type: 'media'}))
 
 
+    parent.getData()
 // Get HTML from category file and File category name === category.type
-const getHtml = async (base) =>{
+    const getHtml = async (base) =>{
     const baseFileName = `${base}.ejs`;
     const data = await readFileAsync(path.join(process.cwd(), 'views', baseFileName))
     return ejs.render(data)

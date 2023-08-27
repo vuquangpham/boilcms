@@ -1,8 +1,15 @@
+// class subCategory {
+//     constructor(params) {
+//         this.name = params.name;
+//         this.url
+//     }
+// }
+
 class Category {
-    constructor(name,url,type) {
-        this.name = name;
-        this.url = url;
-        this.type = type
+    constructor(params) {
+        this.name = params.name;
+        this.url = params.url;
+        this.type = params.type;
     }
 }
 
