@@ -19,18 +19,11 @@
         </div>
         <div class="admin-menu">
             <ul>
-                <li class="category category-1 category-active">
-                    <a class="router-link" href="/boiler-admin/dashboards">DashBoard</a>
-                </li>
-                <li class="category category-2">
-                    <a class="router-link" href="/boiler-admin/posts">Posts</a>
-                </li>
-                <li class="category category-3">
-                    <a class="router-link" href="/boiler-admin/media">Media</a>
-                </li>
-                <li class="category category-4">
-                    <a class="router-link" href="/boiler-admin/pages">Pages</a>
-                </li>
+                <%for( let i = 0 ; i< category.length; i++) {%>
+                    <li class="category">
+                        <a class="router-link" href="<%=category[i].url%>"><%= category[i].name%></a>
+                    </li>
+                <% } %>
             </ul>
         </div>
         <h1>Hello</h1>
