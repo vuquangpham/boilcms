@@ -1,0 +1,9 @@
+<div class="admin-menu">
+    <ul>
+        <%for( let i = 0 ; i< category.length; i++) {%>
+        <li class="category">
+            <a class="router-link" href="<%=category[i].url%>"><%= category[i].name%></a>
+        </li>
+        <% } %>
+    </ul>
+</div>
