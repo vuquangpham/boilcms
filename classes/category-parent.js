@@ -11,6 +11,7 @@ class CategoryParent {
     getData(){
         return this.baseList;
     }
+    addSubCategory(){}
 }
 
 module.exports = CategoryParent
