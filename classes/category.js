@@ -10,8 +10,7 @@ class Category {
         this.name = params.name;
         this.url = params.url;
         this.type = params.type;
-        // this.subCategory = new SubCategory({name: params.subCategory.subname, url: params.subCategory.suburl})
-        this.subCategory = params.subCategory;
+        this.subCategories = []
     }
 }
 

@@ -22,10 +22,9 @@
                     <li class="category">
                         <a class="router-link" href="<%=category[i].url%>"><%= category[i].name%></a>
                         <ul class="sub-menu">
-<!--                            <h3>23423</h3>-->
-                            <%for (let j = 0; j< subParent.length; j++) { %>
+                            <%for (let j = 0; j< category[i].subCategories.length; j++) { %>
                                 <li class="sub-category">
-                                    <a class="router-link" href="<%= subParent[j].url%>"><%= subParent[j].name%></a>
+                                    <a class="router-link" href="<%=category[i].subCategories[j].url%>"><%= category[i].subCategories[j].name%></a>
                                 </li>
                             <%}%>
                         </ul>
