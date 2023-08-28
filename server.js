@@ -17,8 +17,8 @@ app.get('/boiler-admin/',(req,res) =>{
     res.redirect('/boiler-admin/dashboards')
 })
 
-let boiler_admin = require('./routes/category')
-app.use('/boiler-admin',boiler_admin)
+let boilerAdmin = require('./routes/category')
+app.use('/boiler-admin',boilerAdmin)
 
 // Run server
 app.listen(3000, () =>{

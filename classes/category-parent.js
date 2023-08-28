@@ -1,16 +1,16 @@
 class CategoryParent {
     constructor() {
-        this.baseList = [];
+        this.categoryItems = [];
     }
     add(category){
-        this.baseList.push(category);
+        this.categoryItems.push(category);
     }
-    check(base){
-        return this.baseList.find(category => category.type === base)
+    getCategoryItem(type){
+        return this.categoryItems.find(category => category.type === type)
     }
-    getData(){
-        return this.baseList;
-    }
+    // categoryItems(){
+    //     return this.categoryItems;
+    // }
 }
 
 module.exports = CategoryParent
