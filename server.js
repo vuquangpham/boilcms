@@ -2,6 +2,7 @@ require('dotenv').config({path: '.env'});
 const {address} = require("ip");
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose')
 
 const {ADMIN_URL} = require("./utils/configs");
 
@@ -22,7 +23,17 @@ app.get('/', (req, res) => {
 let boilerAdmin = require('./routes/admin');
 app.use('/' + ADMIN_URL, boilerAdmin);
 
-// Run server
-app.listen(process.env.PORT, () => {
-    console.log(`Example app listening at http://localhost:${process.env.PORT} - http://${address()}:${process.env.PORT}`);
-});
+// Connect to server
+mongoose
+    .connect(process.env.DB_URI)
+    .then((result) =>{
+        console.log('Connect to database')
+        app.listen(process.env.PORT, () => {
+            console.log(`Example app listening at http://localhost:${process.env.PORT} - http://${address()}:${process.env.PORT}`);
+        });
+    })
+    .catch(err =>{
+        console.log(err)
+    })
+
+

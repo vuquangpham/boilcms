@@ -20,7 +20,9 @@
   "homepage": "https://github.com/vuquangpham/boilcms#readme",
   "dependencies": {
     "ejs": "^3.1.9",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongodb": "^6.0.0",
+    "mongoose": "^7.4.5"
   },
   "devDependencies": {
     "dotenv": "^16.3.1",
