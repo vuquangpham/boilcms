@@ -1,9 +1,12 @@
+// dependencies
 const express = require('express');
 const router = express.Router();
 
+// core modules
 const Category = require('../classes/category');
 const Content = require("../classes/content");
 const CategoryParent = require('../classes/category-parent');
+const {ADMIN_URL} = require("../utils/configs");
 
 /**
  * Register categories
@@ -62,7 +65,7 @@ router.get('/:type', async(req, res) => {
 
     // if the type doesn't exist => return to dashboard
     if(!categoryItem){
-        return res.redirect('/boiler-admin');
+        return res.redirect('/' + ADMIN_URL);
     }
 
     Content.getContentByType(categoryItem.contentType, {})

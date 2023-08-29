@@ -1,9 +1,14 @@
+// dependencies
 require('dotenv').config({path: '.env'});
 const {address} = require("ip");
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
+// routing
+const adminRouting = require('./routes/admin');
+
+// configs
 const {ADMIN_URL} = require("./utils/configs");
 
 // Init app
@@ -15,25 +20,23 @@ app.set('view engine', 'ejs');
 
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
+
+// todo: @anhtusngu please remove it when you have done your job
 app.get('/', (req, res) => {
-    res.redirect('/boiler-admin/dashboards');
+    res.redirect('/' + ADMIN_URL);
 });
 
-
-let boilerAdmin = require('./routes/admin');
-app.use('/' + ADMIN_URL, boilerAdmin);
+// admin routing
+app.use('/' + ADMIN_URL, adminRouting);
 
 // Connect to server
 mongoose
     .connect(process.env.DB_URI)
-    .then((result) =>{
-        console.log('Connect to database')
-        app.listen(process.env.PORT, () => {
-            console.log(`Example app listening at http://localhost:${process.env.PORT} - http://${address()}:${process.env.PORT}`);
+    .then(_ => {
+        app.listen(process.env.PORT, _ => {
+            console.log(`Example server listening at http://localhost:${process.env.PORT} - http://${address()}:${process.env.PORT}`);
         });
     })
-    .catch(err =>{
-        console.log(err)
-    })
-
-
+    .catch(err => {
+        console.error(err);
+    });
