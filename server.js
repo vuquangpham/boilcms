@@ -1,8 +1,9 @@
 require('dotenv').config({path: '.env'});
 const {address} = require("ip");
-
 const express = require('express');
 const path = require('path');
+
+const {ADMIN_URL} = require("./utils/configs");
 
 // Init app
 const app = express();
@@ -16,12 +17,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.redirect('/boiler-admin/dashboards');
 });
-app.get('/boiler-admin/', (req, res) => {
-    res.redirect('/boiler-admin/dashboards');
-});
 
-let boilerAdmin = require('./routes/category');
-app.use('/boiler-admin', boilerAdmin);
+
+let boilerAdmin = require('./routes/admin');
+app.use('/' + ADMIN_URL, boilerAdmin);
 
 // Run server
 app.listen(process.env.PORT, () => {
