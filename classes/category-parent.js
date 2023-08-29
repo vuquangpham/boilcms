@@ -19,7 +19,7 @@ class CategoryParent{
      * @return {Object}
      * */
     getCategoryItem(type){
-        return this.categoryItems.find(category => category.contentType === type);
+        return this.categoryItems.find(category => category.type === type);
     }
 }
 

@@ -33,7 +33,7 @@ class Content{
      * @return {Promise}
      * */
     getHTML(type, data){
-        const categoryFile = `${type}.ejs`;
+        const categoryFile = `${type || 'index'}.ejs`;
 
         return new Promise((resolve, reject) => {
             readFileAsync(path.join(process.cwd(), 'views', categoryFile))

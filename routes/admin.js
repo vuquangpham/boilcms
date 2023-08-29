@@ -21,6 +21,12 @@ CategoryParent.add(new Category({
     contentType: 'posts'
 }));
 CategoryParent.add(new Category({
+    name: 'Pages',
+    url: '/pages',
+    type: 'pages',
+    contentType: 'posts'
+}));
+CategoryParent.add(new Category({
     name: 'Media',
     url: '/media',
     type: 'media',
@@ -58,7 +64,7 @@ router.get('/:type', async(req, res) => {
         return res.redirect('/boiler-admin');
     }
 
-    Content.getContentByType(type, {}, (html) => {
+    Content.getContentByType(categoryItem.contentType, {}, (html) => {
         res.render('admin', {
             content: html,
         });
