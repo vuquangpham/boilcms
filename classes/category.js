@@ -22,7 +22,7 @@ class Category{
     validateOptions(options){
         // validate content type
         if(!Type.isValidType(options.contentType)) return null;
-        options.url = '/' + ADMIN_URL + options.url;
+        options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType));
         return options;
     }
 }
