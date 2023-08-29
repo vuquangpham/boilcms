@@ -8,22 +8,23 @@ class Content{
      * Get content by post_type
      * @param type {string}
      * @param data {Object}
-     * @param onLoad {function}
-     * @return {void}
+     * @return {Promise}
      * */
-    getContentByType(type, data, onLoad){
+    getContentByType(type, data = {}){
         let htmlContent = '';
 
-        this.getHTML(type, {})
-            .then(response => {
-                htmlContent = response;
-            })
-            .catch(err => {
-                console.error(err);
-            })
-            .finally(() => {
-                onLoad(htmlContent);
-            });
+        return new Promise((resolve) => {
+            this.getHTML(type, data)
+                .then(response => {
+                    htmlContent = response;
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    resolve(htmlContent);
+                });
+        });
     }
 
     /**

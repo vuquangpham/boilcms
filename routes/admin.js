@@ -45,11 +45,12 @@ router.get('*', (req, res, next) => {
  * Dashboard page
  * */
 router.get('/', (req, res) => {
-    Content.getContentByType('', {}, (html) => {
-        res.render('admin', {
-            content: html,
+    Content.getContentByType('', {})
+        .then(html => {
+            res.render('admin', {
+                content: html,
+            });
         });
-    });
 });
 
 /**
@@ -64,11 +65,12 @@ router.get('/:type', async(req, res) => {
         return res.redirect('/boiler-admin');
     }
 
-    Content.getContentByType(categoryItem.contentType, {}, (html) => {
-        res.render('admin', {
-            content: html,
+    Content.getContentByType(categoryItem.contentType, {})
+        .then(html => {
+            res.render('admin', {
+                content: html,
+            });
         });
-    });
 });
 
 module.exports = router;
