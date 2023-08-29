@@ -14,4 +14,6 @@ const readFileAsync = (directory) => {
     });
 };
 
-module.exports = readFileAsync
+module.exports = {
+    readFileAsync
+};
