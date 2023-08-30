@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const adminRouting = require('./routes/admin');
 
 // configs
-const {ADMIN_URL} = require("./utils/configs");
+const {ADMIN_URL} = require("./core/utils/configs");
 
 // Init app
 const app = express();

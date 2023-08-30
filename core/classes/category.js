@@ -1,5 +1,5 @@
 const {ADMIN_URL} = require("../utils/configs");
-const Type = require('../classes/type');
+const Type = require('./type');
 
 class Category{
     constructor(options){

@@ -3,11 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 // core modules
-const Category = require('../classes/category');
-const Content = require("../classes/content");
-const CategoryParent = require('../classes/category-parent');
-const {ADMIN_URL} = require("../utils/configs");
-const Action = require('../classes/action')
+const Category = require('../core/classes/category');
+const Content = require("../core/classes/content");
+const CategoryParent = require('../core/classes/category-parent');
+const {ADMIN_URL} = require("../core/utils/configs");
+const Action = require('../core/classes/action')
 /**
  * Register categories
  * */
@@ -48,7 +48,7 @@ router.get('*', (req, res, next) => {
  * Dashboard page
  * */
 router.get('/', (req, res) => {
-    Content.getContentByType('','index', {})
+    Content.getContentByType('default', 'index', {})
         .then(html => {
             res.render('admin', {
                 content: html,
@@ -59,35 +59,37 @@ router.get('/', (req, res) => {
 /**
  * Dynamic page with file type
  * */
-router.get('/:type', async(req, res) => {
+router.get('/:type', async (req, res) => {
     const type = req.params.type;
     const categoryItem = CategoryParent.getCategoryItem(type);
-    const actionType = req.query.action;
 
-    // if the type doesn't exist => return to dashboard
-    if(!categoryItem){
+    if (!categoryItem) {
         return res.redirect('/' + ADMIN_URL);
     }
-    if(actionType){
-        const validateAction = Action.isValidAction(actionType)
-        if(!validateAction){
-            return res.redirect('/' + ADMIN_URL)
-        }
-        Content.getContentByType(categoryItem.contentType,'detail',{})
-            .then(html =>{
-                res.render('admin',{
+
+    const actionType = req.query.action ?? Action.getActionType('default');
+    // console.log(actionType)
+    // console.log(Action.getActionType(req.query.action))
+    // console.log(Action.isValidAction(actionType))
+    if(Action.isValidAction(actionType)){
+        const validatedAction = Action.getActionType(actionType)
+        // console.log(validatedAction)
+        //
+        // // if the type doesn't exist => return to default
+
+        Content.getContentByType(categoryItem.contentType, validatedAction, {})
+            .then(html => {
+                res.render('admin', {
                     content: html
                 })
             })
     }
     else{
-        Content.getContentByType(categoryItem.contentType,'index', {})
-            .then(html => {
-                res.render('admin', {
-                    content: html,
-                });
-            });
+        return res.redirect('/' + ADMIN_URL)
     }
+    // const validatedAction = Action.isValidAction(actionType)
+
+
 
 });
 

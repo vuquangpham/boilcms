@@ -1,6 +1,6 @@
 class Type{
     constructor(){
-        this.types = ['', 'posts', 'media', 'user', 'custom'];
+        this.types = ['default', 'posts', 'media', 'user', 'custom'];
     }
 
     /**
