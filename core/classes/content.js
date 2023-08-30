@@ -1,5 +1,5 @@
 const {readFileAsync} = require('../utils/helpers');
-const {CORE_DIRECTORY} = require('../utils/configs')
+const {CORE_DIRECTORY} = require('../utils/configs');
 const path = require('path');
 const ejs = require('ejs');
 
@@ -8,15 +8,15 @@ class Content{
     /**
      * Get content by post_type
      * @param type {string}
-     * @param actionType
+     * @param actionType {Object}
      * @param data {Object}
      * @return {Promise}
      * */
-    getContentByType(type,actionType, data = {}){
+    getContentByType(type, actionType, data = {}){
         let htmlContent = '';
 
         return new Promise((resolve) => {
-            this.getHTML(type,actionType, data)
+            this.getHTML(type, actionType, data)
                 .then(response => {
                     htmlContent = response;
                 })
@@ -36,12 +36,11 @@ class Content{
      * @param data {Object}
      * @return {Promise}
      * */
-    getHTML(type,actionType, data){
-        // const categoryFile = `${type || 'index'}.ejs`;
-        const actionFile = `${actionType.filename}.ejs`
+    getHTML(type, actionType, data){
+        const actionFile = `${actionType.filename}.ejs`;
 
         return new Promise((resolve, reject) => {
-            readFileAsync(path.join(CORE_DIRECTORY, 'views', 'type', `${type}`, actionFile))
+            readFileAsync(path.join(CORE_DIRECTORY, 'views', 'type', type, actionFile))
                 .then(file => resolve(ejs.render(file, data)))
                 .catch(err => reject(err));
         });

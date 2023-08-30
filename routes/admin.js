@@ -7,15 +7,15 @@ const Category = require('../core/classes/category');
 const Content = require("../core/classes/content");
 const CategoryParent = require('../core/classes/category-parent');
 const {ADMIN_URL} = require("../core/utils/configs");
-const Action = require('../core/classes/action')
+const Action = require('../core/classes/action');
 /**
  * Register categories
  * */
 CategoryParent.add(new Category({
     name: 'Dashboard',
     url: '/',
-    type: '',
-    contentType: ''
+    type: 'default',
+    contentType: 'default'
 }));
 CategoryParent.add(new Category({
     name: 'Post',
@@ -48,7 +48,7 @@ router.get('*', (req, res, next) => {
  * Dashboard page
  * */
 router.get('/', (req, res) => {
-    Content.getContentByType('default', 'index', {})
+    Content.getContentByType('default', Action.getActionType('default'), {})
         .then(html => {
             res.render('admin', {
                 content: html,
@@ -59,39 +59,25 @@ router.get('/', (req, res) => {
 /**
  * Dynamic page with file type
  * */
-router.get('/:type', async (req, res) => {
+router.get('/:type', async(req, res) => {
     const type = req.params.type;
     const categoryItem = CategoryParent.getCategoryItem(type);
 
-    if (!categoryItem) {
+    if(!categoryItem){
         return res.redirect('/' + ADMIN_URL);
     }
 
-    const actionType = req.query.action ?? Action.getActionType('default');
-    // console.log(actionType)
-    // console.log(Action.getActionType(req.query.action))
-    // console.log(Action.isValidAction(actionType))
-    if(Action.isValidAction(actionType)){
-        const validatedAction = Action.getActionType(actionType)
-        // console.log(validatedAction)
-        //
-        // // if the type doesn't exist => return to default
+    // validate action type on the URL
+    const actionType = req.query.action ?? Action.getActionType('default').type;
+    const validatedAction = Action.getActionType(actionType);
 
-        Content.getContentByType(categoryItem.contentType, validatedAction, {})
-            .then(html => {
-                res.render('admin', {
-                    content: html
-                })
-            })
-    }
-    else{
-        return res.redirect('/' + ADMIN_URL)
-    }
-    // const validatedAction = Action.isValidAction(actionType)
-
-
-
+    // render html to fe
+    Content.getContentByType(categoryItem.contentType, validatedAction, {})
+        .then(html => {
+            res.render('admin', {
+                content: html
+            });
+        });
 });
-
 
 module.exports = router;
