@@ -48,7 +48,7 @@ router.get('*', (req, res, next) => {
  * Dashboard page
  * */
 router.get('/', (req, res) => {
-    Content.getContentByType('', {})
+    Content.getContentByType('','index', {})
         .then(html => {
             res.render('admin', {
                 content: html,
@@ -73,7 +73,7 @@ router.get('/:type', async(req, res) => {
         if(!validateAction){
             return res.redirect('/' + ADMIN_URL)
         }
-        Content.getContentByType(`${actionType}-${type}`,{})
+        Content.getContentByType(categoryItem.contentType,'detail',{})
             .then(html =>{
                 res.render('admin',{
                     content: html
@@ -81,7 +81,7 @@ router.get('/:type', async(req, res) => {
             })
     }
     else{
-        Content.getContentByType(categoryItem.contentType, {})
+        Content.getContentByType(categoryItem.contentType,'index', {})
             .then(html => {
                 res.render('admin', {
                     content: html,

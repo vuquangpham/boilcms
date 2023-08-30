@@ -1,6 +1,6 @@
 class Action{
     constructor() {
-        this.actions = ['', 'add', 'edit', 'post'];
+        this.actions = ['get', 'add', 'edit', 'post'];
     }
 
     /**
