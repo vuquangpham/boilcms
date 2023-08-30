@@ -11,7 +11,14 @@ const Post = new Schema({
     visibility:{
         type: String
     },
-    public: {
+    publish: {
+        type: Date
+    },
+    author:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+    },
+    url:{
         type: String
     }
 })
