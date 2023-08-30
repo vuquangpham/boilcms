@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const Schema =mongoose.Schema;
 
 const Post = new Schema({
+    post_id:{
+        type: String
+    },
     title:{
         type: String
     },
@@ -23,4 +26,4 @@ const Post = new Schema({
     }
 })
 
-module.exports = mongoose.model('post',Post)
+module.exports = mongoose.model('Post',Post)

@@ -1,55 +1,67 @@
 <div class="container">
-    <div class="edit-post-visual-editor">
-        <div class="edit-page">
-            <input class="edit-title" type="text" placeholder="Add title">
-        </div>
-        <div class="paragraph">
+    <form action="/boiler-admin/posts?post_type=post&action=add" method="post" class="detail-post">
+        <div class="edit-post-visual-editor">
+            <div class="edit-page">
+                <input class="edit-title" type="text" placeholder="Add title" name="title" required>
+            </div>
+            <div class="paragraph">
 
+            </div>
         </div>
-    </div>
-    <div class="component-panel">
-        <div class="component-panel-body">
-            <div class="component-panel-title">Publish</div>
-            <div class="component-panel-button">
-                <div class="btn-save-draft">
-                    <button>Save Draft</button>
+        <div class="component-panel">
+            <div class="component-panel-body">
+                <div class="component-panel-title">Publish</div>
+                <div class="component-panel-button">
+                    <div class="btn-save-draft">
+                        <button>Save Draft</button>
+                    </div>
+                    <div class="btn-preview">
+                        <button>Preview</button>
+                    </div>
                 </div>
-                <div class="btn-preview">
-                    <button>Preview</button>
+                <div class="component-panel-row edit-post-post-status">
+                    <span>Status</span>
+                    <div class="component-dropdown">
+                        <button type="button" aria-expanded="false" aria-label="Select Status: Draft">Edit</button>
+                        <input type="text" >
+                    </div>
+                </div>
+                <div class="component-panel-row edit-post-post-visibility">
+                    <span>Visibility</span>
+                    <div class="component-dropdown">
+                        <button type="button" aria-expanded="false" aria-label="Select Visibility: Public">Edit</button>
+                        <select name="visibility">
+                            <option value="public" name="public">Public</option>
+                            <option value="private" name="private">Private</option>
+                            <option value="Password protect" name="password-protect">Password Protect</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="component-panel-row edit-post-post-schedule">
+                    <span>Public</span>
+                    <div class="component-dropdown">
+                        <button type="button" aria-expanded="false" aria-label="Select Schedule">Edit</button>
+                        <select name="schedule">
+                            <option value="immediately" name="immediately">Immediately</option>
+                            <option>Another</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="component-panel-row edit-post-post-template"></div>
+                <div class="component-panel-row edit-post-post-url"></div>
+                <div class="component-panel-row edit-post-publish-button">
+                    <button>Move to trash</button>
+                    <button type="submit">Publish</button>
                 </div>
             </div>
-            <div class="component-panel-row edit-post-post-status">
-                <span>Status</span>
-                <div class="component-dropdown">
-                    <button type="button" aria-expanded="false" aria-label="Select Status: Draft">Edit</button>
-                </div>
+            <br>
+            <br>
+            <br>
+            <div class="component-panel-body">
+                <div class="component-panel-title">Page attributes</div>
             </div>
-            <div class="component-panel-row edit-post-post-visibility">
-                <span>Visibility</span>
-                <div class="component-dropdown">
-                    <button type="button" aria-expanded="false" aria-label="Select Visibility: Public">Edit</button>
-                </div>
-                <div class="dropdown-content">
-                    <button onclick="selectVisibility('Public')">Public</button>
-                    <button onclick="selectVisibility('Private')">Private</button>
-                    <button onclick="selectVisibility('Password')">Password Protect</button>
-                </div>
-            </div>
-            <div class="component-panel-row edit-post-post-schedule">
-                <span>Public</span>
-                <div class="component-dropdown">
-                    <button type="button" aria-expanded="false" aria-label="Select Schedule">Edit</button>
-                </div>
-            </div>
-            <div class="component-panel-row edit-post-post-template"></div>
-            <div class="component-panel-row edit-post-post-url"></div>
         </div>
-        <br>
-        <br>
-        <br>
-        <div class="component-panel-body">
-            <div class="component-panel-title">Page attributes</div>
-        </div>
-    </div>
+    </form>
+
 
 </div>

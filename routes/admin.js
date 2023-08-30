@@ -8,6 +8,9 @@ const Content = require("../core/classes/content");
 const CategoryParent = require('../core/classes/category-parent');
 const {ADMIN_URL} = require("../core/utils/configs");
 const Action = require('../core/classes/action');
+
+// Bring model posts
+const Post = require('../core/database/posts/posts')
 /**
  * Register categories
  * */
@@ -79,5 +82,20 @@ router.get('/:type', async(req, res) => {
             });
         });
 });
+
+router.post('/:type', async (req,res) =>{
+    try{
+        const post = new Post({
+            title: req.body.title,
+            visibility: req.body.visibility,
+            publish: new Date()
+        })
+        await post.save();
+        console.log(post)
+        res.redirect('/')
+    }catch(er){
+        console.log(err);
+    }
+})
 
 module.exports = router;

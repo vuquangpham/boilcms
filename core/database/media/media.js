@@ -7,4 +7,4 @@ const Media = new Schema({
     },
 })
 
-module.exports = mongoose.model('media',Media)
+module.exports = mongoose.model('Media',Media)
