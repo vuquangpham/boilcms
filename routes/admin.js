@@ -62,26 +62,33 @@ router.get('/', (req, res) => {
 router.get('/:type', async(req, res) => {
     const type = req.params.type;
     const categoryItem = CategoryParent.getCategoryItem(type);
-
     const actionType = req.query.action;
-    if(actionType){
-        const validateAction = Action.isValidAction(actionType)
-        if(!validateAction){
-            return res.redirect('/' + ADMIN_URL)
-        }
-    }
 
     // if the type doesn't exist => return to dashboard
     if(!categoryItem){
         return res.redirect('/' + ADMIN_URL);
     }
-
-    Content.getContentByType(categoryItem.contentType, {})
-        .then(html => {
-            res.render('admin', {
-                content: html,
+    if(actionType){
+        const validateAction = Action.isValidAction(actionType)
+        if(!validateAction){
+            return res.redirect('/' + ADMIN_URL)
+        }
+        Content.getContentByType(`${actionType}-${type}`,{})
+            .then(html =>{
+                res.render('admin',{
+                    content: html
+                })
+            })
+    }
+    else{
+        Content.getContentByType(categoryItem.contentType, {})
+            .then(html => {
+                res.render('admin', {
+                    content: html,
+                });
             });
-        });
+    }
+
 });
 
 
