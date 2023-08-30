@@ -21,7 +21,6 @@ app.set('view engine', 'ejs');
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
 
-// todo: @anhtusngu please remove it when you have done your job
 app.get('/', (req, res) => {
     res.redirect('/' + ADMIN_URL);
 });

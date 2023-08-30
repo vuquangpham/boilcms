@@ -7,7 +7,7 @@ const Category = require('../classes/category');
 const Content = require("../classes/content");
 const CategoryParent = require('../classes/category-parent');
 const {ADMIN_URL} = require("../utils/configs");
-
+const Action = require('../classes/action')
 /**
  * Register categories
  * */
@@ -63,9 +63,13 @@ router.get('/:type', async(req, res) => {
     const type = req.params.type;
     const categoryItem = CategoryParent.getCategoryItem(type);
 
-    // todo: @anhtusngu please check the action here
-    // const actionType = req.query.action;
-    // const validateAction = Action.isValidAction(actionType)
+    const actionType = req.query.action;
+    if(actionType){
+        const validateAction = Action.isValidAction(actionType)
+        if(!validateAction){
+            return res.redirect('/' + ADMIN_URL)
+        }
+    }
 
     // if the type doesn't exist => return to dashboard
     if(!categoryItem){
@@ -79,5 +83,6 @@ router.get('/:type', async(req, res) => {
             });
         });
 });
+
 
 module.exports = router;
