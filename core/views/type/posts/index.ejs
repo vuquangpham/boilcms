@@ -1,2 +1,6 @@
 <h3>Post</h3>
+<% data.forEach(post => { %>
+    <p><%= post.title %></p>
+    <p><%= post.visibility %></p>
+<% }) %>
 <a href="/boiler-admin/posts?post_type=post&action=add">Add new</a>

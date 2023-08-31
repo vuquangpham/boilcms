@@ -5,45 +5,63 @@ const router = express.Router();
 // core modules
 const Category = require('../core/classes/category');
 const Content = require("../core/classes/content");
-const CategoryParent = require('../core/classes/category-parent');
+const CategoryController = require('../core/classes/category-controller');
 const {ADMIN_URL} = require("../core/utils/configs");
 const Action = require('../core/classes/action');
+const Type = require('../core/classes/type');
 
-// Bring model posts
-const Post = require('../core/database/posts/posts')
 /**
  * Register categories
  * */
-CategoryParent.add(new Category({
+CategoryController.add(new Category({
     name: 'Dashboard',
     url: '/',
     type: 'default',
-    contentType: 'default'
+    contentType: Type.types.DEFAULT
 }));
-CategoryParent.add(new Category({
+CategoryController.add(new Category({
     name: 'Post',
     url: '/posts',
     type: 'posts',
-    contentType: 'posts'
+    contentType: Type.types.POSTS
 }));
-CategoryParent.add(new Category({
+CategoryController.add(new Category({
     name: 'Pages',
     url: '/pages',
     type: 'pages',
-    contentType: 'posts'
+    contentType: Type.types.POSTS
 }));
-CategoryParent.add(new Category({
+CategoryController.add(new Category({
     name: 'Media',
     url: '/media',
     type: 'media',
-    contentType: 'media'
+    contentType: Type.types.MEDIA
 }));
 
 /**
- * Middleware for register variables
+ * Middleware for registering variables
  * */
 router.get('*', (req, res, next) => {
-    res.locals.categories = CategoryParent.categoryItems;
+    // categories
+    res.locals.categories = CategoryController.categoryItems;
+
+    next();
+});
+
+/**
+ * Middleware for getting categoryItem and action
+ * */
+router.all('/:type', (req, res, next) => {
+    // get the category item
+    const categoryItem = CategoryController.getCategoryItem(req.params.type);
+
+    // validate action type on the URL
+    const actionType = req.query.action ?? Action.getActionType('default').type;
+    const validatedAction = Action.getActionType(actionType);
+
+    res.locals.categoryItem = categoryItem;
+    res.locals.validatedAction = validatedAction;
+
     next();
 });
 
@@ -59,43 +77,55 @@ router.get('/', (req, res) => {
         });
 });
 
+
 /**
  * Dynamic page with file type
  * */
 router.get('/:type', async(req, res) => {
-    const type = req.params.type;
-    const categoryItem = CategoryParent.getCategoryItem(type);
+    const categoryItem = res.locals.categoryItem;
+    const action = res.locals.validatedAction;
 
     if(!categoryItem){
         return res.redirect('/' + ADMIN_URL);
     }
 
-    // validate action type on the URL
-    const actionType = req.query.action ?? Action.getActionType('default').type;
-    const validatedAction = Action.getActionType(actionType);
-
-    // render html to fe
-    Content.getContentByType(categoryItem.contentType, validatedAction, {})
-        .then(html => {
-            res.render('admin', {
-                content: html
-            });
+    categoryItem.getAllData()
+        .then(data => {
+            // render html to fe
+            Content.getContentByType(categoryItem.contentType.name, action, data)
+                .then(html => {
+                    res.render('admin', {
+                        content: html,
+                    });
+                });
         });
+
 });
 
-router.post('/:type', async (req,res) =>{
-    try{
-        const post = new Post({
-            title: req.body.title,
-            visibility: req.body.visibility,
-            publish: new Date()
-        })
-        await post.save();
-        console.log(post)
-        res.redirect('/')
-    }catch(er){
-        console.log(err);
+router.post('/:type', async(req, res) => {
+    const categoryItem = res.locals.categoryItem;
+    const action = res.locals.validatedAction;
+    const requestData = req.body;
+
+    let promises = {};
+
+    switch(action.type){
+        case 'default':{
+            break;
+        }
+        case 'add':{
+            promises = categoryItem.add(requestData);
+            break;
+        }
+        default:{
+        }
     }
-})
+
+    Promise.resolve(promises)
+        .then(result => {
+            console.log(result);
+            res.redirect(req.params.type);
+        });
+});
 
 module.exports = router;
