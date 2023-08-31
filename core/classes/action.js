@@ -1,5 +1,5 @@
 class Action{
-    constructor() {
+    constructor(){
         this.actions = [
             {
                 type: 'default',
@@ -13,10 +13,16 @@ class Action{
                 type: 'edit',
                 filename: 'detail'
             }
-        ]
+        ];
     }
+
+    /**
+     * Get action type based on type name
+     * @param type {string}
+     * @return {Object}
+     * */
     getActionType(type){
-        return this.actions.find(t => t.type === type)
+        return this.actions.find(t => t.type === type);
     }
 
     /**
@@ -25,7 +31,8 @@ class Action{
      * @return
      */
     isValidAction(action){
-        return this.actions.find(t => t.type === action.toLowerCase().trim()) !== undefined
+        return this.actions.find(t => t.type === action.toLowerCase().trim()) !== undefined;
     }
 }
-module.exports = new Action()
+
+module.exports = new Action();
