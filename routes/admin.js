@@ -56,7 +56,7 @@ router.all('/:type', (req, res, next) => {
     const categoryItem = CategoryController.getCategoryItem(req.params.type);
 
     // validate action type on the URL
-    const actionType = req.query.action ?? Action.getActionType('default').type;
+    const actionType = req.query.action;
     const validatedAction = Action.getActionType(actionType);
 
     res.locals.categoryItem = categoryItem;
@@ -114,7 +114,7 @@ router.post('/:type', async(req, res) => {
 
     let promises = {};
 
-    switch(action.type){
+    switch(action.name){
         case 'default':{
             break;
         }

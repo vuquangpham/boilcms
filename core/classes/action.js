@@ -1,37 +1,40 @@
 class Action{
     constructor(){
-        this.actions = [
-            {
-                type: 'default',
-                filename: 'index'
+        this.actions = {
+            DEFAULT: {
+                name: 'default',
+                fileName: 'index'
             },
-            {
-                type: 'add',
-                filename: 'detail'
+            ADD: {
+                name: 'add',
+                fileName: 'detail'
             },
-            {
-                type: 'edit',
-                filename: 'detail'
-            }
-        ];
+            EDIT: {
+                name: 'edit',
+                fileName: 'detail'
+            },
+        };
     }
 
     /**
      * Get action type based on type name
      * @param type {string}
+     * @param defaultAction {Object}
      * @return {Object}
      * */
-    getActionType(type){
-        return this.actions.find(t => t.type === type);
+    getActionType(type, defaultAction = this.actions.DEFAULT){
+        return this.isValidAction(type)
+            ? Object.values(this.actions).find(instance => instance.name === type)
+            : defaultAction;
     }
 
     /**
      * Validate action
-     * @param action {string}
-     * @return
+     * @param actionType
+     * @return boolean
      */
-    isValidAction(action){
-        return this.actions.find(t => t.type === action.toLowerCase().trim()) !== undefined;
+    isValidAction(actionType){
+        return !!Object.values(this.actions).find(instance => instance.name === actionType);
     }
 }
 
