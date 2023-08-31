@@ -90,7 +90,13 @@ router.get('/:type', async(req, res) => {
     }
 
     categoryItem.getAllData()
-        .then(data => {
+        .then(dataFromCategory => {
+            const data = {
+                data: dataFromCategory,
+                title: categoryItem.name
+            };
+            console.log(data);
+
             // render html to fe
             Content.getContentByType(categoryItem.contentType.name, action, data)
                 .then(html => {

@@ -30,7 +30,7 @@ class Category{
         if(!Type.isValidType(options.contentType)) return null;
 
         // validate URL
-        options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType.type));
+        options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType.name));
 
         // validate database model
         this.databaseModel = mongoose.model(options.type, options.contentType.model);
