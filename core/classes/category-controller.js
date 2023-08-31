@@ -1,4 +1,4 @@
-class CategoryParent{
+class CategoryController{
     constructor(){
         this.categoryItems = [];
     }
@@ -23,4 +23,4 @@ class CategoryParent{
     }
 }
 
-module.exports = new CategoryParent;
+module.exports = new CategoryController;

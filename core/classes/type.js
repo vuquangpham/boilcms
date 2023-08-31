@@ -1,15 +1,37 @@
+const DefaultType = require('../database/default/model');
+const PostType = require('../database/posts/model');
+const MediaType = require('../database/media/model');
+const UserType = require('../database/user/model');
+
 class Type{
     constructor(){
-        this.types = ['default', 'posts', 'media', 'user', 'custom'];
+        this.types = {
+            DEFAULT: {
+                name: 'default',
+                model: DefaultType
+            },
+            POSTS: {
+                name: 'posts',
+                model: PostType
+            },
+            MEDIA: {
+                name: 'media',
+                model: MediaType
+            },
+            USER: {
+                name: 'user',
+                model: UserType
+            }
+        };
     }
 
     /**
      * Validate type
      * @param type {string}
-     * @return
+     * @return boolean
      * */
     isValidType(type){
-        return this.types.find(t => t === type.toLowerCase().trim()) !== undefined;
+        return !!Object.values(this.types).find(instance => instance === type);
     }
 }
 

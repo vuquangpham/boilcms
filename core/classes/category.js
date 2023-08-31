@@ -1,5 +1,6 @@
 const {ADMIN_URL} = require("../utils/configs");
 const Type = require('./type');
+const mongoose = require("mongoose");
 
 class Category{
     constructor(options){
@@ -19,11 +20,55 @@ class Category{
         this.contentType = validatedOptions.contentType;
     }
 
+    /**
+     * Validate options
+     * @param options {Object}
+     * @return {Object}
+     * */
     validateOptions(options){
         // validate content type
         if(!Type.isValidType(options.contentType)) return null;
-        options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType));
+
+        // validate URL
+        options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType.type));
+
+        // validate database model
+        this.databaseModel = mongoose.model(options.type, options.contentType.model);
+
         return options;
+    }
+
+    /**
+     * Add new data to category
+     * */
+    add(data){
+        const instance = new this.databaseModel(data);
+
+        return new Promise((resolve, reject) => {
+            instance.save()
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    /**
+     * Get all data from category
+     * @return
+     * */
+    getAllData(){
+        return new Promise((resolve, reject) => {
+            this.databaseModel.find()
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
     }
 }
 
