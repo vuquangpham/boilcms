@@ -4,7 +4,7 @@ const {address} = require("ip");
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 // routing
 const adminRouting = require('./routes/admin');
@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 
 // Body-parser middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}));
 
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,7 +35,7 @@ app.use('/' + ADMIN_URL, adminRouting);
 
 // Connect to server
 mongoose
-    .connect(process.env.DB_URI)
+    .connect(process.env.DB_URI.replace('<username>', process.env.DB_USERNAME).replace('<password>', process.env.DB_PASSWORD))
     .then(_ => {
         app.listen(process.env.PORT, _ => {
             console.log(`Example server listening at http://localhost:${process.env.PORT} - http://${address()}:${process.env.PORT}`);
