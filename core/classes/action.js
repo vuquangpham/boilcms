@@ -2,7 +2,7 @@ class Action{
     constructor(){
         this.actions = {
             DEFAULT: {
-                name: 'default',
+                name: 'get',
                 fileName: 'index'
             },
             ADD: {

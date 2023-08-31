@@ -38,7 +38,29 @@ const connectDatabase = () => {
     });
 };
 
+
+/**
+ * Convert string to slug
+ * @param string
+ * @return string
+ * */
+const stringToSlug = (string) => {
+    if(!string) return '';
+    return string.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-')
+        .toLowerCase();
+};
+
 module.exports = {
+    // utils
+    stringToSlug,
+
+    // os
     readFileAsync,
-    connectDatabase
+
+    // database
+    connectDatabase,
 };

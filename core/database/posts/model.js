@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {stringToSlug} = require("../../utils/helpers");
 
 const Post = new mongoose.Schema({
     post_id: {
@@ -22,7 +23,11 @@ const Post = new mongoose.Schema({
     },
     url: {
         type: String
-    }
+    },
 });
+
+Post.methods.validateBeforeAdd = function(){
+    this.url = stringToSlug(this.title);
+};
 
 module.exports = Post;

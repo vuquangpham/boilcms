@@ -43,6 +43,7 @@ class Category{
      * */
     add(data){
         const instance = new this.databaseModel(data);
+        (instance.validateBeforeAdd && instance.validateBeforeAdd());
 
         return new Promise((resolve, reject) => {
             instance.save()
@@ -55,9 +56,27 @@ class Category{
         });
     }
 
+
+    /**
+     * Get specific data based on id
+     * @return {Promise}
+     * */
+    getDataById(id){
+        return new Promise((resolve, reject) => {
+            this.databaseModel.findById(id)
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+
     /**
      * Get all data from category
-     * @return
+     * @return {Promise}
      * */
     getAllData(){
         return new Promise((resolve, reject) => {

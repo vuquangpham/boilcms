@@ -69,7 +69,7 @@ router.all('/:type', (req, res, next) => {
  * Dashboard page
  * */
 router.get('/', (req, res) => {
-    Content.getContentByType('default', Action.getActionType('default'), {})
+    Content.getContentByType('default', Action.getActionType('get'), {})
         .then(html => {
             res.render('admin', {
                 content: html,
@@ -89,11 +89,29 @@ router.get('/:type', async(req, res) => {
         return res.redirect('/' + ADMIN_URL);
     }
 
-    categoryItem.getAllData()
-        .then(dataFromCategory => {
+    let promise = Promise.resolve();
+    switch(action.name){
+        case 'get':{
+            promise = categoryItem.getAllData();
+            break;
+        }
+        case 'add':{
+            break;
+        }
+        case 'edit':{
+            const id = req.query.id;
+            promise = categoryItem.getDataById(id);
+            break;
+        }
+    }
+
+    promise
+        .then(result => {
             const data = {
-                data: dataFromCategory,
-                title: categoryItem.name
+                data: result,
+                title: categoryItem.name,
+                contentType: categoryItem.contentType.name,
+                actionType: action.name
             };
 
             // render html to fe
@@ -103,8 +121,10 @@ router.get('/:type', async(req, res) => {
                         content: html,
                     });
                 });
+        })
+        .catch(err => {
+            console.error(err);
         });
-
 });
 
 router.post('/:type', async(req, res) => {
@@ -112,21 +132,25 @@ router.post('/:type', async(req, res) => {
     const action = res.locals.validatedAction;
     const requestData = req.body;
 
-    let promises = {};
+    let promise = Promise.resolve();
 
+    console.log(action);
     switch(action.name){
-        case 'default':{
+        case 'get':{
             break;
         }
         case 'add':{
-            promises = categoryItem.add(requestData);
+            promise = categoryItem.add(requestData);
             break;
         }
-        default:{
+        case 'edit':{
+            const id = req.query.id;
+            console.log(req.body, id);
+            promise = categoryItem.databaseModel.findOneAndUpdate({_id: id}, req.body);
         }
     }
 
-    Promise.resolve(promises)
+    promise
         .then(result => {
             console.log(result);
             res.redirect(req.params.type);
