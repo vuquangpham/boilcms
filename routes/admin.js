@@ -37,6 +37,12 @@ CategoryController.add(new Category({
     type: 'media',
     contentType: Type.types.MEDIA
 }));
+CategoryController.add(new Category({
+    name: 'Settings',
+    url: '/settings',
+    type: 'settings',
+    contentType: Type.types.SETTINGS
+}));
 
 /**
  * Middleware for registering variables
