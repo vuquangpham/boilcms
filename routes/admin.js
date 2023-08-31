@@ -95,7 +95,6 @@ router.get('/:type', async(req, res) => {
                 data: dataFromCategory,
                 title: categoryItem.name
             };
-            console.log(data);
 
             // render html to fe
             Content.getContentByType(categoryItem.contentType.name, action, data)
