@@ -41,7 +41,7 @@ class Content{
 
         return new Promise((resolve, reject) => {
             readFileAsync(path.join(CORE_DIRECTORY, 'views', 'type', type, actionFile))
-                .then(file => resolve(ejs.render(file, data)))
+                .then(file => resolve(ejs.render(file, {data})))
                 .catch(err => reject(err));
         });
     }
