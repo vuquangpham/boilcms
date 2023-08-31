@@ -96,6 +96,7 @@ router.get('/:type', async(req, res) => {
             break;
         }
         case 'add':{
+            console.log('add here');
             break;
         }
         case 'edit':{
@@ -111,7 +112,8 @@ router.get('/:type', async(req, res) => {
                 data: result,
                 title: categoryItem.name,
                 contentType: categoryItem.contentType.name,
-                actionType: action.name
+                actionType: action.name,
+                type: categoryItem.type
             };
 
             // render html to fe

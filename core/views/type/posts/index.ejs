@@ -1,6 +1,7 @@
 <h3><%= title %></h3>
 <% data.forEach(post => { %>
     <a href="?post_type=<%= contentType %>&action=edit&id=<%= post._id %>"><%= post.title %></a>
+    <a href="/<%= type %>/<%= post.url %>">View</a>
     <p><%= post.visibility %></p>
 <% }) %>
 <a href="?post_type=post&action=add">Add new</a>
