@@ -9,6 +9,7 @@ const CategoryController = require('../core/classes/category-controller');
 const {ADMIN_URL} = require("../core/utils/configs");
 const Action = require('../core/classes/action');
 const Type = require('../core/classes/type');
+const {getParamsOnRequest} = require("../core/utils/helpers");
 
 /**
  * Register categories
@@ -43,8 +44,7 @@ CategoryController.add(new Category({
  * */
 router.get('*', (req, res, next) => {
     // params, default point to the dashboard page
-    const params = req.params['0'].length > 1 ? req.params['0'].split('/').slice(1) : ['default'];
-    const [type] = params;
+    const [type] = getParamsOnRequest(req, ['default']);
 
     // action
     const action = req.query.action;
@@ -119,7 +119,6 @@ router.post('/:type', async(req, res) => {
 
     let promise = Promise.resolve();
 
-    console.log(action);
     switch(action.name){
         case 'get':{
             break;

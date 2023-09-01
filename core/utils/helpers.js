@@ -1,6 +1,17 @@
 const fs = require('fs');
 const mongoose = require("mongoose");
-const {address} = require("ip");
+
+
+/**
+ * Get params on the request object
+ * @param req {Object}
+ * @param defaultParams {Array}
+ * @return {Array}
+ * */
+const getParamsOnRequest = (req, defaultParams) => {
+    return req.params['0'].length > 1 ? req.params['0'].split('/').slice(1) : defaultParams;
+};
+
 
 /**
  * Read file in async way
@@ -57,6 +68,9 @@ const stringToSlug = (string) => {
 module.exports = {
     // utils
     stringToSlug,
+
+    // server
+    getParamsOnRequest,
 
     // os
     readFileAsync,
