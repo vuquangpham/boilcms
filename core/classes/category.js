@@ -8,7 +8,8 @@ class Category{
             name: '',
             url: '',
             type: '',
-            contentType: ''
+            contentType: '',
+            isSpecialType: false
         };
 
         const validatedOptions = this.validateOptions({defaultOptions, ...options});
