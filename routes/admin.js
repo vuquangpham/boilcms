@@ -42,7 +42,7 @@ CategoryController.add(new Category({
 /**
  * Middleware for registering variables
  * */
-router.get('*', (req, res, next) => {
+router.all('*', (req, res, next) => {
     // params, default point to the dashboard page
     const [type] = getParamsOnRequest(req, ['default']);
 
@@ -118,6 +118,8 @@ router.post('/:type', async(req, res) => {
     const requestData = req.body;
 
     let promise = Promise.resolve();
+
+    console.log(action);
 
     switch(action.name){
         case 'get':{
