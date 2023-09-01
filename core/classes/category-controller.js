@@ -21,6 +21,13 @@ class CategoryController{
     getCategoryItem(type){
         return this.categoryItems.find(category => category.type === type);
     }
+
+    /**
+     * Get special type from categories list
+     * */
+    getSpecialType(){
+        return this.categoryItems.find(category => category.isSpecialType === true);
+    }
 }
 
 module.exports = new CategoryController;

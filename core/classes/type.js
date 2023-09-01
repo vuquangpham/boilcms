@@ -26,6 +26,30 @@ class Type{
     }
 
     /**
+     * Create custom post type
+     * */
+    createCustomType(name, customType){
+        let hasError = false, message = '';
+        if(!customType.name && !customType.model){
+            message = 'Custom type must have name and model';
+            hasError = true;
+        }
+
+        if(this.types[name]){
+            message = 'Duplicate custom type name';
+            hasError = true;
+        }
+
+        if(hasError){
+            console.error(message);
+            return null;
+        }
+
+        // register new type
+        this.types[name] = customType;
+    }
+
+    /**
      * Validate type
      * @param type {string}
      * @return boolean
