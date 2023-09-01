@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 
 // routing
 const adminRouting = require('./routes/admin');
+const defaultRouting = require('./routes/default');
+const errorHandler = require('./routes/error');
 
 // configs
 const {ADMIN_URL} = require("./core/utils/configs");
@@ -26,12 +28,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    res.redirect('/' + ADMIN_URL);
-});
-
 // admin routing
 app.use('/' + ADMIN_URL, adminRouting);
+
+// front end page
+app.use('/', defaultRouting);
+
+// error handler
+app.use(errorHandler);
 
 // Connect to server
 connectDatabase()
