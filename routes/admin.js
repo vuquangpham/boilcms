@@ -42,46 +42,29 @@ CategoryController.add(new Category({
  * Middleware for registering variables
  * */
 router.get('*', (req, res, next) => {
+    // params, default point to the dashboard page
+    const params = req.params['0'].length > 1 ? req.params['0'].split('/').slice(1) : ['default'];
+    const [type] = params;
+
+    // action
+    const action = req.query.action;
+
     // categories
     res.locals.categories = CategoryController.categoryItems;
+    res.locals.categoryItem = CategoryController.getCategoryItem(type);
+    res.locals.validatedAction = Action.getActionType(action);
+    res.locals.params = {
+        type
+    };
 
     next();
-});
-
-/**
- * Middleware for getting categoryItem and action
- * */
-router.all('/:type', (req, res, next) => {
-    // get the category item
-    const categoryItem = CategoryController.getCategoryItem(req.params.type);
-
-    // validate action type on the URL
-    const actionType = req.query.action;
-    const validatedAction = Action.getActionType(actionType);
-
-    res.locals.categoryItem = categoryItem;
-    res.locals.validatedAction = validatedAction;
-
-    next();
-});
-
-/**
- * Dashboard page
- * */
-router.get('/', (req, res) => {
-    Content.getContentByType('default', Action.getActionType('get'), {})
-        .then(html => {
-            res.render('admin', {
-                content: html,
-            });
-        });
 });
 
 
 /**
  * Dynamic page with file type
  * */
-router.get('/:type', async(req, res) => {
+router.get('/*', async(req, res) => {
     const categoryItem = res.locals.categoryItem;
     const action = res.locals.validatedAction;
 
