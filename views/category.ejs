@@ -1,9 +1,17 @@
+<%
+const isActiveItem = (category) => {
+    return category.type === categoryItem.type ? 'active' : ''
+    return ''
+}
+%>
+
 <div class="category__panel">
     <div class="category__panel-inner">
         <ul class="category__menu">
             <% categories.forEach(category => { %>
-                <li class="category__menu-item txt_color_white">
-                    <a class="category__menu-item--link" href="<%= category.url %>"><%= category.name %></a>
+                <li class="category__menu-item">
+                    <a class="category__menu-item--link <%= isActiveItem(category) %>"
+                       href="<%= category.url %>"><%= category.name %></a>
                 </li>
             <% }) %>
         </ul>

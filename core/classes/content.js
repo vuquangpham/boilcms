@@ -39,6 +39,8 @@ class Content{
     getHTML(type, actionType, data){
         const actionFile = `${actionType.fileName}.ejs`;
 
+        console.log('render', data);
+
         return new Promise((resolve, reject) => {
             readFileAsync(path.join(CORE_DIRECTORY, 'views', 'type', type, actionFile))
                 .then(file => resolve(ejs.render(file, data)))
