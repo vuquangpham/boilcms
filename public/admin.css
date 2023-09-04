@@ -4,6 +4,7 @@
     --color-white:#f0f0f1;
 
     --text-color:#212529;
+    --bg-color:#e9ecef;
 
     --permalink-color:var(--color-secondary);
     --permalink-color-hover:var(--color-primary);
@@ -25,8 +26,10 @@
 body {
     padding-top:var(--header-height);
     min-height:100vh;
+    background-color:var(--bg-color);
 
     font-family:"Open Sans", sans-serif;
+    font-weight:400;
     font-size:16px;
     color:var(--text-color);
 }
@@ -57,6 +60,32 @@ button:focus-visible {
     --permalink-color:var(--color-white);
     color:var(--color-white);
 }
+
+/* button style */
+[class*="button-style"] {
+    --color:var(--color-secondary);
+    --color-hover:var(--color-white);
+    --bg:transparent;
+    --bg-hover:var(--color-secondary);
+
+    font-size:14px;
+    text-decoration:none;
+    font-weight:500;
+    color:var(--color);
+
+    padding:6px 8px;
+    background-color:var(--bg);
+    border:1px solid var(--color-secondary);
+
+    transition-property:background-color, color;
+    transition-duration:0.3s;
+    transition-timing-function:ease;
+}
+[class*="button-style"]:hover {
+    background-color:var(--bg-hover);
+    color:var(--color-hover);
+}
+
 
 /**
 * Header

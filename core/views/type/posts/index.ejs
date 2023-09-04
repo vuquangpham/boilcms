@@ -1,7 +1,38 @@
-<h3><%= title %></h3>
-<% data.forEach(post => { %>
-    <a href="?post_type=<%= contentType %>&action=edit&id=<%= post._id %>"><%= post.title %></a>
-    <a href="/<%= type %>/<%= post.url %>">View</a>
-    <p><%= post.visibility %></p>
-<% }) %>
-<a href="?post_type=post&action=add">Add new</a>
+<div class="posts-content">
+    <div class="posts-content__heading">
+        <h1><%= title %></h1>
+        <a href="?post_type=post&action=add" class="button-style">Add New</a>
+    </div>
+</div>
+
+<div class="posts-list">
+    <div class="posts-list__inner">
+        <div class="posts-list__heading" data-column-wrapper>
+            <div class="posts__list--title" data-column="title">Title</div>
+            <div class="posts__list--author" data-column="author">Author</div>
+            <div class="posts__list--categories" data-column="categories">Categories</div>
+            <div class="posts__list--date" data-column="date">Date</div>
+        </div>
+
+        <% data.forEach(post => { %>
+            <div class="posts-list__item" data-column-wrapper>
+                <div class="posts__item--title" data-column="title">
+                    <a href="?post_type=<%= contentType %>&action=edit&id=<%= post._id %>"
+                       class="posts__item--link"><%= post.title %></a>
+                    <div class="posts__item--utils">
+                        <a href="?post_type=<%= contentType %>&action=edit&id=<%= post._id %>"
+                           class="posts__item--link">Edit</a>
+                        <a href="/<%= type %>/<%= post.url %>" target="_blank" class="posts__item--link">View</a>
+                        <a href="#" class="posts__item--link--trash">Trash</a>
+                    </div>
+                </div>
+
+                <!-- todo: @vupham please do this task after done the account feature :'( -->
+                <div class="posts__item--author"
+                     data-column="author"><%= ['Vũ', 'jen', 'vupham', 'Quang Vu Pham'][Math.round(Math.random() * 3)] %></div>
+                <div class="posts__item--categories" data-column="categories">Categories</div>
+                <div class="posts__item--date" data-column="date">Date</div>
+            </div>
+        <% }) %>
+    </div>
+</div>
