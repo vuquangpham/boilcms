@@ -1,9 +1,11 @@
-<div class="admin-menu">
-    <ul>
-        <%for( let i = 0 ; i< categories.length; i++) {%>
-        <li class="category">
-            <a class="router-link" href="<%=categories[i].url%>"><%= categories[i].name%></a>
-        </li>
-        <% } %>
-    </ul>
+<div class="category__panel">
+    <div class="category__panel-inner">
+        <ul class="category__menu">
+            <% categories.forEach(category => { %>
+                <li class="category__menu-item txt_color_white">
+                    <a class="category__menu-item--link" href="<%= category.url %>"><%= category.name %></a>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
 </div>
