@@ -20,7 +20,7 @@ const getParamsOnRequest = (req, defaultParams) => {
  * */
 const readFileAsync = (directory) => {
     return new Promise((resolve, reject) => {
-        fs.readFile(directory, 'ascii', (err, data) => {
+        fs.readFile(directory, 'utf-8', (err, data) => {
             if(err) return reject(err);
             resolve(data);
         });
