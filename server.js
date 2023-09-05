@@ -23,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // minify html from view engine
+// todo: please check it after done the project
 app.use(minifyHTML({
     override: true,
     exception_url: false,
