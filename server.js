@@ -4,6 +4,7 @@ const {address} = require("ip");
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const minifyHTML = require('express-minify-html');
 
 // routing
 const adminRouting = require('./routes/admin');
@@ -20,6 +21,20 @@ const app = express();
 // Set up view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// minify html from view engine
+app.use(minifyHTML({
+    override: true,
+    exception_url: false,
+    htmlMinifier: {
+        removeComments: true,
+        collapseWhitespace: true,
+        collapseBooleanAttributes: true,
+        removeAttributeQuotes: true,
+        removeEmptyAttributes: true,
+        minifyJS: true
+    }
+}));
 
 // Body-parser middleware
 app.use(bodyParser.json());
