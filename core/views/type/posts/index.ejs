@@ -1,6 +1,6 @@
 <div class="posts-content">
     <div class="posts-content__heading">
-        <h1><%= title %></h1>
+        <h1><%= title; %></h1>
         <a href="?post_type=post&action=add" class="button-style">Add New</a>
     </div>
 </div>
@@ -8,21 +8,21 @@
 <div class="posts-list">
     <div class="posts-list__inner">
         <div class="posts-list__heading" data-column-wrapper>
-            <div class="posts__list--title" data-column="title">Title</div>
-            <div class="posts__list--author" data-column="author">Author</div>
-            <div class="posts__list--categories" data-column="categories">Categories</div>
-            <div class="posts__list--date" data-column="date">Date</div>
+            <div class="posts__list--title" data-column="Title">Title</div>
+            <div class="posts__list--author" data-column="Author">Author</div>
+            <div class="posts__list--categories" data-column="Categories">Categories</div>
+            <div class="posts__list--date" data-column="Date">Date</div>
         </div>
 
         <% data.forEach(post => { %>
             <div class="posts-list__item" data-column-wrapper>
-                <div class="posts__item--title" data-column="title">
-                    <a href="?post_type=<%= contentType %>&action=edit&id=<%= post._id %>"
-                       class="posts__item--link"><%= post.title %></a>
+                <div class="posts__item--title not-show-title" data-column="Title">
+                    <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
+                       class="posts__item--link"><%= post.title; %></a>
                     <div class="posts__item--utils">
-                        <a href="?post_type=<%= contentType %>&action=edit&id=<%= post._id %>"
+                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
                            class="posts__item--link">Edit</a>
-                        <a href="/<%= type %>/<%= post.url %>" target="_blank" class="posts__item--link">View</a>
+                        <a href="/<%= type; %>/<%= post.url; %>" target="_blank" class="posts__item--link">View</a>
                         <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
                         <a href="#" class="posts__item--link trash">Trash</a>
                     </div>
@@ -30,13 +30,20 @@
 
                 <!-- todo: @vupham please do this task after done the account feature :'( -->
                 <div class="posts__item--author"
-                     data-column="author"><%= ['Vũ', 'jen', 'vupham', 'Quang Vu Pham'][Math.round(Math.random() * 3)] %></div>
-                <div class="posts__item--categories" data-column="categories">Categories</div>
-                <div class="posts__item--date" data-column="date">
-                    <div class="posts__item--status">Published</div>
-                    <time>29/09/2002 at 14:45</time>
+                     data-column="Author"><%= ['Vũ', 'jen', 'vupham', 'Quang Vu Pham'][Math.round(Math.random() * 3)]; %></div>
+                <div class="posts__item--categories" data-column="Categories">Categories</div>
+                <div class="posts__item--date not-show-title" data-column="Date">
+                    <div class="posts__item--status" data-title="Visibility">Published</div>
+                    <time data-title="Date">29/09/2002 at 14:45</time>
+                </div>
+                <div class="posts__item--utils">
+                    <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
+                       class="posts__item--link">Edit</a>
+                    <a href="/<%= type; %>/<%= post.url; %>" target="_blank" class="posts__item--link">View</a>
+                    <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
+                    <a href="#" class="posts__item--link trash">Trash</a>
                 </div>
             </div>
-        <% }) %>
+        <% }); %>
     </div>
 </div>

@@ -17,7 +17,13 @@
     /* Sidebar */
     --category-width:200px;
 }
-
+/* responsive */
+@media only screen and (max-width:425px) {
+    :root {
+        /* Sidebar */
+        --category-width:100%;
+    }
+}
 
 *,
 *::after,
