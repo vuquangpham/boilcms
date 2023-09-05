@@ -5,9 +5,9 @@
     </div>
 </div>
 
-<div class="posts-list">
+<div class="posts-list" data-custom-table>
     <div class="posts-list__inner">
-        <div class="posts-list__heading" data-column-wrapper>
+        <div class="posts-list__heading" data-column-wrapper="heading">
             <div class="posts__list--title" data-column="Title">Title</div>
             <div class="posts__list--author" data-column="Author">Author</div>
             <div class="posts__list--categories" data-column="Categories">Categories</div>
@@ -15,7 +15,7 @@
         </div>
 
         <% data.forEach(post => { %>
-            <div class="posts-list__item" data-column-wrapper>
+            <div class="posts-list__item" data-column-wrapper="item">
                 <div class="posts__item--title not-show-title" data-column="Title">
                     <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
                        class="posts__item--link"><%= post.title; %></a>
