@@ -68,3 +68,15 @@ const getValueFromData = (name) => {
 
     </form>
 </div>
+
+<div class="posts-detail__components">
+    <% components.forEach(c => { %>
+
+        <div class="posts-detail__component-item" data-component-name="<%= c.name ;%>">
+            <div data-component-title><%= c.title ;%></div>
+            <div data-component-descripption><%= c.description ;%></div>
+        </div>
+
+    <% }); %>
+    <% console.log(components); %>
+</div>

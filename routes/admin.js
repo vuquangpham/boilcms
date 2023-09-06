@@ -9,7 +9,7 @@ const CategoryController = require('../core/classes/category/category-controller
 const Content = require("../core/classes/utils/content");
 const Action = require('../core/classes/utils/action');
 const Type = require('../core/classes/utils/type');
-const Components = require('../core/classes/component/component-controller');
+const ComponentController = require('../core/classes/component/component-controller');
 
 const {ADMIN_URL} = require("../core/utils/configs");
 const {getParamsOnRequest} = require("../core/utils/utils");
@@ -96,7 +96,7 @@ router.get('/*', async(req, res) => {
     // data based on action or category type
     let extraData = {};
     if(categoryItem.contentType === Type.types.POSTS && action.name !== 'get'){
-        extraData.components = Components.instances;
+        extraData.components = ComponentController.instances;
     }
 
     promise
