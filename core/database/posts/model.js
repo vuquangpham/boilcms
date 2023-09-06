@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {stringToSlug} = require("../../utils/helpers");
+const {stringToSlug} = require("../../utils/utils");
 
 const Post = new mongoose.Schema({
     post_id: {

@@ -4,12 +4,15 @@ const router = express.Router();
 
 // core modules
 const Category = require('../core/classes/category');
-const Content = require("../core/classes/content");
 const CategoryController = require('../core/classes/category-controller');
-const {ADMIN_URL} = require("../core/utils/configs");
+
+const Content = require("../core/classes/content");
 const Action = require('../core/classes/action');
 const Type = require('../core/classes/type');
-const {getParamsOnRequest} = require("../core/utils/helpers");
+const Components = require('../core/classes/component/component-controller');
+
+const {ADMIN_URL} = require("../core/utils/configs");
+const {getParamsOnRequest} = require("../core/utils/utils");
 
 /**
  * Register categories
@@ -73,6 +76,7 @@ router.get('/*', async(req, res) => {
     }
 
     let promise = Promise.resolve();
+
     switch(action.name){
         case 'get':{
             promise = categoryItem.getAllData();
@@ -89,6 +93,12 @@ router.get('/*', async(req, res) => {
         }
     }
 
+    // data based on action or category type
+    let extraData = {};
+    if(categoryItem.contentType === Type.types.POSTS && action.name !== 'get'){
+        extraData.components = Components.instances;
+    }
+
     promise
         .then(result => {
             const data = {
@@ -96,7 +106,8 @@ router.get('/*', async(req, res) => {
                 title: categoryItem.name,
                 contentType: categoryItem.contentType.name,
                 actionType: action.name,
-                type: categoryItem.type
+                type: categoryItem.type,
+                ...extraData
             };
 
             // render html to fe
@@ -113,6 +124,7 @@ router.get('/*', async(req, res) => {
 });
 
 router.post('/:type', async(req, res) => {
+    console.log(res.locals);
     const categoryItem = res.locals.categoryItem;
     const action = res.locals.validatedAction;
     const requestData = req.body;
@@ -131,15 +143,17 @@ router.post('/:type', async(req, res) => {
         }
         case 'edit':{
             const id = req.query.id;
-            console.log(req.body, id);
             promise = categoryItem.databaseModel.findOneAndUpdate({_id: id}, req.body);
         }
     }
 
     promise
         .then(result => {
-            console.log(result);
-            res.redirect(req.params.type);
+            if(action.name === 'get'){
+                return res.json({abc: 'xyz'});
+            }
+
+            res.redirect(action.name === 'edit' ? req.get('referer') : req.params.type);
         });
 });
 

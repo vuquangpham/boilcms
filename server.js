@@ -13,7 +13,7 @@ const errorHandler = require('./routes/error');
 
 // configs
 const {ADMIN_URL} = require("./core/utils/configs");
-const {connectDatabase} = require("./core/utils/helpers");
+const {connectDatabase} = require("./core/utils/database.utils");
 
 // Init app
 const app = express();

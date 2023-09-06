@@ -1,4 +1,4 @@
-const {getParamsOnRequest} = require("../core/utils/helpers");
+const {getParamsOnRequest} = require("../core/utils/utils");
 const router = require('express').Router();
 
 const CategoryController = require('../core/classes/category-controller');

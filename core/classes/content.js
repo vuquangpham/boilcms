@@ -1,4 +1,4 @@
-const {readFileAsync} = require('../utils/helpers');
+const {readFileAsync} = require('../utils/os.utils');
 const {CORE_DIRECTORY} = require('../utils/configs');
 const path = require('path');
 const ejs = require('ejs');
