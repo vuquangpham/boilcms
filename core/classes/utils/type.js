@@ -1,7 +1,7 @@
-const DefaultType = require('../database/default/model');
-const PostType = require('../database/posts/model');
-const MediaType = require('../database/media/model');
-const UserType = require('../database/user/model');
+const DefaultType = require('../../database/default/model');
+const PostType = require('../../database/posts/model');
+const MediaType = require('../../database/media/model');
+const UserType = require('../../database/user/model');
 
 class Type{
     constructor(){

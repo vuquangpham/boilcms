@@ -1,7 +1,7 @@
 const {getParamsOnRequest} = require("../core/utils/utils");
 const router = require('express').Router();
 
-const CategoryController = require('../core/classes/category-controller');
+const CategoryController = require('../core/classes/category/category-controller');
 
 router.get('*', (req, res, next) => {
     const [type, pageURL] = getParamsOnRequest(req, ['', '']);

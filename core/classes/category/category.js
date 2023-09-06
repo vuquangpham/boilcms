@@ -1,5 +1,5 @@
-const {ADMIN_URL} = require("../utils/configs");
-const Type = require('./type');
+const {ADMIN_URL} = require("../../utils/configs");
+const Type = require('../utils/type');
 const mongoose = require("mongoose");
 
 class Category{

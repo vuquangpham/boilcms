@@ -3,12 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 // core modules
-const Category = require('../core/classes/category');
-const CategoryController = require('../core/classes/category-controller');
+const Category = require('../core/classes/category/category');
+const CategoryController = require('../core/classes/category/category-controller');
 
-const Content = require("../core/classes/content");
-const Action = require('../core/classes/action');
-const Type = require('../core/classes/type');
+const Content = require("../core/classes/utils/content");
+const Action = require('../core/classes/utils/action');
+const Type = require('../core/classes/utils/type');
 const Components = require('../core/classes/component/component-controller');
 
 const {ADMIN_URL} = require("../core/utils/configs");
