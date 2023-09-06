@@ -16,7 +16,9 @@ class Content{
         let htmlContent = '';
 
         return new Promise((resolve) => {
-            this.getHTML(type, actionType, data)
+            const directory = path.join(CORE_DIRECTORY, 'views', 'custom-type', type, actionType.fileName + '.ejs');
+
+            this.getHTML(directory, data)
                 .then(response => {
                     htmlContent = response;
                 })
@@ -31,16 +33,14 @@ class Content{
 
     /**
      * Get HTML based on post_type and the data from input
-     * @param type {string}
-     * @param actionType
+     * @param directory {string}
      * @param data {Object}
      * @return {Promise}
      * */
-    getHTML(type, actionType, data){
-        const actionFile = `${actionType.fileName}.ejs`;
-
+    getHTML(directory, data){
         return new Promise((resolve, reject) => {
-            readFileAsync(path.join(CORE_DIRECTORY, 'views', 'type', type, actionFile))
+            console.log('data in render', data);
+            readFileAsync(directory)
                 .then(file => resolve(ejs.render(file, data)))
                 .catch(err => reject(err));
         });
