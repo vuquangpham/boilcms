@@ -1,1 +1,10 @@
-body {background:red;}
+.posts-detail {display:flex; align-items:flex-start;}
+
+.posts-detail--left {width:75%; padding-right:40px;}
+.posts-detail--right {width:25%;}
+
+.posts-detail__title {margin-bottom:20px;}
+.posts-detail__title input {width:100%;}
+
+/* label */
+.posts-detail label {font-size:14px;}
