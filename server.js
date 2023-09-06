@@ -12,7 +12,7 @@ const defaultRouting = require('./routes/default');
 const errorHandler = require('./routes/error');
 
 // configs
-const {ADMIN_URL} = require("./core/utils/configs");
+const {ADMIN_URL} = require("./core/utils/config.utils");
 const {connectDatabase} = require("./core/utils/database.utils");
 
 // Init app

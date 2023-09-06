@@ -1,5 +1,5 @@
 const {readFileAsync} = require('../../utils/os.utils');
-const {CORE_DIRECTORY} = require('../../utils/configs');
+const {CORE_DIRECTORY} = require('../../utils/config.utils');
 const path = require('path');
 const ejs = require('ejs');
 

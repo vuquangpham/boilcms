@@ -11,8 +11,8 @@ const Action = require('../core/classes/utils/action');
 const Type = require('../core/classes/utils/type');
 const ComponentController = require('../core/classes/component/component-controller');
 
-const {ADMIN_URL} = require("../core/utils/configs");
-const {getParamsOnRequest} = require("../core/utils/utils");
+const {ADMIN_URL} = require("../core/utils/config.utils");
+const {getParamsOnRequest} = require("../core/utils/helper.utils");
 
 /**
  * Register categories

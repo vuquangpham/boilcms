@@ -1,4 +1,4 @@
-const {ADMIN_URL} = require("../../utils/configs");
+const {ADMIN_URL} = require("../../utils/config.utils");
 const Type = require('../utils/type');
 const mongoose = require("mongoose");
 
