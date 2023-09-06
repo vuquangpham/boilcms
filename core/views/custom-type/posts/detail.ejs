@@ -1,0 +1,70 @@
+<%
+// boolean for checking edit or add new post
+const isEditPost = actionType === 'edit';
+
+// validate selected value on select
+const isSelectedValue = (name, value) => {
+    if(!isEditPost) return null;
+    return data[name] === value ? 'selected' : null;
+};
+
+// get value from data
+const getValueFromData = (name) => {
+    if(!isEditPost) return '';
+    return data[name];
+};
+%>
+
+<div class="posts-content">
+    <div class="posts-content__heading">
+        <h1>Edit <%= title; %></h1>
+        <a href="?post_type=post&action=add" class="button-style">Add New</a>
+    </div>
+</div>
+
+<div class="container">
+    <form action="?post_type=post&action=<%= actionType %><%= isEditPost ? '&id=' + data._id : '' %>" method="post"
+          class="detail-post">
+
+        <div class="posts-detail">
+            <div class="posts-detail--left">
+                <div class="posts-detail__information" style="margin-bottom:20px;">
+
+                    <div class="posts-detail__title">
+                        <label for="title" class="hidden">Add title</label>
+                        <input type="text" placeholder="Add title" id="title" name="title" required
+                               value="<%= getValueFromData('title') %>">
+                    </div>
+
+                    <% if (isEditPost) { %>
+                        <div class="posts-detail__permalink">
+                            <label for="permalink" style="margin-right:10px;">Permalink:</label>
+                            <input type="text" placeholder="permalink" id="permalink" name="url" required
+                                   value="<%= getValueFromData('url') %>">
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="posts__detail-content">
+                    <div class="posts__detail-inner">
+                        <button type="button">Add more</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts-detail--right">
+                <div class="posts-detail__visibility">
+                    <label for="visibility">Visibility</label>
+                    <select name="visibility" id="visibility" data-easy-select>
+                        <option <%= isSelectedValue('visibility', 'public') %> value="public" name="public">Public
+                        </option>
+                        <option <%= isSelectedValue('visibility', 'private') %> value="private" name="private">Private
+                        </option>
+                    </select>
+                </div>
+                <button type="submit">Publish</button>
+            </div>
+        </div>
+
+    </form>
+</div>
