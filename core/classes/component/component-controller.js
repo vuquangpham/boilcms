@@ -26,28 +26,6 @@ class ComponentController{
             // add to instances
             fileNames.forEach(file => this.instances.push(require(path.join(directory, file))));
         });
-
-    }
-
-    register(config){
-        const defaultConfig = {
-            name: 'sample-component',
-            title: 'Sample Component',
-            description: '',
-            params: [
-                {
-                    type: '',
-                    heading: '',
-                    paramName: '',
-                    classesName: '',
-                    description: ''
-                }
-            ]
-        };
-
-        // validate
-        this.instances.push(config);
-        return config;
     }
 
     getComponentBasedOnName(name){
