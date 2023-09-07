@@ -9,18 +9,17 @@
 }
 
 [data-component] {
-    border:none;
-    background-color:transparent;
+    border:1px solid transparent;
     padding:10px;
     border-radius:4px;
 
     text-align:left;
-    transition:background-color 0.3s ease;
+    transition:all 0.3s ease;
 }
 
 /* hover */
 [data-component]:hover,
-[data-component]:focus {background-color:#fff;}
+[data-component]:focus {border-color:var(--color-secondary);}
 
 [data-component-title] {
     font-weight:700;
