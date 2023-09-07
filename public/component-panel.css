@@ -1,0 +1,32 @@
+[data-components] {
+    padding:20px;
+    border:1px solid var(--color-secondary);
+    border-radius:4px;
+
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:20px;
+}
+
+[data-component] {
+    border:none;
+    background-color:transparent;
+    padding:10px;
+    border-radius:4px;
+
+    text-align:left;
+    transition:background-color 0.3s ease;
+}
+
+/* hover */
+[data-component]:hover,
+[data-component]:focus {background-color:#fff;}
+
+[data-component-title] {
+    font-weight:700;
+    font-size:14px;
+    color:var(--color-secondary);
+
+    margin-bottom:5px;
+}
+[data-component-description] {font-size:13px; color:rgba(33, 37, 41, 0.75);}
