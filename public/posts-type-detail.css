@@ -8,3 +8,20 @@
 
 /* label */
 .posts-detail label {font-size:14px;}
+
+/* content */
+.posts__detail-content {
+    background-color:buttonface; padding:20px;
+    border-radius:10px; margin-bottom:40px;
+}
+
+[data-content] [data-component] {
+    text-align:left; font-size:14px;
+    background-color:white; padding:5px; border-radius:4px;
+}
+[data-content] [data-component]:not(:last-child) {margin-bottom:10px;}
+[data-content] [data-component-title] {font-weight:700; color:var(--color-secondary);}
+[data-content] [data-component-description] {font-size:13px;}
+
+[data-content] [data-component="row"] {border:1px solid var(--color-primary); padding:20px; border-radius:5px; background-color:transparent}
+[data-content] [data-component="row"]:not(:last-child) {margin-bottom:15px;}
