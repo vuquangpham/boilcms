@@ -48,7 +48,7 @@ class ComponentController{
         return new Promise(resolve => {
             Promise.all(htmlPromises)
                 .then(html => {
-                    resolve(html);
+                    resolve(html.join('').trim());
                 });
         });
     }
