@@ -22,7 +22,7 @@ const getValueFromData = (name) => {
     </div>
 </div>
 
-<div class="container">
+<div class="container" data-post-detail>
     <form action="?post_type=post&action=<%= actionType %><%= isEditPost ? '&id=' + data._id : '' %>" method="post"
           class="detail-post">
 
@@ -48,16 +48,19 @@ const getValueFromData = (name) => {
                 <div class="posts__detail-content" data-content>
                     <div class="posts__detail-inner">
 
-                        <div class="row" data-component="row" style="text-align:center">
-
-                            <div data-component="text-editor">
-                                <div data-component-title>Text editor</div>
-                                <div data-component-description>WYSIWYG Text block</div>
+                        <div data-component="row" style="text-align:center" data-action="edit">
+                            <div data-component-utils>
+                                <button data-component-action>Duplicate</button>
+                                <button>Move</button>
+                                <button>Remove</button>
                             </div>
-
-                            <div data-component="text-editor">
-                                <div data-component-title>Text editor</div>
-                                <div data-component-description>WYSIWYG Text block</div>
+                            <div data-component-content>
+                                <div data-component="text-editor" data-action="edit">
+                                    <div data-component-content>
+                                        <div data-component-title>Text editor</div>
+                                        <div data-component-description>WYSIWYG Text block</div>
+                                    </div>
+                                </div>
                             </div>
 
                             <button class="posts-detail-content__add-component button-style" data-component-add
@@ -65,7 +68,21 @@ const getValueFromData = (name) => {
                             </button>
                         </div>
 
-                        <div class="row" data-component="row" style="text-align:center">
+                        <div data-component="row" style="text-align:center">
+                            <div data-component-utils>
+                                <button data-component-action>Duplicate</button>
+                                <button>Move</button>
+                                <button>Remove</button>
+                            </div>
+                            <div data-component-content>
+                                <div data-component="text-editor" data-action="edit">
+                                    <div data-component-content>
+                                        <div data-component-title>Text editor</div>
+                                        <div data-component-description>WYSIWYG Text block</div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <button class="posts-detail-content__add-component button-style" data-component-add
                                     type="button" data-toggle="components">Add more
                             </button>
@@ -89,26 +106,26 @@ const getValueFromData = (name) => {
         </div>
 
     </form>
-</div>
 
-<div class="posts-detail__components" data-popup data-components>
-    <div data-popup-overlay data-toggle="components"></div>
-    <div class="component-popup__inner" data-popup-inner>
-        <% components.forEach(c => { %>
-            <button class="posts-detail__component-item" data-component="<%= c.name; %>"
-                    data-toggle="components component-panel">
-                <div data-component-title><%= c.title; %></div>
-                <div data-component-description><%= c.description; %></div>
-            </button>
-        <% }); %>
+    <div class="posts-detail__components" data-popup data-components>
+        <div data-popup-overlay data-toggle="components"></div>
+        <div class="component-popup__inner" data-popup-inner>
+            <% components.forEach(c => { %>
+                <button class="posts-detail__component-item" data-component="<%= c.name; %>" data-action="add"
+                        data-toggle="components component-panel">
+                    <div data-component-title><%= c.title; %></div>
+                    <div data-component-description><%= c.description; %></div>
+                </button>
+            <% }); %>
+        </div>
     </div>
-</div>
 
-<div class="component-popup" data-popup>
-    <div data-popup-overlay data-toggle="component-panel"></div>
-    <div class="component-popup__inner" data-popup-inner="">
-        <div class="component-popup__content"></div>
-        <button class="component-popup__save">Save</button>
-        <button data-toggle="component-panel">Cancel</button>
+    <div class="component-popup" data-popup>
+        <div data-popup-overlay data-toggle="component-panel"></div>
+        <div class="component-popup__inner" data-popup-inner="">
+            <div class="component-popup__content"></div>
+            <button data-toggle="component-panel" class="component-popup__save">Save</button>
+            <button data-toggle="component-panel">Cancel</button>
+        </div>
     </div>
 </div>

@@ -16,7 +16,7 @@
 }
 
 [data-content] [data-component] {
-    text-align:left; font-size:14px;
+    text-align:left; font-size:14px; position:relative; min-height:50px;
     background-color:white; padding:5px; border-radius:4px;
 }
 [data-content] [data-component]:not(:last-child) {margin-bottom:10px;}
@@ -25,3 +25,7 @@
 
 [data-content] [data-component="row"] {border:1px solid var(--color-primary); padding:20px; border-radius:5px; background-color:transparent}
 [data-content] [data-component="row"]:not(:last-child) {margin-bottom:15px;}
+
+[data-content] [data-component-utils] {
+    position:absolute; top:0; right:30px; transform:translateY(-50%);
+}

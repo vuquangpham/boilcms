@@ -12,10 +12,7 @@
 [data-components] [data-component]:focus {border-color:var(--color-secondary);}
 
 [data-components] [data-component-title] {
-    font-weight:700;
-    font-size:14px;
-    color:var(--color-secondary);
-
+    font-weight:700; font-size:14px; color:var(--color-secondary);
     margin-bottom:5px;
 }
 [data-components] [data-component-description] {font-size:13px; color:rgba(33, 37, 41, 0.75);}

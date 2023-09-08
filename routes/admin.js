@@ -123,18 +123,24 @@ router.get('/*', async(req, res) => {
         });
 });
 
-router.post('/:type', async(req, res) => {
-    console.log(res.locals);
+router.post('/*', async(req, res) => {
     const categoryItem = res.locals.categoryItem;
     const action = res.locals.validatedAction;
     const requestData = req.body;
 
     let promise = Promise.resolve();
 
-    console.log(action);
+    // handle component
+    const componentName = req.body.componentName;
+    const component = ComponentController.getComponentBasedOnName(componentName);
+
+    console.log('POST', action);
 
     switch(action.name){
         case 'get':{
+            if(componentName){
+                promise = ComponentController.getHTML(component);
+            }
             break;
         }
         case 'add':{
@@ -149,8 +155,9 @@ router.post('/:type', async(req, res) => {
 
     promise
         .then(result => {
-            if(action.name === 'get'){
-                return res.json({abc: 'xyz'});
+            if(action.name === 'get' && componentName){
+                console.log(result);
+                return res.json({content: result, component: component});
             }
 
             res.redirect(action.name === 'edit' ? req.get('referer') : req.params.type);
