@@ -39,7 +39,6 @@ class Content{
      * */
     getHTML(directory, data){
         return new Promise((resolve, reject) => {
-            console.log('data in render', data);
             readFileAsync(directory)
                 .then(file => resolve(ejs.render(file, data)))
                 .catch(err => reject(err));
