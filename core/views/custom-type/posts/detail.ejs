@@ -23,7 +23,8 @@ const getValueFromData = (name) => {
 </div>
 
 <div class="container" data-post-detail>
-    <form action="?post_type=post&action=<%= actionType %><%= isEditPost ? '&id=' + data._id : '' %>" method="post"
+    <form action="?post_type=post&method=post&action=<%= actionType %><%= isEditPost ? '&id=' + data._id : '' %>"
+          method="post"
           class="detail-post">
 
         <div class="posts-detail">

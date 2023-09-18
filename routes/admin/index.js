@@ -83,42 +83,4 @@ router.all('*', (request, response, next) => {
     }
 });
 
-router.post('/*', (req, res) => {
-    const categoryItem = res.locals.categoryItem;
-    const action = res.locals.action;
-    const requestData = req.body;
-
-    let promise = Promise.resolve();
-
-    // handle component
-    const componentName = req.body.componentName;
-    const component = ComponentController.getComponentBasedOnName(componentName);
-
-    switch(action.name){
-        case 'get':{
-            if(componentName){
-                promise = ComponentController.getHTML(component);
-            }
-            break;
-        }
-        case 'add':{
-            promise = categoryItem.add(requestData);
-            break;
-        }
-        case 'edit':{
-            const id = req.query.id;
-            promise = categoryItem.databaseModel.findOneAndUpdate({_id: id}, req.body);
-        }
-    }
-
-    promise
-        .then(result => {
-            if(action.name === 'get' && componentName){
-                return res.json({content: result, component: component});
-            }
-
-            res.redirect(action.name === 'edit' ? req.get('referer') : req.params.type);
-        });
-});
-
 module.exports = router;
