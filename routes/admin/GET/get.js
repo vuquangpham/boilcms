@@ -1,9 +1,12 @@
 /**
  * Handle get action
- * @param {Object} categoryItem
+ * @param {Object} request
+ * @param {Object} response
  * @return {Array}
  * */
-const handleGetAction = (categoryItem) => {
+const handleGetAction = (request, response) => {
+    const categoryItem = response.locals.categoryItem;
+
     const promise = categoryItem.getAllData();
     const extraData = {};
 

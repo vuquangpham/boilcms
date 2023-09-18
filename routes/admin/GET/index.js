@@ -25,15 +25,15 @@ const handleGetMethod = (request, response, next) => {
 
     switch(action.name){
         case 'get':{
-            [promise, extraData] = handleGetAction(categoryItem);
+            [promise, extraData] = handleGetAction(request, response);
             break;
         }
         case 'add':{
-            [promise, extraData] = handleAddAction(categoryItem);
+            [promise, extraData] = handleAddAction(request, response);
             break;
         }
         case 'edit':{
-            [promise, extraData] = handleEditAction(categoryItem, request.query.id);
+            [promise, extraData] = handleEditAction(request, response);
             break;
         }
     }
