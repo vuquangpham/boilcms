@@ -74,11 +74,11 @@ router.all('*', (request, response, next) => {
 
     switch(method.name){
         case 'get':{
-            handleGetMethod(request, response);
+            handleGetMethod(request, response, next);
             break;
         }
         case 'post':{
-            handlePostMethod(request, response);
+            handlePostMethod(request, response, next);
         }
     }
 });

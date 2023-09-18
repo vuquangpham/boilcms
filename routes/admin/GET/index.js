@@ -5,7 +5,14 @@ const handleAddAction = require('./add');
 const handleGetAction = require('./get');
 const handleEditAction = require('./edit');
 
-const handleGetMethod = (request, response) => {
+/**
+ * Handle GET method
+ * @param {Object} request
+ * @param {Object} response
+ * @param {Function} next
+ * @return {void | *}
+ * */
+const handleGetMethod = (request, response, next) => {
     const categoryItem = response.locals.categoryItem;
     const action = response.locals.action;
     const hasJSON = response.locals.hasJSON;
@@ -55,6 +62,7 @@ const handleGetMethod = (request, response) => {
         })
         .catch(err => {
             console.error(err);
+            next(err);
         });
 };
 
