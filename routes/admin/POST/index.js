@@ -15,26 +15,29 @@ const handlePostMethod = (request, response, next) => {
     const action = response.locals.action;
     const hasJSON = response.locals.hasJSON;
 
-    // promise
-    let promise = Promise.resolve();
-    let extraData = {};
+    // function for handling action
+    let funcForHandlingAction = () => {
+    };
 
     // handle component information
     const component = ComponentController.getComponentBasedOnName(request.body.componentName);
 
     switch(action.name){
         case 'get':{
-            [promise, extraData] = handleGetAction(request, response);
+            funcForHandlingAction = handleGetAction;
             break;
         }
         case 'add':{
-            [promise, extraData] = handleAddAction(request, response);
+            funcForHandlingAction = handleAddAction;
+
             break;
         }
         case 'edit':{
-            [promise, extraData] = handleEditAction(request, response);
+            funcForHandlingAction = handleEditAction;
         }
     }
+
+    const [promise, extraData] = funcForHandlingAction(request, response);
 
     promise
         .then(result => {

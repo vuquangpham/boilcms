@@ -19,24 +19,26 @@ const handleGetMethod = (request, response, next) => {
 
     if(!categoryItem) return response.redirect('/' + ADMIN_URL);
 
-    // promise
-    let promise = Promise.resolve();
-    let extraData = {};
+    // function for handling action
+    let funcForHandlingAction = () => {
+    };
 
     switch(action.name){
         case 'get':{
-            [promise, extraData] = handleGetAction(request, response);
+            funcForHandlingAction = handleGetAction;
             break;
         }
         case 'add':{
-            [promise, extraData] = handleAddAction(request, response);
+            funcForHandlingAction = handleAddAction;
+
             break;
         }
         case 'edit':{
-            [promise, extraData] = handleEditAction(request, response);
-            break;
+            funcForHandlingAction = handleEditAction;
         }
     }
+
+    const [promise, extraData] = funcForHandlingAction(request, response);
 
     // render data
     promise
