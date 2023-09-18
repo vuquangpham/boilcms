@@ -6,12 +6,13 @@ const Category = require('../../core/classes/category/category');
 const CategoryController = require('../../core/classes/category/category-controller');
 
 const Action = require('../../core/classes/utils/action');
+const Method = require('../../core/classes/utils/method');
 const Type = require('../../core/classes/utils/type');
 const ComponentController = require('../../core/classes/component/component-controller');
 
 const {getParamsOnRequest} = require("../../core/utils/helper.utils");
-const handleGetRequest = require('./get');
-const handleAddRequest = require('./add');
+const handleGetMethod = require('./GET');
+const handlePostMethod = require('./POST');
 
 /**
  * Register categories
@@ -50,12 +51,14 @@ router.all('*', (req, res, next) => {
 
     // queries
     const action = req.query.action;
+    const method = req.query.method;
     const getJSON = req.query.getJSON;
 
     // categories
     res.locals.categories = CategoryController.categoryItems;
     res.locals.categoryItem = CategoryController.getCategoryItem(type);
-    res.locals.validatedAction = Action.getActionType(action);
+    res.locals.action = Action.getActionType(action);
+    res.locals.method = Method.getValidatedMethod(method);
     res.locals.getJSON = getJSON;
     res.locals.params = {type};
 
@@ -67,25 +70,22 @@ router.all('*', (req, res, next) => {
  * Dynamic page with file type
  * */
 router.all('*', (request, response, next) => {
-    const action = response.locals.validatedAction;
-    console.log(action);
+    const method = response.locals.method;
 
-    switch(action.name){
+    switch(method.name){
         case 'get':{
-            handleGetRequest(request, response);
+            handleGetMethod(request, response);
             break;
         }
-        case 'edit':{
-        }
-        case 'add':{
-            handleAddRequest(request, response);
+        case 'post':{
+            handlePostMethod(request, response);
         }
     }
 });
 
 router.post('/*', (req, res) => {
     const categoryItem = res.locals.categoryItem;
-    const action = res.locals.validatedAction;
+    const action = res.locals.action;
     const requestData = req.body;
 
     let promise = Promise.resolve();

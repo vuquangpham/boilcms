@@ -9,4 +9,11 @@ class Method{
             }
         };
     }
+
+    getValidatedMethod(method){
+        const result = Object.values(this.methods).find(instance => instance.name === method);
+        return result || this.methods.GET;
+    }
 }
+
+module.exports = new Method();
