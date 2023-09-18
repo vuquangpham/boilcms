@@ -8,7 +8,6 @@ const CategoryController = require('../../core/classes/category/category-control
 const Action = require('../../core/classes/utils/action');
 const Method = require('../../core/classes/utils/method');
 const Type = require('../../core/classes/utils/type');
-const ComponentController = require('../../core/classes/component/component-controller');
 
 const {getParamsOnRequest} = require("../../core/utils/helper.utils");
 const handleGetMethod = require('./GET');
