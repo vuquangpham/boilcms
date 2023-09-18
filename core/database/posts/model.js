@@ -2,27 +2,21 @@ const mongoose = require('mongoose');
 const {stringToSlug} = require("../../utils/helper.utils");
 
 const Post = new mongoose.Schema({
-    post_id: {
-        type: String
-    },
     title: {
-        type: String
+        type: String,
+        default: '',
+        required: true
     },
-    status: {
-        type: String
+    url: {
+        type: String,
+        default: ''
     },
     visibility: {
         type: String
     },
     publish: {
-        type: Date
-    },
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
-    },
-    url: {
-        type: String
+        type: Date,
+        default: () => Date.now()
     },
 });
 
