@@ -2,7 +2,7 @@
  * Handle POST method
  * @param {Object} request
  * @param {Object} response
- * @param {Function} next
+ * @param {NextFunction} next
  * @return {void}
  * */
 const handlePostMethod = (request, response, next) => {

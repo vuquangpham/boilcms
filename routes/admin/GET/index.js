@@ -9,7 +9,7 @@ const handleEditAction = require('./edit');
  * Handle GET method
  * @param {Object} request
  * @param {Object} response
- * @param {Function} next
+ * @param {NextFunction} next
  * @return {void | *}
  * */
 const handleGetMethod = (request, response, next) => {
