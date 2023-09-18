@@ -5,6 +5,7 @@ class Component{
         this.title = title;
         this.description = description;
         this.params = params;
+        this.order = config.order ?? 0;
     }
 
     validateConfig(config){
