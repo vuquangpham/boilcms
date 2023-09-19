@@ -1,3 +1,4 @@
+const ComponentController = require("../../../core/classes/component/component-controller");
 /**
  * Handle get action
  * @param {Object} request
@@ -6,8 +7,9 @@
  * */
 const handleGetAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
+    const component = ComponentController.getComponentBasedOnName(request.query.componentName);
 
-    const promise = categoryItem.getAllData();
+    const promise = component ? Promise.resolve(ComponentController.getHTML(component)) : categoryItem.getAllData();
     const extraData = {};
 
     return [promise, extraData];

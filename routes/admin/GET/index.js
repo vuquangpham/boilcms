@@ -15,7 +15,7 @@ const handleEditAction = require('./edit');
 const handleGetMethod = (request, response, next) => {
     const categoryItem = response.locals.categoryItem;
     const action = response.locals.action;
-    const hasJSON = response.locals.hasJSON;
+    const hasJSON = response.locals.getJSON;
 
     if(!categoryItem) return response.redirect('/' + ADMIN_URL);
 
