@@ -30,11 +30,11 @@ const handleGetMethod = (request, response, next) => {
         }
         case 'add':{
             funcForHandlingAction = handleAddAction;
-
             break;
         }
         case 'edit':{
             funcForHandlingAction = handleEditAction;
+            break;
         }
     }
 
