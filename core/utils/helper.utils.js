@@ -9,7 +9,6 @@ const getParamsOnRequest = (req, defaultParams) => {
 };
 
 
-
 /**
  * Convert string to slug
  * @param string
@@ -25,7 +24,15 @@ const stringToSlug = (string) => {
         .toLowerCase();
 };
 
+/**
+ * Minify string
+ * @param {String} string
+ * @return {String}
+ * */
+const minifyString = (string) => string.replace(/\s+/g, '');
+
 module.exports = {
     stringToSlug,
     getParamsOnRequest,
+    minifyString
 };
