@@ -11,7 +11,7 @@ const createComponent = (info) => {
     const paramHTML = params.reduce((acc, cur) => {
         acc += `
 <div data-param="${cur.key}">
-    <span>${cur.key} ${cur.value ?? ''}</span>
+    <span data-param-value="${cur.value}">${cur.value ?? ''}</span>
 </div>`;
         return acc;
     }, '');
@@ -31,7 +31,7 @@ const createComponent = (info) => {
         <button>Delete</button>
     </div>
     
-    <div data-component-content>${paramHTML}</div>
+    <div data-component-content ${info.name === 'row' ? 'data-component-children' : ''}>${paramHTML}</div>
     
     ${addMoreComponent}
 </div>
@@ -116,3 +116,37 @@ document.querySelectorAll('[data-content]').forEach(wrapper => {
         }
     });
 });
+
+
+const generateObj = (domEl) => {
+    const contentElm = domEl.querySelector('[data-component-children]');
+    const componentName = domEl.dataset.component;
+
+    let returnObj = {
+        name: componentName,
+        children: []
+    };
+
+    // not have children => component with the data provided
+    if(!contentElm){
+        const elm = domEl.querySelector('[data-component-content]');
+        returnObj.params = [];
+
+        [...elm.children].forEach(param => {
+            const object = {
+                key: param.dataset.param,
+                value: param.querySelector('[data-param-value]').dataset.paramValue,
+            };
+            returnObj.params.push(object);
+        });
+
+        return returnObj;
+    }
+
+    console.log(contentElm, contentElm.children);
+    [...contentElm.children].forEach(el => {
+        returnObj.children.push(generateObj(el));
+    });
+
+    return returnObj;
+};
