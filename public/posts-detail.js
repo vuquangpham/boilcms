@@ -1,58 +1,118 @@
-document.querySelectorAll('[data-post-detail]').forEach(wrapper => {
+// create HTML Div
+const createComponent = (info) => {
+    // name, params
+    const name = info.name;
 
-    let parentRow = null;
-    const componentDetailPopup = wrapper.querySelector('.component-popup__content');
+    // name, value
+    const params = info.params;
+    // name, value
 
-    const handleAddButtonClick = (target) => {
-        parentRow = target.closest('[data-component="row"]');
-        console.log(parentRow);
+    // params HTML
+    const paramHTML = params.reduce((acc, cur) => {
+        acc += `
+<div data-param="${cur.key}">
+    <span>${cur.key} ${cur.value ?? ''}</span>
+</div>`;
+        return acc;
+    }, '');
+
+    // add more components (for row only)
+    const addMoreComponent = name === 'row' ? `
+<div data-component-add>
+    <button type="button" data-toggle="components">Add More</button>
+</div>
+    ` : '';
+
+    const html = `
+<div data-component="${name}">  
+    <div data-component-utils>
+        <button>Duplicate</button>
+        <button>Move</button>
+        <button>Delete</button>
+    </div>
+    
+    <div data-component-content>${paramHTML}</div>
+    
+    ${addMoreComponent}
+</div>
+`;
+    console.log(html);
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.firstElementChild;
+};
+
+// load component information to the panel
+const loadComponent = (info) => {
+
+};
+
+// update data after edit
+const updateComponent = (component, params) => {
+
+};
+
+
+const handleSaveBtnClick = (componentPanel, parentEl) => {
+    const componentInfo = {
+        name: componentPanel.dataset.component,
+        params: []
     };
-    const handleComponentClick = (target) => {
-        console.log(target);
-        const action = target.dataset.action;
-        let promise = Promise.resolve();
+    Array.from(componentPanel.children).forEach(el => {
+        const obj = {};
+        obj.key = el.dataset.param;
+        obj.value = el.querySelector('[data-param-value]').textContent;
+        componentInfo.params.push(obj);
+    });
 
-        switch(action){
-            case 'edit':{
+    const html = createComponent(componentInfo);
+    Theme.toggleAttributeAction(html.querySelectorAll('[data-toggle]'));
+    parentEl.querySelector('[data-component-content]').insertAdjacentElement('beforeend', html);
+    console.log(componentInfo, parentEl);
+};
 
-                break;
-            }
-            case 'add':{
-                promise = fetch(location.href + '&' + new URLSearchParams({
-                    action: 'get'
-                }), {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({componentName: target.dataset.component})
-                });
-                break;
-            }
-        }
+document.querySelectorAll('[data-content]').forEach(wrapper => {
+    console.log('wrapper', wrapper);
 
-        promise
-            .then(res => res.json())
-            .then(result => {
-                // show in popup
-                componentDetailPopup.insertAdjacentHTML('beforeend', result.content);
+    const componentPanel = wrapper.querySelector('.component-popup__content');
 
-                // create in row
-                const html = `
-                <div data-component="${result.component.name}" data-action="edit">
-                    <div data-component-title>${result.component.title}</div>
-                    <div data-component-description></div>
-                </div>
-                `;
-                parentRow.querySelector('[data-component-content]').insertAdjacentHTML('beforeend', html);
-            });
-    };
+    let parentEl = null;
 
     wrapper.addEventListener('click', (e) => {
-        const target = e.target.closest('[data-component-add]') || e.target.closest('[data-component]');
-        if(!target) return;
+        const target = e.target;
 
-        if(target.hasAttribute('data-component-add')) handleAddButtonClick(target);
-        else handleComponentClick(target);
+        const addButtonEl = target.closest('[data-component-add]');
+        if(addButtonEl){
+            parentEl = addButtonEl.closest('[data-component]');
+        }
+
+        // save click
+        const saveBtnClick = target.closest('.component-popup__save');
+        if(saveBtnClick){
+            handleSaveBtnClick(componentPanel, parentEl);
+        }
+
+        // component click
+        const componentEl = target.closest('button[data-component]');
+        if(componentEl){
+            const componentName = componentEl.dataset.component;
+            console.log(document.documentElement.classList);
+
+            fetch(location.href + '&' + new URLSearchParams({
+                method: 'get',
+                action: 'get',
+                getJSON: true,
+                componentName
+            }))
+                .then(res => res.json())
+                .then(result => {
+                    console.log(result);
+                    componentPanel.innerHTML = result.data;
+                    componentPanel.dataset.component = result.component.name;
+
+                    if(result.component.name === 'row') handleSaveBtnClick(componentPanel, parentEl);
+                });
+            console.log(componentName);
+        }
     });
 });
