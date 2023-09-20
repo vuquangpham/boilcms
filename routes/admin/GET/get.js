@@ -12,6 +12,8 @@ const handleGetAction = (request, response) => {
     const promise = component ? Promise.resolve(ComponentController.getHTML(component)) : categoryItem.getAllData();
     const extraData = {};
 
+    if(component) extraData.component = component;
+
     return [promise, extraData];
 };
 
