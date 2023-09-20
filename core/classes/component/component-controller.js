@@ -42,7 +42,8 @@ class ComponentController{
         instance.params.forEach(param => {
             htmlPromises.push(Content.getHTML(path.join(directory, param.type), {
                 classesName: param.className,
-                description: param.description
+                description: param.description,
+                paramName: param.paramName
             }));
         });
 
