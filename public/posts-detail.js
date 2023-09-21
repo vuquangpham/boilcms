@@ -36,7 +36,6 @@ const createComponent = (info) => {
     ${addMoreComponent}
 </div>
 `;
-    console.log(html);
     const div = document.createElement('div');
     div.innerHTML = html;
     return div.firstElementChild;
@@ -68,7 +67,14 @@ const handleSaveBtnClick = (componentPanel, parentEl) => {
     const html = createComponent(componentInfo);
     Theme.toggleAttributeAction(html.querySelectorAll('[data-toggle]'));
     parentEl.querySelector('[data-component-content]').insertAdjacentElement('beforeend', html);
-    console.log(componentInfo, parentEl);
+
+    const wrapperEl = document.querySelector('[data-component="wrapper"]');
+    const generateComponentEl = document.querySelector('[data-generate-component]');
+
+    const content = generateObj(wrapperEl);
+    console.log(content);
+    console.log(JSON.stringify(content));
+    generateComponentEl.innerHTML = JSON.stringify(content);
 };
 
 document.querySelectorAll('[data-content]').forEach(wrapper => {
@@ -143,10 +149,75 @@ const generateObj = (domEl) => {
         return returnObj;
     }
 
-    console.log(contentElm, contentElm.children);
     [...contentElm.children].forEach(el => {
         returnObj.children.push(generateObj(el));
     });
-
     return returnObj;
+};
+
+const generateDomEl = (obj) => {
+    const componentName = obj.name;
+    const componentParams = obj.params;
+
+    const div = document.createElement('div');
+    div.setAttribute('data-component', componentName);
+
+    const innerDomHTML = [];
+
+    if(obj.children){
+        obj.children.forEach(child => {
+            innerDomHTML.push(generateDomEl(child));
+        });
+    }
+
+    // create utils
+    const utils = document.createElement('div');
+    utils.setAttribute('data-component-utils', '');
+    utils.innerHTML = `
+        <button>Duplicate</button>
+        <button>Move</button>
+        <button>Delete</button>
+    `;
+    div.appendChild(utils);
+
+    // content
+    const content = document.createElement('div');
+    content.setAttribute('data-component-content', '');
+
+    if(innerDomHTML.length > 0){
+        innerDomHTML.forEach(dom => content.appendChild(dom));
+    }
+
+    // add button
+    if(componentName === 'row' || componentName === 'wrapper'){
+        const add = document.createElement('div');
+        add.setAttribute('data-component-add', '');
+
+        content.setAttribute('data-component-children', '');
+
+        add.innerHTML = `<button type="button" data-toggle="components">Add More</button>`;
+        div.appendChild(add);
+    }
+
+    // set content
+    if(componentParams){
+        const divs = componentParams.reduce((acc, param) => {
+            const div = document.createElement('div');
+            div.setAttribute('data-param', param.key);
+
+            const span = document.createElement('span');
+            span.setAttribute('data-param-value', param.value);
+            span.innerHTML = param.value;
+
+            div.appendChild(span);
+            acc.push(div);
+
+            return acc;
+        }, []);
+
+        divs.forEach(div => content.appendChild(div));
+    }
+    div.appendChild(content);
+
+    return div;
 };
