@@ -26,9 +26,10 @@ const createComponent = (info) => {
     const html = `
 <div data-component="${name}">  
     <div data-component-utils>
-        <button>Duplicate</button>
-        <button>Move</button>
-        <button>Delete</button>
+        <button type="button" data-toggle="component-panel" class="edit">Edit</button>
+        <button type="button">Duplicate</button>
+        <button type="button">Move</button>
+        <button type="button">Delete</button>
     </div>
     
     <div data-component-content ${info.name === 'row' ? 'data-component-children' : ''}>${paramHTML}</div>
@@ -120,6 +121,15 @@ document.querySelectorAll('[data-content]').forEach(wrapper => {
                 });
             console.log(componentName);
         }
+
+        // edit button
+        const editBtn = target.closest('button.edit');
+        if(editBtn){
+            console.log('edit button');
+            // get HTML from BE
+
+            // fill data from DOM Element
+        }
     });
 });
 
@@ -174,9 +184,10 @@ const generateDomEl = (obj) => {
     const utils = document.createElement('div');
     utils.setAttribute('data-component-utils', '');
     utils.innerHTML = `
-        <button>Duplicate</button>
-        <button>Move</button>
-        <button>Delete</button>
+        <button type="button">Edit</button>
+        <button type="button">Duplicate</button>
+        <button type="button">Move</button>
+        <button type="button">Delete</button>
     `;
     div.appendChild(utils);
 
