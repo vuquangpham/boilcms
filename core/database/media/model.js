@@ -1,9 +1,24 @@
 const mongoose = require('mongoose');
 
 const Media = new mongoose.Schema({
-    // // information here
-    // id: '', // generate
-    // url: '',
+    // clarify each images and filtering
+    name: {
+        type: String,
+        default: ''
+    },
+    // video, mp4, pdf,..
+    type: {
+        type: String,
+        required: true
+    },
+    uploadTime: {
+        type: Date,
+        required: true,
+        default: () => new Date()
+    },
+    url:{
+        type: String,
+    }
 });
 
 // 3 bai post
