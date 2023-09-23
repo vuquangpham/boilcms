@@ -1,1 +1,17 @@
 <h3>Show all images</h3>
+<form class="form-image" method="post" action="?posts_type=media&method=post&action=add" enctype="multipart/form-data">
+    <label for="name">Name: </label>
+    <input id="name" type="text" name="name">
+    <label for="image">Add Image: </label>
+    <input type="file" name="image" accept="*/*" id="image">
+    <button type="submit">Add</button>
+</form>
+<div class="media-list">
+    <% data.forEach(media => { %>
+        <div class="media-item">
+            <h3><%= media.name %></h3>
+            <img src="<%= media.url.small%>" alt="<%= media.name%>" />
+        </div>
+
+    <% } ) %>
+</div>

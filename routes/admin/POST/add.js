@@ -1,3 +1,7 @@
+const {cropImage} = require('../../../core/utils/os.utils')
+const path = require('path')
+const {getServerHostURL, getFilenameBasedOnSize} = require("../../../core/utils/helper.utils");
+
 /**
  * Handle add action
  * @param {Object} request
@@ -28,7 +32,20 @@ const handleAddAction = (request, response) => {
 /**
  * Validate media item
  * */
-const getMediaBodyData = (request) => {
+const validateMediaType = (request) => {
+    cropImage({
+        imageSource: path.join(request.file.path),
+        imageDestination: path.join(process.cwd(), request.file.destination),
+        scale: 'small',
+        imageOutputName: request.file.metadata.fileName,
+        imageFileExtension: request.file.metadata.fileExt
+    })
+        .then()
+        .catch(error => {
+            console.log(error)
+        })
+
+    const serverHostURL = getServerHostURL(request);
     const mediaObj = {
         name: request.body.name ?? request.file.fileName,
         type: request.file.mimetype,
