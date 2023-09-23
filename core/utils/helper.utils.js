@@ -10,6 +10,25 @@ const getParamsOnRequest = (req, defaultParams) => {
 
 
 /**
+ * Get server host URL
+ * @param {Object} request
+ * @return {String}
+ * */
+const getServerHostURL = (request) => request.protocol + '://' + request.get('host')
+
+/**
+ * Get file name based on file size
+ * @param sourceName {String}
+ * @param size {String}
+ * @param extension {String}
+ * @return {String}
+ * */
+const getFilenameBasedOnSize = (sourceName, size, extension) => {
+    if (!size) return sourceName + '.' + extension
+    return sourceName + '-' + size + '.' + extension
+}
+
+/**
  * Convert string to slug
  * @param string
  * @return string
@@ -33,6 +52,10 @@ const minifyString = (string) => string.replace(/\s+/g, '');
 
 module.exports = {
     stringToSlug,
+
     getParamsOnRequest,
+    getServerHostURL,
+    getFilenameBasedOnSize,
+
     minifyString
 };

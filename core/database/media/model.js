@@ -17,7 +17,7 @@ const Media = new mongoose.Schema({
         default: () => new Date()
     },
     url:{
-        type: String,
+        type: Object,
     }
 });
 

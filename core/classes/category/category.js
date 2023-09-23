@@ -44,7 +44,7 @@ class Category{
      * */
     add(data){
         const instance = new this.databaseModel(data);
-        instance?.validateBeforeAdd();
+        if (instance.validateBeforeAdd) instance.validateBeforeAdd();
 
         return new Promise((resolve, reject) => {
             instance.save()

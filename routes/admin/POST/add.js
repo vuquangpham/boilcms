@@ -15,7 +15,7 @@ const handleAddAction = (request, response) => {
     // validate type
     switch (categoryItem.type) {
         case 'media': {
-            requestBodyData = getMediaBodyData(request);
+            requestBodyData = validateMediaType(request);
             break;
         }
         default: {
@@ -49,8 +49,12 @@ const validateMediaType = (request) => {
     const mediaObj = {
         name: request.body.name ?? request.file.fileName,
         type: request.file.mimetype,
-        url: request.protocol + '://' + request.get('host') + '\\' + request.file.path.split('\\').slice(1).join('\\')
+        url: {
+            original :serverHostURL + '/' + request.file.path.split('\\').slice(1).join('\\'),
+            small: serverHostURL + '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
+        }
     }
+
     return mediaObj
 }
 

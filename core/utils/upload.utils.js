@@ -31,6 +31,7 @@ const storage = multer.diskStorage({
         file.metadata = {}
         file.metadata.fileName = fileName;
         file.metadata.fileExt = fileExt;
+        file.metadata.destinationDirectory = `upload/${year}/${month}/${fileName}`;
 
         // check if folder exists or not
         if (!fs.existsSync(destinationPath)) {
