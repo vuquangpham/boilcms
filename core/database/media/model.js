@@ -21,8 +21,4 @@ const Media = new mongoose.Schema({
     }
 });
 
-// 3 bai post
-// link toi 3 ID cua tam hinh
-// findMedia(id)
-// url
 module.exports = Media;
