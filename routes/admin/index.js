@@ -9,9 +9,13 @@ const Action = require('../../core/classes/utils/action');
 const Method = require('../../core/classes/utils/method');
 const Type = require('../../core/classes/utils/type');
 
+// handle actions
 const {getParamsOnRequest} = require("../../core/utils/helper.utils");
 const handleGetMethod = require('./GET');
 const handlePostMethod = require('./POST');
+
+// handle upload action
+const upload = require('../../core/utils/upload.utils');
 
 /**
  * Register categories
@@ -68,7 +72,7 @@ router.all('*', (req, res, next) => {
 /**
  * Dynamic page with file type
  * */
-router.all('*', (request, response, next) => {
+router.all('*', upload.single('image'), (request, response, next) => {
     const method = response.locals.method;
 
     switch(method.name){
