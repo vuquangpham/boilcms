@@ -47,25 +47,28 @@ const getValueFromData = (name) => {
                 </div>
 
                 <div>Page Builder</div>
-                <div class="posts__detail-content" data-content>
-                    <div class="posts__detail-inner">
+                <div data-pb>
 
-                        <div data-component="wrapper">
-                            <div data-component-children data-component-content></div>
-                            <div data-component-add>
-                                <button type="button" data-toggle="components">Add</button>
+                    <div data-pb-inner>
+
+                        <div data-pb-components>
+                            <!-- components -->
+                            <div data-component="wrapper">
+                                <div data-component-children data-component-content></div>
+                                <div data-component-add>
+                                    <button type="button" data-toggle="components">Add</button>
+                                </div>
                             </div>
                         </div>
 
-                        <div data-generate-component></div>
+                        <div data-pb-json>generate dummy content</div>
                     </div>
 
-
-                    <div class="posts-detail__components" data-popup data-components>
+                    <div data-pb-components-popup data-popup>
                         <div data-popup-overlay data-toggle="components"></div>
-                        <div class="component-popup__inner" data-popup-inner>
+                        <div data-pb-components-popup-inner data-popup-inner>
                             <% components.forEach(c => { %>
-                                <button class="posts-detail__component-item"
+                                <button
                                         data-component="<%= c.name; %>"
                                         data-action="add"
                                         data-toggle="components <%= c.name === 'row' ? '' : 'component-panel' %>"
@@ -77,11 +80,11 @@ const getValueFromData = (name) => {
                         </div>
                     </div>
 
-                    <div class="component-popup" data-popup>
+                    <div data-pb-component-popup data-popup>
                         <div data-popup-overlay data-toggle="component-panel"></div>
-                        <div class="component-popup__inner" data-popup-inner="">
-                            <div class="component-popup__content"></div>
-                            <button type="button" data-toggle="component-panel" class="component-popup__save">Save
+                        <div data-pb-component-popup-inner data-popup-inner="">
+                            <div data-pb-component-popup-content></div>
+                            <button type="button" data-toggle="component-panel" data-pb-component-popup-save>Save
                             </button>
                             <button type="button" data-toggle="component-panel">Cancel</button>
                         </div>
