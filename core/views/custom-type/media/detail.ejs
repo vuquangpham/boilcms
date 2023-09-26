@@ -1,0 +1,48 @@
+<%
+// boolean for checking edit or add new post
+const isEditPost = actionType === 'edit';
+
+// validate selected value on select
+const isSelectedValue = (name, value) => {
+    if(!isEditPost) return null;
+    return data[name] === value ? 'selected' : null;
+};
+
+// get value from data
+const getValueFromData = (name) => {
+    if(!isEditPost) return '';
+    return data[name];
+};
+%>
+
+
+<div class="media-content">
+    <div class="media-content__heading">
+        <h1>Edit <%= title; %></h1>
+        <a href="?post_type=media&action=add" class="button-style">Add New</a>
+    </div>
+</div>
+<div class="container" data-post-detail>
+    <form action="?post_type=post&method=post&action=<%= actionType %><%= isEditPost ? '&id=' + data._id : '' %>"
+          method="post"
+          class="media-post">
+
+        <div class="media-detail">
+            <div class="media-detail--left">
+                <div class="media-detail__information" style="margin-bottom:20px;">
+                    <img src="<%= data.url.small%>" alt="<%= data.name%>">
+                </div>
+
+                <div class="media__detail-content" data-content>
+
+                </div>
+            </div>
+
+            <div class="media-detail--right">
+
+                <button type="submit">Publish</button>
+            </div>
+        </div>
+
+    </form>
+</div>

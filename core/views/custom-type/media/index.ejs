@@ -8,10 +8,10 @@
 </form>
 <div class="media-list">
     <% data.forEach(media => { %>
-        <div class="media-item">
+        <a href="?post_type=<%= contentType%>&action=edit&id=<%= media._id %>" class="media-item">
             <h3><%= media.name %></h3>
-            <img src="<%= media.url.small%>" alt="<%= media.name%>" />
-        </div>
+            <img src="<%= media.url.small %>" alt="<%= media.name %>"/>
+        </a>
 
     <% } ) %>
 </div>
