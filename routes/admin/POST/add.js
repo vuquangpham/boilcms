@@ -35,6 +35,9 @@ const validatePostType = (request) => {
         content: request.body.content
     });
 
+    // save to database
+    content.save();
+
     return {
         title,
         url,

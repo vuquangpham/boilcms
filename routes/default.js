@@ -17,11 +17,14 @@ router.get('/*', (req, res, next) => {
     const {type, pageURL} = res.locals.params;
 
     const categoryItem = CategoryController.getCategoryItem(type);
-    const promise = !categoryItem ? Promise.reject(new Error('Can not find!')) : categoryItem.databaseModel.findOne({url: pageURL});
+    const promise = !categoryItem ? Promise.reject(new Error('Can not find!')) : categoryItem.databaseModel.findOne({url: pageURL}).populate('content');
 
     promise
         .then((result) => {
             if(!result) return Promise.reject('Can not find!');
+
+            const pageBuilderContent = JSON.parse(result.content.content);
+
             res.render('default', {
                 data: result
             });
