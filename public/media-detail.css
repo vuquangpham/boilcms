@@ -1,0 +1,9 @@
+/* content */
+.media-content {
+    margin-bottom: 20px
+}
+.media-content__heading{
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
