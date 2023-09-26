@@ -16,6 +16,9 @@ const Media = new mongoose.Schema({
         required: true,
         default: () => new Date()
     },
+    directory:{
+        type:String,
+    },
     url:{
         type: Object,
     }

@@ -52,7 +52,8 @@ const validateMediaType = (request) => {
         url: {
             original :serverHostURL + '/' + request.file.path.split('\\').slice(1).join('\\'),
             small: serverHostURL + '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
-        }
+        },
+        directory: request.file.metadata.destinationDirectory
     }
 
     return mediaObj
