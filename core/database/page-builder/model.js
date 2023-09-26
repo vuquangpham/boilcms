@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const PageBuilder = new mongoose.Schema({
-    pageId: {
-        type: String,
-        default: ''
-    },
     content: {
         type: String,
         default: '',
@@ -12,4 +8,4 @@ const PageBuilder = new mongoose.Schema({
     }
 });
 
-module.exports = PageBuilder;
+module.exports = mongoose.model('PageBuilder', PageBuilder);
