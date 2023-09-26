@@ -1,97 +1,161 @@
-// create HTML Div
-const createComponent = (info) => {
-    // name, params
-    const name = info.name;
+class Component{
+    constructor(information){
+        this.name = information.name;
+        this.params = information.params;
+        this.isGroupComponent = this.name === 'row' || this.name === 'wrapper';
+        this.component = this.createComponent();
+    }
 
-    // name, value
-    const params = info.params;
-    // name, value
+    createComponent(){
+        const componentDiv = document.createElement('div');
+        componentDiv.setAttribute('data-component', this.name);
 
-    // params HTML
-    const paramHTML = params.reduce((acc, cur) => {
-        acc += `
-<div data-param="${cur.key}">
-    <span data-param-value="${cur.value}">${cur.value ?? ''}</span>
-</div>`;
-        return acc;
-    }, '');
+        // add utils
+        componentDiv.appendChild(this.createUtils());
 
-    // add more components (for row only)
-    const addMoreComponent = name === 'row' ? `
-<div data-component-add>
-    <button type="button" data-toggle="components">Add More</button>
-</div>
-    ` : '';
+        // add content
+        componentDiv.appendChild(this.createContent(this.params));
 
-    const html = `
-<div data-component="${name}">  
-    <div data-component-utils>
+        // add add-button
+        if(this.isGroupComponent) componentDiv.appendChild(this.createAddComponents());
+
+        return componentDiv;
+    }
+
+    createUtils(){
+        const utilsDiv = document.createElement('div');
+        utilsDiv.setAttribute('data-component-utils', '');
+
+        // inner HTML
+        utilsDiv.innerHTML = `
         <button type="button" data-toggle="component-panel" class="edit">Edit</button>
         <button type="button">Duplicate</button>
         <button type="button">Move</button>
         <button type="button">Delete</button>
-    </div>
-    
-    <div data-component-content ${info.name === 'row' ? 'data-component-children' : ''}>${paramHTML}</div>
-    
-    ${addMoreComponent}
-</div>
-`;
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.firstElementChild;
-};
+        `;
 
-const handleSaveBtnClick = (componentPanel, parentEl) => {
-    const componentInfo = {
-        name: componentPanel.dataset.component,
-        params: []
-    };
-    Array.from(componentPanel.children).forEach(el => {
-        const obj = {};
-        obj.key = el.dataset.param;
-        obj.value = el.querySelector('[data-param-value]').textContent;
-        componentInfo.params.push(obj);
-    });
+        return utilsDiv;
+    }
 
-    const html = createComponent(componentInfo);
-    Theme.toggleAttributeAction(html.querySelectorAll('[data-toggle]'));
-    parentEl.querySelector('[data-component-content]').insertAdjacentElement('beforeend', html);
+    createAddComponents(){
+        const addComponentDiv = document.createElement('div');
+        addComponentDiv.setAttribute('data-component-add', '');
 
-    const wrapperEl = document.querySelector('[data-component="wrapper"]');
-    const generateComponentEl = document.querySelector('[data-generate-component]');
+        // inner HTML
+        addComponentDiv.innerHTML = `
+        <button type="button" data-toggle="components">Add More</button>
+        `;
 
-    const content = generateObj(wrapperEl);
-    generateComponentEl.innerHTML = JSON.stringify(content);
-};
+        return addComponentDiv;
+    }
 
-document.querySelectorAll('[data-content]').forEach(wrapper => {
-    console.log('wrapper', wrapper);
+    createContent(params){
+        const contentDiv = document.createElement('div');
+        contentDiv.setAttribute('data-component-content', '');
 
-    const componentPanel = wrapper.querySelector('[data-pb-component-popup-content]');
+        // group component
+        if(this.isGroupComponent){
+            contentDiv.setAttribute('data-component-children', '');
+        }
 
-    let parentEl = null;
+        // inner HTML
+        contentDiv.innerHTML = params.reduce((acc, cur) => {
+            acc += `
+<div data-param="${cur.key}">
+    <span data-param-value="${cur.value}">${cur.value ?? ''}</span>
+</div>`;
+            return acc;
+        }, '');
 
-    wrapper.addEventListener('click', (e) => {
-        const target = e.target;
+        return contentDiv;
+    }
+}
 
-        const addButtonEl = target.closest('[data-component-add]');
+class PageBuilder{
+    constructor(wrapper){
+        // invalid element
+        if(!wrapper) return;
+        this.wrapper = wrapper;
+
+        this.parentGroup = null;
+        this.componentDetailPanel = this.wrapper.querySelector('[data-pb-component-popup-content]');
+        this.jsonElement = this.wrapper.querySelector('[data-pb-json]');
+
+        // register event listener
+        this.wrapper.addEventListener('click', this.handleWrapperClick.bind(this));
+    }
+
+    handleWrapperClick(e){
+        // get the target
+        let functionForHandling = () => {
+        }, target = null;
+
+        const addButtonEl = e.target.closest('[data-component-add]');
+        const saveButtonEl = e.target.closest('[data-pb-component-popup-save]');
+        const componentEl = e.target.closest('button[data-component]');
+
         if(addButtonEl){
-            parentEl = addButtonEl.closest('[data-component]');
+            functionForHandling = this.handleAddComponentClick.bind(this);
+            target = addButtonEl;
+        }else if(saveButtonEl){
+            functionForHandling = this.handleSaveBtnClick.bind(this);
+            target = saveButtonEl;
+        }else if(componentEl){
+            functionForHandling = this.handleComponentClick.bind(this);
+            target = componentEl;
         }
 
-        // save click
-        const saveBtnClick = target.closest('[data-pb-component-popup-save]');
-        if(saveBtnClick){
-            handleSaveBtnClick(componentPanel, parentEl);
-        }
+        functionForHandling(target);
+    }
 
-        // component click
-        const componentEl = target.closest('button[data-component]');
-        if(componentEl){
-            const componentName = componentEl.dataset.component;
-            console.log(document.documentElement.classList);
+    handleAddComponentClick(target){
+        // re-assign parent group
+        this.parentGroup = target.closest('[data-component]');
+    }
 
+    handleSaveBtnClick(target){
+        // component information
+        const componentInformation = {
+            name: this.componentDetailPanel.dataset.component,
+            params: []
+        };
+
+        // get params
+        Array.from(this.componentDetailPanel.children).forEach(el => {
+            const obj = {};
+            obj.key = el.dataset.param;
+            obj.value = el.querySelector('[data-param-value]').textContent;
+            componentInformation.params.push(obj);
+        });
+
+        const componentInstance = new Component(componentInformation);
+        const componentDomEl = componentInstance.component;
+
+        // toggle attribute
+        Theme.toggleAttributeAction(componentDomEl.querySelectorAll('[data-toggle]'));
+
+        // insert to the group
+        this.parentGroup.querySelector('[data-component-content]').insertAdjacentElement('beforeend', componentDomEl);
+
+        // create JSON
+        this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapper.querySelector('[data-component="wrapper"]')));
+    }
+
+    handleComponentClick(target){
+        const componentName = target.dataset.component;
+        const componentAction = target.dataset.action;
+
+        this.getComponentInfoFromServer(componentName)
+            .then(result => {
+                this.componentDetailPanel.innerHTML = result.data;
+                this.componentDetailPanel.dataset.component = result.component.name;
+
+                if(this.isGroupComponent(componentName)) this.handleSaveBtnClick(target);
+            });
+    }
+
+    getComponentInfoFromServer(componentName){
+        return new Promise((resolve, reject) => {
             fetch(location.href + '&' + new URLSearchParams({
                 method: 'get',
                 action: 'get',
@@ -99,123 +163,67 @@ document.querySelectorAll('[data-content]').forEach(wrapper => {
                 componentName
             }))
                 .then(res => res.json())
-                .then(result => {
-                    console.log(result);
-                    componentPanel.innerHTML = result.data;
-                    componentPanel.dataset.component = result.component.name;
-
-                    if(result.component.name === 'row') handleSaveBtnClick(componentPanel, parentEl);
-                });
-            console.log(componentName);
-        }
-
-        // edit button
-        const editBtn = target.closest('button.edit');
-        if(editBtn){
-            console.log('edit button');
-            // get HTML from BE
-
-            // fill data from DOM Element
-        }
-    });
-});
-
-
-const generateObj = (domEl) => {
-    const contentElm = domEl.querySelector('[data-component-children]');
-    const componentName = domEl.dataset.component;
-
-    let returnObj = {
-        name: componentName,
-        children: []
-    };
-
-    // not have children => component with the data provided
-    if(!contentElm){
-        const elm = domEl.querySelector('[data-component-content]');
-        returnObj.params = [];
-
-        [...elm.children].forEach(param => {
-            const object = {
-                key: param.dataset.param,
-                value: param.querySelector('[data-param-value]').dataset.paramValue,
-            };
-            returnObj.params.push(object);
+                .then(result => resolve(result))
+                .catch(err => reject(err));
         });
+    }
 
+    isGroupComponent(componentName){
+        return componentName === 'row' || componentName === 'wrapper';
+    }
+
+    generateDomElementToObject(domElement){
+        const contentElm = domElement.querySelector('[data-component-children]');
+        const componentName = domElement.dataset.component;
+
+        let returnObj = {
+            name: componentName,
+            children: []
+        };
+
+        // not have children => component with the data provided
+        if(!contentElm){
+            const elm = domElement.querySelector('[data-component-content]');
+            returnObj.params = [];
+
+            [...elm.children].forEach(param => {
+                const object = {
+                    key: param.dataset.param,
+                    value: param.querySelector('[data-param-value]').dataset.paramValue,
+                };
+                returnObj.params.push(object);
+            });
+
+            return returnObj;
+        }
+
+        [...contentElm.children].forEach(el => {
+            returnObj.children.push(this.generateDomElementToObject.call(this, el));
+        });
         return returnObj;
     }
 
-    [...contentElm.children].forEach(el => {
-        returnObj.children.push(generateObj(el));
-    });
-    return returnObj;
-};
+    generateObjectToDomElement(property){
+        // todo: don't forget to use the JSON.parse syntax
+        const componentInformation = {
+            name: property.name,
+            params: property.params || []
+        };
 
-const generateDomEl = (obj) => {
-    const componentName = obj.name;
-    const componentParams = obj.params;
+        const component = new Component(componentInformation);
 
-    const div = document.createElement('div');
-    div.setAttribute('data-component', componentName);
+        const componentElement = component.component;
+        const componentContentElement = componentElement.querySelector('[data-component-content]');
 
-    const innerDomHTML = [];
+        // loop to get children elements
+        property.children
+            .map(child => this.generateObjectToDomElement.call(this, child))
+            .forEach(dom => componentContentElement.appendChild(dom));
 
-    if(obj.children){
-        obj.children.forEach(child => {
-            innerDomHTML.push(generateDomEl(child));
-        });
+        return componentElement;
     }
+}
 
-    // create utils
-    const utils = document.createElement('div');
-    utils.setAttribute('data-component-utils', '');
-    utils.innerHTML = `
-        <button type="button">Edit</button>
-        <button type="button">Duplicate</button>
-        <button type="button">Move</button>
-        <button type="button">Delete</button>
-    `;
-    div.appendChild(utils);
-
-    // content
-    const content = document.createElement('div');
-    content.setAttribute('data-component-content', '');
-
-    if(innerDomHTML.length > 0){
-        innerDomHTML.forEach(dom => content.appendChild(dom));
-    }
-
-    // add button
-    if(componentName === 'row' || componentName === 'wrapper'){
-        const add = document.createElement('div');
-        add.setAttribute('data-component-add', '');
-
-        content.setAttribute('data-component-children', '');
-
-        add.innerHTML = `<button type="button" data-toggle="components">Add More</button>`;
-        div.appendChild(add);
-    }
-
-    // set content
-    if(componentParams){
-        const divs = componentParams.reduce((acc, param) => {
-            const div = document.createElement('div');
-            div.setAttribute('data-param', param.key);
-
-            const span = document.createElement('span');
-            span.setAttribute('data-param-value', param.value);
-            span.innerHTML = param.value;
-
-            div.appendChild(span);
-            acc.push(div);
-
-            return acc;
-        }, []);
-
-        divs.forEach(div => content.appendChild(div));
-    }
-    div.appendChild(content);
-
-    return div;
-};
+document.querySelectorAll('[data-pb]').forEach(e => {
+    window.instance = new PageBuilder(e);
+});
