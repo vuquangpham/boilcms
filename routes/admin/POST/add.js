@@ -16,46 +16,17 @@ const PageBuilder = require('../../../core/database/page-builder/model');
  * */
 const handleAddAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
-    let requestBodyData = request.body;
+    const data = categoryItem.validateInputData(request);
 
-    // validate type
-    switch(categoryItem.contentType){
-        case Type.types.POSTS:{
-            requestBodyData = validatePostType(request);
-            break;
-        }
-        case Type.types.MEDIA:{
-            requestBodyData = validateMediaType(request);
-            break;
-        }
-    }
-
-    const promise = categoryItem.add(requestBodyData);
+    const promise = categoryItem.add(data);
     const extraData = {};
 
     return [promise, extraData];
 };
 
-/**
- * Validate post item
- * */
+
 const validatePostType = (request) => {
-    const title = request.body.title;
-    const url = stringToSlug(title);
-    const visibility = request.body.visibility;
-    const content = new PageBuilder({
-        content: request.body.content
-    });
 
-    // save to database
-    content.save();
-
-    return {
-        title,
-        url,
-        visibility,
-        content
-    };
 };
 
 /**

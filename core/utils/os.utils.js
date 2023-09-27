@@ -17,6 +17,20 @@ const readFileAsync = (directory) => {
 };
 
 /**
+ * Read files in a folder
+ * @param directory
+ * @return {Promise}
+ * */
+const readFilesInFolderInAsync = (directory) => {
+    return new Promise((resolve, reject) => {
+        fs.readdir(directory, (err, data) => {
+            if(err) return reject(err);
+            resolve(data);
+        });
+    });
+};
+
+/**
  * Crop image
  * @param {Object} inputOptions
  * @return {Promise}
@@ -39,6 +53,7 @@ const cropImage = (inputOptions) => {
 }
 
 module.exports = {
+    readFilesInFolderInAsync
     readFileAsync,
     cropImage
 };

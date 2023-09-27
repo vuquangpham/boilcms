@@ -1,16 +1,11 @@
-class CategoryController{
-    constructor(){
-        this.categoryItems = [];
-    }
+const path = require("path");
+const {CORE_DIRECTORY} = require("../../utils/config.utils");
+const Controller = require('../utils/controller');
 
-    /**
-     * Add new category into instance
-     * @param category {Object}
-     * @return {void}
-     * */
-    add(category){
-        if(!category) return;
-        this.categoryItems.push(category);
+class CategoryController extends Controller{
+    constructor(){
+        super();
+        this.init(path.join(CORE_DIRECTORY, 'categories'));
     }
 
     /**
@@ -19,14 +14,14 @@ class CategoryController{
      * @return {Object}
      * */
     getCategoryItem(type){
-        return this.categoryItems.find(category => category.type === type);
+        return this.instances.find(category => category.type === type);
     }
 
     /**
      * Get special type from categories list
      * */
     getSpecialType(){
-        return this.categoryItems.find(category => category.isSpecialType === true);
+        return this.instances.find(category => category.isSpecialType === true);
     }
 }
 

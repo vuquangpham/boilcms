@@ -9,16 +9,17 @@ class Category{
             url: '',
             type: '',
             contentType: '',
-            isSpecialType: false
+            isSpecialType: false,
+            order: 0
         };
-
-        const validatedOptions = this.validateOptions({defaultOptions, ...options});
+        const validatedOptions = this.validateOptions({...defaultOptions, ...options});
         if(!validatedOptions) return null;
 
         this.name = validatedOptions.name;
         this.url = validatedOptions.url;
         this.type = validatedOptions.type;
         this.contentType = validatedOptions.contentType;
+        this.order = validatedOptions.order;
     }
 
     /**
@@ -37,6 +38,20 @@ class Category{
         this.databaseModel = mongoose.model(options.type, options.contentType.model);
 
         return options;
+    }
+
+    /**
+     * Validate input data to get the correct data
+     * */
+    validateInputData(request){
+        return request;
+    }
+
+    /**
+     * Update data to category
+     * */
+    update(id, data){
+        return this.databaseModel.findOneAndUpdate({_id: id}, data);
     }
 
     /**

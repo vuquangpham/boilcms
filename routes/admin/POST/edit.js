@@ -6,10 +6,10 @@
  * */
 const handleEditAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
-    const requestBodyData = request.body;
-    const pageId = request.query.id;
+    const data = categoryItem.validateInputData(request, 'edit');
+    const id = request.query.id;
 
-    const promise = categoryItem.databaseModel.findOneAndUpdate({_id: pageId}, requestBodyData);
+    const promise = categoryItem.update(id, data);
     const extraData = {};
 
     return [promise, extraData];

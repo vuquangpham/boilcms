@@ -59,15 +59,11 @@ class Content{
         const renderedHTML = componentInstance.render(component);
 
         // render children HTML
-        if(component.children.length > 0){
-            const childrenHTML = component.children
-                .map(child => this.getRenderHTML.call(this, child))
-                .join('');
+        const childrenHTML = component.children
+            .map(child => this.getRenderHTML.call(this, child))
+            .join('');
 
-            return renderedHTML.replaceAll('#{DATA_CHILDREN}', childrenHTML);
-        }
-
-        return renderedHTML;
+        return renderedHTML.replaceAll('#{DATA_CHILDREN}', childrenHTML);
     }
 }
 

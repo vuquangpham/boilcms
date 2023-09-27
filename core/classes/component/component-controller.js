@@ -1,31 +1,19 @@
 const path = require("path");
-const fs = require('fs');
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
+const Controller = require('../utils/controller');
 
-class ComponentController{
+class ComponentController extends Controller{
     constructor(){
+        super();
+
+        // get instances
+        this.init(path.join(CORE_DIRECTORY, 'components'));
+
+        // params
         this.paramTypes = {
             TEXT: 'text.ejs',
             IMAGE: 'image.ejs'
         };
-        this.instances = [];
-
-        // get instances
-        this.init();
-    }
-
-    init(){
-        const directory = path.join(CORE_DIRECTORY, 'components');
-        fs.readdir(directory, (err, fileNames) => {
-            if(err){
-                console.error(err);
-                return;
-            }
-
-            // add to instances
-            fileNames.forEach(file => this.instances.push(require(path.join(directory, file))));
-            this.instances.sort((a, b) => a.order - b.order);
-        });
     }
 
     getComponentBasedOnName(name){
