@@ -41,6 +41,20 @@ class Category{
     }
 
     /**
+     * Validate input data to get the correct data
+     * */
+    validateInputData(request){
+        return request;
+    }
+
+    /**
+     * Update data to category
+     * */
+    update(id, data){
+        return this.databaseModel.findOneAndUpdate({_id: id}, data);
+    }
+
+    /**
      * Add new data to category
      * */
     add(data){
