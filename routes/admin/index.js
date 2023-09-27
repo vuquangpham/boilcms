@@ -2,44 +2,14 @@
 const router = require('express').Router();
 
 // core modules
-const Category = require('../../core/classes/category/category');
 const CategoryController = require('../../core/classes/category/category-controller');
 
 const Action = require('../../core/classes/utils/action');
 const Method = require('../../core/classes/utils/method');
-const Type = require('../../core/classes/utils/type');
 
 const {getParamsOnRequest} = require("../../core/utils/helper.utils");
 const handleGetMethod = require('./GET');
 const handlePostMethod = require('./POST');
-
-/**
- * Register categories
- * */
-CategoryController.add(new Category({
-    name: 'Dashboard',
-    url: '/',
-    type: 'default',
-    contentType: Type.types.DEFAULT
-}));
-CategoryController.add(new Category({
-    name: 'Post',
-    url: '/posts',
-    type: 'posts',
-    contentType: Type.types.POSTS
-}));
-CategoryController.add(new Category({
-    name: 'Pages',
-    url: '/pages',
-    type: 'pages',
-    contentType: Type.types.POSTS
-}));
-CategoryController.add(new Category({
-    name: 'Media',
-    url: '/media',
-    type: 'media',
-    contentType: Type.types.MEDIA
-}));
 
 /**
  * Middleware for registering variables
@@ -54,7 +24,7 @@ router.all('*', (req, res, next) => {
     const getJSON = req.query.getJSON;
 
     // categories
-    res.locals.categories = CategoryController.categoryItems;
+    res.locals.categories = CategoryController.instances;
     res.locals.categoryItem = CategoryController.getCategoryItem(type);
     res.locals.action = Action.getActionType(action);
     res.locals.method = Method.getValidatedMethod(method);
