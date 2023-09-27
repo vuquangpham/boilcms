@@ -1,4 +1,3 @@
-const Content = require('../utils/content');
 const path = require("path");
 const fs = require('fs');
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
@@ -34,9 +33,12 @@ class ComponentController{
     }
 
     getHTML(instance){
+        // import package
+        const Content = require('../utils/content');
+
         if(!instance) return Promise.reject('Not existed!');
 
-        const directory = path.join(process.cwd(), 'core', 'views', 'core-component-type');
+        const directory = path.join(CORE_DIRECTORY, 'views', 'core-component-type');
         let htmlPromises = [];
 
         instance.params.forEach(param => {

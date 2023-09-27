@@ -53,7 +53,7 @@ const getValueFromData = (name) => {
 
                         <div data-pb-components>
                             <!-- components -->
-                            <div data-component="wrapper">
+                            <div data-component="row" data-component-wrapper>
                                 <div data-component-children data-component-content></div>
                                 <div data-component-add>
                                     <button type="button" data-toggle="components">Add</button>
@@ -61,7 +61,8 @@ const getValueFromData = (name) => {
                             </div>
                         </div>
 
-                        <div data-pb-json>generate dummy content</div>
+                        <label for="content">Backend Editor</label>
+                        <textarea id="content" name="content" data-pb-json style="width:100%"></textarea>
                     </div>
 
                     <div data-pb-components-popup data-popup>
