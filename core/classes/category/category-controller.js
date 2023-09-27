@@ -1,25 +1,11 @@
 const path = require("path");
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
-const fs = require("fs");
+const Controller = require('../utils/controller');
 
-class CategoryController{
+class CategoryController extends Controller{
     constructor(){
-        this.instances = [];
-        this.init();
-    }
-
-    init(){
-        const directory = path.join(CORE_DIRECTORY, 'categories');
-        fs.readdir(directory, (err, fileNames) => {
-            if(err){
-                console.error(err);
-                return;
-            }
-
-            // add to instances
-            fileNames.forEach(file => this.instances.push(require(path.join(directory, file))));
-            this.instances.sort((a, b) => a.order - b.order);
-        });
+        super();
+        this.init(path.join(CORE_DIRECTORY, 'categories'));
     }
 
     /**

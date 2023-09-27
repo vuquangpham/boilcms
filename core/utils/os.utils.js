@@ -14,6 +14,21 @@ const readFileAsync = (directory) => {
     });
 };
 
+/**
+ * Read files in a folder
+ * @param directory
+ * @return {Promise}
+ * */
+const readFilesInFolderInAsync = (directory) => {
+    return new Promise((resolve, reject) => {
+        fs.readdir(directory, (err, data) => {
+            if(err) return reject(err);
+            resolve(data);
+        });
+    });
+};
+
 module.exports = {
-    readFileAsync
+    readFileAsync,
+    readFilesInFolderInAsync
 };
