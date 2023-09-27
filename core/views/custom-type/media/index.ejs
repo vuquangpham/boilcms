@@ -9,10 +9,15 @@
 
 <div class="media-list">
     <% data.forEach(media => { %>
-        <a href="?post_type=<%= contentType%>&action=edit&id=<%= media._id %>" class="media-item">
+        <div data-toggle="media" href="?post_type=<%= contentType%>&action=edit&id=<%= media._id %>" class="media-item">
             <h3><%= media.name %></h3>
             <img src="<%= media.url.small %>" alt="<%= media.name %>"/>
-        </a>
+        </div>
 
     <% } ) %>
+</div>
+
+<div data-popup>
+    <div data-popup-overlay data-toggle="media"></div>
+    <div data-popup-inner>html</div>
 </div>

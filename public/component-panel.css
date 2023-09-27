@@ -31,4 +31,5 @@
 }
 
 html:not(.component-panel-is-open) .component-popup[data-popup],
+html:not(.media-is-open) [data-popup],
 html:not(.components-is-open) .posts-detail__components[data-popup] {opacity:0; visibility:hidden}
