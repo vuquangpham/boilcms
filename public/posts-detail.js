@@ -31,7 +31,7 @@ class Component{
         <button type="button" data-toggle="component-panel" class="edit">Edit</button>
         <button type="button">Duplicate</button>
         <button type="button">Move</button>
-        <button type="button">Delete</button>
+        <button type="button" data-component-edit>Delete</button>
         `;
 
         return utilsDiv;
@@ -116,6 +116,7 @@ class PageBuilder{
 
         const addButtonEl = e.target.closest('[data-component-add]');
         const saveButtonEl = e.target.closest('[data-pb-component-popup-save]');
+        const deleteButtonEl = e.target.closest('button[data-component-edit]');
         const componentEl = e.target.closest('button[data-component]');
 
         if(addButtonEl){
@@ -127,6 +128,9 @@ class PageBuilder{
         }else if(componentEl){
             functionForHandling = this.handleComponentClick.bind(this);
             target = componentEl;
+        }else if(deleteButtonEl){
+            functionForHandling = this.handleDeleteButton.bind(this);
+            target = deleteButtonEl;
         }
 
         functionForHandling(target);
@@ -162,6 +166,18 @@ class PageBuilder{
         this.parentGroup.querySelector('[data-component-content]').insertAdjacentElement('beforeend', componentDomEl);
 
         // create JSON
+        this.createJSON();
+    }
+
+    handleDeleteButton(target){
+        const componentEl = target.closest('[data-component]');
+        componentEl.remove();
+
+        // re-generate JSON
+        this.createJSON();
+    }
+
+    createJSON(){
         this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapperComponentEl));
     }
 
