@@ -1,13 +1,7 @@
-const Category = require('../classes/category/category');
 const Type = require("../classes/utils/type");
+const POSTS = require('../classes/category/posts-category');
 
-class Posts extends Category{
-    constructor(config){
-        super(config);
-    }
-}
-
-module.exports = new Posts({
+module.exports = new POSTS({
     name: 'Post',
     url: '/posts',
     type: 'posts',
