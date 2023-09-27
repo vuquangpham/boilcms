@@ -40,12 +40,13 @@ class POSTS extends Category{
 
                 // save to database
                 content.save();
-
                 break;
             }
             case 'edit':{
                 content = request.body.content;
                 url = request.body.url;
+
+                break;
             }
         }
 
