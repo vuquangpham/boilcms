@@ -28,11 +28,11 @@ const handleAddAction = (request, response) => {
 
 
 const validatePostType = (request) => {
-    const title = request.body.title;
+    const title = request.body.title.trim();
     const url = stringToSlug(title);
-    const visibility = request.body.visibility;
+    const visibility = request.body.visibility.trim();
     const content = new PageBuilder({
-        content: request.body.content
+        content: request.body.content.trim()
     });
 
     // save to database
@@ -45,30 +45,5 @@ const validatePostType = (request) => {
         content
     };
 };
-
-/*
-const Post = new mongoose.Schema({
-    title: {
-        type: String,
-        default: '',
-        required: true
-    },
-    url: {
-        type: String,
-        default: ''
-    },
-    visibility: {
-        type: String
-    },
-    publish: {
-        type: Date,
-        default: () => Date.now()
-    },
-    content: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PageBuilder'
-    }
-});
-* */
 
 module.exports = handleAddAction;

@@ -77,13 +77,36 @@ class PageBuilder{
         if(!wrapper) return;
         this.wrapper = wrapper;
 
+        this.init();
+    }
+
+    init(){
+        // register DOM elements
         this.parentGroup = null;
         this.componentDetailPanel = this.wrapper.querySelector('[data-pb-component-popup-content]');
         this.wrapperComponentEl = this.wrapper.querySelector('[data-component-wrapper]');
         this.jsonElement = this.wrapper.querySelector('[data-pb-json]');
 
+        // render components based on JSON
+        this.renderComponents();
+
         // register event listener
         this.wrapper.addEventListener('click', this.handleWrapperClick.bind(this));
+    }
+
+    renderComponents(){
+        const jsonContent = this.jsonElement.textContent;
+        if(!jsonContent) return;
+
+        // get wrapper component
+        const componentElement = this.generateObjectToDomElement(JSON.parse(jsonContent));
+
+        // register data toggle
+        Theme.toggleAttributeAction(componentElement.querySelectorAll('[data-toggle]'));
+
+        // replace element
+        this.wrapperComponentEl.replaceWith(componentElement);
+        this.wrapperComponentEl = componentElement;
     }
 
     handleWrapperClick(e){
@@ -208,7 +231,6 @@ class PageBuilder{
     }
 
     generateObjectToDomElement(property){
-        // todo: don't forget to use the JSON.parse syntax
         const componentInformation = {
             name: property.name,
             params: property.params || [],

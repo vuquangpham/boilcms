@@ -9,9 +9,9 @@ const isSelectedValue = (name, value) => {
 };
 
 // get value from data
-const getValueFromData = (name) => {
+const getValueFromData = (name, property = '') => {
     if(!isEditPost) return '';
-    return data[name];
+    return property ? data[name][property] : data[name];
 };
 %>
 
@@ -62,7 +62,8 @@ const getValueFromData = (name) => {
                         </div>
 
                         <label for="content">Backend Editor</label>
-                        <textarea id="content" name="content" data-pb-json style="width:100%"></textarea>
+                        <textarea id="content" name="content" data-pb-json
+                                  style="width:100%"><%= getValueFromData('content', 'content'); %></textarea>
                     </div>
 
                     <div data-pb-components-popup data-popup>
