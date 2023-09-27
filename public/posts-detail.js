@@ -28,10 +28,10 @@ class Component{
 
         // inner HTML
         utilsDiv.innerHTML = `
-        <button type="button" data-toggle="component-panel" class="edit">Edit</button>
+        <button type="button" data-toggle="component-panel" data-component-edit>Edit</button>
         <button type="button">Duplicate</button>
         <button type="button">Move</button>
-        <button type="button" data-component-edit>Delete</button>
+        <button type="button" data-component-delete>Delete</button>
         `;
 
         return utilsDiv;
@@ -116,20 +116,37 @@ class PageBuilder{
 
         const addButtonEl = e.target.closest('[data-component-add]');
         const saveButtonEl = e.target.closest('[data-pb-component-popup-save]');
-        const deleteButtonEl = e.target.closest('button[data-component-edit]');
+        const deleteButtonEl = e.target.closest('button[data-component-delete]');
+        const editButtonEl = e.target.closest('button[data-component-edit]');
         const componentEl = e.target.closest('button[data-component]');
 
+        // add component button
         if(addButtonEl){
             functionForHandling = this.handleAddComponentClick.bind(this);
             target = addButtonEl;
-        }else if(saveButtonEl){
+        }
+
+        // save component
+        else if(saveButtonEl){
             functionForHandling = this.handleSaveBtnClick.bind(this);
             target = saveButtonEl;
-        }else if(componentEl){
+        }
+
+        // add component from popup
+        else if(componentEl){
             functionForHandling = this.handleComponentClick.bind(this);
             target = componentEl;
-        }else if(deleteButtonEl){
-            functionForHandling = this.handleDeleteButton.bind(this);
+        }
+
+        // edit component
+        else if(editButtonEl){
+            functionForHandling = this.handleEditComponentClick.bind(this);
+            target = editButtonEl;
+        }
+
+        // delete component
+        else if(deleteButtonEl){
+            functionForHandling = this.handleDeleteComponentClick.bind(this);
             target = deleteButtonEl;
         }
 
@@ -139,6 +156,10 @@ class PageBuilder{
     handleAddComponentClick(target){
         // re-assign parent group
         this.parentGroup = target.closest('[data-component]');
+    }
+
+    handleEditComponentClick(target){
+        console.log('edit');
     }
 
     handleSaveBtnClick(target){
@@ -169,7 +190,7 @@ class PageBuilder{
         this.createJSON();
     }
 
-    handleDeleteButton(target){
+    handleDeleteComponentClick(target){
         const componentEl = target.closest('[data-component]');
         componentEl.remove();
 
@@ -183,7 +204,6 @@ class PageBuilder{
 
     handleComponentClick(target){
         const componentName = target.dataset.component;
-        const componentAction = target.dataset.action;
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
