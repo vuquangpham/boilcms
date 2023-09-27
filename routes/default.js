@@ -2,6 +2,7 @@ const {getParamsOnRequest} = require("../core/utils/helper.utils");
 const router = require('express').Router();
 
 const CategoryController = require('../core/classes/category/category-controller');
+const Content = require('../core/classes/utils/content');
 
 router.get('*', (req, res, next) => {
     const [type, pageURL] = getParamsOnRequest(req, ['', '']);
@@ -24,9 +25,11 @@ router.get('/*', (req, res, next) => {
             if(!result) return Promise.reject('Can not find!');
 
             const pageBuilderContent = JSON.parse(result.content.content);
+            const html = Content.getRenderHTML(pageBuilderContent);
 
             res.render('default', {
-                data: result
+                data: result,
+                content: html
             });
         })
         .catch(err => {

@@ -12,7 +12,7 @@ class Row extends Component{
     }
 
     render(data){
-        return `<div class="row"></div>`;
+        return `<div class="row" data-component-wrapper>#{DATA_CHILDREN}</div>`;
     }
 }
 

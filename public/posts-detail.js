@@ -157,7 +157,10 @@ class PageBuilder{
 
     getComponentInfoFromServer(componentName){
         return new Promise((resolve, reject) => {
-            fetch(location.href + '&' + new URLSearchParams({
+            const urlObject = new URL(location.href);
+            const url = urlObject.origin + urlObject.pathname;
+
+            fetch(url + '?' + new URLSearchParams({
                 method: 'get',
                 action: 'get',
                 getJSON: true,
@@ -208,7 +211,8 @@ class PageBuilder{
         // todo: don't forget to use the JSON.parse syntax
         const componentInformation = {
             name: property.name,
-            params: property.params || []
+            params: property.params || [],
+            children: property.children
         };
 
         const component = new Component(componentInformation);
@@ -217,7 +221,7 @@ class PageBuilder{
         const componentContentElement = componentElement.querySelector('[data-component-content]');
 
         // loop to get children elements
-        property.children
+        componentInformation.children
             .map(child => this.generateObjectToDomElement.call(this, child))
             .forEach(dom => componentContentElement.appendChild(dom));
 

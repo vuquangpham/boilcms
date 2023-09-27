@@ -1,5 +1,6 @@
 const {readFileAsync} = require('../../utils/os.utils');
 const {CORE_DIRECTORY} = require('../../utils/config.utils');
+
 const path = require('path');
 const ejs = require('ejs');
 
@@ -43,6 +44,30 @@ class Content{
                 .then(file => resolve(ejs.render(file, data)))
                 .catch(err => reject(err));
         });
+    }
+
+    getRenderHTML(property){
+        const ComponentController = require('../component/component-controller');
+
+        const component = {
+            name: property.name,
+            params: property.params || [],
+            children: property.children
+        };
+
+        const componentInstance = ComponentController.getComponentBasedOnName(component.name);
+        const renderedHTML = componentInstance.render(component);
+
+        // render children HTML
+        if(component.children.length > 0){
+            const childrenHTML = component.children
+                .map(child => this.getRenderHTML.call(this, child))
+                .join('');
+
+            return renderedHTML.replaceAll('#{DATA_CHILDREN}', childrenHTML);
+        }
+
+        return renderedHTML;
     }
 }
 
