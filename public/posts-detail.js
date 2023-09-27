@@ -2,7 +2,7 @@ class Component{
     constructor(information){
         this.name = information.name;
         this.params = information.params;
-        this.isGroupComponent = this.name === 'row' || this.name === 'wrapper';
+        this.isGroupComponent = this.name === 'row';
         this.component = this.createComponent();
     }
 
@@ -79,6 +79,7 @@ class PageBuilder{
 
         this.parentGroup = null;
         this.componentDetailPanel = this.wrapper.querySelector('[data-pb-component-popup-content]');
+        this.wrapperComponentEl = this.wrapper.querySelector('[data-component-wrapper]');
         this.jsonElement = this.wrapper.querySelector('[data-pb-json]');
 
         // register event listener
@@ -138,7 +139,7 @@ class PageBuilder{
         this.parentGroup.querySelector('[data-component-content]').insertAdjacentElement('beforeend', componentDomEl);
 
         // create JSON
-        this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapper.querySelector('[data-component="wrapper"]')));
+        this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapperComponentEl));
     }
 
     handleComponentClick(target){
@@ -169,7 +170,7 @@ class PageBuilder{
     }
 
     isGroupComponent(componentName){
-        return componentName === 'row' || componentName === 'wrapper';
+        return componentName === 'row';
     }
 
     generateDomElementToObject(domElement){
