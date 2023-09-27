@@ -27,7 +27,7 @@ const getValueFromData = (name) => {
           method="post"
           class="media-post">
 
-        <div class="media-detail">
+        <div class="media-detail" data-popup>
             <div class="media-detail--left">
                 <div class="media-detail__information" style="margin-bottom:20px;">
                     <img src="<%= data.url.small%>" alt="<%= data.name%>">
@@ -39,10 +39,17 @@ const getValueFromData = (name) => {
             </div>
 
             <div class="media-detail--right">
-
-                <button type="submit">Publish</button>
+                <div class="media-detail-name">
+                    <label for="name">Name: </label>
+                    <h3 id="name"><%= data.name%></h3>
+                </div>
+                <div class="media-detail-name">
+                    <label for="url">Url: </label>
+                    <a href="<%= data.url.original%>" target="_blank"><%= data.name%></a>
+                </div>
             </div>
         </div>
+        <button type="submit">Change image</button>
 
     </form>
 </div>
