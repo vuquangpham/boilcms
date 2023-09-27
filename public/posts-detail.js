@@ -42,17 +42,6 @@ const createComponent = (info) => {
     return div.firstElementChild;
 };
 
-// load component information to the panel
-const loadComponent = (info) => {
-
-};
-
-// update data after edit
-const updateComponent = (component, params) => {
-
-};
-
-
 const handleSaveBtnClick = (componentPanel, parentEl) => {
     const componentInfo = {
         name: componentPanel.dataset.component,
@@ -73,15 +62,13 @@ const handleSaveBtnClick = (componentPanel, parentEl) => {
     const generateComponentEl = document.querySelector('[data-generate-component]');
 
     const content = generateObj(wrapperEl);
-    console.log(content);
-    console.log(JSON.stringify(content));
     generateComponentEl.innerHTML = JSON.stringify(content);
 };
 
 document.querySelectorAll('[data-content]').forEach(wrapper => {
     console.log('wrapper', wrapper);
 
-    const componentPanel = wrapper.querySelector('.component-popup__content');
+    const componentPanel = wrapper.querySelector('[data-pb-component-popup-content]');
 
     let parentEl = null;
 
@@ -94,7 +81,7 @@ document.querySelectorAll('[data-content]').forEach(wrapper => {
         }
 
         // save click
-        const saveBtnClick = target.closest('.component-popup__save');
+        const saveBtnClick = target.closest('[data-pb-component-popup-save]');
         if(saveBtnClick){
             handleSaveBtnClick(componentPanel, parentEl);
         }
