@@ -1,5 +1,7 @@
-const {cropImage} = require('../../../core/utils/os.utils')
 const path = require('path')
+
+// crop image
+const {cropImage} = require('../../../core/utils/os.utils')
 const {getServerHostURL, getFilenameBasedOnSize} = require("../../../core/utils/helper.utils");
 
 const Type = require('../../../core/classes/utils/type');
@@ -22,6 +24,10 @@ const handleAddAction = (request, response) => {
             requestBodyData = validatePostType(request);
             break;
         }
+        case Type.types.MEDIA:{
+            requestBodyData = validateMediaType(request);
+            break;
+        }
     }
 
     const promise = categoryItem.add(requestBodyData);
@@ -30,7 +36,9 @@ const handleAddAction = (request, response) => {
     return [promise, extraData];
 };
 
-
+/**
+ * Validate post item
+ * */
 const validatePostType = (request) => {
     const title = request.body.title;
     const url = stringToSlug(title);
@@ -49,31 +57,6 @@ const validatePostType = (request) => {
         content
     };
 };
-
-/*
-const Post = new mongoose.Schema({
-    title: {
-        type: String,
-        default: '',
-        required: true
-    },
-    url: {
-        type: String,
-        default: ''
-    },
-    visibility: {
-        type: String
-    },
-    publish: {
-        type: Date,
-        default: () => Date.now()
-    },
-    content: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PageBuilder'
-    }
-});
-* */
 
 /**
  * Validate media item
