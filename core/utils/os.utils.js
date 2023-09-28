@@ -53,7 +53,7 @@ const cropImage = (inputOptions) => {
 }
 
 module.exports = {
-    readFilesInFolderInAsync
+    readFilesInFolderInAsync,
     readFileAsync,
     cropImage
 };
