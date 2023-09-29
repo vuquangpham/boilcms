@@ -12,7 +12,7 @@
     <% data.forEach(media => { %>
         <form class="form-single-image" method="post" action="?post_type=<%= contentType%>&method=post&action=edit" enctype="multipart/form-data">
             <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id %>">
-                <img src="<%= media.url.small %>" alt="<%= media.name %>"/>
+                <img data-media-img src="<%= media.url.small %>" alt="<%= media.name %>"/>
             </div>
         </form>
     <% } ) %>
