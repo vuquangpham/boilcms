@@ -39,19 +39,25 @@
     gap: 15px
 }
 
+/*Media popup in category post*/
+[data-media-item] .single-image img{
+    max-width: 100px;
+}
+form.form-load-image-content{
+    display: flex;
+}
+
 /* Image media*/
 .media-popup-left{
     min-width: 450px;
 }
 [data-image-loading] img{ opacity: 1}
 [data-image-loading].loading img {opacity: 0;}
-/*[data-image-loading] [data-media-checkbox]{*/
-/*    opacity: 0;*/
-/*}*/
+
 
 /* upload input */
-[data-input-media]{
-    display: none;
-}
+/*[data-input-media]{*/
+/*    display: none;*/
+/*}*/
 
 

@@ -11,4 +11,8 @@
     position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
 }
 
-html:not([class$="is-open"]) [data-popup] {opacity:0; visibility:hidden}
+html:not(.component-panel-is-open) [data-pb-component-popup][data-popup],
+html:not(.components-is-open) [data-pb-components-popup][data-popup],
+html:not(.media-panel-is-open) [data-pb-media-popup],
+html:not(.media-is-open) [data-media-wrapper] [data-popup] {opacity:0; visibility:hidden}
+

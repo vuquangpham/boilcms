@@ -171,8 +171,13 @@ class PageBuilder{
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
-                this.componentDetailPanel.innerHTML = result.data;
+                const div = document.createElement('div');
+                div.innerHTML = result.data;
+                this.componentDetailPanel.append(...[...div.children])
                 this.componentDetailPanel.dataset.component = result.component.name;
+
+                // toggle attribute
+                Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));
 
                 if(this.isGroupComponent(componentName)) this.handleSaveBtnClick(target);
             });
