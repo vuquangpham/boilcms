@@ -39,10 +39,11 @@
     gap: 15px
 }
 
-/*Media popup in category post*/
+/*Media popup in page post*/
 [data-media-item] .single-image img{
     max-width: 100px;
 }
+[data-preview-media] {max-width: 100px}
 form.form-load-image-content{
     display: flex;
 }
