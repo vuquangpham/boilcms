@@ -4,50 +4,51 @@
     <label for="name">Name: </label>
     <input id="name" type="text" name="name">
     <label for="image">Add Image: </label>
-    <input type="file" name="image" accept="*/*" id="image">
+    <input type="file" name="image" accept="*/*" id="image" data-input-test>
     <button class="button-style" type="submit">Add New</button>
 </form>
 
 <div data-media-wrapper>
     <% data.forEach(media => { %>
         <form class="form-single-image" method="post" action="?post_type=<%= contentType%>&method=post&action=edit" enctype="multipart/form-data">
-            <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id %>">
+            <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id %>" data-directory="<%= media.directory%>">
                 <img data-media-img src="<%= media.url.small %>" alt="<%= media.name %>"/>
             </div>
         </form>
     <% } ) %>
     <div data-popup>
         <div data-popup-overlay data-toggle="media"></div>
-        <div class="data-popup-inner" data-popup-inner>
-            <div class="data-popup-content">
-                <div class="media-popup-left" data-image-loading>
-                    <div></div>
-                    <input type="checkbox" data-media-checkbox>
-                    <img data-media-image src="" alt="">
+        <form data-form method="post" action="?post_type=<%= contentType%>&method=post&action=edit" enctype="multipart/form-data">
+            <div class="data-popup-inner" data-popup-inner>
+                <div class="data-popup-content">
+                    <div class="media-popup-left" data-image-loading>
+                        <div></div>
+                        <img data-media-image src="" alt="">
+                    </div>
+                    <div class="media-popup-right">
+                        <div class="data-media-information">
+                            <label for="media-name">Name: </label>
+                            <input id="media-name" data-media-name></div>
+                        <div class="data-media-information">
+                            <label for="media-url">File Url: </label>
+                            <a target="_blank" data-media-url></a>
+                        </div>
+                    </div>
                 </div>
-                <div class="media-popup-right">
-                    <div class="data-media-information">
-                        <label for="media-name">Name: </label>
-                        <input id="media-name" data-media-name></div>
-                    <div class="data-media-information">
-                        <label for="media-url">File Url: </label>
-                        <a target="_blank" data-media-url></a>
+                <div data-popup-btn>
+                    <div data-replace-media>
+                        <label for="replace-media">Replace</label>
+                        <input type="file" id="replace-media" accept="image/*" data-input-media>
+                    </div>
+                    <div data-delete-media>
+                        <button class="button-style" type="submit">Delete</button>
+                    </div>
+                    <div data-save-media>
+                        <button class="button-style" id="save-media" type="button">Save</button>
                     </div>
                 </div>
             </div>
-            <div data-popup-btn>
-                <div data-replace-media>
-                    <label for="replace-media">Replace</label>
-                    <input type="file" id="replace-media" accept="image/*" data-input-media>
-                </div>
-                <div data-delete-media>
-                    <button class="button-style" type="submit">Delete</button>
-                </div>
-                <div data-save-media>
-                    <button class="button-style" id="save-media" type="button">Save</button>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
