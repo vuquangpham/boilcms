@@ -1,4 +1,32 @@
 <div data-param="<%= paramName; %>" class="<%= classesName; %>">
-    <p data-param-value>Please select image Here</p>
-    <button>Select</button>
+    <form method="post" action="?posts_type=media&method=post&action=add" enctype="multipart/form-data">
+        <div class="media-file">Media here</div>
+        <button data-toggle="media-panel" type="button" class="button-style" data-add-media-btn>+</button>
+    </form>
+    <div data-pb-media-popup data-popup>
+        <div data-popup-overlay data-toggle="media-panel"></div>
+        <div data-popup-inner="">
+            <form class="form-load-image-content" data-form method="post" action="?post_type=media&method=post&action=add"
+                  enctype="multipart/form-data">
+                <div class="load-file-from-media">
+                    <button id="media-library" type="button">Media Library</button>
+                    <div class="media-list">
+                        <div class="media-item" data-media-item data-id="" data-directory="">
+                        </div>
+                    </div>
+                </div>
+                <div class="load-file-from-computer">
+                    <button type="button">Upload Files</button>
+                    <div class="upload-file">
+                        <img data-preview-media src="" alt="">
+                        <label for="input-from-computer" data-param-value>Please select image Here</label>
+                        <input id="input-from-computer" type="file" accept="*/*" data-input-media="">
+                        <button data-save-media-btn type="button">Submit</button>
+                    </div>
+                </div>
+            </form>
+            <button class="button-style">Set image</button>
+        </div>
+
+    </div>
 </div>
