@@ -28,14 +28,12 @@ class Media extends Category{
                 console.log(error);
             });
 
-        const serverHostURL = getServerHostURL(request);
-
         return {
             name: request.body.name ?? request.file.fileName,
             type: request.file.mimetype,
             url: {
-                original: serverHostURL + '/' + request.file.path.split('\\').slice(1).join('\\'),
-                small: serverHostURL + '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
+                original:  '/' + request.file.path.split('\\').slice(1).join('\\'),
+                small:  '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
             },
             directory: request.file.metadata.destinationDirectory
         };
