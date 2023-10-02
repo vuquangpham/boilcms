@@ -59,12 +59,27 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
                 }
             })
     }
-
-
-
     function handleDeleteMedia(target) {
         const form = target.closest('[data-popup-inner]')
         const id = form.getAttribute('data-id')
+        const urlObject = new URL(location.href)
+        const url = urlObject.origin + urlObject.pathname
+
+        fetch(url + '?' + new URLSearchParams({
+            action: 'delete',
+            method: 'post',
+            getJSON: true,
+            id: id
+        }))
+            .then(res => {
+                const mediaItem = document.querySelector(`[data-media-item][data-id="${id}"]`)
+                if(mediaItem){
+                    mediaItem.remove()
+                    console.log('remove')
+                }
+                document.querySelector('html').classList.remove('media-is-open')
+            })
+            .catch(err => console.error(err))
 
     }
     function handleReplaceImage() {
@@ -98,9 +113,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             method: 'post',
             body: (formData)
         })
-            // .then(res => res.json())
             .then(res => {
-                console.log(res)
                 const mediaItem = document.querySelector(`[data-media-item][data-id="${id}"]`)
                 if (mediaItem) {
                     const mediaImage = mediaItem.querySelector('[data-media-img]')
@@ -114,7 +127,6 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
                             .catch(err => console.error(err))
                     }
                 }
-
                 document.querySelector('html').classList.remove('media-is-open')
             })
             .catch(err => console.error(err))
