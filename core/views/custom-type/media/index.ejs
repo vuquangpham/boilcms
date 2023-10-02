@@ -11,7 +11,7 @@
 <div data-media-wrapper>
     <% data.forEach(media => { %>
         <form class="form-single-image" method="post" action="?post_type=<%= contentType%>&method=post&action=edit" enctype="multipart/form-data">
-            <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id %>" data-directory="<%= media.directory%>">
+            <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id %>">
                 <img data-media-img src="<%= media.url.small %>" alt="<%= media.name %>"/>
             </div>
         </form>
@@ -19,11 +19,11 @@
     <div data-popup>
         <div data-popup-overlay data-toggle="media"></div>
         <form data-form method="post" action="?post_type=<%= contentType%>&method=post&action=edit" enctype="multipart/form-data">
-            <div class="data-popup-inner" data-popup-inner>
+            <div class="data-popup-inner" data-popup-inner data-id>
                 <div class="data-popup-content">
                     <div class="media-popup-left" data-image-loading>
                         <div></div>
-                        <img data-media-image src="" alt="">
+                        <img data-preview-media src="" alt="">
                     </div>
                     <div class="media-popup-right">
                         <div class="data-media-information">
@@ -41,7 +41,7 @@
                         <input type="file" id="replace-media" accept="image/*" data-input-media>
                     </div>
                     <div data-delete-media>
-                        <button class="button-style" type="submit">Delete</button>
+                        <button class="button-style" data-delete-media-btn type="button">Delete</button>
                     </div>
                     <div data-save-media>
                         <button class="button-style" id="save-media" type="button">Save</button>

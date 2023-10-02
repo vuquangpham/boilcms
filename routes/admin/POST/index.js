@@ -12,6 +12,7 @@ const handleEditAction = require('./edit');
  * @return {void}
  * */
 const handlePostMethod = (request, response, next) => {
+    // console.log('local: ',response.locals)
     const action = response.locals.action;
     const hasJSON = response.locals.hasJSON;
 

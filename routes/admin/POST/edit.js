@@ -9,6 +9,9 @@ const handleEditAction = (request, response) => {
     const data = categoryItem.validateInputData(request, 'edit');
     const id = request.query.id;
 
+
+
+
     const promise = categoryItem.update(id, data);
     const extraData = {};
 
