@@ -1,6 +1,6 @@
 const Category = require('../classes/category/category');
 const Type = require("../classes/utils/type");
-const {getServerHostURL, getFilenameBasedOnSize} = require("../utils/helper.utils");
+const {getFilenameBasedOnSize} = require("../utils/helper.utils");
 const {cropImage} = require("../utils/os.utils");
 
 // dependencies
