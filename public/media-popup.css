@@ -43,7 +43,7 @@
 [data-media-item] .single-image img{
     max-width: 100px;
 }
-[data-preview-media] {max-width: 100px}
+[data-preview-media] {max-width: 300px}
 form.form-load-image-content{
     display: flex;
 }
@@ -57,8 +57,8 @@ form.form-load-image-content{
 
 
 /* upload input */
-/*[data-input-media]{*/
-/*    display: none;*/
-/*}*/
+[data-input-media]{
+    display: none;
+}
 
 

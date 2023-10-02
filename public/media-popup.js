@@ -3,7 +3,6 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
         image: wrapper.querySelector('[data-media-img]')
     };
 
-    // console.log('media',wrapper.querySelector('[data-media-img]'))
     function handleWrapperClick(e){
         let functionHandling = () => {
         }, target = null;
@@ -74,7 +73,6 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
             body: formData
         })
             .then(res => console.log(res))
-            // .then(result => console.log(result))
             .catch(err => console.error(err));
     }
 
@@ -82,14 +80,11 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
         const inputMedia = wrapper.querySelector('[data-input-media]');
         const testMedia = wrapper.querySelector('[data-preview-media]');
         if(inputMedia.files && inputMedia.files[0]){
-            console.log(inputMedia.files[0]);
             const reader = new FileReader();
             reader.onload = function(e){
-                console.log(e.target);
                 testMedia
                     .setAttribute('src', e.target.result);
             };
-            // console.log(domEl.input.files[0])
             reader.readAsDataURL(inputMedia.files[0]);
         }
     }

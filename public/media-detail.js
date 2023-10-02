@@ -1,37 +1,7 @@
-// document.querySelector('.form-image').addEventListener('submit', function (e) {
-//     e.preventDefault(); // Ngăn chặn form gửi lại trang
-//
-//     // const formData = new FormData(this)
-//     const formData = new FormData(); // Lấy dữ liệu form từ sự kiện submit
-//     formData.append('file', document.querySelector('[data-input-test]').files[0]);
-//
-//     // Log dữ liệu form
-//     formData.forEach((value, key) => {
-//         console.log(key, value);
-//     });
-//     console.log(formData.get('file'))
-//     fetch('http://localhost:3000/boiler-admin/media?method=post&action=add&getJSON=true',{
-//         method: 'POST',
-//         body: formData
-//     })
-//         .then(response => {
-//             // Kiểm tra xem phản hồi có chứa JSON hay không
-//             const contentType = response.headers.get('content-type');
-//             if (contentType && contentType.includes('application/json')) {
-//                 return response.json(); // Phản hồi là JSON, sử dụng .json()
-//             } else {
-//                 return response.text(); // Phản hồi không phải JSON, sử dụng .text()
-//             }
-//         })
-//         .then(data => {
-//             console.log(data); // In ra nội dung của phản hồi
-//         })
-//         .catch(err => console.error(err))
-// });
 document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
 
     const domEl = {
-        image: wrapper.querySelector('[data-media-image]'),
+        image: wrapper.querySelector('[data-preview-media]'),
         name: wrapper.querySelector('[data-media-name]'),
         url: wrapper.querySelector('[data-media-url]'),
         input: wrapper.querySelector('[data-input-media]'),
@@ -39,15 +9,30 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         inner: wrapper.querySelector('[data-popup-inner]'),
         item: wrapper.querySelector('[data-media-item]'),
         img: wrapper.querySelector('[data-media-img]'),
-        directory: wrapper.querySelector('[data-directory]')
+    }
+
+    // @todo @tupham add api get single image by id
+    const findMediaByID = (id) => {
+        const urlObject = new URL(location.href)
+        const url = urlObject.origin + urlObject.pathname
+
+        return fetch(url + '?' + new URLSearchParams({
+            method: 'get',
+            action: 'edit',
+            getJSON: true,
+            id: id
+        }), {
+            method: 'get'
+        })
+            .then(res => res.json())
+            .then(result => result.data.url.small)
+            .catch(err => console.error(err))
     }
 
     function handleShowPopup(target) {
         const id = target.dataset.id
         const urlObject = new URL(location.href);
         const url = urlObject.origin + urlObject.pathname;
-        // console.log(domEl.img.src)
-        // console.log('id: ', id, 'urlObject: ', urlObject, 'url: ', url)
 
         document.querySelector('[data-image-loading]').classList.add('loading')
 
@@ -59,7 +44,6 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         }))
             .then(res => res.json())
             .then(result => {
-                // console.log('result: ', result)
                 domEl.inner.dataset.id = id;
                 domEl.image.src = result.data.url.small;
                 domEl.name.value = result.data.name;
@@ -76,18 +60,22 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             })
     }
 
-    function handleDeleteMedia() {
+
+
+    function handleDeleteMedia(target) {
+        const form = target.closest('[data-popup-inner]')
+        const id = form.getAttribute('data-id')
 
     }
-
     function handleReplaceImage() {
         if (domEl.input.files && domEl.input.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
+                console.log(e.target)
                 domEl.image
                     .setAttribute('src', e.target.result)
             };
-            // console.log(domEl.input.files[0])
+            console.log((domEl.input.files[0]))
             reader.readAsDataURL(domEl.input.files[0]);
         }
     }
@@ -97,20 +85,10 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         const urlObject = new URL(location.href)
         const url = urlObject.origin + urlObject.pathname
 
-        // console.log('inputFile', domEl.input.files[0])
-        // console.log(wrapper.querySelector('[data-form]'))
         let formData = new FormData(wrapper.querySelector('[data-form]'))
         formData.append('name', domEl.name.value)
         formData.append('image', domEl.input.files[0])
-        formData.append('url', domEl.url.href)
-        // if (domEl.input.files[0]) {
-        //     console.log('123')
-        // }
-        // console.log(domEl.name.value)
-        // console.log('form data: ',formData)
-        // for (let [key, value] of formData.entries()) {
-        //     console.log(key, value);
-        // }
+
         fetch(url + '?' + new URLSearchParams({
             method: 'post',
             action: 'edit',
@@ -122,15 +100,21 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         })
             // .then(res => res.json())
             .then(res => {
-                // console.log('res: ', res)
+                console.log(res)
                 const mediaItem = document.querySelector(`[data-media-item][data-id="${id}"]`)
                 if (mediaItem) {
                     const mediaImage = mediaItem.querySelector('[data-media-img]')
                     if (mediaImage && domEl.input.files[0]) {
-                        // mediaImage.src = URL.createObjectURL(domEl.input.files[0])
-                        mediaImage.src = urlObject.origin + domEl.directory
+                        findMediaByID(id)
+                            .then(imgUrl => {
+                                console.log(imgUrl);
+                                mediaImage.src = urlObject.origin + imgUrl
+                                console.log(mediaImage)
+                            })
+                            .catch(err => console.error(err))
                     }
                 }
+
                 document.querySelector('html').classList.remove('media-is-open')
             })
             .catch(err => console.error(err))
@@ -143,16 +127,19 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
 
         const showPopupEl = e.target.closest('[data-media-item]')
         const saveMediaBtnEl = e.target.closest('[data-save-media]')
-        const mediaImageEl = e.target.closest('[data-media-image]')
+        const mediaImageEl = e.target.closest('[data-preview-media]')
+        const deleteBtnEl = e.target.closest('[data-delete-media-btn]')
 
         if (showPopupEl) {
             functionHandling = handleShowPopup;
             target = showPopupEl
         } else if (mediaImageEl) {
-            // console.log('media click', domEl.input)
             functionHandling = domEl.input.click.bind(domEl.input);
         } else if (saveMediaBtnEl) {
             functionHandling = handleSaveImage;
+        } else if (deleteBtnEl){
+            functionHandling = handleDeleteMedia;
+            target = deleteBtnEl
         }
         functionHandling(target)
     }
