@@ -54,7 +54,6 @@ module.exports = {
     stringToSlug,
 
     getParamsOnRequest,
-    getServerHostURL,
     getFilenameBasedOnSize,
 
     minifyString
