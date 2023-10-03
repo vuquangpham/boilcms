@@ -40,6 +40,26 @@ class Media extends Category{
         };
     }
 
+    update(id,data){
+        return new Promise((resolve,reject) =>{
+            this.getDataById(id)
+                .then(result => {
+                    // working with folder have to use path.join
+                    const directory = path.join(PUBLIC_DIRECTORY,result.directory)
+
+                    // promise
+                    const deleteInDirectory = deleteDirectoryInAsync(directory);
+                    const updateMedia = this.databaseModel.findOneAndUpdate({_id: id}, data);
+
+                    // handle delete media
+                    Promise.all([deleteInDirectory,updateMedia])
+                        .then(result => resolve(result))
+                        .catch(err => reject(err))
+                })
+                .catch(err => reject(err))
+        })
+    }
+
     delete(id){
         return new Promise((resolve,reject) =>{
             this.getDataById(id)
