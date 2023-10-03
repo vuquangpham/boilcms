@@ -54,12 +54,14 @@ class Category {
         return this.databaseModel.findOneAndUpdate({_id: id}, data);
     }
 
+
     /**
      * Delete data from category
      * */
-    delete(id) {
-        return this.databaseModel.deleteOne({_id: id})
+    delete(request) {
+        return request
     }
+
 
     /**
      * Add new data to category

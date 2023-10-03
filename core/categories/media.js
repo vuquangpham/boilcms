@@ -1,10 +1,11 @@
 const Category = require('../classes/category/category');
 const Type = require("../classes/utils/type");
 const {getFilenameBasedOnSize} = require("../utils/helper.utils");
-const {cropImage} = require("../utils/os.utils");
+const {cropImage, deleteDirectoryInAsync} = require("../utils/os.utils");
 
 // dependencies
 const path = require("path");
+const {PUBLIC_DIRECTORY} = require("../utils/config.utils");
 
 class Media extends Category{
     constructor(config){
@@ -37,6 +38,26 @@ class Media extends Category{
             },
             directory: request.file.metadata.destinationDirectory
         };
+    }
+
+    delete(id){
+        return new Promise((resolve,reject) =>{
+            this.getDataById(id)
+                .then(result => {
+                    // working with folder have to use path.join
+                    const directory = path.join(PUBLIC_DIRECTORY,result.directory)
+
+                    // promise
+                    const deleteInDirectory = deleteDirectoryInAsync(directory);
+                    const deleteInDatabase = this.databaseModel.deleteOne({_id: id})
+
+                    // handle delete media
+                    Promise.all([deleteInDirectory,deleteInDatabase])
+                        .then(result => resolve(result))
+                        .catch(err => reject(err))
+                })
+                .catch(err => reject(err))
+        })
     }
 }
 

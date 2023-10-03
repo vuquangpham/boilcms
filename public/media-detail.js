@@ -45,6 +45,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             .then(res => res.json())
             .then(result => {
                 domEl.inner.dataset.id = id;
+                domEl.inner.dataset.directory = result.data.directory
                 domEl.image.src = result.data.url.small;
                 domEl.name.value = result.data.name;
                 domEl.url.href = result.data.url.original;
@@ -60,10 +61,13 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             })
     }
     function handleDeleteMedia(target) {
-        const form = target.closest('[data-popup-inner]')
-        const id = form.getAttribute('data-id')
+        const media = target.closest('[data-popup-inner]')
+        const id = media.getAttribute('data-id')
+        const directory = media.getAttribute('data-directory')
         const urlObject = new URL(location.href)
         const url = urlObject.origin + urlObject.pathname
+
+
 
         fetch(url + '?' + new URLSearchParams({
             action: 'delete',
@@ -72,6 +76,8 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             id: id
         }))
             .then(res => {
+                console.log('directory: ',directory)
+                // fs.rmSync(directory, { recursive: true, force: true });
                 const mediaItem = document.querySelector(`[data-media-item][data-id="${id}"]`)
                 if(mediaItem){
                     mediaItem.remove()
@@ -82,7 +88,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             .catch(err => console.error(err))
 
     }
-    function handleReplaceImage() {
+    function handleReplaceMedia() {
         if (domEl.input.files && domEl.input.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
@@ -90,12 +96,11 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
                 domEl.image
                     .setAttribute('src', e.target.result)
             };
-            console.log((domEl.input.files[0]))
             reader.readAsDataURL(domEl.input.files[0]);
         }
     }
 
-    function handleSaveImage(target) {
+    function handleSaveMedia(target) {
         const id = domEl.inner.dataset.id;
         const urlObject = new URL(location.href)
         const url = urlObject.origin + urlObject.pathname
@@ -148,7 +153,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         } else if (mediaImageEl) {
             functionHandling = domEl.input.click.bind(domEl.input);
         } else if (saveMediaBtnEl) {
-            functionHandling = handleSaveImage;
+            functionHandling = handleSaveMedia;
         } else if (deleteBtnEl){
             functionHandling = handleDeleteMedia;
             target = deleteBtnEl
@@ -157,6 +162,6 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
     }
 
     wrapper.addEventListener('click', handleWrapperClick)
-    wrapper.addEventListener('change', handleReplaceImage)
+    wrapper.addEventListener('change', handleReplaceMedia)
 
 })
