@@ -10,7 +10,7 @@ const path = require('path')
 const readFileAsync = (directory) => {
     return new Promise((resolve, reject) => {
         fs.readFile(directory, 'utf-8', (err, data) => {
-            if(err) return reject(err);
+            if (err) return reject(err);
             resolve(data);
         });
     });
@@ -24,11 +24,26 @@ const readFileAsync = (directory) => {
 const readFilesInFolderInAsync = (directory) => {
     return new Promise((resolve, reject) => {
         fs.readdir(directory, (err, data) => {
-            if(err) return reject(err);
+            if (err) return reject(err);
             resolve(data);
         });
     });
 };
+
+/**
+ * Delete directory
+ * @param directory
+ * @param hasDeleteFilesInside
+ * @return {Promise}
+ * */
+const deleteDirectoryInAsync = (directory, hasDeleteFilesInside = true) => {
+    return new Promise((resolve, reject) => {
+        fs.rm(directory, {recursive: hasDeleteFilesInside}, (err) => {
+            if (err) return reject(err);
+            resolve(directory);
+        })
+    })
+}
 
 /**
  * Crop image
@@ -38,7 +53,7 @@ const readFilesInFolderInAsync = (directory) => {
 const cropImage = (inputOptions) => {
     const defaultOptions = {
         imageSource: '',
-        imageDestination:'',
+        imageDestination: '',
         scale: 'small',
         imageOutputName: '',
         imageFileExtension: ''
@@ -55,5 +70,6 @@ const cropImage = (inputOptions) => {
 module.exports = {
     readFilesInFolderInAsync,
     readFileAsync,
+    deleteDirectoryInAsync,
     cropImage
 };
