@@ -13,6 +13,17 @@ class Media extends Category{
     }
 
     /**
+     * Delete directory in redundant media
+     * */
+    deleteAssetDirectory(media){
+        // working with folder have to use path.join
+        const directory = path.join(PUBLIC_DIRECTORY,media.directory)
+
+        // promise
+        return deleteDirectoryInAsync(directory);
+    }
+
+    /**
      * Validate input data to get the correct data
      * */
     validateInputData(request, action = 'add'){
@@ -40,16 +51,16 @@ class Media extends Category{
         };
     }
 
+    /**
+     * Update media file and replace redundant media
+     * */
     update(id,data){
         return new Promise((resolve,reject) =>{
             this.getDataById(id)
                 .then(result => {
-                    // working with folder have to use path.join
-                    const directory = path.join(PUBLIC_DIRECTORY,result.directory)
-
                     // promise
-                    const deleteInDirectory = deleteDirectoryInAsync(directory);
-                    const updateMedia = this.databaseModel.findOneAndUpdate({_id: id}, data);
+                    const deleteInDirectory = this.deleteAssetDirectory(result)
+                    const updateMedia = this.databaseModel.updateOne({_id: id}, data);
 
                     // handle delete media
                     Promise.all([deleteInDirectory,updateMedia])
@@ -60,15 +71,15 @@ class Media extends Category{
         })
     }
 
+    /**
+     * Delete media
+     * */
     delete(id){
         return new Promise((resolve,reject) =>{
             this.getDataById(id)
                 .then(result => {
-                    // working with folder have to use path.join
-                    const directory = path.join(PUBLIC_DIRECTORY,result.directory)
-
                     // promise
-                    const deleteInDirectory = deleteDirectoryInAsync(directory);
+                    const deleteInDirectory = this.deleteAssetDirectory(result)
                     const deleteInDatabase = this.databaseModel.deleteOne({_id: id})
 
                     // handle delete media
