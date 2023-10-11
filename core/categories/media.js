@@ -38,6 +38,7 @@ class Media extends Category{
             .catch(error => {
                 console.log(error);
             });
+
         // TODO: Missing case when function cropImage have error but still return the object below, fix it later
         return {
             name: request.body.name ?? request.file.fileName,
