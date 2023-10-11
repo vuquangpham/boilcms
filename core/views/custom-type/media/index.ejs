@@ -1,5 +1,5 @@
 <h3>Show all images</h3>
-<form class="form-image" method="post" action="?posts_type=<%= contentType %>&method=post&action=add"
+<form class="form-image" method="post" action="?posts_type=<%= contentType; %>&method=post&action=add"
       enctype="multipart/form-data">
     <label for="name">Name: </label>
     <input id="name" type="text" name="name">
@@ -10,17 +10,14 @@
 
 <div data-media-wrapper>
     <% data.forEach(media => { %>
-        <form class="form-single-image" method="post" action="?post_type=<%= contentType %>&method=post&action=edit"
-              enctype="multipart/form-data">
-            <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id %>">
-                <img data-media-img src="<%= media.url.small %>" alt="<%= media.name %>"/>
-            </div>
-        </form>
-    <% } ) %>
+        <div class="media-item" data-media-item data-toggle="media" data-id="<%= media._id; %>">
+            <img data-media-img src="<%= media.url.small; %>" alt="<%= media.name; %>"/>
+        </div>
+    <% } ); %>
     <div data-popup>
         <div data-popup-overflow>
             <div data-popup-overlay data-toggle="media"></div>
-            <form data-form method="post" action="?post_type=<%= contentType %>&method=post&action=edit"
+            <form data-form method="post" action="?post_type=<%= contentType; %>&method=post&action=edit"
                   enctype="multipart/form-data" data-popup-inner>
                 <div class="data-popup-inner" data-id>
                     <div class="data-popup-content">
@@ -33,7 +30,7 @@
                                 <label for="media-name">Name: </label>
                                 <input id="media-name" data-media-name></div>
                             <div class="data-media-information">
-                                <label for="media-url">File Url: </label>
+                                <span>File Url: </span>
                                 <a target="_blank" data-media-url></a>
                             </div>
                         </div>
