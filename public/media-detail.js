@@ -5,13 +5,8 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         name: wrapper.querySelector('[data-media-name]'),
         url: wrapper.querySelector('[data-media-url]'),
         input: wrapper.querySelector('[data-input-media]'),
-        replace: wrapper.querySelector('[data-replace-media]'),
         inner: wrapper.querySelector('[data-popup-inner]'),
-        item: wrapper.querySelector('[data-media-item]'),
-        img: wrapper.querySelector('[data-media-img]'),
     }
-
-    // @todo @tupham add api get single image by id
     const findMediaByID = (id) => {
         const urlObject = new URL(location.href)
         const url = urlObject.origin + urlObject.pathname
@@ -125,7 +120,6 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
                     if (mediaImage && domEl.input.files[0]) {
                         findMediaByID(id)
                             .then(imgUrl => {
-                                console.log(imgUrl);
                                 mediaImage.src = urlObject.origin + imgUrl
                                 console.log(mediaImage)
                             })
