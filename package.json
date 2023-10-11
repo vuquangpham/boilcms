@@ -5,7 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "backend:build": "node server.js",
+    "backend:development": "nodemon --ignore public/ --ignore app/ --ignore core/assets server.js",
+    "frontend:build": "webpack --config ./configs/webpack.config.build.js",
+    "frontend:development": "webpack serve --config ./configs/webpack.config.dev.js",
+    "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\"",
+    "build": "concurrently --kill-others \"npm run backend:build\" \"npm run frontend:build\""
   },
   "repository": {
     "type": "git",
@@ -13,7 +18,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vuquangpham/boilcms/issues"
   },
@@ -29,8 +34,24 @@
     "sharp": "^0.32.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^8.2.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
     "dotenv": "^16.3.1",
     "ip": "^1.1.8",
-    "nodemon": "^3.0.1"
+    "mini-css-extract-plugin": "^2.7.6",
+    "nodemon": "^3.0.1",
+    "postcss-loader": "^7.3.3",
+    "raw-loader": "^4.0.2",
+    "sass": "^1.69.2",
+    "sass-loader": "^13.3.2",
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0"
   }
 }
