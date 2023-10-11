@@ -1,4 +1,5 @@
 import '../styles/index.scss';
 import '@global/theme/theme.min.js';
 
-import '@be/posts-type';
+import './posts-type/posts';
+import './posts-type/media';
