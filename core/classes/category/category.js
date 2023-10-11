@@ -58,8 +58,8 @@ class Category {
     /**
      * Delete data from category
      * */
-    delete(request) {
-        return request
+    delete(id) {
+        return this.databaseModel.deleteOne({_id: id})
     }
 
 
