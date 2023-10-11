@@ -1,6 +1,8 @@
 class Image{
-    constructor(src){
-        this.src = src;
+    constructor(imageObject, isRadio = false){
+        this.src = imageObject.url.small;
+        this.title = imageObject.title;
+        this.isRadio = isRadio;
         this.domElement = this.getDOMElement();
     }
 
@@ -12,24 +14,22 @@ class Image{
 document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
     function handleWrapperClick(e) {
         let functionHandling = () => {
-        }, target = null;
+        };
 
         const showMediaBtnEl = e.target.closest('[data-add-media-btn]');
         const uploadMediaBtnEl = e.target.closest('[data-save-media-btn]');
 
         if (showMediaBtnEl) {
             functionHandling = showAllMediaFile;
-            target = showMediaBtnEl;
         }
         if (uploadMediaBtnEl) {
-            console.log('click')
             functionHandling = uploadMediaFile;
         }
 
-        functionHandling(target);
+        functionHandling();
     }
 
-    function showAllMediaFile(target) {
+    function showAllMediaFile() {
         const urlObject = new URL(location.href);
         const baseUrl = urlObject.origin;
         const adminPath = urlObject.pathname.split('/')[1];
@@ -41,20 +41,14 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
             .then(res => res.json())
             .then(result => {
                 result.data.forEach(d => {
-                    const url = d.url.small;
-                    const div = document.createElement('div');
-                    div.className = 'single-image';
-                    const imgElm = document.createElement('img');
-                    imgElm.src = url;
-
-                    div.appendChild(imgElm);
-                    document.querySelector('.media-item').appendChild(div);
+                    const image = new Image(d, false);
+                    wrapper.querySelector('[data-media-list]').appendChild(image.domElement);
                 });
             })
             .catch(err => console.error(err));
     }
 
-    function uploadMediaFile(target) {
+    function uploadMediaFile() {
         const inputMedia = wrapper.querySelector('[data-input-media]');
 
         const urlObject = new URL(location.href);
