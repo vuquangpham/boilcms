@@ -67,28 +67,32 @@ const getValueFromData = (name, property = '') => {
                     </div>
 
                     <div data-pb-components-popup data-popup>
-                        <div data-popup-overlay data-toggle="components"></div>
-                        <div data-pb-components-popup-inner data-popup-inner>
-                            <% components.forEach(c => { %>
-                                <button
-                                        data-component="<%= c.name; %>"
-                                        data-action="add"
-                                        data-toggle="components <%= c.name === 'row' ? '' : 'component-panel' %>"
-                                        type="button">
-                                    <div data-component-title><%= c.title; %></div>
-                                    <div data-component-description><%= c.description; %></div>
-                                </button>
-                            <% }); %>
+                        <div data-popup-overflow>
+                            <div data-popup-overlay data-toggle="components"></div>
+                            <div data-pb-components-popup-inner data-popup-inner>
+                                <% components.forEach(c => { %>
+                                    <button
+                                            data-component="<%= c.name; %>"
+                                            data-action="add"
+                                            data-toggle="components <%= c.name === 'row' ? '' : 'component-panel' %>"
+                                            type="button">
+                                        <div data-component-title><%= c.title; %></div>
+                                        <div data-component-description><%= c.description; %></div>
+                                    </button>
+                                <% }); %>
+                            </div>
                         </div>
                     </div>
 
                     <div data-pb-component-popup data-popup>
-                        <div data-popup-overlay data-toggle="component-panel"></div>
-                        <div data-pb-component-popup-inner data-popup-inner="">
-                            <div data-pb-component-popup-content></div>
-                            <button type="button" data-toggle="component-panel" data-pb-component-popup-save>Save
-                            </button>
-                            <button type="button" data-toggle="component-panel">Cancel</button>
+                        <div data-popup-overflow>
+                            <div data-popup-overlay data-toggle="component-panel"></div>
+                            <div data-pb-component-popup-inner data-popup-inner="">
+                                <div data-pb-component-popup-content></div>
+                                <button type="button" data-toggle="component-panel" data-pb-component-popup-save>Save
+                                </button>
+                                <button type="button" data-toggle="component-panel">Cancel</button>
+                            </div>
                         </div>
                     </div>
 
