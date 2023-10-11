@@ -41,10 +41,10 @@ class Media extends Category{
 
         // TODO: Missing case when function cropImage have error but still return the object below, fix it later
         return {
-            name: request.body.name ?? request.file.filename,
+            name: request.body.name || request.file.filename,
             type: request.file.mimetype,
             url: {
-                original:  '/' + request.file.path.split('\\').slice(1).join('\\'),
+                original: '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, '', request.file.metadata.fileExt),
                 small:  '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
             },
             directory: request.file.metadata.destinationDirectory
