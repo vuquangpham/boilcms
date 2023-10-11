@@ -35,11 +35,10 @@ class Media extends Category{
             imageOutputName: request.file.metadata.fileName,
             imageFileExtension: request.file.metadata.fileExt
         })
-            .then()
             .catch(error => {
                 console.log(error);
             });
-
+        // TODO: Missing case when function cropImage have error but still return the object below, fix it later
         return {
             name: request.body.name ?? request.file.fileName,
             type: request.file.mimetype,
