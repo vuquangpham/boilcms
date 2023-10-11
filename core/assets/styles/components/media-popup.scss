@@ -1,56 +1,56 @@
 /* content */
 .media-content {
-    margin-bottom: 20px
+  margin-bottom: 20px
 }
 .media-content__heading{
-    display: flex;
-    align-items: center;
-    gap: 10px
+  display: flex;
+  align-items: center;
+  gap: 10px
 }
 .media-detail{
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 .media-detail-name{
-    display: flex;
-    gap: 10px;
-    padding-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  padding-bottom: 20px;
 }
 .media-detail-name label{
-    min-width: 50px;
+  min-width: 50px;
 }
 [data-media-item]{
-    display: inline-block;
+  display: inline-block;
 }
 /*pop up*/
 .data-popup-content{
-    display: flex;
+  display: flex;
 }
 .data-media-information{
-    display: flex;
-    gap: 10px
+  display: flex;
+  gap: 10px
 }
 .data-media-information label{
-    min-width: 75px;
+  min-width: 75px;
 }
 [data-popup-btn]{
-    display: flex;
-    justify-content: center;
-    gap: 15px
+  display: flex;
+  justify-content: center;
+  gap: 15px
 }
 
 /*Media popup in page post*/
 [data-media-item] .single-image img{
-    max-width: 100px;
+  max-width: 100px;
 }
 [data-preview-media] {max-width: 300px}
 form.form-load-image-content{
-    display: flex;
+  display: flex;
 }
 
 /* Image media*/
 .media-popup-left{
-    min-width: 450px;
+  min-width: 450px;
 }
 [data-image-loading] img{ opacity: 1}
 [data-image-loading].loading img {opacity: 0;}

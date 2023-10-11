@@ -1,0 +1,111 @@
+.posts-detail {
+  display: flex;
+  align-items: flex-start;
+}
+
+.posts-detail--left {
+  width: 75%;
+  padding-right: 40px;
+}
+
+.posts-detail--right {
+  width: 25%;
+}
+
+.posts-detail__title {
+  margin-bottom: 20px;
+}
+
+.posts-detail__title input {
+  width: 100%;
+}
+
+/* label */
+.posts-detail label {
+  font-size: 14px;
+}
+
+/* content */
+.posts__detail-content {
+  background-color: buttonface;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+[data-pb] [data-component] {
+  text-align: left;
+  font-size: 14px;
+  position: relative;
+  min-height: 50px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+[data-pb] [data-component]:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+[data-pb] [data-component-title] {
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+[data-pb] [data-component-description] {
+  font-size: 13px;
+}
+
+/* row */
+[data-pb] [data-component="row"] {
+  border: 1px solid var(--color-primary);
+  padding: 20px;
+  border-radius: 5px;
+  background-color: transparent
+}
+
+[data-pb] [data-component="row"]:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+/* utils */
+[data-pb] [data-component-utils] {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  transform: translateY(-50%);
+}
+
+/* components popup */
+[data-pb-components-popup] [data-pb-components-popup-inner] {
+  display: grid;
+  grid-template-columns:repeat(5, 1fr);
+  grid-template-rows:max-content;
+  gap: 20px;
+}
+
+[data-pb-components-popup] [data-component] {
+  border: 1px solid transparent;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+/* hover */
+[data-pb-components-popup] [data-component]:hover,
+[data-pb-components-popup] [data-component]:focus {
+  border-color: var(--color-secondary);
+}
+
+[data-pb-components-popup] [data-component-title] {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-secondary);
+  margin-bottom: 5px;
+}
+
+[data-pb-components-popup] [data-component-description] {
+  font-size: 13px;
+  color: rgba(33, 37, 41, 0.75);
+}

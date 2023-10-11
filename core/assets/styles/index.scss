@@ -1,3 +1,16 @@
-body {
-  background: yellow;
-}
+@import '@global/reset/reset.css';
+
+// base
+@import "./utils/variables";
+@import "./base/base";
+
+// components
+@import './components/popup';
+@import './components/header';
+@import './components/sidebar';
+@import './components/custom-table';
+@import "./components/media-popup";
+
+// pages
+@import "./pages/posts";
+@import "./pages/posts-detail";

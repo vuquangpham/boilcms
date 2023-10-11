@@ -1,0 +1,27 @@
+:root {
+  --color-primary: #1d2327;
+  --color-secondary: #2271b1;
+  --color-white: #f0f0f1;
+  --color-gray: rgba(210, 210, 210, 0.24);
+  --color-error: #f03e3e;
+
+  --text-color: #212529;
+  --bg-color: #f8f9fa;
+
+  --permalink-color: var(--color-secondary);
+  --permalink-color-hover: var(--color-primary);
+
+  /* Header */
+  --header-height: 46px;
+
+  /* Sidebar */
+  --category-width: 200px;
+}
+
+/* responsive */
+@media only screen and (max-width: 425px) {
+  :root {
+    /* Sidebar */
+    --category-width: 100%;
+  }
+}
