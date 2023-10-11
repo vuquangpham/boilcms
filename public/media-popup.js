@@ -7,7 +7,21 @@ class Image{
     }
 
     getDOMElement(){
+        const domEl = document.createElement('div')
 
+        domEl.innerHTML = `
+<label>
+    <input type="${this.isRadio ? 'radio' : 'checkbox'}" name="selected-image">
+    <div class="single-image img-wrapper-cover" data-media-image>
+        <img src="${this.src}" alt="${this.title}" />
+    </div>
+</label>
+        `;
+
+        domEl.classList.add('single-image-wrapper');
+        domEl.setAttribute('data-media-item', '')
+
+        return domEl
     }
 }
 
