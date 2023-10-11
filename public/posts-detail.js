@@ -28,10 +28,10 @@ class Component{
 
         // inner HTML
         utilsDiv.innerHTML = `
-        <button type="button" data-toggle="component-panel" class="edit">Edit</button>
+        <button type="button" data-toggle="component-panel" data-component-edit>Edit</button>
         <button type="button">Duplicate</button>
         <button type="button">Move</button>
-        <button type="button">Delete</button>
+        <button type="button" data-component-delete>Delete</button>
         `;
 
         return utilsDiv;
@@ -116,17 +116,38 @@ class PageBuilder{
 
         const addButtonEl = e.target.closest('[data-component-add]');
         const saveButtonEl = e.target.closest('[data-pb-component-popup-save]');
+        const deleteButtonEl = e.target.closest('button[data-component-delete]');
+        const editButtonEl = e.target.closest('button[data-component-edit]');
         const componentEl = e.target.closest('button[data-component]');
 
+        // add component button
         if(addButtonEl){
             functionForHandling = this.handleAddComponentClick.bind(this);
             target = addButtonEl;
-        }else if(saveButtonEl){
+        }
+
+        // save component
+        else if(saveButtonEl){
             functionForHandling = this.handleSaveBtnClick.bind(this);
             target = saveButtonEl;
-        }else if(componentEl){
+        }
+
+        // add component from popup
+        else if(componentEl){
             functionForHandling = this.handleComponentClick.bind(this);
             target = componentEl;
+        }
+
+        // edit component
+        else if(editButtonEl){
+            functionForHandling = this.handleEditComponentClick.bind(this);
+            target = editButtonEl;
+        }
+
+        // delete component
+        else if(deleteButtonEl){
+            functionForHandling = this.handleDeleteComponentClick.bind(this);
+            target = deleteButtonEl;
         }
 
         functionForHandling(target);
@@ -135,6 +156,10 @@ class PageBuilder{
     handleAddComponentClick(target){
         // re-assign parent group
         this.parentGroup = target.closest('[data-component]');
+    }
+
+    handleEditComponentClick(target){
+        console.log('edit');
     }
 
     handleSaveBtnClick(target){
@@ -162,12 +187,23 @@ class PageBuilder{
         this.parentGroup.querySelector('[data-component-content]').insertAdjacentElement('beforeend', componentDomEl);
 
         // create JSON
+        this.createJSON();
+    }
+
+    handleDeleteComponentClick(target){
+        const componentEl = target.closest('[data-component]');
+        componentEl.remove();
+
+        // re-generate JSON
+        this.createJSON();
+    }
+
+    createJSON(){
         this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapperComponentEl));
     }
 
     handleComponentClick(target){
         const componentName = target.dataset.component;
-        const componentAction = target.dataset.action;
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
