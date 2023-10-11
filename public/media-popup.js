@@ -1,8 +1,19 @@
-document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
+class Image{
+    constructor(src){
+        this.src = src;
+        this.domElement = this.getDOMElement();
+    }
 
+    getDOMElement(){
+
+    }
+}
+
+document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
     function handleWrapperClick(e) {
         let functionHandling = () => {
         }, target = null;
+
         const showMediaBtnEl = e.target.closest('[data-add-media-btn]');
         const uploadMediaBtnEl = e.target.closest('[data-save-media-btn]');
 
@@ -29,9 +40,6 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
         }))
             .then(res => res.json())
             .then(result => {
-
-                const imgElements = [];
-
                 result.data.forEach(d => {
                     const url = d.url.small;
                     const div = document.createElement('div');
@@ -42,7 +50,6 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
                     div.appendChild(imgElm);
                     document.querySelector('.media-item').appendChild(div);
                 });
-
             })
             .catch(err => console.error(err));
     }
@@ -53,8 +60,8 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
         const urlObject = new URL(location.href);
         const baseUrl = urlObject.origin;
         const adminPath = urlObject.pathname.split('/')[1];
-        // Get file from input
 
+        // Get file from input
         const selectedFile = inputMedia.files[0];
 
         if (!selectedFile) {
@@ -63,7 +70,6 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
         }
 
         const formData = new FormData(inputMedia.closest('.form-load-image-content'));
-
 
         fetch(baseUrl + '/' + adminPath + '/media' + '?' + new URLSearchParams({
             method: 'post',
@@ -89,7 +95,6 @@ document.querySelectorAll('[data-pb-component-popup]').forEach(wrapper => {
             reader.readAsDataURL(inputMedia.files[0]);
         }
     }
-
 
     wrapper.addEventListener('click', handleWrapperClick);
     wrapper.addEventListener('change', addMediaFile);
