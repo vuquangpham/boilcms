@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "backend:build": "node server.js",
-    "backend:development": "nodemon --ignore public/ --ignore app/ --ignore core/assets server.js",
-    "frontend:build": "webpack --config ./configs/webpack.config.build.js",
-    "frontend:development": "webpack serve --config ./configs/webpack.config.dev.js",
+    "backend:development": "nodemon --ignore public/ --ignore assets/ --ignore core/assets server.js",
+    "frontend:build": "cross-env DEV_MODE=false webpack --config ./configs/webpack.config.build.js",
+    "frontend:development": "cross-env DEV_MODE=true webpack serve --config ./configs/webpack.config.dev.js",
     "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\"",
     "build": "concurrently --kill-others \"npm run backend:build\" \"npm run frontend:build\""
   },
@@ -39,6 +39,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^8.2.1",
     "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "dotenv": "^16.3.1",
     "ip": "^1.1.8",

@@ -7,8 +7,12 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const {CORE_DIRECTORY} = require("../core/utils/config.utils");
 
+// dev mode
+const IS_DEV_MODE = process.env.DEV_MODE === "true";
+
 // front end
-const dirApp = path.join(__dirname, '..', 'app');
+const dirApp = path.join(__dirname, '..', 'assets', 'js');
+const dirGlobal = path.join(__dirname, '..', 'assets', 'global');
 const dirShared = path.join(__dirname, '..', 'shared');
 const dirPublic = path.join(__dirname, '..', 'public', 'themes');
 
@@ -30,7 +34,9 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js', '.json'],
         alias: {
-            '@': dirApp
+            '@fe': dirApp,
+            '@be': dirAppBE,
+            '@global': dirGlobal
         },
     },
 
@@ -41,7 +47,6 @@ module.exports = {
 
         new CopyWebpackPlugin({
             patterns: [
-
                 {
                     from: dirShared,
                     to: dirPublic,
@@ -68,7 +73,7 @@ module.exports = {
                     {loader: MiniCssExtractPlugin.loader,},
                     {
                         loader: 'css-loader',
-                        options: {sourceMap: false,},
+                        options: {sourceMap: IS_DEV_MODE},
                     },
                     {loader: 'postcss-loader',},
                     {loader: 'sass-loader',},
