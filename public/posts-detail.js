@@ -29,8 +29,6 @@ class Component{
         // inner HTML
         utilsDiv.innerHTML = `
         <button type="button" data-toggle="component-panel" data-component-edit>Edit</button>
-        <button type="button">Duplicate</button>
-        <button type="button">Move</button>
         <button type="button" data-component-delete>Delete</button>
         `;
 
