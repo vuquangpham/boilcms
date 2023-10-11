@@ -1,7 +1,3 @@
-const Type = require('../../../core/classes/utils/type');
-const {stringToSlug} = require("../../../core/utils/helper.utils");
-const PageBuilder = require('../../../core/database/page-builder/model');
-
 /**
  * Handle add action
  * @param {Object} request
@@ -16,11 +12,6 @@ const handleAddAction = (request, response) => {
     const extraData = {};
 
     return [promise, extraData];
-};
-
-
-const validatePostType = (request) => {
-
 };
 
 module.exports = handleAddAction;

@@ -13,6 +13,9 @@ class Action{
                 name: 'edit',
                 fileName: 'detail'
             },
+            DELETE:{
+                name: 'delete',
+            }
         };
     }
 

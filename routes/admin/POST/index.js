@@ -3,6 +3,7 @@ const ComponentController = require("../../../core/classes/component/component-c
 const handleGetAction = require('./get');
 const handleAddAction = require('./add');
 const handleEditAction = require('./edit');
+const handleDeleteAction = require('./delete')
 
 /**
  * Handle POST method
@@ -34,6 +35,10 @@ const handlePostMethod = (request, response, next) => {
         case 'edit':{
             funcForHandlingAction = handleEditAction;
             break;
+        }
+        case 'delete':{
+            funcForHandlingAction = handleDeleteAction;
+            break
         }
     }
 
