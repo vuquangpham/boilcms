@@ -1,10 +1,10 @@
 document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
 
     const domEl = {
-        image: wrapper.querySelector('[data-preview-media]'),
-        name: wrapper.querySelector('[data-media-name]'),
-        url: wrapper.querySelector('[data-media-url]'),
-        input: wrapper.querySelector('[data-input-media]'),
+        previewMedia: wrapper.querySelector('[data-preview-media]'),
+        nameMedia: wrapper.querySelector('[data-media-name]'),
+        urlMedia: wrapper.querySelector('[data-media-url]'),
+        inputMedia: wrapper.querySelector('[data-input-media]'),
         inner: wrapper.querySelector('[data-popup-inner]'),
     }
     const findMediaByID = (id) => {
@@ -41,16 +41,16 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             .then(result => {
                 domEl.inner.dataset.id = id;
                 domEl.inner.dataset.directory = result.data.directory
-                domEl.image.src = result.data.url.small;
-                domEl.name.value = result.data.name;
-                domEl.url.href = result.data.url.original;
-                domEl.url.textContent = result.data.url.original
+                domEl.previewMedia.src = result.data.url.small;
+                domEl.nameMedia.value = result.data.name;
+                domEl.urlMedia.href = result.data.url.original;
+                domEl.urlMedia.textContent = result.data.url.original
             })
             .catch(err => {
                 console.error(err)
             })
             .finally(() => {
-                domEl.image.onload = () => {
+                domEl.previewMedia.onload = () => {
                     document.querySelector('[data-image-loading]').classList.remove('loading')
                 }
             })
@@ -61,8 +61,6 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         const directory = media.getAttribute('data-directory')
         const urlObject = new URL(location.href)
         const url = urlObject.origin + urlObject.pathname
-
-
 
         fetch(url + '?' + new URLSearchParams({
             action: 'delete',
@@ -84,14 +82,14 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
 
     }
     function handleReplaceMedia() {
-        if (domEl.input.files && domEl.input.files[0]) {
+        if (domEl.inputMedia.files && domEl.inputMedia.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 console.log(e.target)
-                domEl.image
+                domEl.previewMedia
                     .setAttribute('src', e.target.result)
             };
-            reader.readAsDataURL(domEl.input.files[0]);
+            reader.readAsDataURL(domEl.inputMedia.files[0]);
         }
     }
 
@@ -101,8 +99,8 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         const url = urlObject.origin + urlObject.pathname
 
         let formData = new FormData(wrapper.querySelector('[data-form]'))
-        formData.append('name', domEl.name.value)
-        formData.append('image', domEl.input.files[0])
+        formData.append('name', domEl.nameMedia.value)
+        formData.append('image', domEl.inputMedia.files[0])
 
         fetch(url + '?' + new URLSearchParams({
             method: 'post',
@@ -117,7 +115,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
                 const mediaItem = document.querySelector(`[data-media-item][data-id="${id}"]`)
                 if (mediaItem) {
                     const mediaImage = mediaItem.querySelector('[data-media-img]')
-                    if (mediaImage && domEl.input.files[0]) {
+                    if (mediaImage && domEl.inputMedia.files[0]) {
                         findMediaByID(id)
                             .then(imgUrl => {
                                 mediaImage.src = urlObject.origin + imgUrl
@@ -145,7 +143,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
             functionHandling = handleShowPopup;
             target = showPopupEl
         } else if (mediaImageEl) {
-            functionHandling = domEl.input.click.bind(domEl.input);
+            functionHandling = domEl.inputMedia.click.bind(domEl.inputMedia);
         } else if (saveMediaBtnEl) {
             functionHandling = handleSaveMedia;
         } else if (deleteBtnEl){
