@@ -1,4 +1,5 @@
 const ComponentController = require("../../../core/classes/component/component-controller");
+const Type = require("../../../core/classes/utils/type");
 /**
  * Handle get action
  * @param {Object} request
@@ -9,9 +10,22 @@ const handleGetAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
     const component = ComponentController.getComponentBasedOnName(request.query.componentName);
 
-    const promise = component ? Promise.resolve(ComponentController.getHTML(component)) : categoryItem.getAllData();
+    let promise;
+
+    // get component
+    if(component){
+        promise = Promise.resolve(ComponentController.getHTML(component));
+    }
+
+    // get all
+    else{
+        promise = categoryItem.getAllData();
+    }
+
+    // extra data
     const extraData = {};
 
+    // load component based on component name
     if(component) extraData.component = component;
 
     return [promise, extraData];
