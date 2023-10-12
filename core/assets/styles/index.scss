@@ -1,9 +1,8 @@
-@import '@global/reset/reset.css';
+@import '@global/style';
 
 // base
 @import "./utils/variables";
 @import "./base/base";
-@import "@viivue/atomic-css";
 
 // components
 @import './components/popup';
