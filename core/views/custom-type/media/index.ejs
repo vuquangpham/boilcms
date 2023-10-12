@@ -23,45 +23,49 @@
             <!-- popup content -->
             <form method="post" action="?post_type=<%= contentType; %>&method=post&action=edit"
                   enctype="multipart/form-data" data-popup-inner>
-                <div class="data-popup-inner" data-id>
 
-                    <!-- preview media -->
-                    <div data-image-loading class="skeleton-bg img-wrapper-cover">
-                        <img data-preview-media>
+                <div class="media-popup fl-grid">
+
+                    <div class="media-popup__col media-popup__col--left">
+                        <!-- preview media -->
+                        <div data-media-item class="skeleton-bg img-wrapper-contain">
+                            <img data-preview-media>
+                        </div>
+
                     </div>
 
-                    <!-- media information -->
-                    <div>
-                        <!-- name -->
-                        <div>
-                            <label for="media-name">Name: </label>
-                            <input id="media-name" data-media-name>
+                    <div class="media-popup__col media-popup__col--right">
+
+                        <!-- media information -->
+                        <div class="media-pop__group">
+                            <!-- name -->
+                            <div>
+                                <label for="media-name">Name: </label>
+                                <input id="media-name" data-media-name>
+                            </div>
+
+                            <!-- URL -->
+                            <div>
+                                <span>File Url: </span>
+                                <a target="_blank" data-media-url></a>
+                            </div>
                         </div>
 
-                        <!-- URL -->
-                        <div>
-                            <span>File Url: </span>
-                            <a target="_blank" data-media-url></a>
+                        <div class="media-popup__group">
+                            <!-- replace media -->
+                            <div data-replace-media>
+                                <label for="replace-media">Replace</label>
+                                <input type="file" id="replace-media" accept="image/*" data-input-media>
+                            </div>
+
+                            <div class="fl-center-v" style="gap:5px;">
+                                <button class="button-style" type="button">Save</button>
+                                <button class="button-style" type="button">Delete</button>
+                                <button class="button-style" type="button">Cancel</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        <!-- replace media -->
-                        <div data-replace-media>
-                            <label for="replace-media">Replace</label>
-                            <input type="file" id="replace-media" accept="image/*" data-input-media>
-                        </div>
-
-                        <!-- delete media -->
-                        <div data-delete-media>
-                            <button class="button-style" data-delete-media-btn type="button">Delete</button>
-                        </div>
-
-                        <!-- save media -->
-                        <div data-save-media>
-                            <button class="button-style" id="save-media" type="button">Save</button>
-                        </div>
-                    </div>
                 </div>
             </form>
         </div>

@@ -7,6 +7,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         inputMedia: wrapper.querySelector('[data-input-media]'),
         inner: wrapper.querySelector('[data-popup-inner]'),
     };
+
     const findMediaByID = (id) => {
         const urlObject = new URL(location.href);
         const url = urlObject.origin + urlObject.pathname;
@@ -29,7 +30,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         const urlObject = new URL(location.href);
         const url = urlObject.origin + urlObject.pathname;
 
-        wrapper.querySelector('[data-image-loading]').classList.add('loading');
+        wrapper.querySelector('div[data-media-item]').classList.add('loading');
 
         fetch(url + '?' + new URLSearchParams({
             method: 'get',
@@ -39,20 +40,16 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         }))
             .then(res => res.json())
             .then(result => {
-                console.log(result);
                 domEl.inner.dataset.id = id;
-                domEl.inner.dataset.directory = result.data.directory;
-                domEl.previewMedia.src = result.data.url.small;
+                domEl.previewMedia.src = result.data.url.original;
                 domEl.nameMedia.value = result.data.name;
                 domEl.urlMedia.href = result.data.url.original;
                 domEl.urlMedia.textContent = result.data.url.original;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(err => console.error(err))
             .finally(() => {
                 domEl.previewMedia.onload = () => {
-                    wrapper.querySelector('[data-image-loading]').classList.remove('loading');
+                    wrapper.querySelector('div[data-media-item]').classList.remove('loading');
                 };
             });
     }
@@ -132,7 +129,7 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         };
         let target = null;
 
-        const showPopupEl = e.target.closest('[data-media-item]');
+        const showPopupEl = e.target.closest('button[data-media-item]');
         const saveMediaBtnEl = e.target.closest('[data-save-media]');
         const mediaImageEl = e.target.closest('[data-preview-media]');
         const deleteBtnEl = e.target.closest('[data-delete-media-btn]');

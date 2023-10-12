@@ -14,7 +14,7 @@
   opacity: 0.7;
 }
 
-[data-media-item]:hover,
-[data-media-item]:focus {
+button[data-media-item]:hover,
+button[data-media-item]:focus {
   border-color: var(--color-primary);
 }
