@@ -3,7 +3,7 @@ const ComponentController = require("../../../core/classes/component/component-c
 const handleGetAction = require('./get');
 const handleAddAction = require('./add');
 const handleEditAction = require('./edit');
-const handleDeleteAction = require('./delete')
+const handleDeleteAction = require('./delete');
 
 /**
  * Handle POST method
@@ -14,7 +14,7 @@ const handleDeleteAction = require('./delete')
  * */
 const handlePostMethod = (request, response, next) => {
     const action = response.locals.action;
-    const hasJSON = response.locals.hasJSON;
+    const hasJSON = response.locals.getJSON;
 
     // function for handling action
     let funcForHandlingAction = () => {
@@ -38,7 +38,7 @@ const handlePostMethod = (request, response, next) => {
         }
         case 'delete':{
             funcForHandlingAction = handleDeleteAction;
-            break
+            break;
         }
     }
 

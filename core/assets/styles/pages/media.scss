@@ -7,6 +7,11 @@
 [data-media-item] {
   border: 2px solid var(--color-gray);
   aspect-ratio: 3/2;
+
+  // loading
+  &.loading {
+    opacity: 0;
+  }
 }
 
 // hover

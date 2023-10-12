@@ -17,7 +17,7 @@ class Media extends Category{
      * */
     deleteAssetDirectory(media){
         // working with folder have to use path.join
-        const directory = path.join(PUBLIC_DIRECTORY,media.directory)
+        const directory = path.join(PUBLIC_DIRECTORY, media.directory);
 
         // promise
         return deleteDirectoryInAsync(directory);
@@ -45,7 +45,7 @@ class Media extends Category{
             type: request.file.mimetype,
             url: {
                 original: '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, '', request.file.metadata.fileExt),
-                small:  '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
+                small: '/' + request.file.metadata.destinationDirectory + '/' + getFilenameBasedOnSize(request.file.metadata.fileName, 'small', request.file.metadata.fileExt)
             },
             directory: request.file.metadata.destinationDirectory
         };
@@ -54,41 +54,41 @@ class Media extends Category{
     /**
      * Update media file and replace redundant media
      * */
-    update(id,data){
-        return new Promise((resolve,reject) =>{
+    update(id, data){
+        return new Promise((resolve, reject) => {
             this.getDataById(id)
                 .then(result => {
                     // promise
-                    const deleteInDirectory = this.deleteAssetDirectory(result)
+                    const deleteInDirectory = this.deleteAssetDirectory(result);
                     const updateMedia = this.databaseModel.updateOne({_id: id}, data);
 
                     // handle delete media
-                    Promise.all([deleteInDirectory,updateMedia])
-                        .then(result => resolve(result))
-                        .catch(err => reject(err))
+                    Promise.all([deleteInDirectory, updateMedia])
+                        .then(result => resolve(this.getDataById({_id: id})))
+                        .catch(err => reject(err));
                 })
-                .catch(err => reject(err))
-        })
+                .catch(err => reject(err));
+        });
     }
 
     /**
      * Delete media
      * */
     delete(id){
-        return new Promise((resolve,reject) =>{
+        return new Promise((resolve, reject) => {
             this.getDataById(id)
                 .then(result => {
                     // promise
-                    const deleteInDirectory = this.deleteAssetDirectory(result)
-                    const deleteInDatabase = this.databaseModel.deleteOne({_id: id})
+                    const deleteInDirectory = this.deleteAssetDirectory(result);
+                    const deleteInDatabase = this.databaseModel.deleteOne({_id: id});
 
                     // handle delete media
-                    Promise.all([deleteInDirectory,deleteInDatabase])
+                    Promise.all([deleteInDirectory, deleteInDatabase])
                         .then(result => resolve(result))
-                        .catch(err => reject(err))
+                        .catch(err => reject(err));
                 })
-                .catch(err => reject(err))
-        })
+                .catch(err => reject(err));
+        });
     }
 }
 

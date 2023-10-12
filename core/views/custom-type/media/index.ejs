@@ -2,14 +2,14 @@
     <label for="name">Name: </label>
     <input id="name" type="text" name="name">
     <label for="image">Add Image: </label>
-    <input type="file" name="image" accept="*/*" id="image" data-input-test>
+    <input type="file" name="image" accept="image/*" id="image" data-input-test>
     <button class="button-style" type="submit">Add New</button>
 </form>
 
 <div data-media-wrapper>
     <div data-media-list class="flex-grid-template">
         <% data.forEach(media => { %>
-            <button class="img-wrapper-cover skeleton-bg t" data-media-item data-toggle="media"
+            <button class="img-wrapper-cover skeleton-bg t" data-media-item data-toggle="media-popup"
                     data-id="<%= media._id; %>">
                 <img data-media-img src="<%= media.url.small; %>" alt="<%= media.name; %>"/>
             </button>
@@ -18,18 +18,18 @@
 
     <div data-popup>
         <div data-popup-overflow>
-            <div data-popup-overlay data-toggle="media"></div>
+            <div data-popup-overlay data-toggle="media-popup"></div>
 
             <!-- popup content -->
             <form method="post" action="?post_type=<%= contentType; %>&method=post&action=edit"
-                  enctype="multipart/form-data" data-popup-inner>
+                  enctype="multipart/form-data" data-popup-inner data-media-form>
 
                 <div class="media-popup fl-grid">
 
                     <div class="media-popup__col media-popup__col--left">
                         <!-- preview media -->
-                        <div data-media-item class="skeleton-bg img-wrapper-contain">
-                            <img data-preview-media>
+                        <div data-media-item class="img-wrapper-contain">
+                            <img src="" alt="">
                         </div>
 
                     </div>
@@ -39,29 +39,32 @@
                         <!-- media information -->
                         <div class="media-pop__group">
                             <!-- name -->
-                            <div>
-                                <label for="media-name">Name: </label>
-                                <input id="media-name" data-media-name>
+                            <div class="fl-center-v" style="gap:4px;">
+                                <label for="name">Name: </label>
+                                <input id="name" class="w100" data-media-name>
                             </div>
 
                             <!-- URL -->
-                            <div>
-                                <span>File Url: </span>
-                                <a target="_blank" data-media-url></a>
+                            <div class="fl-center-v" style="gap:4px;">
+                                <span>URL:</span>
+                                <a target="_blank" data-media-url class="d-inline-block ws-nowrap overflow-hidden"
+                                   style="text-overflow:ellipsis;"></a>
                             </div>
                         </div>
 
                         <div class="media-popup__group">
                             <!-- replace media -->
-                            <div data-replace-media>
+                            <div>
                                 <label for="replace-media">Replace</label>
-                                <input type="file" id="replace-media" accept="image/*" data-input-media>
+                                <input type="file" id="replace-media" accept="image/*" data-media-replace>
                             </div>
 
                             <div class="fl-center-v" style="gap:5px;">
-                                <button class="button-style" type="button">Save</button>
-                                <button class="button-style" type="button">Delete</button>
-                                <button class="button-style" type="button">Cancel</button>
+                                <button class="button-style" type="button" data-media-save-btn>Save</button>
+                                <button class="button-style" type="button" data-media-delete-btn>Delete</button>
+                                <button class="button-style" type="button" data-media-close-btn
+                                        data-toggle="media-popup">Cancel
+                                </button>
                             </div>
                         </div>
                     </div>
