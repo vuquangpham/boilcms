@@ -45,7 +45,6 @@
   min-height: 500px;
   position: relative;
   z-index: 999;
-  overflow: auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -53,6 +52,10 @@
 }
 
 // toggle popup
+html[class*="-is-open"] {
+  overflow: hidden;
+}
+
 html:not(.component-panel-is-open) [data-pb-component-popup][data-popup],
 html:not(.components-is-open) [data-pb-components-popup][data-popup],
 html:not(.media-panel-is-open) [data-pb-media-popup],
