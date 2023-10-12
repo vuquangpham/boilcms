@@ -3,6 +3,8 @@
 // base
 @import "./utils/variables";
 @import "./base/base";
+@import "./utils/responsive";
+@import "./utils/mixins";
 
 // components
 @import './components/popup';

@@ -1,0 +1,14 @@
+/**
+* Mixin to responsive depend on each breakpoints
+*/
+@mixin responsive($breakpoint, $min-width:false) {
+  @if $min-width == true {
+    @media only screen and (min-width: map-get($breakpoints, $breakpoint) + 1px) {
+      @content
+    };
+  } @else {
+    @media only screen and (max-width: map-get($breakpoints, $breakpoint)) {
+      @content
+    };
+  }
+}
