@@ -1,0 +1,20 @@
+[data-media-list] {
+  --grid-col: 8;
+  --grid-gap-x: 10px;
+  --grid-gap-y: 10px;
+}
+
+[data-media-item] {
+  border: 2px solid var(--color-gray);
+  aspect-ratio: 3/2;
+}
+
+// hover
+[data-media-list]:hover [data-media-item]:not(:hover) {
+  opacity: 0.7;
+}
+
+[data-media-item]:hover,
+[data-media-item]:focus {
+  border-color: var(--color-primary);
+}
