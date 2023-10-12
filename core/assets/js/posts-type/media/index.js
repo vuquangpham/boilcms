@@ -1,11 +1,5 @@
 document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
-    const domEl = {
-        nameMedia: wrapper.querySelector('[data-media-name]'),
-        urlMedia: wrapper.querySelector('[data-media-url]'),
-        inputMedia: wrapper.querySelector('[data-input-media]'),
-        inner: wrapper.querySelector('[data-popup-inner]'),
-
-
+    const domElements = {
         // preview media
         mediaItem: wrapper.querySelector('div[data-media-item]'),
         mediaImage: wrapper.querySelector('div[data-media-item] img'),
@@ -21,7 +15,6 @@ document.querySelectorAll('[data-media-wrapper]').forEach(wrapper => {
         // replace image input
         replaceMediaInput: wrapper.querySelector('[data-media-replace]')
     };
-    const domElements = domEl;
 
     // vars
     const urlObject = new URL(location.href);
