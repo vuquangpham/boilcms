@@ -1,8 +1,7 @@
-const handleGetMethod = require('./get')
-const handlePostMethod = require('./post')
-
 const router = require('express').Router();
 
+const handleGetMethod = require('./get')
+const handlePostMethod = require('./post')
 
 /**
  * Dynamic page with file type
