@@ -66,12 +66,12 @@ class Media extends Category{
             this.getDataById(id)
                 .then(result => {
                     // promise
-                    const deleteInDirectory = this.deleteAssetDirectory(result);
+                    const deleteInDirectory = data.url ? this.deleteAssetDirectory(result) : Promise.resolve();
                     const updateMedia = this.databaseModel.updateOne({_id: id}, data);
 
                     // handle delete media
                     Promise.all([deleteInDirectory, updateMedia])
-                        .then(result => resolve(this.getDataById({_id: id})))
+                        .then(_ => resolve(this.getDataById({_id: id})))
                         .catch(err => reject(err));
                 })
                 .catch(err => reject(err));
