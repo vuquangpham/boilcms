@@ -8,12 +8,14 @@ const minifyHTML = require('express-minify-html');
 
 // routing
 const adminRouting = require('./routes/admin');
+const registerRouting = require('./routes/register')
 const defaultRouting = require('./routes/default');
 const errorHandler = require('./routes/error');
 
 // configs
-const {ADMIN_URL} = require("./core/utils/config.utils");
+const {ADMIN_URL, REGISTER_URL} = require("./core/utils/config.utils");
 const {connectDatabase} = require("./core/utils/database.utils");
+const Method = require("./core/classes/utils/method");
 
 // Init app
 const app = express();
@@ -44,8 +46,26 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
 
+// global middleware
+app.use((req, res, next) => {
+
+    // queries
+    const method = req.query.method;
+    const getJSON = req.query.getJSON;
+
+    // register
+    res.locals.method = Method.getValidatedMethod(method);
+    res.locals.getJSON = getJSON;
+
+    next();
+});
+
+
 // admin routing
 app.use('/' + ADMIN_URL, adminRouting);
+
+// register account routing
+app.use('/' + REGISTER_URL, registerRouting)
 
 // front end page
 app.use('/', defaultRouting);
