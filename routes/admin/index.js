@@ -5,7 +5,6 @@ const router = require('express').Router();
 const CategoryController = require('../../core/classes/category/category-controller');
 
 const Action = require('../../core/classes/utils/action');
-const Method = require('../../core/classes/utils/method');
 
 // handle actions
 const {getParamsOnRequest} = require("../../core/utils/helper.utils");
@@ -24,15 +23,11 @@ router.all('*', (req, res, next) => {
 
     // queries
     const action = req.query.action;
-    const method = req.query.method;
-    const getJSON = req.query.getJSON;
 
     // categories
     res.locals.categories = CategoryController.instances;
     res.locals.categoryItem = CategoryController.getCategoryItem(type);
     res.locals.action = Action.getActionType(action);
-    res.locals.method = Method.getValidatedMethod(method);
-    res.locals.getJSON = getJSON;
     res.locals.params = {type};
 
     next();
