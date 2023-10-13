@@ -50,11 +50,26 @@ const stringToSlug = (string) => {
  * */
 const minifyString = (string) => string.replace(/\s+/g, '');
 
+/**
+ * Filter suitable input from request form
+ * @param obj {object}
+ * @param allowedFields
+ * @return {object}
+ * */
+const filterObj = (obj, ...allowedFields) => {
+    const newObj = {}
+    Object.keys(obj).forEach(el => {
+        if (allowedFields.includes(el)) newObj[el] = obj[el]
+    })
+    return newObj;
+}
+
 module.exports = {
     stringToSlug,
 
     getParamsOnRequest,
     getFilenameBasedOnSize,
 
-    minifyString
+    minifyString,
+    filterObj
 };
