@@ -1,4 +1,4 @@
-import Component from "./component";
+import Component from "../component";
 
 export default class PageBuilder{
     constructor(wrapper){
@@ -49,6 +49,8 @@ export default class PageBuilder{
         const editButtonEl = e.target.closest('button[data-component-edit]');
         const componentEl = e.target.closest('button[data-component]');
 
+        console.log(e.target);
+
         // add component button
         if(addButtonEl){
             functionForHandling = this.handleAddComponentClick.bind(this);
@@ -91,7 +93,7 @@ export default class PageBuilder{
         console.log('edit');
     }
 
-    handleSaveBtnClick(target){
+    handleSaveBtnClick(_){
         // component information
         const componentInformation = {
             name: this.componentDetailPanel.dataset.component,

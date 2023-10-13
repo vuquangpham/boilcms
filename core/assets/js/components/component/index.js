@@ -1,4 +1,4 @@
-export default class Component{
+export default class Index{
     constructor(information){
         this.name = information.name;
         this.params = information.params;
