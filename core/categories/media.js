@@ -27,6 +27,13 @@ class Media extends Category{
      * Validate input data to get the correct data
      * */
     validateInputData(request, action = 'add'){
+        // file doesn't change => edit action
+        if(!request.file && action === 'edit'){
+            return {
+                name: request.body.name
+            };
+        }
+
         // crop image
         cropImage({
             imageSource: path.join(request.file.path),

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const sharp = require('sharp')
-const path = require('path')
+const sharp = require('sharp');
+const path = require('path');
 
 /**
  * Read file in async way
@@ -10,7 +10,7 @@ const path = require('path')
 const readFileAsync = (directory) => {
     return new Promise((resolve, reject) => {
         fs.readFile(directory, 'utf-8', (err, data) => {
-            if (err) return reject(err);
+            if(err) return reject(err);
             resolve(data);
         });
     });
@@ -24,7 +24,7 @@ const readFileAsync = (directory) => {
 const readFilesInFolderInAsync = (directory) => {
     return new Promise((resolve, reject) => {
         fs.readdir(directory, (err, data) => {
-            if (err) return reject(err);
+            if(err) return reject(err);
             resolve(data);
         });
     });
@@ -39,11 +39,11 @@ const readFilesInFolderInAsync = (directory) => {
 const deleteDirectoryInAsync = (directory, hasDeleteFilesInside = true) => {
     return new Promise((resolve, reject) => {
         fs.rm(directory, {recursive: hasDeleteFilesInside}, (err) => {
-            if (err) return reject(err);
+            if(err) return reject(err);
             resolve(directory);
-        })
-    })
-}
+        });
+    });
+};
 
 /**
  * Crop image
@@ -57,7 +57,7 @@ const cropImage = (inputOptions) => {
         scale: 'small',
         imageOutputName: '',
         imageFileExtension: ''
-    }
+    };
     const options = {...defaultOptions, ...inputOptions};
     const imageWidth = options.scale === 'small' ? 400 : 500;
 
@@ -65,7 +65,7 @@ const cropImage = (inputOptions) => {
     return sharp(options.imageSource)
         .resize(imageWidth)
         .toFile(path.join(options.imageDestination, options.imageOutputName + '-' + options.scale + '.' + options.imageFileExtension))
-}
+};
 
 module.exports = {
     readFilesInFolderInAsync,
