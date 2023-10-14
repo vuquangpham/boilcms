@@ -5,6 +5,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const minifyHTML = require('express-minify-html');
+const cookieParser = require('cookie-parser')
 
 // routing
 const adminRouting = require('./routes/admin');
@@ -42,6 +43,9 @@ app.use(minifyHTML({
 // Body-parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+// Cookie-parser middleware
+app.use(cookieParser())
 
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
