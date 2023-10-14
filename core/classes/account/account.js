@@ -6,6 +6,18 @@ class Account{
     }
 
     /**
+     * Validate input user
+     * */
+    validateInputData(request){
+        return {
+            name: request.body.name,
+            email: request.body.email,
+            password: request.body.password,
+            confirmPassword: request.body.confirmPassword
+        }
+    }
+
+    /**
      * Add new user
      * @param data {object}
      * @return {promise}
@@ -29,7 +41,7 @@ class Account{
      * @param id {string}
      * @param data {object}
      * */
-    updateUser(id, ...data) {
+    updateUser(id, data) {
         return this.databaseModel.findOneAndUpdate({_id: id}, data);
     }
 
