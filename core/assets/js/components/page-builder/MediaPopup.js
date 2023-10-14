@@ -58,14 +58,37 @@ export default class MediaPopup{
             });
     }
 
-    addNewMedia(){
-        // re-assign the element
-        this.elements.replaceMediaInput = this.wrapper.querySelector('[data-add-media]');
+    handleSubmitForm(e){
+        e.preventDefault();
 
-        console.log('handle add here');
+        // re-assign the dom
+        this.elements.mediaNameInput = this.elements.popupForm.querySelector('[data-media-name]');
+        this.elements.replaceMediaInput = this.elements.popupForm.querySelector('[data-add-media]');
+
         // the input doesn't exist
         if(!this.elements.replaceMediaInput.files || !this.elements.replaceMediaInput.files[0]) return;
 
+        const formData = new FormData();
+        formData.append('name', this.elements.mediaNameInput.value);
+        formData.append('image', this.elements.replaceMediaInput.files[0]);
+
+        fetch(this.FETCH_URL, {
+            method: 'post',
+            action: 'add',
+            getJSON: true,
+        }, {
+            method: 'post',
+            body: formData
+        })
+            .then(res => res.json())
+            .then((result) => {
+                const image = new Image(result);
+
+                // re-assign dom element and clear the previous list
+                this.elements.mediaList = this.wrapper.querySelector('[data-media-list]');
+                this.elements.mediaList.appendChild(image.domElement);
+            })
+            .catch(err => console.error(err));
     }
 
     isMediaPopup(e){
@@ -74,7 +97,7 @@ export default class MediaPopup{
             };
 
         const loadMediaButton = e.target.closest('[data-load-media]');
-        const addMediaButton = e.target.closest('[data-add-media-button]');
+        const mediaForm = e.target.closest('[data-media-form]');
 
         if(loadMediaButton){
             functionForHandling = this.loadAllMedias.bind(this);
@@ -82,9 +105,9 @@ export default class MediaPopup{
         }
 
         // add new media
-        else if(addMediaButton){
-            functionForHandling = this.addNewMedia.bind(this);
-            target = addMediaButton;
+        else if(mediaForm && !this.elements.popupForm){
+            this.elements.popupForm = mediaForm;
+            mediaForm.addEventListener('submit', this.handleSubmitForm.bind(this));
         }else{
             return null;
         }
