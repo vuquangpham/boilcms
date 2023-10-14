@@ -2,13 +2,23 @@ const Account = require('./../../core/classes/account/account')
 const {createSendToken} = require("../../core/utils/token.utils");
 const handlePostMethod = (req, res, next) => {
     const account = new Account();
-    const data = account.validateInputData(req)
+    const type = req.query.type
+    let promise;
 
-    const promise = account.add(data)
+    switch (type) {
+        case 'sign-up': {
+            const data = account.validateInputData(req)
+            promise = account.add(data)
+            break;
+        }
+        case 'sign-in': {
+            promise = account.signIn(req)
+        }
+    }
 
     promise
         .then(result => {
-            createSendToken(result, 200, res)
+            createSendToken(result, 200, type, res)
         })
         .catch(err => {
             console.error(err);
