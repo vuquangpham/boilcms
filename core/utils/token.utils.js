@@ -4,8 +4,13 @@ const signToken = (userid) => {
         expiresIn: process.env.JWT_EXPIRED_IN
     })
 }
-const createSendToken = (user, statusToken, res) => {
-    const token = signToken(user._id);
+const createSendToken = (user, statusToken, type, res) => {
+    let token = signToken(user._id);
+
+    // if type = sign up, don't send token
+    if(type === 'sign-up'){
+        token = undefined
+    }
 
     const cookiesOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000),
