@@ -1,3 +1,5 @@
+import fetch from "@global/fetch";
+
 export default class MediaPost{
     constructor(wrapper){
         this.wrapper = wrapper;
@@ -58,12 +60,12 @@ export default class MediaPost{
 
         // get detail media
         // method: get, action on page edit to get detail page
-        fetch(this.FETCH_URL + '?' + new URLSearchParams({
+        fetch(this.FETCH_URL, {
             method: 'get',
             action: 'edit',
             getJSON: true,
             id: id
-        }))
+        })
             .then(res => res.json())
             .then(result => this.replaceMediaItem(result.data))
 
@@ -86,12 +88,12 @@ export default class MediaPost{
         const formEl = target.closest('[data-media-form]');
         const id = formEl.getAttribute('data-id');
 
-        fetch(this.FETCH_URL + '?' + new URLSearchParams({
+        fetch(this.FETCH_URL, {
             action: 'delete',
             method: 'post',
             getJSON: true,
             id: id
-        }))
+        })
             .then(() => {
                 // get deleted media item and remove the dom
                 const deletedMediaItem = this.wrapper.querySelector(`button[data-media-item][data-id="${id}"]`);
@@ -114,12 +116,12 @@ export default class MediaPost{
         formData.append('name', this.elements.mediaNameInput.value);
         formData.append('image', this.elements.replaceMediaInput.files[0]);
 
-        fetch(this.FETCH_URL + '?' + new URLSearchParams({
+        fetch(this.FETCH_URL, {
             method: 'post',
             action: 'edit',
             getJSON: true,
             id: id
-        }), {
+        }, {
             method: 'post',
             body: formData
         })

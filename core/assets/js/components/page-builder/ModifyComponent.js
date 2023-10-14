@@ -1,4 +1,5 @@
 import Component from "../component";
+import fetch from "@global/fetch";
 
 export default class ModifyComponent{
     constructor(wrapper){
@@ -89,12 +90,12 @@ export default class ModifyComponent{
             const urlObject = new URL(location.href);
             const url = urlObject.origin + urlObject.pathname;
 
-            fetch(url + '?' + new URLSearchParams({
+            fetch(url, {
                 method: 'get',
                 action: 'get',
                 getJSON: true,
                 componentName
-            }))
+            })
                 .then(res => res.json())
                 .then(result => resolve(result))
                 .catch(err => reject(err));
