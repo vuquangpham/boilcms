@@ -1,6 +1,7 @@
 const User = require('./../../database/user/model')
+
 // const filterObj = require('./../../utils/helper.utils')
-class Account{
+class Account {
     constructor() {
         this.databaseModel = User
     }
@@ -8,7 +9,7 @@ class Account{
     /**
      * Validate input user
      * */
-    validateInputData(request){
+    validateInputData(request) {
         return {
             name: request.body.name,
             email: request.body.email,
@@ -22,10 +23,10 @@ class Account{
      * @param data {object}
      * @return {promise}
      * */
-    add(data){
+    add(data) {
         const instance = new this.databaseModel(data)
 
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             instance.save()
                 .then(result => {
                     resolve(result)
@@ -33,6 +34,50 @@ class Account{
                 .catch(err => {
                     reject(err)
                 });
+        });
+    }
+
+    /**
+     * Find user by 1 input of user such as: id, email
+     * @param field {string}
+     * @return {promise}
+     * */
+    findUser(field) {
+        return new Promise((resolve, reject) => {
+            this.databaseModel.findOne(field).select('+password')
+                .then(data => {
+                    resolve(data)
+                })
+                .catch(err => {
+                    reject(err)
+                })
+        })
+    }
+
+    /**
+     * Sign in user
+     * @return {promise}
+     * */
+    signIn(request) {
+        const { email, password } = request.body;
+        return new Promise(async (resolve, reject) => {
+            try {
+                const user = await this.databaseModel.findOne({ email }).select('+password');
+                if (!user) {
+                    throw new Error('No user found')
+                }
+
+                const userModel = new this.databaseModel(user);
+                const correctPassword = await userModel.correctPassword(password, user.password);
+
+                if (!correctPassword) {
+                    throw new Error('Wrong password')
+                }
+
+                resolve(user);
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
