@@ -1,4 +1,5 @@
 import ModifyComponent from "./ModifyComponent";
+import MediaPopup from "./MediaPopup";
 
 export default class PageBuilder{
     constructor(wrapper){
@@ -8,6 +9,7 @@ export default class PageBuilder{
 
         // handlers
         this.modifyHandlers = new ModifyComponent(wrapper);
+        this.mediaPopup = new MediaPopup(wrapper);
 
         // register event
         this.wrapper.addEventListener('click', this.handleWrapperClick.bind(this));
@@ -26,7 +28,11 @@ export default class PageBuilder{
         }
 
         // media popup
-
+        const mediaPopup = this.mediaPopup.isMediaPopup(e);
+        if(mediaPopup !== null){
+            functionForHandling = mediaPopup.functionForHandling;
+            target = mediaPopup.target;
+        }
         // invoked the function
         functionForHandling(target);
     }
