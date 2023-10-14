@@ -10,26 +10,33 @@
             <div data-popup-overlay data-toggle="media-panel"></div>
 
             <!-- popup content -->
-            <form data-popup-inner
-                  method="post" action="?post_type=media&method=post&action=add" enctype="multipart/form-data">
+            <div class="media-popup fl-grid" data-popup-inner>
 
                 <!-- media list -->
-                <div class="load-file-from-media">
-                    <button id="media-library" type="button">Media Library</button>
-                    <div data-media-list></div>
+                <div class="media-popup__col--left">
+                    <div data-media-list class="flex-grid-template"></div>
                 </div>
 
                 <!-- upload new media -->
-                <div class="load-file-from-computer">
-                    <img data-preview-media src="" alt="">
-                    <label for="input-from-computer" data-param-value>Please select image Here</label>
-                    <input id="input-from-computer" type="file" accept="image/*" name="image"
-                           data-input-media>
-                    <button data-save-media-btn type="button">Submit</button>
-                </div>
-            </form>
+                <div class="media-popup__col--right">
+                    <form class="media-popup fl-grid" action="?post_type=media&method=post&action=add"
+                          enctype="multipart/form-data">
 
-            <button class="button-style">Set image</button>
+                        <div>
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" placeholder="Name">
+                        </div>
+
+                        <div>
+                            <label for="image">Add new image:</label>
+                            <input id="image" type="file" accept="image/*" name="image" data-add-media required>
+                        </div>
+
+                        <button data-add-media-button>Add</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -10,18 +10,15 @@ class Image{
 
     getDOMElement(){
         const domEl = document.createElement('div');
+        domEl.setAttribute('data-media', '');
 
         domEl.innerHTML = `
-<label>
+<button style="border:none;" type="button"><label>
     <input type="${this.isRadio ? 'radio' : 'checkbox'}" name="selected-image">
-    <div class="single-image img-wrapper-cover" data-media-image>
+    <div class="single-image img-wrapper-cover t" data-media-item>
         <img src="${this.src}" alt="${this.name}" />
     </div>
-</label>
-        `;
-
-        domEl.classList.add('single-image-wrapper');
-        domEl.setAttribute('data-media-item', '');
+</label></button>`;
 
         return domEl;
     }
@@ -61,15 +58,33 @@ export default class MediaPopup{
             });
     }
 
+    addNewMedia(){
+        // re-assign the element
+        this.elements.replaceMediaInput = this.wrapper.querySelector('[data-add-media]');
+
+        console.log('handle add here');
+        // the input doesn't exist
+        if(!this.elements.replaceMediaInput.files || !this.elements.replaceMediaInput.files[0]) return;
+
+    }
+
     isMediaPopup(e){
         let target = null,
             functionForHandling = () => {
             };
 
         const loadMediaButton = e.target.closest('[data-load-media]');
+        const addMediaButton = e.target.closest('[data-add-media-button]');
+
         if(loadMediaButton){
             functionForHandling = this.loadAllMedias.bind(this);
             target = loadMediaButton;
+        }
+
+        // add new media
+        else if(addMediaButton){
+            functionForHandling = this.addNewMedia.bind(this);
+            target = addMediaButton;
         }else{
             return null;
         }
