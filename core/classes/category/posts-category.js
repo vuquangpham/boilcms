@@ -82,6 +82,22 @@ class POSTS extends Category{
                 .catch(err => reject(err));
         });
     }
+
+    /**
+     * Delete post
+     * */
+    delete(id){
+        return new Promise((resolve, reject) => {
+            this.databaseModel.findById(id).populate('content')
+                .then(post => {
+                    // resolve
+                    Promise.all([post.deleteOne(), post.content.deleteOne()])
+                        .then(result => resolve(result))
+                        .catch(err => reject(err));
+                })
+                .catch(err => reject(err));
+        });
+    }
 }
 
 module.exports = POSTS;
