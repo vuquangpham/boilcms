@@ -27,7 +27,8 @@
                                class="posts__item--link">Edit</a>
                             <a href="/<%= type; %>/<%= post.url; %>" target="_blank" class="posts__item--link">View</a>
                             <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
-                            <a href="#" class="posts__item--link trash">Trash</a>
+                            <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= post._id; %>"
+                               class="posts__item--link trash">Trash</a>
                         </div>
                     </div>
 
