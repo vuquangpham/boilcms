@@ -4,7 +4,6 @@ const PageBuilder = new mongoose.Schema({
     content: {
         type: String,
         default: '',
-        required: true
     }
 });
 
