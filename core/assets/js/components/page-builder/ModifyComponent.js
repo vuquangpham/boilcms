@@ -120,9 +120,12 @@ export default class ModifyComponent{
 
         // get params
         Array.from(this.componentDetailPanel.children).forEach(el => {
+            const paramValueEl = el.querySelector('[data-param-value]');
+            const value = paramValueEl.getAttribute('data-param-value');
+
             const obj = {};
             obj.key = el.dataset.param;
-            obj.value = el.querySelector('[data-param-value]').textContent;
+            obj.value = value ?? paramValueEl.textContent.trim();
             componentInformation.params.push(obj);
         });
 
@@ -156,10 +159,19 @@ export default class ModifyComponent{
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
+                // get types of component
+                const types = result.component
+                    .params
+                    .map(p => p.type.slice(0, -4));
+
                 const div = document.createElement('div');
                 div.innerHTML = result.data;
                 this.componentDetailPanel.append(...[...div.children]);
                 this.componentDetailPanel.dataset.component = result.component.name;
+
+                // init component script
+                if(types.find(t => t === 'text')){
+                }
 
                 // toggle attribute
                 Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));

@@ -2,7 +2,7 @@
 
     <!-- show media popup button -->
     <div>Media here</div>
-    <button data-load-media type="button" data-toggle="media-panel" class="button-style">+</button>
+    <button data-param-value data-load-media type="button" data-toggle="media-panel" class="button-style">+</button>
 
     <!-- media popup -->
     <div data-pb-media-popup data-popup>
@@ -15,6 +15,10 @@
                 <!-- media list -->
                 <div class="media-popup__col--left">
                     <div data-media-list class="flex-grid-template"></div>
+
+                    <div>
+                        <button type="button" data-save-media data-toggle="media-panel">Save</button>
+                    </div>
                 </div>
 
                 <!-- upload new media -->
