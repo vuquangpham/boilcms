@@ -4,6 +4,7 @@ const handleGetAction = require('./get');
 const handleAddAction = require('./add');
 const handleEditAction = require('./edit');
 const handleDeleteAction = require('./delete');
+const {ADMIN_URL} = require("../../../core/utils/config.utils");
 
 /**
  * Handle POST method
@@ -13,6 +14,7 @@ const handleDeleteAction = require('./delete');
  * @return {void}
  * */
 const handlePostMethod = (request, response, next) => {
+    const categoryItem = response.locals.categoryItem;
     const action = response.locals.action;
     const hasJSON = response.locals.getJSON;
 
@@ -51,8 +53,33 @@ const handlePostMethod = (request, response, next) => {
 
             if(hasJSON) return response.status(200).json(result);
 
-            // redirect to page
-            response.redirect(action.name === 'edit' ? request.get('referer') : request.params.type);
+            let URL = '';
+            switch(action.name){
+                case 'add' :{
+                    URL = categoryItem.url + '&' + new URLSearchParams({
+                        action: 'edit',
+                        method: 'get',
+                        id: result._id
+                    });
+                    break;
+                }
+                case 'edit':{
+                    URL = request.get('referer');
+                    break;
+                }
+                case 'delete':{
+                    URL = categoryItem.url + '&' + new URLSearchParams({
+                        action: 'get',
+                        method: 'get',
+                    });
+                    break;
+                }
+                default:{
+                    URL = request.params.type;
+                }
+            }
+
+            response.redirect(URL);
         })
         .catch(err => {
             console.log(err);
