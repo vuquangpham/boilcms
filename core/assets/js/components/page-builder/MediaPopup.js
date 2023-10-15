@@ -41,7 +41,10 @@ export default class MediaPopup{
         this.FETCH_URL = baseUrl + '/' + adminPath + '/media';
     }
 
-    loadAllMedias(){
+    loadAllMedias(target){
+        // selected media
+        const selectedMedias = JSON.parse(target.closest('[data-param]').querySelector('[data-param-value]').getAttribute('data-param-value'));
+
         // re-assign dom element and clear the previous list
         this.elements.mediaList = this.wrapper.querySelector('[data-media-list]');
         this.elements.mediaList.innerHTML = '';
@@ -56,6 +59,10 @@ export default class MediaPopup{
                 const data = result.data;
                 data.map(d => new Image(d))
                     .forEach(d => this.elements.mediaList.appendChild(d.domElement));
+
+                selectedMedias.forEach(id => {
+                    this.elements.mediaList.querySelector(`input[type="checkbox"][value="${id}"]`).checked = true;
+                });
             });
     }
 

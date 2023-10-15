@@ -4,6 +4,7 @@ import fetch from "@global/fetch";
 export default class ModifyComponent{
     constructor(wrapper){
         this.wrapper = wrapper;
+        this.isEdit = false;
 
         this.init();
     }
@@ -107,9 +108,40 @@ export default class ModifyComponent{
         this.parentGroup = target.closest('[data-component]');
     }
 
+    loadDataToPopup(data){
+        data.forEach(d => {
+            console.log(d);
+            this.componentDetailPanel
+                .querySelector(`[data-param="${d.key}"]`)
+                .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
+        });
+    }
+
     handleEditComponentClick(target){
+        this.isEdit = true;
+        this.edittingComponent = target.closest('[data-component]');
+
         console.log('edit');
         console.log(target);
+        const componentName = this.edittingComponent.dataset.component;
+
+        // get param value
+        const params = Array.from(this.edittingComponent.querySelectorAll('[data-param]'))
+            .map(param => {
+                const obj = {};
+                obj.key = param.getAttribute('data-param');
+                obj.value = param.querySelector('[data-param-value]').getAttribute('data-param-value');
+
+                return obj;
+            });
+
+        this.getComponentInfoFromServer(componentName)
+            .then(result => {
+                this.loadComponent(result);
+
+                // load data to popup
+                this.loadDataToPopup(params);
+            });
     }
 
     handleSaveBtnClick(_){
@@ -126,18 +158,27 @@ export default class ModifyComponent{
 
             const obj = {};
             obj.key = el.dataset.param;
-            obj.value = value ?? paramValueEl?.textContent.trim() ?? '';
+
+            obj.value = value || paramValueEl?.textContent.trim();
+            if(!obj.value) obj.value = '';
+
             componentInformation.params.push(obj);
         });
 
         const componentInstance = new Component(componentInformation);
         const componentDomEl = componentInstance.component;
 
+        // edit component or add the new one
+        if(this.isEdit){
+            this.edittingComponent.replaceWith(componentDomEl);
+            this.isEdit = false;
+        }else{
+            // insert to the group
+            this.parentGroup.querySelector('[data-component-content]').insertAdjacentElement('beforeend', componentDomEl);
+        }
+
         // toggle attribute
         Theme.toggleAttributeAction(componentDomEl.querySelectorAll('[data-toggle]'));
-
-        // insert to the group
-        this.parentGroup.querySelector('[data-component-content]').insertAdjacentElement('beforeend', componentDomEl);
 
         // create JSON
         this.createJSON();
@@ -155,27 +196,34 @@ export default class ModifyComponent{
         this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapperComponentEl));
     }
 
+    loadComponent(result){
+        // get types of component
+        const types = result.component
+            .params
+            .map(p => p.type.slice(0, -4));
+
+        const div = document.createElement('div');
+        div.innerHTML = result.data;
+
+        // reset the last one
+        this.componentDetailPanel.innerHTML = '';
+        this.componentDetailPanel.append(...[...div.children]);
+        this.componentDetailPanel.dataset.component = result.component.name;
+
+        // init component script
+        if(types.find(t => t === 'text')){
+        }
+
+        // toggle attribute
+        Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));
+    }
+
     handleComponentClick(target){
         const componentName = target.dataset.component;
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
-                // get types of component
-                const types = result.component
-                    .params
-                    .map(p => p.type.slice(0, -4));
-
-                const div = document.createElement('div');
-                div.innerHTML = result.data;
-                this.componentDetailPanel.append(...[...div.children]);
-                this.componentDetailPanel.dataset.component = result.component.name;
-
-                // init component script
-                if(types.find(t => t === 'text')){
-                }
-
-                // toggle attribute
-                Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));
+                this.loadComponent(result);
 
                 if(this.isGroupComponent(componentName)) this.handleSaveBtnClick(target);
             });
