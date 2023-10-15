@@ -4,6 +4,7 @@ class Image{
     constructor(imageObject, isRadio = false){
         this.src = imageObject.url.small;
         this.name = imageObject.name;
+        this.id = imageObject._id;
         this.isRadio = isRadio;
         this.domElement = this.getDOMElement();
     }
@@ -14,7 +15,7 @@ class Image{
 
         domEl.innerHTML = `
 <button style="border:none;" type="button"><label>
-    <input type="${this.isRadio ? 'radio' : 'checkbox'}" name="selected-image">
+    <input type="${this.isRadio ? 'radio' : 'checkbox'}" value="${this.id}" name="selected-image">
     <div class="single-image img-wrapper-cover t" data-media-item>
         <img src="${this.src}" alt="${this.name}" />
     </div>
@@ -58,6 +59,9 @@ export default class MediaPopup{
             });
     }
 
+    /**
+     * Submitting the form for adding the new image
+     * */
     handleSubmitForm(e){
         e.preventDefault();
 
@@ -91,6 +95,21 @@ export default class MediaPopup{
             .catch(err => console.error(err));
     }
 
+    handleAfterSelectedMedias(target){
+        const selectedMedias = Array
+            .from(this.wrapper.querySelectorAll('input[type="checkbox"]'))
+            .filter(c => c.checked)
+            .map(c => c.value);
+
+        // load media to the components
+
+        // save to the attribute
+        target.closest('[data-param]')
+            .querySelector('[data-param-value]')
+            .setAttribute('data-param-value', JSON.stringify(selectedMedias));
+        console.log(selectedMedias);
+    }
+
     isMediaPopup(e){
         let target = null,
             functionForHandling = () => {
@@ -98,6 +117,7 @@ export default class MediaPopup{
 
         const loadMediaButton = e.target.closest('[data-load-media]');
         const mediaForm = e.target.closest('[data-media-form]');
+        const saveMediaButton = e.target.closest('[data-save-media]');
 
         if(loadMediaButton){
             functionForHandling = this.loadAllMedias.bind(this);
@@ -108,6 +128,12 @@ export default class MediaPopup{
         else if(mediaForm && !this.elements.popupForm){
             this.elements.popupForm = mediaForm;
             mediaForm.addEventListener('submit', this.handleSubmitForm.bind(this));
+        }
+
+        // save media
+        else if(saveMediaButton){
+            functionForHandling = this.handleAfterSelectedMedias.bind(this);
+            target = saveMediaButton;
         }else{
             return null;
         }
