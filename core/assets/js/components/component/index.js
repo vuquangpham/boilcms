@@ -60,7 +60,7 @@ export default class Index{
         contentDiv.innerHTML = params.reduce((acc, cur) => {
             acc += `
 <div data-param="${cur.key}">
-    <span data-param-value="${cur.value}">${cur.value ?? ''}</span>
+    <span data-param-value='${cur.value}'>${cur.value ?? ''}</span>
 </div>`;
             return acc;
         }, '');
