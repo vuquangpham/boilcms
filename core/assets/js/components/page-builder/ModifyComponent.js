@@ -109,6 +109,7 @@ export default class ModifyComponent{
 
     handleEditComponentClick(target){
         console.log('edit');
+        console.log(target);
     }
 
     handleSaveBtnClick(_){
@@ -121,11 +122,11 @@ export default class ModifyComponent{
         // get params
         Array.from(this.componentDetailPanel.children).forEach(el => {
             const paramValueEl = el.querySelector('[data-param-value]');
-            const value = paramValueEl.getAttribute('data-param-value');
+            const value = paramValueEl?.getAttribute('data-param-value');
 
             const obj = {};
             obj.key = el.dataset.param;
-            obj.value = value ?? paramValueEl.textContent.trim();
+            obj.value = value ?? paramValueEl?.textContent.trim() ?? '';
             componentInformation.params.push(obj);
         });
 
