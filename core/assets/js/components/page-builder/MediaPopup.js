@@ -43,7 +43,8 @@ export default class MediaPopup{
 
     loadAllMedias(target){
         // selected media
-        const selectedMedias = JSON.parse(target.closest('[data-param]').querySelector('[data-param-value]').getAttribute('data-param-value'));
+        const mediaValueOnParam = target.closest('[data-param]').querySelector('[data-param-value]').getAttribute('data-param-value');
+        const selectedMedias = mediaValueOnParam ? JSON.parse(mediaValueOnParam) : [];
 
         // re-assign dom element and clear the previous list
         this.elements.mediaList = this.wrapper.querySelector('[data-media-list]');
