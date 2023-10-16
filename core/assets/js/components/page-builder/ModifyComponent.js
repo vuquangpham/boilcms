@@ -1,6 +1,10 @@
 import Component from "../component";
 import fetch from "@global/fetch";
 
+// WYSIWYG editor
+import Quill from "quill";
+import 'quill/dist/quill.snow.css';
+
 export default class ModifyComponent{
     constructor(wrapper){
         this.wrapper = wrapper;
@@ -108,21 +112,10 @@ export default class ModifyComponent{
         this.parentGroup = target.closest('[data-component]');
     }
 
-    loadDataToPopup(data){
-        data.forEach(d => {
-            console.log(d);
-            this.componentDetailPanel
-                .querySelector(`[data-param="${d.key}"]`)
-                .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
-        });
-    }
-
     handleEditComponentClick(target){
         this.isEdit = true;
         this.edittingComponent = target.closest('[data-component]');
 
-        console.log('edit');
-        console.log(target);
         const componentName = this.edittingComponent.dataset.component;
 
         // get param value
@@ -141,7 +134,27 @@ export default class ModifyComponent{
 
                 // load data to popup
                 this.loadDataToPopup(params);
+
+                // re-update the previous value
+                if(this.componentTypes.find(t => t === 'text')){
+                    const editorElement = this.componentDetailPanel.querySelector('#editor-container');
+                    const value = editorElement.getAttribute('data-param-value');
+
+                    if(value){
+                        editorElement.querySelector('.ql-editor').innerHTML = value;
+                        this.editor.update();
+                    }
+
+                }
             });
+    }
+
+    handleDeleteComponentClick(target){
+        const componentEl = target.closest('[data-component]');
+        componentEl.remove();
+
+        // re-generate JSON
+        this.createJSON();
     }
 
     handleSaveBtnClick(_){
@@ -184,12 +197,12 @@ export default class ModifyComponent{
         this.createJSON();
     }
 
-    handleDeleteComponentClick(target){
-        const componentEl = target.closest('[data-component]');
-        componentEl.remove();
-
-        // re-generate JSON
-        this.createJSON();
+    loadDataToPopup(data){
+        data.forEach(d => {
+            this.componentDetailPanel
+                .querySelector(`[data-param="${d.key}"]`)
+                .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
+        });
     }
 
     createJSON(){
@@ -198,7 +211,7 @@ export default class ModifyComponent{
 
     loadComponent(result){
         // get types of component
-        const types = result.component
+        this.componentTypes = result.component
             .params
             .map(p => p.type.slice(0, -4));
 
@@ -211,7 +224,27 @@ export default class ModifyComponent{
         this.componentDetailPanel.dataset.component = result.component.name;
 
         // init component script
-        if(types.find(t => t === 'text')){
+        if(this.componentTypes.find(t => t === 'text')){
+            const editorElement = this.componentDetailPanel.querySelector('#editor-container');
+
+            // init editor
+            this.editor = new Quill(editorElement, {
+                modules: {
+                    toolbar: [
+                        [{header: [1, 2, false]}],
+                        ['bold', 'italic', 'underline', 'strike', 'link'],
+                        ['list', 'blockquote']
+                    ]
+                },
+                placeholder: 'Input your content here...',
+                theme: 'snow',
+            });
+
+            // update the param value
+            this.editor.on('text-change', () => {
+                const value = editorElement.querySelector('.ql-editor').innerHTML;
+                editorElement.setAttribute('data-param-value', value);
+            });
         }
 
         // toggle attribute
