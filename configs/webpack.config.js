@@ -68,15 +68,32 @@ module.exports = {
             },
 
             {
-                test: /\.scss$/,
+                test: /\.css$/i,
                 use: [
-                    {loader: MiniCssExtractPlugin.loader,},
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {sourceMap: IS_DEV_MODE},
                     },
-                    {loader: 'postcss-loader',},
-                    {loader: 'sass-loader',},
+                    {
+                        loader: "postcss-loader",
+                    },
+                ],
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {sourceMap: IS_DEV_MODE},
+                    },
+                    {
+                        loader: "postcss-loader",
+                    },
+                    {
+                        loader: "sass-loader",
+                    },
                 ],
             },
 
