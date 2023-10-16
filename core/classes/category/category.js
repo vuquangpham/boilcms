@@ -2,8 +2,8 @@ const {ADMIN_URL} = require("../../utils/config.utils");
 const Type = require('../utils/type');
 const mongoose = require("mongoose");
 
-class Category {
-    constructor(options) {
+class Category{
+    constructor(options){
         const defaultOptions = {
             name: '',
             url: '',
@@ -13,13 +13,14 @@ class Category {
             order: 0
         };
         const validatedOptions = this.validateOptions({...defaultOptions, ...options});
-        if (!validatedOptions) return null;
+        if(!validatedOptions) return null;
 
         this.name = validatedOptions.name;
         this.url = validatedOptions.url;
         this.type = validatedOptions.type;
         this.contentType = validatedOptions.contentType;
         this.order = validatedOptions.order;
+        this.isSpecialType = validatedOptions.isSpecialType;
     }
 
     /**
@@ -27,9 +28,9 @@ class Category {
      * @param options {Object}
      * @return {Object}
      * */
-    validateOptions(options) {
+    validateOptions(options){
         // validate content type
-        if (!Type.isValidType(options.contentType)) return null;
+        if(!Type.isValidType(options.contentType)) return null;
 
         // validate URL
         options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType.name));
@@ -43,14 +44,14 @@ class Category {
     /**
      * Validate input data to get the correct data
      * */
-    validateInputData(request) {
+    validateInputData(request){
         return request;
     }
 
     /**
      * Update data to category
      * */
-    update(id, data) {
+    update(id, data){
         return this.databaseModel.findOneAndUpdate({_id: id}, data);
     }
 
@@ -58,15 +59,15 @@ class Category {
     /**
      * Delete data from category
      * */
-    delete(id) {
-        return this.databaseModel.deleteOne({_id: id})
+    delete(id){
+        return this.databaseModel.deleteOne({_id: id});
     }
 
 
     /**
      * Add new data to category
      * */
-    add(data) {
+    add(data){
         const instance = new this.databaseModel(data);
 
         return new Promise((resolve, reject) => {
@@ -85,7 +86,7 @@ class Category {
      * Get specific data based on id
      * @return {Promise}
      * */
-    getDataById(id) {
+    getDataById(id){
         return new Promise((resolve, reject) => {
             this.databaseModel.findById(id)
                 .then(data => {
@@ -102,7 +103,7 @@ class Category {
      * Get all data from category
      * @return {Promise}
      * */
-    getAllData() {
+    getAllData(){
         return new Promise((resolve, reject) => {
             this.databaseModel.find()
                 .then(data => {

@@ -18,6 +18,15 @@ class CategoryController extends Controller{
     }
 
     /**
+     * Get first special category item
+     * @return {Object}
+     * @return {Object}
+     * */
+    getSpecialCategoryItem(){
+        return this.instances.find(category => category.isSpecialType);
+    }
+
+    /**
      * Get special type from categories list
      * */
     getSpecialType(){
