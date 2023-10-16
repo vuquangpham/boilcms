@@ -5,5 +5,6 @@ module.exports = new POSTS({
     name: 'Pages',
     url: '/pages',
     type: 'pages',
-    contentType: Type.types.POSTS
+    contentType: Type.types.POSTS,
+    isSpecialType: true
 });

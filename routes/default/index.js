@@ -6,22 +6,32 @@ const Content = require('../../core/classes/utils/content');
 
 router.get('*', (req, res, next) => {
     const [type, pageURL] = getParamsOnRequest(req, ['', '']);
-
-    res.locals.params = {
-        type, pageURL
-    };
-
+    res.locals.params = {type, pageURL};
     next();
 });
 
 router.get('/*', (req, res, next) => {
-    const {type, pageURL} = res.locals.params;
+    let {type, pageURL} = res.locals.params;
 
-    console.log('type', type, 'pageURL', pageURL);
+    let categoryItem = null;
 
-    const categoryItem = CategoryController.getCategoryItem(type);
-    const promise = !categoryItem ? Promise.reject(new Error('Can not find!')) : categoryItem.databaseModel.findOne({url: pageURL}).populate('content');
+    // special page type (without "pages" in ex /pages/home)
+    if(!pageURL){
+        categoryItem = CategoryController.getSpecialCategoryItem();
+        pageURL = type;
+    }else{
+        categoryItem = CategoryController.getCategoryItem(type);
+    }
 
+    // promise
+    const promise = !categoryItem
+        // categoryItem doesn't exist
+        ? Promise.reject(new Error('Can not find!'))
+
+        // get the content
+        : categoryItem.databaseModel.findOne({url: pageURL}).populate('content');
+
+    // solve promise
     promise
         .then(async(result) => {
             if(!result) return Promise.reject('Can not find!');
@@ -29,13 +39,18 @@ router.get('/*', (req, res, next) => {
             const pageBuilderContent = JSON.parse(result.content.content);
             const html = await Content.getRenderHTML(pageBuilderContent);
 
+            // page title
+            const title = pageURL ? pageURL[0].toUpperCase() + pageURL.slice(1) : 'Home';
+
+            // render to frontend
             res.render('default', {
                 data: result,
                 content: html,
-                title: pageURL[0].toUpperCase() + pageURL.slice(1)
+                title
             });
         })
         .catch(err => {
+            console.log(err.message);
             next(err);
         });
 });
