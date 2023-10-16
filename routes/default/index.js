@@ -1,8 +1,8 @@
-const {getParamsOnRequest} = require("../core/utils/helper.utils");
+const {getParamsOnRequest} = require("../../core/utils/helper.utils");
 const router = require('express').Router();
 
-const CategoryController = require('../core/classes/category/category-controller');
-const Content = require('../core/classes/utils/content');
+const CategoryController = require('../../core/classes/category/category-controller');
+const Content = require('../../core/classes/utils/content');
 
 router.get('*', (req, res, next) => {
     const [type, pageURL] = getParamsOnRequest(req, ['', '']);
@@ -17,6 +17,8 @@ router.get('*', (req, res, next) => {
 router.get('/*', (req, res, next) => {
     const {type, pageURL} = res.locals.params;
 
+    console.log('type', type, 'pageURL', pageURL);
+
     const categoryItem = CategoryController.getCategoryItem(type);
     const promise = !categoryItem ? Promise.reject(new Error('Can not find!')) : categoryItem.databaseModel.findOne({url: pageURL}).populate('content');
 
@@ -29,7 +31,8 @@ router.get('/*', (req, res, next) => {
 
             res.render('default', {
                 data: result,
-                content: html
+                content: html,
+                title: pageURL[0].toUpperCase() + pageURL.slice(1)
             });
         })
         .catch(err => {

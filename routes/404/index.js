@@ -1,6 +1,6 @@
 const errorHandler = (error, req, res, next) => {
     // Error handling middleware functionality
-    res.render('error', {});
+    res.render('404', {});
 };
 
 module.exports = errorHandler;

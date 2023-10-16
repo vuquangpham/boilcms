@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser')
 const adminRouting = require('./routes/admin');
 const registerRouting = require('./routes/register')
 const defaultRouting = require('./routes/default');
-const errorHandler = require('./routes/error');
+const errorHandler = require('./routes/404');
 
 // configs
 const {ADMIN_URL, REGISTER_URL} = require("./core/utils/config.utils");

@@ -4,7 +4,6 @@ const handleGetAction = require('./get');
 const handleAddAction = require('./add');
 const handleEditAction = require('./edit');
 const handleDeleteAction = require('./delete');
-const {ADMIN_URL} = require("../../../core/utils/config.utils");
 
 /**
  * Handle POST method
@@ -50,7 +49,6 @@ const handlePostMethod = (request, response, next) => {
         .then(result => {
             // return JSON
             if(component && hasJSON) return response.status(200).json({content: result, component: component});
-
             if(hasJSON) return response.status(200).json(result);
 
             let URL = '';
