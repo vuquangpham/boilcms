@@ -46,7 +46,7 @@ class Content{
         });
     }
 
-    getRenderHTML(property){
+    async getRenderHTML(property){
         const ComponentController = require('../component/component-controller');
 
         const component = {
@@ -56,12 +56,13 @@ class Content{
         };
 
         const componentInstance = ComponentController.getComponentBasedOnName(component.name);
-        const renderedHTML = componentInstance.render(component);
+        const renderedHTML = await componentInstance.render(component);
 
         // render children HTML
-        const childrenHTML = component.children
-            .map(child => this.getRenderHTML.call(this, child))
-            .join('');
+        const childrenPromises = component.children
+            .map(child => this.getRenderHTML.call(this, child));
+        const data = await Promise.all(childrenPromises);
+        const childrenHTML = data.join('');
 
         return renderedHTML.replaceAll('#{DATA_CHILDREN}', childrenHTML);
     }

@@ -21,11 +21,11 @@ router.get('/*', (req, res, next) => {
     const promise = !categoryItem ? Promise.reject(new Error('Can not find!')) : categoryItem.databaseModel.findOne({url: pageURL}).populate('content');
 
     promise
-        .then((result) => {
+        .then(async(result) => {
             if(!result) return Promise.reject('Can not find!');
 
             const pageBuilderContent = JSON.parse(result.content.content);
-            const html = Content.getRenderHTML(pageBuilderContent);
+            const html = await Content.getRenderHTML(pageBuilderContent);
 
             res.render('default', {
                 data: result,
