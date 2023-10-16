@@ -1,6 +1,8 @@
 const ComponentController = require('../../classes/component/component-controller');
 const Component = require('../../classes/component/component');
 
+const Media = require('../../categories/media');
+
 class ImageContent extends Component{
     constructor(){
         super({
@@ -24,8 +26,26 @@ class ImageContent extends Component{
         });
     }
 
-    render(data){
-        return `<div>Image content</div>`;
+    async render(data){
+        const params = data.params;
+        const imagesData = JSON.parse(params.find(p => p.key === 'image').value);
+
+        const promises = [];
+        imagesData.forEach(id => {
+            promises.push(Media.getDataById(id));
+        });
+
+        // load all images
+        const images = await Promise.all(promises);
+        const imagesHTML = images.map(i => {
+            const url = i.url.original;
+            return `
+                <div>
+                    <img src="${url}" alt="${i.name}">            
+                </div>`;
+        }).join('');
+
+        return `<div>Image content</div><div>${imagesHTML}</div>`;
     }
 }
 
