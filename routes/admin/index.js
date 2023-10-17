@@ -1,5 +1,9 @@
 // dependencies
 const router = require('express').Router();
+const jwt = require('jsonwebtoken')
+
+// model
+const User = require('./../../core/database/user/model')
 
 // core modules
 const CategoryController = require('../../core/classes/category/category-controller');
@@ -13,6 +17,36 @@ const handlePostMethod = require('./POST');
 
 // handle upload action
 const upload = require('../../core/utils/upload.utils');
+
+/**
+ * Middleware for authenticate user
+ * */
+router.all('*', async (req, res, next) => {
+    try{
+        const token = req.cookies.jwt;
+        if(!token){
+            throw new Error('Token was not found')
+        }
+        // Verify token
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY)
+
+        // Check if users still exists
+        const currentUser = await User.findOne({_id: decoded.id}).select('+passwordChangedAt')
+        if (!currentUser) {
+            throw new Error('User is not exists')
+        }
+
+        // is account admin?
+        if(currentUser.role !== 'admin'){
+            throw new Error('You do not permission to access this data')
+        }
+        next()
+
+    }catch(err){
+        console.error(err.message)
+        res.redirect('register')
+    }
+})
 
 /**
  * Middleware for registering variables
@@ -40,12 +74,12 @@ router.all('*', (req, res, next) => {
 router.all('*', upload.single('image'), (request, response, next) => {
     const method = response.locals.method;
 
-    switch(method.name){
-        case 'get':{
+    switch (method.name) {
+        case 'get': {
             handleGetMethod(request, response, next);
             break;
         }
-        case 'post':{
+        case 'post': {
             handlePostMethod(request, response, next);
         }
     }
