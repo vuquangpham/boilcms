@@ -33,13 +33,18 @@ router.all('*', async (req, res, next) => {
         // Verify token
         const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY)
 
-        // Check if users still exists
+        // Check if the user still exists
         const currentUser = await User.findOne({_id: decoded.id}).select('+passwordChangedAt')
         if (!currentUser) {
             throw new Error('User is not exists')
         }
 
-        // is account admin?
+        // Check if the user changed password after the token was issued
+        if (currentUser.hasAlreadyChangedPassword(decoded.iat)) {
+            throw new Error('Password has changed recently')
+        }
+
+        // Does the account have the 'admin' role?
         if(currentUser.role !== 'admin'){
             throw new Error('You do not permission to access this data')
         }

@@ -60,10 +60,25 @@ userSchema.pre('save', async function (next) {
 })
 
 /**
- * Check password hashed in database and password from request
+ * Compare password hashed in database and password from request
  * */
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
+}
+
+/**
+ * Check if the password changed after the token generated
+ * @param JWTTimeStamp {Number}
+ * @return boolean
+ * */
+userSchema.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
+    if (this.setPasswordAt) {
+
+        // JWTTimeStamp is the time when the token was created, and passwordChangedTime is the time when the password was last updated
+        const passwordChangedTime = parseInt(this.setPasswordAt.getTime() / 1000, 10);
+        return  JWTTimeStamp < passwordChangedTime
+    }
+    return false
 }
 
 module.exports = mongoose.model('User', userSchema)
