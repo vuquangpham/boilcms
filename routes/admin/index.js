@@ -48,6 +48,10 @@ router.all('*', async (req, res, next) => {
         if(currentUser.role !== 'admin'){
             throw new Error('You do not permission to access this data')
         }
+
+        // Attach user information to req object to access user data throughout the application
+        req.user = currentUser;
+
         next()
 
     }catch(err){
