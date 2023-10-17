@@ -4,12 +4,19 @@ const signToken = (userid) => {
         expiresIn: process.env.JWT_EXPIRED_IN
     })
 }
-const createSendToken = (user, statusToken, type, res) => {
-    let token = signToken(user._id);
 
-    // if type = sign up, don't send token
-    if(type === 'sign-up'){
-        token = undefined
+/**
+ * If type is sign-in then sign JWT token for user, save token in cookie, else if type is sign-up send json for client
+ * @param user {object}
+ * @param type {String}
+ * @param res
+ * */
+const sendAuthTokenAndCookies = (user, type, res) => {
+    let token
+
+    // if type = sign in, create token
+    if (type === 'sign-in') {
+        token = signToken(user._id);
     }
 
     const cookiesOptions = {
@@ -17,19 +24,8 @@ const createSendToken = (user, statusToken, type, res) => {
         httpOnly: true
     }
     res.cookie('jwt', token, cookiesOptions)
-
-    // Remove password from output
-    user.password = undefined
-
-    res.status(statusToken).json({
-        status: 'success',
-        token,
-        data: {
-            user
-        }
-    });
 };
 
 module.exports = {
-    signToken, createSendToken
+    signToken, sendAuthTokenAndCookies
 }

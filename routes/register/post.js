@@ -1,8 +1,12 @@
 const Account = require('./../../core/classes/account/account')
-const {createSendToken} = require("../../core/utils/token.utils");
+const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
+const {ADMIN_URL} = require("../../core/utils/config.utils");
+
 const handlePostMethod = (req, res, next) => {
     const account = new Account();
-    const type = req.query.type
+
+    const type = req.query.type;
+    const hasJSON = res.locals.getJSON;
     let promise;
 
     switch (type) {
@@ -18,7 +22,16 @@ const handlePostMethod = (req, res, next) => {
 
     promise
         .then(result => {
-            createSendToken(result, 200, type, res)
+            if (hasJSON) return res.status(200).json(result)
+
+            // send token to client and save token in cookies
+            sendAuthTokenAndCookies(result, type, res)
+
+            // redirect to admin page
+            if (type === 'sign-in') {
+                res.redirect(`${ADMIN_URL}`)
+            }
+
         })
         .catch(err => {
             console.error(err);
