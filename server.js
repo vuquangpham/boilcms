@@ -17,6 +17,7 @@ const errorHandler = require('./routes/404');
 const {ADMIN_URL, REGISTER_URL} = require("./core/utils/config.utils");
 const {connectDatabase} = require("./core/utils/database.utils");
 const Method = require("./core/classes/utils/method");
+const AccountType = require('./core/classes/utils/account-type')
 
 // Init app
 const app = express();
@@ -56,10 +57,14 @@ app.use((req, res, next) => {
     // queries
     const method = req.query.method;
     const getJSON = req.query.getJSON;
+    const accountType = req.query.type
 
-    // register
+    // get method
     res.locals.method = Method.getValidatedMethod(method);
     res.locals.getJSON = getJSON;
+
+    // get account type
+    res.locals.accountType = AccountType.getValidatedAccountType(accountType)
 
     next();
 });

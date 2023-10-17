@@ -1,5 +1,5 @@
 const handleGetMethod = (req, res, next) => {
-    const type = req.query.type;
+    const type = res.locals.accountType.name;
 
     res.render(`register/${type}`,{
         type: type
