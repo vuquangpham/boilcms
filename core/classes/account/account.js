@@ -54,6 +54,12 @@ class Account {
         })
     }
 
+    account(token){
+        return new Promise((resolve,reject) => {
+
+        })
+    }
+
     /**
      * Sign in user
      * @return {promise}
@@ -88,6 +94,13 @@ class Account {
      * */
     updateUser(id, data) {
         return this.databaseModel.findOneAndUpdate({_id: id}, data);
+    }
+
+    /**
+     *
+     * */
+    updatePassword(){
+
     }
 
     /**
