@@ -2,6 +2,9 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken')
 
+// config
+const {REGISTER_URL} = require('./../../core/utils/config.utils')
+
 // model
 const User = require('./../../core/database/user/model')
 
@@ -44,7 +47,7 @@ router.all('*', async (req, res, next) => {
 
     }catch(err){
         console.error(err.message)
-        res.redirect('register')
+        res.redirect(`${REGISTER_URL}`)
     }
 })
 

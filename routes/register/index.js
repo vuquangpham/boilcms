@@ -16,6 +16,7 @@ router.all('*', (request, response, next) => {
         }
         case 'post':{
             handlePostMethod(request, response, next);
+            break;
         }
     }
 });
