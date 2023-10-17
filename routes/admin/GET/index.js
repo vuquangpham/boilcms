@@ -59,6 +59,7 @@ const handleGetMethod = (request, response, next) => {
                 .then(html => {
                     response.render('admin', {
                         content: html,
+                        user: request.user
                     });
                 });
         })
