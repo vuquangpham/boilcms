@@ -1,14 +1,13 @@
 const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
+const {sendEmptyToken} = require("../../core/utils/token.utils");
+
 const handleGetMethod = (req, res, next) => {
     const type = res.locals.accountType.name;
     const token = res.locals.token
 
     // check if user logged and user want to log-out
     if(token && type === 'log-out'){
-        res.cookie('jwt', '', {
-            maxAge: 5 * 1000,
-            httpOnly: true
-        })
+        sendEmptyToken(res)
         return res.redirect(`${REGISTER_URL}`)
     }
     // when user logged, can not redirect to register

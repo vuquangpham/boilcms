@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 
 // config
 const {REGISTER_URL} = require('./../../core/utils/config.utils')
+const {sendEmptyToken} = require("../../core/utils/token.utils");
 
 // model
 const User = require('./../../core/database/user/model')
@@ -26,7 +27,7 @@ const upload = require('../../core/utils/upload.utils');
  * */
 router.all('*', async (req, res, next) => {
     try{
-        const token = res.locals.token
+        let token = res.locals.token
 
         if(!token){
             throw new Error('Token was not found')
@@ -56,8 +57,9 @@ router.all('*', async (req, res, next) => {
         next()
 
     }catch(err){
+        sendEmptyToken(res)
         console.error(err.message)
-        res.redirect(`${REGISTER_URL}`)
+        return res.redirect(`${REGISTER_URL}`)
     }
 })
 
