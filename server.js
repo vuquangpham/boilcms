@@ -59,9 +59,14 @@ app.use((req, res, next) => {
     const getJSON = req.query.getJSON;
     const accountType = req.query.type
 
-    // get method
+    // get token
+    const token = req.cookies.jwt;
+
+    // assign variables to locals
     res.locals.method = Method.getValidatedMethod(method);
     res.locals.getJSON = getJSON;
+    res.locals.token = token
+
 
     // get account type
     res.locals.accountType = AccountType.getValidatedAccountType(accountType)

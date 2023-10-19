@@ -26,7 +26,8 @@ const upload = require('../../core/utils/upload.utils');
  * */
 router.all('*', async (req, res, next) => {
     try{
-        const token = req.cookies.jwt;
+        const token = res.locals.token
+
         if(!token){
             throw new Error('Token was not found')
         }
