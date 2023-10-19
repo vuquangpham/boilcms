@@ -10,6 +10,13 @@ export default class Index{
         const componentDiv = document.createElement('div');
         componentDiv.setAttribute('data-component', this.name);
 
+        // component name
+        const componentNameEl = document.createElement('div');
+        const componentName = this.name.replaceAll('-', ' ');
+        componentNameEl.setAttribute('data-component-name', componentName);
+        componentDiv.innerHTML = componentName;
+        componentDiv.appendChild(componentNameEl);
+
         // add utils
         componentDiv.appendChild(this.createUtils());
 
@@ -50,13 +57,6 @@ export default class Index{
     createContent(params){
         const contentDiv = document.createElement('div');
         contentDiv.setAttribute('data-component-content', '');
-
-        // component name
-        const componentNameEl = document.createElement('div');
-        const componentName = this.name.replaceAll('-', ' ');
-        componentNameEl.setAttribute('data-component-name', componentName);
-        componentNameEl.innerHTML = componentName;
-        contentDiv.appendChild(componentNameEl);
 
         // group component
         if(this.isGroupComponent){
