@@ -33,13 +33,14 @@ const handlePostMethod = (req, res, next) => {
             if (type === 'sign-in') {
                 res.redirect(`${ADMIN_URL}`)
             }
+            console.log('message in post: ', res.locals.message)
 
         })
         .catch(err => {
             // res.locals.message = err.message;
             // console.log('message: ', res.locals.message)
             res.redirect(`${REGISTER_URL}`)
-            console.error(err);
+            console.error('err: ',err);
             next(err)
         })
 }

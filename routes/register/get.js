@@ -28,13 +28,12 @@ const handleGetMethod = async (req, res, next) => {
     // render html
     const directory = path.join(process.cwd(), 'views', 'register', 'type', `${type}` + '.ejs')
     const html = await Content.getHTML(directory, {type: type})
-    // let errMessage = res.locals.message || 'anhtu'
-    // console.log('message: ',errMessage)
+    console.log('1: ', res.locals.message)
 
     res.render('register/index', {
         content: html,
         title: pageTitle,
-        // message: errMessage
+        message: res.locals.message || ''
     })
     
 }
