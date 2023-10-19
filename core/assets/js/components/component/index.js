@@ -14,7 +14,7 @@ export default class Index{
         const componentNameEl = document.createElement('div');
         const componentName = this.name.replaceAll('-', ' ');
         componentNameEl.setAttribute('data-component-name', componentName);
-        componentDiv.innerHTML = componentName;
+        componentNameEl.innerHTML = componentName;
         componentDiv.appendChild(componentNameEl);
 
         // add utils
