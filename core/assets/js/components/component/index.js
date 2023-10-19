@@ -51,13 +51,20 @@ export default class Index{
         const contentDiv = document.createElement('div');
         contentDiv.setAttribute('data-component-content', '');
 
+        // component name
+        const componentNameEl = document.createElement('div');
+        const componentName = this.name.replaceAll('-', ' ');
+        componentNameEl.setAttribute('data-component-name', componentName);
+        componentNameEl.innerHTML = componentName;
+        contentDiv.appendChild(componentNameEl);
+
         // group component
         if(this.isGroupComponent){
             contentDiv.setAttribute('data-component-children', '');
         }
 
         // inner HTML
-        contentDiv.innerHTML = params.reduce((acc, cur) => {
+        contentDiv.innerHTML += params.reduce((acc, cur) => {
             acc += `
 <div data-param="${cur.key}">
     <span data-param-value='${cur.value}'>${cur.value ?? ''}</span>

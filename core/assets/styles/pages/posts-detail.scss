@@ -41,6 +41,11 @@
   background-color: white;
   padding: 5px;
   border-radius: 4px;
+
+  [data-component-name] {
+    text-transform: capitalize;
+    font-weight: 700;
+  }
 }
 
 [data-pb] [data-component]:not(:last-child) {

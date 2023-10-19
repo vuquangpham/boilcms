@@ -171,9 +171,7 @@ export default class ModifyComponent{
 
             const obj = {};
             obj.key = el.dataset.param;
-
-            obj.value = value || paramValueEl?.textContent.trim();
-            if(!obj.value) obj.value = '';
+            obj.value = value || '';
 
             componentInformation.params.push(obj);
         });
