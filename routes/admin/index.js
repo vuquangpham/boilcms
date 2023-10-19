@@ -51,8 +51,8 @@ router.all('*', async (req, res, next) => {
             throw new Error('You do not permission to access this data')
         }
 
-        // Attach user information to req object to access user data throughout the application
-        req.user = currentUser;
+        // Attach user information in local to access user data throughout the application
+        res.locals.user = currentUser;
 
         next()
 
