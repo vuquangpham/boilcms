@@ -10,10 +10,21 @@
         </div>
     </div>
     <div class="admin__panel--right">
-        <div class="admin-panel__account" style="display: flex; gap: 5px">
+        <div class="admin-panel__account">
             <p>Hello</p>
             <div>
-                <a href="?account"> <%= user.name%></a>
+                <button><%= user.name %></button>
+
+                <!-- Drop down account -->
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="?account">Account</a>
+                    </li>
+
+                    <li>
+                        <a href="/register?type=log-out">Log out</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
