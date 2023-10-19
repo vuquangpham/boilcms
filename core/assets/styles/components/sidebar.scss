@@ -13,6 +13,13 @@
 .category__panel-inner {
   overflow: auto;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.account__menu {
+  margin-bottom: 30px;
 }
 
 /* item */
