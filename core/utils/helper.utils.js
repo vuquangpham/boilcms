@@ -34,7 +34,7 @@ const getFilenameBasedOnSize = (sourceName, size, extension) => {
  * @return string
  * */
 const stringToSlug = (string) => {
-    if(!string) return '';
+    if (!string) return '';
     return string.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd').replace(/Đ/g, 'D')
@@ -64,6 +64,17 @@ const filterObj = (obj, ...allowedFields) => {
     return newObj;
 }
 
+/**
+ * Capitalize first character of string
+ * @param string {string}
+ * @param character {string}
+ * @return {string}
+ * */
+const capitalizeString = (string, character = ' ') => string.toLowerCase()
+    .split(character)
+    .map(s => s[0].toUpperCase() + s.slice(1)).join(' ')
+
+
 module.exports = {
     stringToSlug,
 
@@ -71,5 +82,6 @@ module.exports = {
     getFilenameBasedOnSize,
 
     minifyString,
-    filterObj
+    filterObj,
+    capitalizeString
 };
