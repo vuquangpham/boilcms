@@ -26,6 +26,17 @@ const sendAuthTokenAndCookies = (user, type, res) => {
     res.cookie('jwt', token, cookiesOptions)
 };
 
+/**
+ * Sending an empty token has a short lifespan of a few seconds when it is issued for authentication
+ * @param res
+ * */
+const sendEmptyToken = (res) => {
+    res.cookie('jwt', '', {
+        maxAge: 5 * 1000,
+        httpOnly: true
+    })
+}
+
 module.exports = {
-    signToken, sendAuthTokenAndCookies
+    signToken, sendAuthTokenAndCookies, sendEmptyToken
 }
