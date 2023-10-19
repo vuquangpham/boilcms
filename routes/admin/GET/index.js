@@ -54,11 +54,14 @@ const handleGetMethod = (request, response, next) => {
 
             if(hasJSON) return response.status(200).json(data);
 
+            const pageTitle = categoryItem.name[0].toUpperCase() + categoryItem.name.slice(1);
+
             // render html to fe
             Content.getContentByType(categoryItem.contentType.name, action, data)
                 .then(html => {
                     response.render('admin', {
                         content: html,
+                        title: pageTitle
                     });
                 });
         })

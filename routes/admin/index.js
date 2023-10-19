@@ -57,8 +57,9 @@ router.all('*', async (req, res, next) => {
         next()
 
     }catch(err){
+        console.error(err.message);
+
         sendEmptyToken(res)
-        console.error(err.message)
         return res.redirect(`${REGISTER_URL}`)
     }
 })

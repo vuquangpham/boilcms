@@ -5,11 +5,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const minifyHTML = require('express-minify-html');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 // routing
 const adminRouting = require('./routes/admin');
-const registerRouting = require('./routes/register')
+const registerRouting = require('./routes/register');
 const defaultRouting = require('./routes/default');
 const errorHandler = require('./routes/404');
 
@@ -17,7 +17,7 @@ const errorHandler = require('./routes/404');
 const {ADMIN_URL, REGISTER_URL} = require("./core/utils/config.utils");
 const {connectDatabase} = require("./core/utils/database.utils");
 const Method = require("./core/classes/utils/method");
-const AccountType = require('./core/classes/utils/account-type')
+const AccountType = require('./core/classes/utils/account-type');
 
 // Init app
 const app = express();
@@ -46,30 +46,32 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Cookie-parser middleware
-app.use(cookieParser())
+app.use(cookieParser());
 
 // Set up static file
 app.use(express.static(path.join(__dirname, 'public')));
 
 // global middleware
-app.use((req, res, next) => {
+app.use((request, response, next) => {
+
+    // project name
+    response.locals.projectName = 'BoilCMS';
 
     // queries
-    const method = req.query.method;
-    const getJSON = req.query.getJSON;
-    const accountType = req.query.type
+    const method = request.query.method;
+    const getJSON = request.query.getJSON;
+    const accountType = request.query.type;
 
     // get token
-    const token = req.cookies.jwt;
+    const token = request.cookies.jwt;
 
     // assign variables to locals
-    res.locals.method = Method.getValidatedMethod(method);
-    res.locals.getJSON = getJSON;
-    res.locals.token = token
-
+    response.locals.method = Method.getValidatedMethod(method);
+    response.locals.getJSON = getJSON;
+    response.locals.token = token;
 
     // get account type
-    res.locals.accountType = AccountType.getValidatedAccountType(accountType)
+    response.locals.accountType = AccountType.getValidatedAccountType(accountType);
 
     next();
 });
@@ -79,7 +81,7 @@ app.use((req, res, next) => {
 app.use('/' + ADMIN_URL, adminRouting);
 
 // register account routing
-app.use('/' + REGISTER_URL, registerRouting)
+app.use('/' + REGISTER_URL, registerRouting);
 
 // front end page
 app.use('/', defaultRouting);
