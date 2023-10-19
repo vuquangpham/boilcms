@@ -137,14 +137,25 @@ export default class ModifyComponent{
 
                 // re-update the previous value
                 if(this.componentTypes.find(t => t === 'text')){
-                    const editorElement = this.componentDetailPanel.querySelector('#editor-container');
-                    const value = editorElement.getAttribute('data-param-value');
+                    const editorElements = this.componentDetailPanel.querySelectorAll('#editor-container');
 
-                    if(value){
-                        editorElement.querySelector('.ql-editor').innerHTML = value;
-                        this.editor.update();
+                    editorElements.forEach((editorElement, index) => {
+                        const value = editorElement.getAttribute('data-param-value');
+                        if(value){
+                            editorElement.querySelector('.ql-editor').innerHTML = value;
+                            this.editors[index].update();
+                        }
+                    });
+                }
+                if(this.componentTypes.find(t => t === 'text-field')){
+                    const previousValueEl = this.componentDetailPanel.querySelector('[data-type="text-field"] [data-param-value]');
+                    const input = this.componentDetailPanel.querySelector('#text-filed');
+                    const previousValue = previousValueEl.getAttribute('data-param-value');
+
+                    if(previousValue){
+                        input.value = previousValue;
+                        console.log('change value', input.value);
                     }
-
                 }
             });
     }
@@ -209,9 +220,12 @@ export default class ModifyComponent{
 
     loadComponent(result){
         // get types of component
-        this.componentTypes = result.component
-            .params
-            .map(p => p.type.slice(0, -4));
+        this.componentTypes = Array
+            .from(
+                new Set(result.component
+                    .params
+                    .map(p => p.type.slice(0, -4)))
+            );
 
         const div = document.createElement('div');
         div.innerHTML = result.data;
@@ -223,25 +237,38 @@ export default class ModifyComponent{
 
         // init component script
         if(this.componentTypes.find(t => t === 'text')){
-            const editorElement = this.componentDetailPanel.querySelector('#editor-container');
+            const editorElements = this.componentDetailPanel.querySelectorAll('#editor-container');
+            editorElements.forEach(editorElement => {
+                this.editors = [];
 
-            // init editor
-            this.editor = new Quill(editorElement, {
-                modules: {
-                    toolbar: [
-                        [{header: [1, 2, false]}],
-                        ['bold', 'italic', 'underline', 'strike', 'link'],
-                        ['list', 'blockquote']
-                    ]
-                },
-                placeholder: 'Input your content here...',
-                theme: 'snow',
+                // init editor
+                const editor = new Quill(editorElement, {
+                    modules: {
+                        toolbar: [
+                            [{header: [1, 2, false]}],
+                            ['bold', 'italic', 'underline', 'strike', 'link'],
+                            ['list', 'blockquote']
+                        ]
+                    },
+                    placeholder: 'Input your content here...',
+                    theme: 'snow',
+                });
+
+                // update the param value
+                editor.on('text-change', () => {
+                    const value = editorElement.querySelector('.ql-editor').innerHTML;
+                    editorElement.setAttribute('data-param-value', value);
+                });
+
+                this.editors.push(editor);
             });
+        }
+        if(this.componentTypes.find(t => t === 'text-field')){
+            const previousValueEl = this.componentDetailPanel.querySelector('[data-type="text-field"] [data-param-value]');
+            const input = this.componentDetailPanel.querySelector('#text-filed');
 
-            // update the param value
-            this.editor.on('text-change', () => {
-                const value = editorElement.querySelector('.ql-editor').innerHTML;
-                editorElement.setAttribute('data-param-value', value);
+            input.addEventListener('input', () => {
+                previousValueEl.setAttribute('data-param-value', input.value);
             });
         }
 

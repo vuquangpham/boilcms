@@ -12,7 +12,8 @@ class ComponentController extends Controller{
         // params
         this.paramTypes = {
             TEXT: 'text.ejs',
-            IMAGE: 'image.ejs'
+            IMAGE: 'image.ejs',
+            TEXT_FIELD: 'text-field.ejs'
         };
     }
 
@@ -33,7 +34,8 @@ class ComponentController extends Controller{
             htmlPromises.push(Content.getHTML(path.join(directory, param.type), {
                 classesName: param.className,
                 description: param.description,
-                paramName: param.paramName
+                paramName: param.paramName,
+                type: param.type.slice(0, -4)
             }));
         });
 
