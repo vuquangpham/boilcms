@@ -1,6 +1,6 @@
 const Account = require('./../../core/classes/account/account')
 const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
-const {ADMIN_URL} = require("../../core/utils/config.utils");
+const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
 
 const handlePostMethod = (req, res, next) => {
     const account = new Account();
@@ -27,6 +27,8 @@ const handlePostMethod = (req, res, next) => {
             // send token to client and save token in cookies
             sendAuthTokenAndCookies(result, type, res)
 
+            // redirect to sign in when sign up
+
             // redirect to admin page
             if (type === 'sign-in') {
                 res.redirect(`${ADMIN_URL}`)
@@ -34,6 +36,9 @@ const handlePostMethod = (req, res, next) => {
 
         })
         .catch(err => {
+            // res.locals.message = err.message;
+            // console.log('message: ', res.locals.message)
+            res.redirect(`${REGISTER_URL}`)
             console.error(err);
             next(err)
         })
