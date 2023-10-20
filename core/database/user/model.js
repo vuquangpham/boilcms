@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
             },
         }
     },
-    setPasswordAt: {
+    changePasswordAt: {
         type: Date,
         default: new Date()
     },
@@ -55,14 +55,14 @@ userSchema.pre('save', async function (next) {
     // Remove confirm password to save in database
     this.confirmPassword = undefined
 
-    this.setPasswordAt = Date.now() - 1000;
+    this.changePasswordAt = Date.now() - 1000;
     next()
 })
 
 /**
  * Compare password hashed in database and password from request
  * */
-userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+userSchema.methods.comparePassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
 }
 
@@ -72,10 +72,10 @@ userSchema.methods.correctPassword = async function (candidatePassword, userPass
  * @return boolean
  * */
 userSchema.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
-    if (this.setPasswordAt) {
+    if (this.changePasswordAt) {
 
         // JWTTimeStamp is the time when the token was created, and passwordChangedTime is the time when the password was last updated
-        const passwordChangedTime = parseInt(this.setPasswordAt.getTime() / 1000, 10);
+        const passwordChangedTime = parseInt(this.changePasswordAt.getTime() / 1000, 10);
         return  JWTTimeStamp < passwordChangedTime
     }
     return false

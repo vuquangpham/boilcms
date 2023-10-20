@@ -74,9 +74,9 @@ class Account {
                 }
 
                 const userModel = new this.databaseModel(user);
-                const correctPassword = await userModel.correctPassword(password, user.password);
+                const comparePassword = await userModel.comparePassword(password, user.password);
 
-                if (!correctPassword) {
+                if (!comparePassword) {
                     throw new Error('Wrong password')
                 }
 
