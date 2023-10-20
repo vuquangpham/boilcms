@@ -27,6 +27,26 @@ class ImageContent extends Component{
                     heading: 'Image',
                     paramName: 'image',
                     classesName: 'image-class'
+                },
+                {
+                    type: 'group',
+                    heading: 'Group',
+                    paramName: 'group',
+                    classesName: 'group-class',
+                    params: [
+                        {
+                            type: ComponentController.paramTypes.TEXT_FIELD,
+                            heading: 'Text',
+                            paramName: 'text',
+                            classesName: 'text-class'
+                        },
+                        {
+                            type: ComponentController.paramTypes.IMAGE,
+                            heading: 'Image',
+                            paramName: 'image',
+                            classesName: 'image-class'
+                        },
+                    ]
                 }
             ],
         });

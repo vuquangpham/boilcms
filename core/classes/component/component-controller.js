@@ -1,6 +1,7 @@
 const path = require("path");
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
 const Controller = require('../utils/controller');
+const Content = require("../utils/content");
 
 class ComponentController extends Controller{
     constructor(){
@@ -31,17 +32,41 @@ class ComponentController extends Controller{
         let htmlPromises = [];
 
         instance.params.forEach(param => {
-            htmlPromises.push(Content.getHTML(path.join(directory, param.type), {
-                classesName: param.className,
-                description: param.description,
-                paramName: param.paramName,
-                type: param.type.slice(0, -4)
-            }));
+            // group type
+            if(param.type === 'group'){
+
+                const promise = new Promise((resolve, reject) => {
+                    const html = '<div>#REPLACE</div>';
+
+                    const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type), {
+                        classesName: p.className,
+                        description: p.description,
+                        paramName: p.paramName,
+                        type: p.type.slice(0, -4)
+                    }));
+
+                    Promise.all(promises)
+                        .then(data => resolve(html.replace('#REPLACE', data.join(''))))
+                        .catch(err => {
+                            console.log(err);
+                            reject('');
+                        });
+                });
+                htmlPromises.push(promise);
+            }else{
+                htmlPromises.push(Content.getHTML(path.join(directory, param.type), {
+                    classesName: param.className,
+                    description: param.description,
+                    paramName: param.paramName,
+                    type: param.type.slice(0, -4)
+                }));
+            }
         });
 
         return new Promise(resolve => {
             Promise.all(htmlPromises)
                 .then(html => {
+                    console.log('html', html);
                     resolve(html.join('').trim());
                 });
         });
