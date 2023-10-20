@@ -28,7 +28,6 @@ const handleGetMethod = async (req, res, next) => {
     // render html
     const directory = path.join(process.cwd(), 'views', 'register', 'type', `${type}` + '.ejs')
     const html = await Content.getHTML(directory, {type: type})
-    console.log('1: ', res.locals.message)
 
     res.render('register/index', {
         content: html,

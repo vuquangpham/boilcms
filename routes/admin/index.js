@@ -45,16 +45,11 @@ router.all('*', async (req, res, next) => {
         if (currentUser.hasAlreadyChangedPassword(decoded.iat)) {
             throw new Error('Password has changed recently')
         }
-        console.log('message in true admin: ',res.locals.message)
 
         // Does the account have the 'admin' role?
         if(currentUser.role !== 'admin'){
-            console.log('message in true admin1: ',res.locals.message)
-
             throw new Error('You do not permission to access this data')
         }
-        console.log('message in true admin2: ',res.locals.message)
-
 
         // Attach user information in local to access user data throughout the application
         res.locals.user = currentUser;
@@ -64,11 +59,8 @@ router.all('*', async (req, res, next) => {
     }catch(err){
         console.error(err.message);
         res.locals.message = err.message;
-        console.log('message in admin: ', err.message)
-        console.log('message in local message: ',res.locals.message)
 
         sendEmptyToken(res)
-        console.log('message in local message2: ',res.locals.message)
         return res.redirect(`${REGISTER_URL}`)
     }
 })

@@ -11,7 +11,6 @@ router.all('*', (request, response, next) => {
 
     switch(method.name){
         case 'get':{
-            console.log('message in method: ', response.locals.message)
             handleGetMethod(request, response, next);
             break;
         }
