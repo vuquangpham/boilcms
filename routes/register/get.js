@@ -16,11 +16,11 @@ const handleGetMethod = async (req, res, next) => {
     // check if user logged and user want to log-out
     if (token && type === 'log-out') {
         sendEmptyToken(res)
-        return res.redirect(`${REGISTER_URL}`)
+        return res.redirect(`/${REGISTER_URL}`);
     }
 
     // when user logged, can not redirect to register
-    else if (token) return res.redirect(`${ADMIN_URL}`)
+    else if(token) return res.redirect(`/${ADMIN_URL}`);
 
     // capitalize pageTitle
     const pageTitle = capitalizeString(type,'-')

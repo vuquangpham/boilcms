@@ -61,7 +61,7 @@ router.all('*', async (req, res, next) => {
         res.locals.message = err.message;
 
         sendEmptyToken(res)
-        return res.redirect(`${REGISTER_URL}`)
+        return res.redirect(`/${REGISTER_URL}`);
     }
 })
 
