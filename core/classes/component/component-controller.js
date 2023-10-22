@@ -12,9 +12,9 @@ class ComponentController extends Controller{
 
         // params
         this.paramTypes = {
-            TEXT: 'text.ejs',
-            IMAGE: 'image.ejs',
-            TEXT_FIELD: 'text-field.ejs'
+            TEXT: 'text',
+            IMAGE: 'image',
+            TEXT_FIELD: 'text-field'
         };
     }
 
@@ -38,11 +38,11 @@ class ComponentController extends Controller{
                 const promise = new Promise((resolve, reject) => {
                     const html = '<div>#REPLACE</div>';
 
-                    const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type), {
+                    const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), {
                         classesName: p.className,
                         description: p.description,
                         paramName: p.paramName,
-                        type: p.type.slice(0, -4)
+                        type: p.type
                     }));
 
                     Promise.all(promises)
@@ -54,11 +54,11 @@ class ComponentController extends Controller{
                 });
                 htmlPromises.push(promise);
             }else{
-                htmlPromises.push(Content.getHTML(path.join(directory, param.type), {
+                htmlPromises.push(Content.getHTML(path.join(directory, param.type + '.ejs'), {
                     classesName: param.className,
                     description: param.description,
                     paramName: param.paramName,
-                    type: param.type.slice(0, -4)
+                    type: param.type
                 }));
             }
         });

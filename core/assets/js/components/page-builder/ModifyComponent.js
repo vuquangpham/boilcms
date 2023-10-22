@@ -224,7 +224,7 @@ export default class ModifyComponent{
             .from(
                 new Set(result.component
                     .params
-                    .map(p => p.type.slice(0, -4)))
+                    .map(p => p.type))
             );
 
         const div = document.createElement('div');
