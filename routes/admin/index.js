@@ -1,13 +1,10 @@
 // dependencies
 const router = require('express').Router();
-const jwt = require('jsonwebtoken')
 
 // config
 const {REGISTER_URL} = require('./../../core/utils/config.utils')
 const {sendEmptyToken} = require("../../core/utils/token.utils");
-
-// model
-const User = require('./../../core/database/user/model')
+const {checkAuthentication, restrictTo} = require("../../core/utils/middleware.utils");
 
 // core modules
 const CategoryController = require('../../core/classes/category/category-controller');
@@ -25,45 +22,17 @@ const upload = require('../../core/utils/upload.utils');
 /**
  * Middleware for authenticate user
  * */
-router.all('*', async (req, res, next) => {
-    try{
-        let token = res.locals.token
-
-        if(!token){
-            throw new Error('Token was not found')
-        }
-        // Verify token
-        const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY)
-
-        // Check if the user still exists
-        const currentUser = await User.findOne({_id: decoded.id}).select('+passwordChangedAt')
-        if (!currentUser) {
-            throw new Error('User is not exists')
-        }
-
-        // Check if the user changed password after the token was issued
-        if (currentUser.hasAlreadyChangedPassword(decoded.iat)) {
-            throw new Error('Password has changed recently')
-        }
-
-        // Does the account have the 'admin' role?
-        if(currentUser.role !== 'admin'){
-            throw new Error('You do not permission to access this data')
-        }
-
-        // Attach user information in local to access user data throughout the application
-        res.locals.user = currentUser;
-
-        next()
-
-    }catch(err){
-        console.error(err.message);
-        res.locals.message = err.message;
-
-        sendEmptyToken(res)
-        return res.redirect(`/${REGISTER_URL}`);
-    }
-})
+router.all('*', (req, res, next) => {
+    checkAuthentication(req, res)
+        .then(() => restrictTo(req, res, 'admin'))
+        .then(() => next())
+        .catch((err) => {
+            console.error(err.message);
+            res.locals.message = err.message;
+            sendEmptyToken(res);
+            return res.redirect(`/${REGISTER_URL}`);
+        });
+});
 
 /**
  * Middleware for registering variables

@@ -16,8 +16,7 @@ const errorHandler = require('./routes/404');
 // configs
 const {ADMIN_URL, REGISTER_URL} = require("./core/utils/config.utils");
 const {connectDatabase} = require("./core/utils/database.utils");
-const Method = require("./core/classes/utils/method");
-const AccountType = require('./core/classes/utils/account-type');
+const {globalMiddleware} = require("./core/utils/middleware.utils");
 
 // Init app
 const app = express();
@@ -52,30 +51,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // global middleware
-app.use((request, response, next) => {
-
-    // project name
-    response.locals.projectName = 'BoilCMS';
-
-    // queries
-    const method = request.query.method;
-    const getJSON = request.query.getJSON;
-    const accountType = request.query.type;
-
-    // get token
-    const token = request.cookies.jwt;
-
-    // assign variables to locals
-    response.locals.method = Method.getValidatedMethod(method);
-    response.locals.getJSON = getJSON;
-    response.locals.token = token;
-
-    // get account type
-    response.locals.accountType = AccountType.getValidatedAccountType(accountType);
-
-    next();
-});
-
+app.use(globalMiddleware)
 
 // admin routing
 app.use('/' + ADMIN_URL, adminRouting);
