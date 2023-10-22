@@ -33,10 +33,7 @@ const userSchema = new mongoose.Schema({
             },
         }
     },
-    changePasswordAt: {
-        type: Date,
-        default: new Date()
-    },
+    changePasswordAt: Date,
     resetPasswordToken: {
         type: String,
         select: false

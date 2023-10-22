@@ -50,15 +50,13 @@ const checkAuthentication = (request, response) => {
                 .then(currentUser => {
                     if (!currentUser) {
                         reject(new Error('User does not exist'));
-                    } else {
+                    } else if (currentUser.hasAlreadyChangedPassword(decoded.iat)) {
                         // Check if the user changed password after the token was issued
-                        if (currentUser.hasAlreadyChangedPassword(decoded.iat)) {
-                            reject(new Error('Password has changed recently'));
-                        }
-
-                        response.locals.user = currentUser;
-                        resolve();
+                        reject(new Error('Password has changed recently'));
                     }
+
+                    response.locals.user = currentUser;
+                    resolve();
                 })
                 .catch(err => {
                     reject(err);
