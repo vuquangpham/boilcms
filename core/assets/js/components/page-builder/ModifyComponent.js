@@ -126,7 +126,20 @@ export default class ModifyComponent{
                 obj.value = param.querySelector('[data-param-value]').getAttribute('data-param-value');
 
                 return obj;
-            });
+            })
+            .reduce((acc, cur) => {
+                const obj = acc.find(o => o.key === cur.key);
+
+                // already exist, increase the count
+                if(obj){
+                    cur.index = obj.index + 1;
+                }else{
+                    cur.index = 0;
+                }
+                acc.push(cur);
+
+                return acc;
+            }, []);
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
@@ -148,14 +161,16 @@ export default class ModifyComponent{
                     });
                 }
                 if(this.componentTypes.find(t => t === 'text-field')){
-                    const previousValueEl = this.componentDetailPanel.querySelector('[data-type="text-field"] [data-param-value]');
-                    const input = this.componentDetailPanel.querySelector('#text-filed');
-                    const previousValue = previousValueEl.getAttribute('data-param-value');
 
-                    if(previousValue){
-                        input.value = previousValue;
-                        console.log('change value', input.value);
-                    }
+                    this.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
+                        const previousValueEl = textField.querySelector('[data-param-value]');
+                        const input = textField.querySelector('input');
+                        const previousValue = previousValueEl.getAttribute('data-param-value');
+
+                        if(previousValue){
+                            input.value = previousValue;
+                        }
+                    });
                 }
             });
     }
@@ -176,7 +191,7 @@ export default class ModifyComponent{
         };
 
         // get params
-        Array.from(this.componentDetailPanel.children).forEach(el => {
+        Array.from(this.componentDetailPanel.querySelectorAll('[data-type]')).forEach(el => {
             const paramValueEl = el.querySelector('[data-param-value]');
             const value = paramValueEl?.getAttribute('data-param-value');
 
@@ -209,7 +224,7 @@ export default class ModifyComponent{
     loadDataToPopup(data){
         data.forEach(d => {
             this.componentDetailPanel
-                .querySelector(`[data-param="${d.key}"]`)
+                .querySelectorAll(`[data-param="${d.key}"]`)[d.index]
                 .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
         });
     }
@@ -264,11 +279,13 @@ export default class ModifyComponent{
             });
         }
         if(this.componentTypes.find(t => t === 'text-field')){
-            const previousValueEl = this.componentDetailPanel.querySelector('[data-type="text-field"] [data-param-value]');
-            const input = this.componentDetailPanel.querySelector('#text-filed');
+            this.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
+                const previousValueEl = textField.querySelector('[data-param-value]');
+                const input = textField.querySelector('input');
 
-            input.addEventListener('input', () => {
-                previousValueEl.setAttribute('data-param-value', input.value);
+                input.addEventListener('input', () => {
+                    previousValueEl.setAttribute('data-param-value', input.value);
+                });
             });
         }
 
