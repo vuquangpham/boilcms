@@ -16,7 +16,8 @@ const handleGetMethod = async (req, res, next) => {
     // console.log('message in register: ', res.locals.message)
 
     // check if user logged and user want to log-out
-    if (token && AccountType.getActionType('LOGOUT')) {
+    const logOutAction = AccountType.getActionType('LOGOUT')
+    if (token && logOutAction.name) {
         sendEmptyToken(res)
         return res.redirect(`/${REGISTER_URL}`);
     }
