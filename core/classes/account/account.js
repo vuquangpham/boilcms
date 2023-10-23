@@ -82,7 +82,7 @@ class Account {
 
                 resolve(user);
             } catch (error) {
-                reject(error);
+                reject(error.message);
             }
         });
     }

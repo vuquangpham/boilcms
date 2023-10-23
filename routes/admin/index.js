@@ -22,33 +22,33 @@ const upload = require('../../core/utils/upload.utils');
 /**
  * Middleware for authenticate user
  * */
-router.all('*', (req, res, next) => {
-    checkAuthentication(req, res)
-        .then(() => restrictTo(req, res, 'admin'))
+router.all('*', (request, response, next) => {
+    checkAuthentication(request, response)
+        .then(() => restrictTo(request, response, 'admin'))
         .then(() => next())
         .catch((err) => {
             console.error(err.message);
-            res.locals.message = err.message;
-            sendEmptyToken(res);
-            return res.redirect(`/${REGISTER_URL}`);
+            response.locals.message = err.message;
+            sendEmptyToken(response);
+            return response.redirect(`/${REGISTER_URL}`);
         });
 });
 
 /**
  * Middleware for registering variables
  * */
-router.all('*', (req, res, next) => {
+router.all('*', (request, response, next) => {
     // params, default point to the dashboard page
-    const [type] = getParamsOnRequest(req, ['default']);
+    const [type] = getParamsOnRequest(request, ['default']);
 
     // queries
-    const action = req.query.action;
+    const action = request.query.action;
 
     // categories
-    res.locals.categories = CategoryController.instances;
-    res.locals.categoryItem = CategoryController.getCategoryItem(type);
-    res.locals.action = Action.getActionType(action);
-    res.locals.params = {type};
+    response.locals.categories = CategoryController.instances;
+    response.locals.categoryItem = CategoryController.getCategoryItem(type);
+    response.locals.action = Action.getActionType(action);
+    response.locals.params = {type};
 
     next();
 });
