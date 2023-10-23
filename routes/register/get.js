@@ -7,14 +7,16 @@ const {sendEmptyToken} = require("../../core/utils/token.utils");
 const {capitalizeString} = require("../../core/utils/helper.utils");
 
 const Content = require("../../core/classes/utils/content")
+const AccountType = require('../../core/classes/utils/account-type')
 
 
 const handleGetMethod = async (req, res, next) => {
     const type = res.locals.accountType.name;
     const token = res.locals.token
+    // console.log('message in register: ', res.locals.message)
 
     // check if user logged and user want to log-out
-    if (token && type === 'log-out') {
+    if (token && AccountType.getActionType('LOGOUT')) {
         sendEmptyToken(res)
         return res.redirect(`/${REGISTER_URL}`);
     }

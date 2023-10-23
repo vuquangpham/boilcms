@@ -24,7 +24,7 @@ const globalMiddleware = (request, response, next) => {
     response.locals.token = token;
 
     // get account type
-    response.locals.accountType = AccountType.getValidatedAccountType(accountType);
+    response.locals.accountType = AccountType.getActionType(accountType);
 
     next();
 }

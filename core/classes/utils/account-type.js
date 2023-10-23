@@ -13,9 +13,25 @@ class AccountType {
         };
     }
 
-    getValidatedAccountType(type) {
-        const result = Object.values(this.types).find(instance => instance.name === type);
-        return result || this.types.SIGNIN;
+    /**
+     * Get action type
+     * @param type {string}
+     * @param defaultAction {Object}
+     * @return {Object}
+     * */
+    getActionType(type, defaultAction = this.types.SIGNIN){
+        return this.isValidAction(type)
+            ? Object.values(this.types).find(instance => instance.name === type)
+            : defaultAction;
+    }
+
+    /**
+     * Validate action
+     * @param actionType
+     * @return boolean
+     */
+    isValidAction(actionType){
+        return !!Object.values(this.types).find(instance => instance.name === actionType);
     }
 }
 
