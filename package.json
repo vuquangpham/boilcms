@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "backend:build": "node server.js",
-    "backend:development": "nodemon --ignore public/ --ignore assets/ --ignore core/assets server.js",
+    "backend:development": "nodemon --ignore public/ --ignore assets/ --ignore core/assets --ignore vite.config.mjs server.js",
     "frontend:build": "cross-env DEV_MODE=false webpack --config ./configs/webpack.config.build.js",
     "frontend:development": "cross-env DEV_MODE=true webpack serve --config ./configs/webpack.config.dev.js",
     "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\"",
     "build": "concurrently --kill-others \"npm run backend:build\" \"npm run frontend:build\"",
-    "vite-build": "vite build"
+    "vite-build": "vite build",
+    "dev": "concurrently --kill-others \"npm run backend:development\" \"vite build --watch\""
   },
   "repository": {
     "type": "git",

@@ -24,6 +24,7 @@ export default defineConfig({
 
         // manifest: true,
         cssCodeSplit: true,
+        watch: true,
 
         /* https://stackoverflow.com/a/71190586 */
         rollupOptions: {
@@ -32,12 +33,16 @@ export default defineConfig({
                     // default css import setting
                     if(assetInfo.name === 'index.css'){
                         const name = Object.keys(entryPoints)[count++];
+
+                        // reset count
+                        if(count > Object.keys(entryPoints).length - 1) count = 0;
                         return name + '.css';
                     }
                     return assetInfo.name;
-                },
-                chunkFileNames: `[name].js`,
+                }, chunkFileNames: `[name].js`,
                 entryFileNames: `[name].js`,
+
+                format: "esm"
             },
             input: {
                 'main-fe': resolve(dirFE, 'index.js'),
