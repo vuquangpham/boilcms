@@ -1,7 +1,6 @@
 const path = require("path");
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
 const Controller = require('../utils/controller');
-const Content = require("../utils/content");
 
 class ComponentController extends Controller{
     constructor(){
