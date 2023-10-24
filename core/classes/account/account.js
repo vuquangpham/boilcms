@@ -72,9 +72,7 @@ class Account {
                 if (!user) {
                     throw new Error('No user found')
                 }
-
-                const userModel = new this.databaseModel(user);
-                const comparePassword = await userModel.comparePassword(password, user.password);
+                const comparePassword = await user.comparePassword(password, user.password);
 
                 if (!comparePassword) {
                     throw new Error('Wrong password')
@@ -82,7 +80,7 @@ class Account {
 
                 resolve(user);
             } catch (error) {
-                reject(error.message);
+                reject(error);
             }
         });
     }

@@ -35,11 +35,10 @@ const handleGetMethod = (request, response, next) => {
             response.render('register/index', {
                 content: html,
                 title: pageTitle,
-                message: response.locals.message || ''
+                message: request.app.get('message') || ''
             })
         })
         .catch(err => {
-            console.error(err);
             next(err)
         })
 

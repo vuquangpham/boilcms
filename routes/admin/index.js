@@ -27,10 +27,13 @@ router.all('*', (request, response, next) => {
         .then(() => restrictTo(request, response, 'admin'))
         .then(() => next())
         .catch((err) => {
-            console.error(err.message);
-            response.locals.message = err.message;
+            request.app.set('message', err.message)
+
+            // reset token
             sendEmptyToken(response);
-            return response.redirect(`/${REGISTER_URL}`);
+
+            // redirect to register page
+            response.redirect(`/${REGISTER_URL}`);
         });
 });
 

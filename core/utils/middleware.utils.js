@@ -69,7 +69,7 @@ const checkAuthentication = (request, response) => {
  * Restrict user access based on their roles.
  * @param request
  * @param response
- * @param role {array} - An array of role allowed to access
+ * @param role {Array | String} - An array of role allowed to access
  * @return {Promise}
  * */
 // Middleware restrict

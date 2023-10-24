@@ -34,8 +34,8 @@ const handlePostMethod = (request, response, next) => {
 
         })
         .catch(err => {
+            request.app.set('message', err.message)
             response.redirect(`${REGISTER_URL}`)
-            console.error(err);
         })
 }
 
