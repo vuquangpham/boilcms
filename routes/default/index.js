@@ -10,7 +10,7 @@ router.get('*', (req, res, next) => {
     next();
 });
 
-router.get('/*', (req, res, next) => {
+router.get('*', (req, res, next) => {
     let {type, pageURL} = res.locals.params;
 
     let categoryItem = null;
