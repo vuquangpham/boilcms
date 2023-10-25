@@ -3,15 +3,20 @@ const router = require('express').Router();
 
 const CategoryController = require('../../core/classes/category/category-controller');
 const Content = require('../../core/classes/utils/content');
+const {checkAuthentication, restrictTo} = require("../../core/utils/middleware.utils");
+const {sendEmptyToken} = require("../../core/utils/token.utils");
+const {REGISTER_URL} = require("../../core/utils/config.utils");
 
-router.get('*', (req, res, next) => {
-    const [type, pageURL] = getParamsOnRequest(req, ['', '']);
-    res.locals.params = {type, pageURL};
+
+
+router.get('*', (request, response, next) => {
+    const [type, pageURL] = getParamsOnRequest(request, ['', '']);
+    response.locals.params = {type, pageURL};
     next();
 });
 
-router.get('*', (req, res, next) => {
-    let {type, pageURL} = res.locals.params;
+router.get('*', (request, response, next) => {
+    let {type, pageURL} = response.locals.params;
 
     let categoryItem = null;
 
@@ -43,7 +48,7 @@ router.get('*', (req, res, next) => {
             const title = pageURL ? pageURL[0].toUpperCase() + pageURL.slice(1) : 'Home';
 
             // render to frontend
-            res.render('default', {
+            response.render('default', {
                 data: result,
                 content: html,
                 title
