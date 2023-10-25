@@ -3,6 +3,9 @@ const isActiveItem = (category) => {
     return category.type === categoryItem.type ? 'active' : ''
     return ''
 }
+
+// custom type
+const accountType = categories.find(c => c.type === 'account')
 %>
 
 <div class="category__panel">
@@ -20,8 +23,8 @@ const isActiveItem = (category) => {
         <!-- account menu -->
         <ul class="account__menu">
             <li class="category__menu-item">
-                <a class="category__menu-item--link <%= isActiveItem(categories.find(c => c.type === 'account')) %>"
-                   href="/<%= adminPath %>/account">Account</a>
+                <a class="category__menu-item--link <%= isActiveItem(accountType) %>"
+                   href="<%= accountType.url %>">Account</a>
             </li>
 
             <li class="category__menu-item">
