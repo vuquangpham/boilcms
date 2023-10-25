@@ -10,4 +10,6 @@ module.exports = merge(config, {
             writeToDisk: true,
         },
     },
+    infrastructureLogging: {level: 'error'},
+    stats: 'minimal',
 });
