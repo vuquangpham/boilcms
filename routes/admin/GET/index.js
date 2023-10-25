@@ -23,22 +23,28 @@ const handleGetMethod = (request, response, next) => {
     let funcForHandlingAction = () => {
     };
 
-    switch(action.name){
-        case 'get':{
-            funcForHandlingAction = handleGetAction;
-            break;
-        }
-        case 'add':{
-            funcForHandlingAction = handleAddAction;
-            break;
-        }
-        case 'edit':{
-            funcForHandlingAction = handleEditAction;
-            break;
+    // get custom post type
+    const isCustomType = categoryItem.contentType.isCustomType;
+
+    // custom type
+    if(!isCustomType){
+        switch(action.name){
+            case 'get':{
+                funcForHandlingAction = handleGetAction;
+                break;
+            }
+            case 'add':{
+                funcForHandlingAction = handleAddAction;
+                break;
+            }
+            case 'edit':{
+                funcForHandlingAction = handleEditAction;
+                break;
+            }
         }
     }
 
-    const [promise, extraData] = funcForHandlingAction(request, response);
+    const [promise, extraData] = isCustomType ? [Promise.resolve(), {}] : funcForHandlingAction(request, response);
 
     // render data
     promise
@@ -61,7 +67,8 @@ const handleGetMethod = (request, response, next) => {
                 .then(html => {
                     response.render('admin', {
                         content: html,
-                        title: pageTitle
+                        title: pageTitle,
+                        adminPath: ADMIN_URL
                     });
                 });
         })

@@ -2,7 +2,7 @@
 const router = require('express').Router();
 
 // config
-const {REGISTER_URL} = require('./../../core/utils/config.utils')
+const {REGISTER_URL} = require('./../../core/utils/config.utils');
 const {sendEmptyToken} = require("../../core/utils/token.utils");
 const {checkAuthentication, restrictTo} = require("../../core/utils/middleware.utils");
 
@@ -27,7 +27,7 @@ router.all('*', (request, response, next) => {
         .then(() => restrictTo(request, response, 'admin'))
         .then(() => next())
         .catch((err) => {
-            request.app.set('message', err.message)
+            request.app.set('message', err.message);
 
             // reset token
             sendEmptyToken(response);
@@ -63,12 +63,12 @@ router.all('*', (request, response, next) => {
 router.all('*', upload.single('image'), (request, response, next) => {
     const method = response.locals.method;
 
-    switch (method.name) {
-        case 'get': {
+    switch(method.name){
+        case 'get':{
             handleGetMethod(request, response, next);
             break;
         }
-        case 'post': {
+        case 'post':{
             handlePostMethod(request, response, next);
         }
     }

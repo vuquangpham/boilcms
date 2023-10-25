@@ -11,6 +11,7 @@ class Category{
             contentType: '',
             isSpecialType: false,
             author: '',
+            notShowInCategory: false,
             order: 0
         };
         const validatedOptions = this.validateOptions({...defaultOptions, ...options});
@@ -22,6 +23,8 @@ class Category{
         this.contentType = validatedOptions.contentType;
         this.author = validatedOptions.author;
         this.order = validatedOptions.order;
+
+        this.notShowInCategory = validatedOptions.notShowInCategory;
         this.isSpecialType = validatedOptions.isSpecialType;
     }
 
@@ -38,7 +41,9 @@ class Category{
         options.url = '/' + ADMIN_URL + options.url + (options.contentType && ('?post_type=' + options.contentType.name));
 
         // validate database model
-        this.databaseModel = mongoose.model(options.type, options.contentType.model);
+        if(options.type && options.contentType.model){
+            this.databaseModel = mongoose.model(options.type, options.contentType.model);
+        }
 
         return options;
     }
