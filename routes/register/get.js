@@ -11,9 +11,9 @@ const AccountType = require('../../core/classes/utils/account-type')
 
 
 const handleGetMethod = (request, response, next) => {
+
     const type = response.locals.accountType.name;
     const token = response.locals.token
-    // console.log('message in register: ', res.locals.message)
 
     // check if user logged and user want to log-out
     const logOutAction = AccountType.getActionType('log-out')
