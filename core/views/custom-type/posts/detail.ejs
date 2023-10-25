@@ -109,6 +109,15 @@ const getValueFromData = (name, property = '') => {
                         </option>
                     </select>
                 </div>
+                <div class="posts-detail__template">
+                    <label for="template">Template</label>
+                    <select name="visibility" id="visibility">
+                        <option <%= isSelectedValue('template', 'default') %> value="default" name="default">Default
+                        </option>
+                        <option <%= isSelectedValue('template', '1') %> value="1" name="1">1
+                        </option>
+                    </select>
+                </div>
                 <button type="submit">Publish</button>
             </div>
         </div>
