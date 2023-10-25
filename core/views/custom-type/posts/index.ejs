@@ -32,7 +32,7 @@ const modifyDate = (publishTime) => {
             <% data.forEach(post => { %>
                 <div class="posts-list__item" data-column-wrapper="item">
                     <div class="posts__item--title not-show-title" data-column="Title">
-                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
+                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post.id; %>"
                            class="posts__item--link"><%= post.title; %></a>
                         <div class="posts__item--utils">
                             <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
@@ -46,7 +46,7 @@ const modifyDate = (publishTime) => {
 
                     <!-- todo: @vupham please do this task after done the account feature :'( -->
                     <div class="posts__item--author"
-                         data-column="Author"><%= post.author; %></div>
+                         data-column="Author"><%= post.author.name; %></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
                         <div class="posts__item--status" data-title="Visibility">Published</div>

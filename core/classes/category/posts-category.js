@@ -24,13 +24,29 @@ class POSTS extends Category{
     }
 
     /**
+     * Get all data from category
+     * @return {Promise}
+     * */
+    getAllData(){
+        return new Promise((resolve, reject) => {
+            this.databaseModel.find().populate('author')
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    /**
      * Validate input data to get the correct data
      * */
     validateInputData(request,response, action = 'add'){
         const title = request.body.title.trim();
         let url = stringToSlug(title);
         const visibility = request.body.visibility.trim();
-        const author = response.locals.user.name;
+        const author = response.locals.user._id;
 
         let content = '';
 
