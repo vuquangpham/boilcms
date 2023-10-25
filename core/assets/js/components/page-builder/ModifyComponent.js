@@ -3,7 +3,6 @@ import fetch from "@global/fetch";
 import UpdateComponentState from "./UpdateComponentState";
 
 // WYSIWYG editor
-import Quill from "quill";
 import 'quill/dist/quill.snow.css';
 
 export default class ModifyComponent{
