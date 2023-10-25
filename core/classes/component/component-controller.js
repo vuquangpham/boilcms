@@ -21,6 +21,10 @@ class ComponentController extends Controller{
         return this.instances.find(i => i.name === name);
     }
 
+    generateUID(){
+        return (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
+    }
+
     getHTML(instance){
         // import package
         const Content = require('../utils/content');
@@ -35,7 +39,16 @@ class ComponentController extends Controller{
             if(param.type === 'group'){
 
                 const promise = new Promise((resolve, reject) => {
-                    const html = '<div data-group> <div data-group-children><div data-group-item>#REPLACE<button type="button" data-group-remove>Delete</button></div></div><button type="button" data-group-add>Add</button></div>';
+                    const html = `
+<div data-type="group" data-param="group" data-id="${this.generateUID()}" data-group>
+    <div data-group-children>
+        <div data-group-item>
+            #REPLACE
+            <button type="button" data-group-remove>Delete</button>
+        </div>
+    </div>
+    <button type="button" data-group-add>Add</button>
+</div>`;
 
                     const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), {
                         classesName: p.className,

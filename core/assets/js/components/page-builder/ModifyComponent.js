@@ -150,11 +150,33 @@ export default class ModifyComponent{
             .map(param => {
                 const obj = {};
                 obj.key = param.getAttribute('data-param');
-                obj.value = param.querySelector('[data-param-value]').getAttribute('data-param-value');
+                const value = param.querySelector('[data-param-value]').getAttribute('data-param-value');
 
+                try{
+                    obj.value = JSON.parse(JSON.parse(value));
+                }catch(e){
+                    obj.value = value;
+                }
                 return obj;
             })
             .reduce((acc, cur) => {
+                if(cur.key === 'group'){
+                    cur.value = cur.value.map(item => {
+                        return item.reduce((acc, cur) => {
+                            const obj = acc.find(o => o.key === cur.key);
+
+                            // already exist, increase the count
+                            if(obj){
+                                cur.index = obj.index + 1;
+                            }else{
+                                cur.index = 0;
+                            }
+                            acc.push(cur);
+                            return acc;
+                        }, []);
+                    });
+                }
+
                 const obj = acc.find(o => o.key === cur.key);
 
                 // already exist, increase the count
@@ -163,8 +185,8 @@ export default class ModifyComponent{
                 }else{
                     cur.index = 0;
                 }
-                acc.push(cur);
 
+                acc.push(cur);
                 return acc;
             }, []);
 
@@ -194,7 +216,7 @@ export default class ModifyComponent{
         };
 
         // get params
-        Array.from(this.componentDetailPanel.querySelectorAll('[data-type]')).forEach(el => {
+        Array.from(this.componentDetailPanel.querySelectorAll(':scope > [data-type]')).forEach(el => {
             const paramValueEl = el.querySelector('[data-param-value]');
             const value = paramValueEl?.getAttribute('data-param-value');
 
@@ -202,6 +224,20 @@ export default class ModifyComponent{
             obj.key = el.dataset.param;
             obj.value = value || '';
 
+            if(obj.key === 'group'){
+                obj.value = Array.from(el.querySelectorAll('[data-group-item]')).map(gItem => {
+                    return Array.from(gItem.querySelectorAll('[data-type]')).map(e => {
+                        const paramValueEl = e.querySelector('[data-param-value]');
+                        const value = paramValueEl?.getAttribute('data-param-value');
+
+                        const obj = {};
+                        obj.key = e.dataset.param;
+                        obj.value = value || '';
+
+                        return obj;
+                    });
+                });
+            }
             componentInformation.params.push(obj);
         });
 
@@ -226,6 +262,54 @@ export default class ModifyComponent{
 
     loadDataToPopup(data){
         data.forEach(d => {
+            if(d.key === 'group'){
+                const parentElm = this.componentDetailPanel.querySelectorAll(`[data-param="${d.key}"]`)[d.index];
+                const groupElm = parentElm.querySelector('[data-group-children]');
+
+                d.value.forEach((childData, index) => {
+                    let childItem = parentElm.querySelector(`[data-group-item]:nth-child(${index + 1})`);
+
+                    // the child item 2nd, 3rd... is not exist because the BE server only return 1
+                    if(!childItem){
+                        const item = groupElm.querySelector('[data-group-item]');
+
+                        // new item
+                        const id = item.querySelector('[data-id]')?.getAttribute('data-id');
+                        let newItemHTML = item.outerHTML;
+
+                        if(id) newItemHTML = newItemHTML.replaceAll(id, Date.now().toString());
+
+                        const div = document.createElement('div');
+                        div.innerHTML = newItemHTML;
+                        const newItem = div.firstElementChild;
+
+                        // clear data
+                        newItem.querySelectorAll('[data-param-value]').forEach(e => e.setAttribute('data-param-value', ''));
+
+                        // register type
+                        newItem.querySelectorAll('[data-type]').forEach(typeEl => {
+
+                            const type = typeEl.getAttribute('data-type');
+                            if(type === 'text-field') this.initTextField([typeEl], true);
+                            if(type === 'text') this.initWYSIWYGEditor(typeEl.querySelectorAll('#editor-container'));
+                        });
+
+                        groupElm.appendChild(newItem);
+
+                        childItem = newItem;
+                    }
+
+                    childData.forEach(d => {
+                        childItem
+                            .querySelectorAll(`[data-param="${d.key}"]`)[d.index]
+                            .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
+                    });
+
+                });
+
+                return;
+            }
+
             this.componentDetailPanel
                 .querySelectorAll(`[data-param="${d.key}"]`)[d.index]
                 .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);

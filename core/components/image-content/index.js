@@ -54,24 +54,9 @@ class ImageContent extends Component{
 
     async render(data){
         const params = data.params;
-        const imagesData = JSON.parse(params.find(p => p.key === 'image').value);
+        console.log(params);
 
-        const promises = [];
-        imagesData.forEach(id => {
-            promises.push(Media.getDataById(id));
-        });
-
-        // load all images
-        const images = await Promise.all(promises);
-        const imagesHTML = images.map(i => {
-            const url = i.url.original;
-            return `
-                <div>
-                    <img src="${url}" alt="${i.name}">            
-                </div>`;
-        }).join('');
-
-        return `<div>Image content</div><div>${imagesHTML}</div>`;
+        return `<div>Image content</div>`;
     }
 }
 

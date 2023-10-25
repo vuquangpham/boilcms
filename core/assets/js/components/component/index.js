@@ -65,9 +65,11 @@ export default class Component{
 
         // inner HTML
         contentDiv.innerHTML += params.reduce((acc, cur) => {
+            const value = cur.value === "" ? cur.value : JSON.stringify(cur.value);
+
             acc += `
 <div data-param="${cur.key}">
-    <span data-param-value='${cur.value}'>${cur.value ?? ''}</span>
+    <span data-param-value='${value}'>${value || ''}</span>
 </div>`;
             return acc;
         }, '');
