@@ -153,6 +153,38 @@ class UpdateComponentState{
             });
         });
     }
+
+    /**
+     * Update previous value for Component (when click on the edit button)
+     * @param context {Object}
+     * @return void
+     * */
+    updateThePreviousValue(context){
+        // re-update the previous value
+        if(context.componentTypes.find(t => t === 'text')){
+            const editorElements = context.componentDetailPanel.querySelectorAll('#editor-container');
+
+            editorElements.forEach((editorElement, index) => {
+                const value = editorElement.getAttribute('data-param-value');
+                if(value){
+                    editorElement.querySelector('.ql-editor').innerHTML = value;
+                    context.editors[index].update();
+                }
+            });
+        }
+        if(context.componentTypes.find(t => t === 'text-field')){
+
+            context.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
+                const previousValueEl = textField.querySelector('[data-param-value]');
+                const input = textField.querySelector('input');
+                const previousValue = previousValueEl.getAttribute('data-param-value');
+
+                if(previousValue){
+                    input.value = previousValue;
+                }
+            });
+        }
+    }
 }
 
 export default new UpdateComponentState();

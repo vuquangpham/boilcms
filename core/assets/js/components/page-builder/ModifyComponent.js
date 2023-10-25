@@ -70,33 +70,6 @@ export default class ModifyComponent{
         this.parentGroup = target.closest('[data-component]');
     }
 
-    updateThePreviousValue(){
-        // re-update the previous value
-        if(this.componentTypes.find(t => t === 'text')){
-            const editorElements = this.componentDetailPanel.querySelectorAll('#editor-container');
-
-            editorElements.forEach((editorElement, index) => {
-                const value = editorElement.getAttribute('data-param-value');
-                if(value){
-                    editorElement.querySelector('.ql-editor').innerHTML = value;
-                    this.editors[index].update();
-                }
-            });
-        }
-        if(this.componentTypes.find(t => t === 'text-field')){
-
-            this.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
-                const previousValueEl = textField.querySelector('[data-param-value]');
-                const input = textField.querySelector('input');
-                const previousValue = previousValueEl.getAttribute('data-param-value');
-
-                if(previousValue){
-                    input.value = previousValue;
-                }
-            });
-        }
-    }
-
     handleEditComponentClick(target){
         this.isEdit = true;
         this.edittingComponent = target.closest('[data-component]');
@@ -123,11 +96,8 @@ export default class ModifyComponent{
                             const obj = acc.find(o => o.key === cur.key);
 
                             // already exist, increase the count
-                            if(obj){
-                                cur.index = obj.index + 1;
-                            }else{
-                                cur.index = 0;
-                            }
+                            cur.index = obj ? obj.index + 1 : 0;
+
                             acc.push(cur);
                             return acc;
                         }, []);
@@ -137,11 +107,7 @@ export default class ModifyComponent{
                 const obj = acc.find(o => o.key === cur.key);
 
                 // already exist, increase the count
-                if(obj){
-                    cur.index = obj.index + 1;
-                }else{
-                    cur.index = 0;
-                }
+                cur.index = obj ? obj.index + 1 : 0;
 
                 acc.push(cur);
                 return acc;
@@ -153,7 +119,7 @@ export default class ModifyComponent{
 
                 // load data to popup
                 this.loadDataToPopup(params);
-                this.updateThePreviousValue();
+                UpdateComponentState.updateThePreviousValue(this);
             });
     }
 
