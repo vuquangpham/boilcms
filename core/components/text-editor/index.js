@@ -19,7 +19,13 @@ class TextEditor extends Component{
     }
 
     render(data){
-        return `<div>Text Editor</div>`;
+        const content = data.params[0].value;
+
+        return `
+<div class="text-editor">
+    <div class="text-editor__content">${content}</div>
+</div>
+`;
     }
 }
 
