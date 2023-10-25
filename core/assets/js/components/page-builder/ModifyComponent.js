@@ -112,6 +112,33 @@ export default class ModifyComponent{
         this.parentGroup = target.closest('[data-component]');
     }
 
+    updateThePreviousValue(){
+        // re-update the previous value
+        if(this.componentTypes.find(t => t === 'text')){
+            const editorElements = this.componentDetailPanel.querySelectorAll('#editor-container');
+
+            editorElements.forEach((editorElement, index) => {
+                const value = editorElement.getAttribute('data-param-value');
+                if(value){
+                    editorElement.querySelector('.ql-editor').innerHTML = value;
+                    this.editors[index].update();
+                }
+            });
+        }
+        if(this.componentTypes.find(t => t === 'text-field')){
+
+            this.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
+                const previousValueEl = textField.querySelector('[data-param-value]');
+                const input = textField.querySelector('input');
+                const previousValue = previousValueEl.getAttribute('data-param-value');
+
+                if(previousValue){
+                    input.value = previousValue;
+                }
+            });
+        }
+    }
+
     handleEditComponentClick(target){
         this.isEdit = true;
         this.edittingComponent = target.closest('[data-component]');
@@ -147,31 +174,7 @@ export default class ModifyComponent{
 
                 // load data to popup
                 this.loadDataToPopup(params);
-
-                // re-update the previous value
-                if(this.componentTypes.find(t => t === 'text')){
-                    const editorElements = this.componentDetailPanel.querySelectorAll('#editor-container');
-
-                    editorElements.forEach((editorElement, index) => {
-                        const value = editorElement.getAttribute('data-param-value');
-                        if(value){
-                            editorElement.querySelector('.ql-editor').innerHTML = value;
-                            this.editors[index].update();
-                        }
-                    });
-                }
-                if(this.componentTypes.find(t => t === 'text-field')){
-
-                    this.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
-                        const previousValueEl = textField.querySelector('[data-param-value]');
-                        const input = textField.querySelector('input');
-                        const previousValue = previousValueEl.getAttribute('data-param-value');
-
-                        if(previousValue){
-                            input.value = previousValue;
-                        }
-                    });
-                }
+                this.updateThePreviousValue();
             });
     }
 
@@ -233,6 +236,51 @@ export default class ModifyComponent{
         this.jsonElement.value = JSON.stringify(this.generateDomElementToObject(this.wrapperComponentEl));
     }
 
+    initWYSIWYGEditor(elements){
+        const editorElements = elements || this.componentDetailPanel.querySelectorAll('#editor-container');
+
+        // reset editors
+        this.editors = !elements && [];
+
+        editorElements.forEach(editorElement => {
+
+            // init editor
+            const editor = new Quill(editorElement, {
+                modules: {
+                    toolbar: [
+                        [{header: [1, 2, false]}],
+                        ['bold', 'italic', 'underline', 'strike', 'link'],
+                        ['list', 'blockquote']
+                    ]
+                },
+                placeholder: 'Input your content here...',
+                theme: 'snow',
+            });
+
+            // update the param value
+            editor.on('text-change', () => {
+                const value = editorElement.querySelector('.ql-editor').innerHTML;
+                editorElement.setAttribute('data-param-value', value);
+            });
+
+            this.editors.push(editor);
+        });
+    }
+
+    initTextField(elements, clearLastValue = false){
+        const textFieldElements = elements || this.componentDetailPanel.querySelectorAll('[data-type="text-field"]');
+        textFieldElements.forEach(textField => {
+            const previousValueEl = textField.querySelector('[data-param-value]');
+            const input = textField.querySelector('input');
+
+            if(clearLastValue) input.value = '';
+
+            input.addEventListener('input', () => {
+                previousValueEl.setAttribute('data-param-value', input.value);
+            });
+        });
+    }
+
     loadComponent(result){
         // get types of component
         this.componentTypes = Array
@@ -251,43 +299,8 @@ export default class ModifyComponent{
         this.componentDetailPanel.dataset.component = result.component.name;
 
         // init component script
-        if(this.componentTypes.find(t => t === 'text')){
-            const editorElements = this.componentDetailPanel.querySelectorAll('#editor-container');
-            editorElements.forEach(editorElement => {
-                this.editors = [];
-
-                // init editor
-                const editor = new Quill(editorElement, {
-                    modules: {
-                        toolbar: [
-                            [{header: [1, 2, false]}],
-                            ['bold', 'italic', 'underline', 'strike', 'link'],
-                            ['list', 'blockquote']
-                        ]
-                    },
-                    placeholder: 'Input your content here...',
-                    theme: 'snow',
-                });
-
-                // update the param value
-                editor.on('text-change', () => {
-                    const value = editorElement.querySelector('.ql-editor').innerHTML;
-                    editorElement.setAttribute('data-param-value', value);
-                });
-
-                this.editors.push(editor);
-            });
-        }
-        if(this.componentTypes.find(t => t === 'text-field')){
-            this.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
-                const previousValueEl = textField.querySelector('[data-param-value]');
-                const input = textField.querySelector('input');
-
-                input.addEventListener('input', () => {
-                    previousValueEl.setAttribute('data-param-value', input.value);
-                });
-            });
-        }
+        if(this.componentTypes.find(t => t === 'text')) this.initWYSIWYGEditor();
+        if(this.componentTypes.find(t => t === 'text-field')) this.initTextField();
 
         // toggle attribute
         Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));
@@ -308,6 +321,38 @@ export default class ModifyComponent{
         return componentName === 'row';
     }
 
+    handleAddItemInGroupComponent(target){
+        const parent = target.closest('[data-group]');
+        const group = parent.querySelector('[data-group-children]');
+        const item = group.querySelector('[data-group-item]');
+
+        // new item
+        const id = item.querySelector('[data-id]')?.getAttribute('data-id');
+        let newItemHTML = item.outerHTML;
+        if(id) newItemHTML = newItemHTML.replaceAll(id, Date.now().toString());
+
+        const div = document.createElement('div');
+        div.innerHTML = newItemHTML;
+        const newItem = div.firstElementChild;
+
+        // clear data
+        newItem.querySelectorAll('[data-param-value]').forEach(e => e.setAttribute('data-param-value', ''));
+
+        // register type
+        newItem.querySelectorAll('[data-type]').forEach(typeEl => {
+            const type = typeEl.getAttribute('data-type');
+            if(type === 'text-field') this.initTextField([typeEl], true);
+            if(type === 'text') this.initWYSIWYGEditor(typeEl.querySelectorAll('#editor-container'));
+        });
+
+        group.appendChild(newItem);
+    }
+
+    handleRemoveItemInGroupComponent(target){
+        const item = target.closest('[data-group-item]');
+        item.remove();
+    }
+
     isModifyHandler(e){
         let functionForHandling = () => {
         }, target = null;
@@ -326,6 +371,10 @@ export default class ModifyComponent{
 
         // click to the component in components list
         const componentEl = e.target.closest('button[data-component]');
+
+        const addItemInGroupEl = e.target.closest('button[data-group-add]');
+
+        const removeItemInGroupEl = e.target.closest('button[data-group-remove]');
 
         // add component button
         if(addButtonEl){
@@ -355,6 +404,18 @@ export default class ModifyComponent{
         else if(deleteButtonEl){
             functionForHandling = this.handleDeleteComponentClick.bind(this);
             target = deleteButtonEl;
+        }
+
+        // add item in group component type
+        else if(addItemInGroupEl){
+            functionForHandling = this.handleAddItemInGroupComponent.bind(this);
+            target = addItemInGroupEl;
+        }
+
+        // remove item in group component type
+        else if(removeItemInGroupEl){
+            functionForHandling = this.handleRemoveItemInGroupComponent.bind(this);
+            target = removeItemInGroupEl;
         }else{
             return null;
         }
