@@ -35,7 +35,7 @@ class ComponentController extends Controller{
             if(param.type === 'group'){
 
                 const promise = new Promise((resolve, reject) => {
-                    const html = '<div data-group> <div data-children><div data-group-item>#REPLACE</div></div><button type="button" data-group-add>Add</button></div>';
+                    const html = '<div data-group> <div data-children><div data-group-item>#REPLACE<button type="button" data-group-remove>Delete</button></div></div><button type="button" data-group-add>Add</button></div>';
 
                     const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), {
                         classesName: p.className,
