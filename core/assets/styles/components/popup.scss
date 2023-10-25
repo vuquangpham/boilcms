@@ -40,6 +40,7 @@
 
 // popup content
 [data-popup-inner] {
+  overflow: auto;
   width: 100%;
   max-width: 1180px;
   min-height: 500px;
