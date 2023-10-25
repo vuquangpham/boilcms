@@ -6,7 +6,7 @@
  * */
 const handleAddAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
-    const data = categoryItem.validateInputData(request);
+    const data = categoryItem.validateInputData(request,response);
 
     const promise = categoryItem.add(data);
     const extraData = {};

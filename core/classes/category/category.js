@@ -10,6 +10,7 @@ class Category{
             type: '',
             contentType: '',
             isSpecialType: false,
+            author: '',
             order: 0
         };
         const validatedOptions = this.validateOptions({...defaultOptions, ...options});
@@ -19,6 +20,7 @@ class Category{
         this.url = validatedOptions.url;
         this.type = validatedOptions.type;
         this.contentType = validatedOptions.contentType;
+        this.author = validatedOptions.author;
         this.order = validatedOptions.order;
         this.isSpecialType = validatedOptions.isSpecialType;
     }
@@ -44,7 +46,7 @@ class Category{
     /**
      * Validate input data to get the correct data
      * */
-    validateInputData(request){
+    validateInputData(request, response){
         return request;
     }
 

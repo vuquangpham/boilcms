@@ -46,7 +46,7 @@ const modifyDate = (publishTime) => {
 
                     <!-- todo: @vupham please do this task after done the account feature :'( -->
                     <div class="posts__item--author"
-                         data-column="Author"><%= ['Vũ', 'jen', 'vupham', 'Quang Vu Pham'][Math.round(Math.random() * 3)]; %></div>
+                         data-column="Author"><%= post.author; %></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
                         <div class="posts__item--status" data-title="Visibility">Published</div>

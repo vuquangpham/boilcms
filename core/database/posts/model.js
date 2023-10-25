@@ -20,7 +20,8 @@ const Post = new mongoose.Schema({
     content: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'PageBuilder'
-    }
+    },
+    author: String
 });
 
 module.exports = Post;

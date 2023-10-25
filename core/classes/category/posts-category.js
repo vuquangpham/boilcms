@@ -26,10 +26,12 @@ class POSTS extends Category{
     /**
      * Validate input data to get the correct data
      * */
-    validateInputData(request, action = 'add'){
+    validateInputData(request,response, action = 'add'){
         const title = request.body.title.trim();
         let url = stringToSlug(title);
         const visibility = request.body.visibility.trim();
+        const author = response.locals.user.name;
+
         let content = '';
 
         switch(action){
@@ -54,7 +56,8 @@ class POSTS extends Category{
             title,
             url,
             visibility,
-            content
+            content,
+            author
         };
     }
 
