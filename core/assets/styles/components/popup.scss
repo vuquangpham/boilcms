@@ -58,8 +58,12 @@ html[class*="-is-open"] {
 
 html:not(.component-panel-is-open) [data-pb-component-popup][data-popup],
 html:not(.components-is-open) [data-pb-components-popup][data-popup],
-html:not(.media-panel-is-open) [data-pb-media-popup],
 html:not(.media-popup-is-open) [data-media-wrapper] [data-popup] {
   opacity: 0;
   visibility: hidden
+}
+
+[data-custom-toggle-content]:not(.active) {
+  opacity: 0;
+  visibility: hidden;
 }

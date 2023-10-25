@@ -1,13 +1,18 @@
-<div data-type="<%= type %>" data-param="<%= paramName; %>" class="<%= classesName; %>">
+<%
+const id = (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)
+%>
+
+<div data-type="<%= type %>" data-param="<%= paramName; %>" class="<%= classesName; %>" data-id="<%= id %>">
 
     <!-- show media popup button -->
     <div>Media here</div>
-    <button data-param-value data-load-media type="button" data-toggle="media-panel" class="button-style">+</button>
+    <button data-param-value data-load-media type="button" data-custom-toggle="<%= id %>" class="button-style">+
+    </button>
 
     <!-- media popup -->
-    <div data-pb-media-popup data-popup>
+    <div data-pb-media-popup data-popup data-custom-toggle-content="<%= id %>">
         <div data-popup-overflow>
-            <div data-popup-overlay data-toggle="media-panel"></div>
+            <div data-popup-overlay data-custom-toggle="<%= id %>"></div>
 
             <!-- popup content -->
             <div class="media-popup fl-grid" data-popup-inner>
@@ -17,7 +22,7 @@
                     <div data-media-list class="flex-grid-template"></div>
 
                     <div>
-                        <button type="button" data-save-media data-toggle="media-panel">Save</button>
+                        <button type="button" data-save-media data-custom-toggle="<%= id %>">Save</button>
                     </div>
                 </div>
 

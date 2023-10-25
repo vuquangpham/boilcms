@@ -47,7 +47,7 @@ export default class MediaPopup{
         const selectedMedias = mediaValueOnParam ? JSON.parse(mediaValueOnParam) : [];
 
         // re-assign dom element and clear the previous list
-        this.elements.mediaList = this.wrapper.querySelector('[data-media-list]');
+        this.elements.mediaList = target.closest('[data-param]').querySelector('[data-media-list]');
         this.elements.mediaList.innerHTML = '';
 
         fetch(this.FETCH_URL, {
@@ -104,8 +104,9 @@ export default class MediaPopup{
     }
 
     handleAfterSelectedMedias(target){
+        const wrapper = target.closest('[data-type]');
         const selectedMedias = Array
-            .from(this.wrapper.querySelectorAll('input[type="checkbox"]'))
+            .from(wrapper.querySelectorAll('input[type="checkbox"]'))
             .filter(c => c.checked)
             .map(c => c.value);
 
@@ -118,6 +119,10 @@ export default class MediaPopup{
         console.log(selectedMedias);
     }
 
+    toggleCustomPopup(popupContent){
+        popupContent.classList.toggle('active');
+    }
+
     isMediaPopup(e){
         let target = null,
             functionForHandling = () => {
@@ -126,6 +131,15 @@ export default class MediaPopup{
         const loadMediaButton = e.target.closest('[data-load-media]');
         const mediaForm = e.target.closest('[data-media-form]');
         const saveMediaButton = e.target.closest('[data-save-media]');
+
+        // popup
+        const toggleButton = e.target.closest('[data-custom-toggle]');
+
+        if(toggleButton){
+            const id = toggleButton.getAttribute('data-custom-toggle');
+            const popupContent = document.querySelector(`[data-custom-toggle-content="${id}"]`);
+            this.toggleCustomPopup(popupContent);
+        }
 
         if(loadMediaButton){
             functionForHandling = this.loadAllMedias.bind(this);
