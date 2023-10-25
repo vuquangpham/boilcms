@@ -67,6 +67,12 @@ class UpdateComponentState{
         return componentElement;
     }
 
+    /**
+     * Clond DOM Element and remove the previous value
+     * @param item {Element}
+     * @param context {Object}
+     * @return {Element}
+     * */
     cloneDOMComponent(item, context){
         // new item
         const id = item.querySelector('[data-id]')?.getAttribute('data-id');
