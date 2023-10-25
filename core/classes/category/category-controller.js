@@ -25,13 +25,6 @@ class CategoryController extends Controller{
     getSpecialCategoryItem(){
         return this.instances.find(category => category.isSpecialType);
     }
-
-    /**
-     * Get special type from categories list
-     * */
-    getSpecialType(){
-        return this.instances.find(category => category.isSpecialType === true);
-    }
 }
 
 module.exports = new CategoryController;
