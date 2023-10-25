@@ -224,6 +224,9 @@ export default class ModifyComponent{
     }
 
     loadComponent(result){
+        // reset the editors
+        this.editors = [];
+
         // get types of component
         this.componentTypes = Array
             .from(

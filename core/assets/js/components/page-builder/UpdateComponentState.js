@@ -86,6 +86,7 @@ class UpdateComponentState{
 
         // clear data
         newItem.querySelectorAll('[data-param-value]').forEach(e => e.setAttribute('data-param-value', ''));
+        newItem.querySelectorAll('.ql-editor').forEach(e => e.innerHTML = '');
 
         // register type
         newItem.querySelectorAll('[data-type]').forEach(typeEl => {
@@ -108,8 +109,6 @@ class UpdateComponentState{
     initWYSIWYGEditor(elements, context){
         // reset editors
         // todo: maybe we will have a bug here @vupham, because of the editors variable
-        context.editors = [];
-
         elements.forEach(editorElement => {
 
             // init editor
