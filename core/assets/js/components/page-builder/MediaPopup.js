@@ -116,7 +116,6 @@ export default class MediaPopup{
         target.closest('[data-param]')
             .querySelector('[data-param-value]')
             .setAttribute('data-param-value', JSON.stringify(selectedMedias));
-        console.log(selectedMedias);
     }
 
     toggleCustomPopup(popupContent){
