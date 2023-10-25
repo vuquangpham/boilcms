@@ -24,9 +24,9 @@ const getParamsOnRequest = (req, defaultParams) => {
  * @return {String}
  * */
 const getFilenameBasedOnSize = (sourceName, size, extension) => {
-    if (!size) return sourceName + '.' + extension
-    return sourceName + '-' + size + '.' + extension
-}
+    if(!size) return sourceName + '.' + extension;
+    return sourceName + '-' + size + '.' + extension;
+};
 
 /**
  * Convert string to slug
@@ -34,7 +34,7 @@ const getFilenameBasedOnSize = (sourceName, size, extension) => {
  * @return string
  * */
 const stringToSlug = (string) => {
-    if (!string) return '';
+    if(!string) return '';
     return string.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd').replace(/Đ/g, 'D')
@@ -57,12 +57,12 @@ const minifyString = (string) => string.replace(/\s+/g, '');
  * @return {object}
  * */
 const filterObj = (obj, ...allowedFields) => {
-    const newObj = {}
+    const newObj = {};
     Object.keys(obj).forEach(el => {
-        if (allowedFields.includes(el)) newObj[el] = obj[el]
-    })
+        if(allowedFields.includes(el)) newObj[el] = obj[el];
+    });
     return newObj;
-}
+};
 
 /**
  * Capitalize first character of string
@@ -70,9 +70,13 @@ const filterObj = (obj, ...allowedFields) => {
  * @param character {string}
  * @return {string}
  * */
-const capitalizeString = (string, character = ' ') => string.toLowerCase()
-    .split(character)
-    .map(s => s[0].toUpperCase() + s.slice(1)).join(' ')
+const capitalizeString = (string, character = ' ') => {
+    if(string.length === 1) return string;
+
+    return string.toLowerCase()
+        .split(character)
+        .map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
+};
 
 
 module.exports = {
