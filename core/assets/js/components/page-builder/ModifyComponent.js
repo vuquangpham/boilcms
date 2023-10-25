@@ -11,6 +11,9 @@ export default class ModifyComponent{
         this.wrapper = wrapper;
         this.isEdit = false;
 
+        // editors for wysiwyg editor
+        this.editors = [];
+
         this.init();
     }
 
@@ -21,13 +24,19 @@ export default class ModifyComponent{
         this.wrapperComponentEl = this.wrapper.querySelector('[data-component-wrapper]');
         this.jsonElement = this.wrapper.querySelector('[data-pb-json]');
 
+        // register onchange event
+        this.jsonElement.addEventListener('input', Theme.debounce(this.renderComponents.bind(this)));
+
         // render components based on JSON
         this.renderComponents();
     }
 
     renderComponents(){
-        const jsonContent = this.jsonElement.textContent;
-        if(!jsonContent) return;
+        const jsonContent = this.jsonElement.value;
+        if(!jsonContent){
+            this.wrapperComponentEl.querySelector('[data-component-content]').innerHTML = '';
+            return;
+        }
 
         // get wrapper component
         const componentElement = UpdateComponentState.generateObjectToDomElement(JSON.parse(jsonContent));
@@ -101,9 +110,8 @@ export default class ModifyComponent{
                 const obj = {};
                 obj.key = param.getAttribute('data-param');
                 const value = param.querySelector('[data-param-value]').getAttribute('data-param-value');
-
                 try{
-                    obj.value = JSON.parse(JSON.parse(value));
+                    obj.value = JSON.parse(value);
                 }catch(e){
                     obj.value = value;
                 }
@@ -212,6 +220,7 @@ export default class ModifyComponent{
 
     loadDataToPopup(data){
         data.forEach(d => {
+            // group type
             if(d.key === 'group'){
                 const parentElm = this.componentDetailPanel.querySelectorAll(`[data-param="${d.key}"]`)[d.index];
                 const groupElm = parentElm.querySelector('[data-group-children]');
@@ -224,29 +233,8 @@ export default class ModifyComponent{
                         const item = groupElm.querySelector('[data-group-item]');
 
                         // new item
-                        const id = item.querySelector('[data-id]')?.getAttribute('data-id');
-                        let newItemHTML = item.outerHTML;
-
-                        if(id) newItemHTML = newItemHTML.replaceAll(id, Date.now().toString());
-
-                        const div = document.createElement('div');
-                        div.innerHTML = newItemHTML;
-                        const newItem = div.firstElementChild;
-
-                        // clear data
-                        newItem.querySelectorAll('[data-param-value]').forEach(e => e.setAttribute('data-param-value', ''));
-
-                        // register type
-                        newItem.querySelectorAll('[data-type]').forEach(typeEl => {
-
-                            const type = typeEl.getAttribute('data-type');
-                            if(type === 'text-field') this.initTextField([typeEl], true);
-                            if(type === 'text') this.initWYSIWYGEditor(typeEl.querySelectorAll('#editor-container'));
-                        });
-
-                        groupElm.appendChild(newItem);
-
-                        childItem = newItem;
+                        childItem = UpdateComponentState.cloneDOMComponent(item, this);
+                        groupElm.appendChild(childItem);
                     }
 
                     childData.forEach(d => {
@@ -254,12 +242,12 @@ export default class ModifyComponent{
                             .querySelectorAll(`[data-param="${d.key}"]`)[d.index]
                             .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
                     });
-
                 });
 
                 return;
             }
 
+            // another type
             this.componentDetailPanel
                 .querySelectorAll(`[data-param="${d.key}"]`)[d.index]
                 .querySelector('[data-param-value]').setAttribute('data-param-value', d.value);
@@ -268,51 +256,6 @@ export default class ModifyComponent{
 
     createJSON(){
         this.jsonElement.value = JSON.stringify(UpdateComponentState.generateDomElementToObject(this.wrapperComponentEl));
-    }
-
-    initWYSIWYGEditor(elements){
-        const editorElements = elements || this.componentDetailPanel.querySelectorAll('#editor-container');
-
-        // reset editors
-        this.editors = !elements && [];
-
-        editorElements.forEach(editorElement => {
-
-            // init editor
-            const editor = new Quill(editorElement, {
-                modules: {
-                    toolbar: [
-                        [{header: [1, 2, false]}],
-                        ['bold', 'italic', 'underline', 'strike', 'link'],
-                        ['list', 'blockquote']
-                    ]
-                },
-                placeholder: 'Input your content here...',
-                theme: 'snow',
-            });
-
-            // update the param value
-            editor.on('text-change', () => {
-                const value = editorElement.querySelector('.ql-editor').innerHTML;
-                editorElement.setAttribute('data-param-value', value);
-            });
-
-            this.editors.push(editor);
-        });
-    }
-
-    initTextField(elements, clearLastValue = false){
-        const textFieldElements = elements || this.componentDetailPanel.querySelectorAll('[data-type="text-field"]');
-        textFieldElements.forEach(textField => {
-            const previousValueEl = textField.querySelector('[data-param-value]');
-            const input = textField.querySelector('input');
-
-            if(clearLastValue) input.value = '';
-
-            input.addEventListener('input', () => {
-                previousValueEl.setAttribute('data-param-value', input.value);
-            });
-        });
     }
 
     loadComponent(result){
@@ -333,8 +276,10 @@ export default class ModifyComponent{
         this.componentDetailPanel.dataset.component = result.component.name;
 
         // init component script
-        if(this.componentTypes.find(t => t === 'text')) this.initWYSIWYGEditor();
-        if(this.componentTypes.find(t => t === 'text-field')) this.initTextField();
+        if(this.componentTypes.find(t => t === 'text'))
+            UpdateComponentState.initWYSIWYGEditor(this.componentDetailPanel.querySelectorAll('#editor-container'), this);
+        if(this.componentTypes.find(t => t === 'text-field'))
+            UpdateComponentState.initTextField(this.componentDetailPanel.querySelectorAll('[data-type="text-field"]'));
 
         // toggle attribute
         Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));
@@ -360,25 +305,7 @@ export default class ModifyComponent{
         const group = parent.querySelector('[data-group-children]');
         const item = group.querySelector('[data-group-item]');
 
-        // new item
-        const id = item.querySelector('[data-id]')?.getAttribute('data-id');
-        let newItemHTML = item.outerHTML;
-        if(id) newItemHTML = newItemHTML.replaceAll(id, Date.now().toString());
-
-        const div = document.createElement('div');
-        div.innerHTML = newItemHTML;
-        const newItem = div.firstElementChild;
-
-        // clear data
-        newItem.querySelectorAll('[data-param-value]').forEach(e => e.setAttribute('data-param-value', ''));
-
-        // register type
-        newItem.querySelectorAll('[data-type]').forEach(typeEl => {
-            const type = typeEl.getAttribute('data-type');
-            if(type === 'text-field') this.initTextField([typeEl], true);
-            if(type === 'text') this.initWYSIWYGEditor(typeEl.querySelectorAll('#editor-container'));
-        });
-
+        const newItem = UpdateComponentState.cloneDOMComponent(item, this);
         group.appendChild(newItem);
     }
 
@@ -406,8 +333,10 @@ export default class ModifyComponent{
         // click to the component in components list
         const componentEl = e.target.closest('button[data-component]');
 
+        // add item in group
         const addItemInGroupEl = e.target.closest('button[data-group-add]');
 
+        // remove item in group
         const removeItemInGroupEl = e.target.closest('button[data-group-remove]');
 
         // add component button

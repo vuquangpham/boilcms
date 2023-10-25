@@ -65,7 +65,7 @@ export default class Component{
 
         // inner HTML
         contentDiv.innerHTML += params.reduce((acc, cur) => {
-            const value = cur.value === "" ? cur.value : JSON.stringify(cur.value);
+            const value = JSON.stringify(cur.value);
 
             acc += `
 <div data-param="${cur.key}">
