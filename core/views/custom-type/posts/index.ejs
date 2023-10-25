@@ -1,3 +1,15 @@
+<%
+// modify date publish
+const modifyDate = (publishTime) => {
+    const year = publishTime.getFullYear()
+    const month = (publishTime.getMonth() + 1).toString().padStart(2, '0')
+    const date = publishTime.getDate()
+    const hour = publishTime.getHours()
+    const minute = publishTime.getMinutes().toString().padStart(2, '0')
+    return `${date}/${month}/${year} at ${hour}:${minute}`
+}
+%>
+
 <div class="posts-content">
     <div class="posts-content__heading fl-center-v" style="gap:10px">
         <h1><%= title; %></h1>
@@ -38,7 +50,7 @@
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
                         <div class="posts__item--status" data-title="Visibility">Published</div>
-                        <time data-title="Date">29/09/2002 at 14:45</time>
+                        <time data-title="Date"><%= modifyDate(post.publish) %></time>
                     </div>
                     <div class="posts__item--utils">
                         <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
