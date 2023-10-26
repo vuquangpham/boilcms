@@ -248,6 +248,8 @@ export default class ModifyComponent{
             const paramName = o.paramName;
             const title = o.name;
             const values = Object.entries(o.value).map(i => ({key: i[0], value: i[1]}));
+            const description = o.description || '';
+
             return `
 <div data-option-param="${paramName}">
     <span>${title}</span>
@@ -255,7 +257,8 @@ export default class ModifyComponent{
         ${values.map((v, index) => {
                 return `<option ${index === 0 ? 'selected' : ''} value="${v.value}">${v.key}</option>`;
             }).join('')}
-    </select>            
+    </select>   
+    ${description ? `<div>${description}</div>` : ''}
 </div>
             `;
         }).join('');
