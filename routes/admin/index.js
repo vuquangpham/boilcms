@@ -23,19 +23,16 @@ const upload = require('../../core/utils/upload.utils');
  * Middleware for authenticate user
  * */
 router.all('*', (request, response, next) => {
-    if(response.locals.user){
-        restrictTo(request, response, 'admin')
-            .then(next)
-            .catch((err) => {
-                request.app.set('message', err.message)
 
-                sendEmptyToken(response)
+    restrictTo(request, response, 'admin')
+        .then(next)
+        .catch((err) => {
+            request.app.set('message', err.message)
 
-                response.redirect(`/${REGISTER_URL}`);
-            })
-    } else {
-        response.redirect(`/${REGISTER_URL}`);
-    }
+            sendEmptyToken(response)
+
+            response.redirect(`/${REGISTER_URL}`);
+        })
 })
 
 /**
@@ -64,12 +61,12 @@ router.all('*', (request, response, next) => {
 router.all('*', upload.single('image'), (request, response, next) => {
     const method = response.locals.method;
 
-    switch(method.name){
-        case 'get':{
+    switch (method.name) {
+        case 'get': {
             handleGetMethod(request, response, next);
             break;
         }
-        case 'post':{
+        case 'post': {
             handlePostMethod(request, response, next);
         }
     }
