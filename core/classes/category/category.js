@@ -10,7 +10,6 @@ class Category{
             type: '',
             contentType: '',
             isSpecialType: false,
-            author: '',
             notShowInCategory: false,
             order: 0
         };
@@ -21,7 +20,6 @@ class Category{
         this.url = validatedOptions.url;
         this.type = validatedOptions.type;
         this.contentType = validatedOptions.contentType;
-        this.author = validatedOptions.author;
         this.order = validatedOptions.order;
 
         this.notShowInCategory = validatedOptions.notShowInCategory;
