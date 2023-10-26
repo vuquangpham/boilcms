@@ -74,7 +74,7 @@ const authenticateUser = (request, response, next) => {
 // Middleware restrict
 const restrictTo = (request, response, ...role) => {
     return new Promise((resolve, reject) => {
-        if (!role.includes(response.locals.user.role)) {
+        if (!response.locals.user || !role.includes(response.locals.user.role)) {
             reject(new Error('You do not permission to access'))
         }
         resolve()
