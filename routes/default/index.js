@@ -3,16 +3,15 @@ const router = require('express').Router();
 
 const CategoryController = require('../../core/classes/category/category-controller');
 const Content = require('../../core/classes/utils/content');
-const {checkAuthentication, restrictTo} = require("../../core/utils/middleware.utils");
+const {restrictTo} = require("../../core/utils/middleware.utils");
 
 /**
  * Middleware for authenticate user
  * */
 router.all('*', (request, response, next) => {
-    checkAuthentication(request, response)
-        .then(() => restrictTo(request, response, 'admin'))
+    restrictTo(request,response,'admin')
         .then(next)
-        .catch(err => next(err));
+        .catch(err => next(err))
 });
 
 router.get('*', (request, response, next) => {

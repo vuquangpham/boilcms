@@ -4,7 +4,7 @@ const router = require('express').Router();
 // config
 const {REGISTER_URL} = require('./../../core/utils/config.utils');
 const {sendEmptyToken} = require("../../core/utils/token.utils");
-const {checkAuthentication, restrictTo} = require("../../core/utils/middleware.utils");
+const {restrictTo} = require("../../core/utils/middleware.utils");
 
 // core modules
 const CategoryController = require('../../core/classes/category/category-controller');
@@ -23,19 +23,20 @@ const upload = require('../../core/utils/upload.utils');
  * Middleware for authenticate user
  * */
 router.all('*', (request, response, next) => {
-    checkAuthentication(request, response)
-        .then(() => restrictTo(request, response, 'admin'))
-        .then(() => next())
-        .catch((err) => {
-            request.app.set('message', err.message);
+    if(response.locals.user){
+        restrictTo(request, response, 'admin')
+            .then(next)
+            .catch((err) => {
+                request.app.set('message', err.message)
 
-            // reset token
-            sendEmptyToken(response);
+                sendEmptyToken(response)
 
-            // redirect to register page
-            response.redirect(`/${REGISTER_URL}`);
-        });
-});
+                response.redirect(`/${REGISTER_URL}`);
+            })
+    } else {
+        response.redirect(`/${REGISTER_URL}`);
+    }
+})
 
 /**
  * Middleware for registering variables
