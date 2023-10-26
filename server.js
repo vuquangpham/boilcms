@@ -16,7 +16,7 @@ const errorHandler = require('./routes/404');
 // configs
 const {ADMIN_URL, REGISTER_URL} = require("./core/utils/config.utils");
 const {connectDatabase} = require("./core/utils/database.utils");
-const {globalMiddleware} = require("./core/utils/middleware.utils");
+const {globalMiddleware, authenticateUser} = require("./core/utils/middleware.utils");
 
 // Init app
 const app = express();
@@ -52,6 +52,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // global middleware
 app.use(globalMiddleware)
+
+// global authentication
+app.use(authenticateUser)
 
 // admin routing
 app.use('/' + ADMIN_URL, adminRouting);
