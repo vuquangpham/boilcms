@@ -4,10 +4,16 @@ const router = require('express').Router();
 const CategoryController = require('../../core/classes/category/category-controller');
 const Content = require('../../core/classes/utils/content');
 const {checkAuthentication, restrictTo} = require("../../core/utils/middleware.utils");
-const {sendEmptyToken} = require("../../core/utils/token.utils");
-const {REGISTER_URL} = require("../../core/utils/config.utils");
 
-
+/**
+ * Middleware for authenticate user
+ * */
+router.all('*', (request, response, next) => {
+    checkAuthentication(request, response)
+        .then(() => restrictTo(request, response, 'admin'))
+        .then(next)
+        .catch(err => next(err));
+});
 
 router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
@@ -21,10 +27,10 @@ router.get('*', (request, response, next) => {
     let categoryItem = null;
 
     // special page type (without "pages" in ex /pages/home)
-    if(!pageURL){
+    if (!pageURL) {
         categoryItem = CategoryController.getSpecialCategoryItem();
         pageURL = type;
-    }else{
+    } else {
         categoryItem = CategoryController.getCategoryItem(type);
     }
 
@@ -38,8 +44,8 @@ router.get('*', (request, response, next) => {
 
     // solve promise
     promise
-        .then(async(result) => {
-            if(!result) return Promise.reject('Can not find!');
+        .then(async (result) => {
+            if (!result) return Promise.reject('Can not find!');
 
             const pageBuilderContent = JSON.parse(result.content.content);
             const html = await Content.getRenderHTML(pageBuilderContent);
@@ -51,7 +57,7 @@ router.get('*', (request, response, next) => {
             response.render('default', {
                 data: result,
                 content: html,
-                title
+                title,
             });
         })
         .catch(err => {
