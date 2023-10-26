@@ -66,20 +66,14 @@ const authenticateUser = (request, response, next) => {
 
 /**
  * Restrict user access based on their roles.
- * @param request
  * @param response
  * @param role {Array | String} - An array of role allowed to access
- * @return {Promise}
+ * @return {Boolean} - True if the user has permission , False if not.
  * */
-// Middleware restrict
-const restrictTo = (request, response, ...role) => {
-    return new Promise((resolve, reject) => {
-        if (!response.locals.user || !role.includes(response.locals.user.role)) {
-            reject(new Error('You do not permission to access'))
-        }
-        resolve()
-    })
+const restrictTo = (response, ...role) => {
+    return !(!response.locals.user || !role.includes(response.locals.user.role));
 }
+
 
 module.exports = {
     globalMiddleware, authenticateUser, restrictTo
