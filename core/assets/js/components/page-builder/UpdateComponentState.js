@@ -11,20 +11,21 @@ class UpdateComponentState{
      * @return {Object}
      * */
     generateDomElementToObject(domElement){
-        const contentElm = domElement.querySelector('[data-component-children]');
+        const childrenElm = domElement.querySelector('[data-component-children]');
+        const contentElm = domElement.querySelector('[data-component-content]');
         const componentName = domElement.dataset.component;
 
         let returnObj = {
             name: componentName,
-            children: []
+            children: [],
+            options: JSON.parse(contentElm.getAttribute('data-component-options'))
         };
 
         // not have children => component with the data provided
-        if(!contentElm){
-            const elm = domElement.querySelector('[data-component-content]');
+        if(!childrenElm){
             returnObj.params = [];
 
-            [...elm.children].forEach(param => {
+            [...contentElm.children].forEach(param => {
                 const value = JSON.parse(param.querySelector('[data-param-value]').dataset.paramValue);
                 const object = {
                     key: param.dataset.param,
@@ -36,7 +37,7 @@ class UpdateComponentState{
             return returnObj;
         }
 
-        [...contentElm.children].forEach(el => {
+        [...childrenElm.children].forEach(el => {
             returnObj.children.push(this.generateDomElementToObject.call(this, el));
         });
         return returnObj;
@@ -51,7 +52,8 @@ class UpdateComponentState{
         const componentInformation = {
             name: property.name,
             params: property.params || [],
-            children: property.children
+            children: property.children,
+            options: property.options
         };
 
         const component = new Component(componentInformation);
@@ -159,6 +161,16 @@ class UpdateComponentState{
      * @return void
      * */
     updateThePreviousValue(context){
+        // update options
+        const options = JSON.parse(
+            context.edittingComponent
+                .querySelector('[data-component-options]')
+                .getAttribute('data-component-options')
+        );
+        options.forEach(option => {
+            context.componentOptionsPanel.querySelector(`[data-option-select="${option.key}"]`).value = option.value;
+        });
+
         // re-update the previous value
         if(context.componentTypes.find(t => t === 'text')){
             const editorElements = context.componentDetailPanel.querySelectorAll('#editor-container');

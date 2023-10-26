@@ -20,6 +20,7 @@ export default class ModifyComponent{
         // register DOM elements
         this.parentGroup = null;
         this.componentDetailPanel = this.wrapper.querySelector('[data-pb-component-popup-content]');
+        this.componentOptionsPanel = this.wrapper.querySelector('[data-pb-component-options]');
         this.wrapperComponentEl = this.wrapper.querySelector('[data-component-wrapper]');
         this.jsonElement = this.wrapper.querySelector('[data-pb-json]');
 
@@ -118,11 +119,12 @@ export default class ModifyComponent{
                 const componentName = result.component.name;
                 this.loadComponent(result);
 
-                // load data to popup
-                if(this.isGroupComponent(componentName)) return;
+                // load data to pop up and update the value
+                if(!this.isGroupComponent(componentName)){
+                    this.loadDataToPopup(params);
+                }
 
-                // load data to popup and update the value
-                this.loadDataToPopup(params);
+                // validate the previous value
                 UpdateComponentState.updateThePreviousValue(this);
             });
     }
@@ -139,7 +141,8 @@ export default class ModifyComponent{
         // component information
         const componentInformation = {
             name: this.componentDetailPanel.dataset.component,
-            params: []
+            params: [],
+            options: []
         };
 
         // get params
@@ -168,6 +171,15 @@ export default class ModifyComponent{
             componentInformation.params.push(obj);
         });
 
+        // get options
+        this.componentOptionsPanel.querySelectorAll('[data-option-param]').forEach(option => {
+            const obj = {};
+            obj.key = option.getAttribute('data-option-param');
+            obj.value = option.querySelector('select').value;
+
+            componentInformation.options.push(obj);
+        });
+
         const componentInstance = new Component(componentInformation);
         const componentDomEl = componentInstance.component;
 
@@ -188,7 +200,6 @@ export default class ModifyComponent{
     }
 
     loadDataToPopup(data){
-        console.log(data);
         data.forEach(d => {
             // group type
             if(d.key === 'group'){
@@ -228,6 +239,31 @@ export default class ModifyComponent{
         this.jsonElement.value = JSON.stringify(UpdateComponentState.generateDomElementToObject(this.wrapperComponentEl));
     }
 
+    loadOptions(component){
+        const options = component.options;
+
+        let html = '<div>#REPLACE</div>';
+
+        const optionsHTML = options.map(o => {
+            const paramName = o.paramName;
+            const title = o.name;
+            const values = Object.entries(o.value).map(i => ({key: i[0], value: i[1]}));
+            return `
+<div data-option-param="${paramName}">
+    <span>${title}</span>
+    <select data-option-select="${paramName}">
+        ${values.map((v, index) => {
+                return `<option ${index === 0 ? 'selected' : ''} value="${v.value}">${v.key}</option>`;
+            }).join('')}
+    </select>            
+</div>
+            `;
+        }).join('');
+
+        html = html.replace('#REPLACE', optionsHTML);
+        this.componentOptionsPanel.innerHTML = html;
+    }
+
     loadComponent(result){
         // reset the editors
         this.editors = [];
@@ -256,6 +292,9 @@ export default class ModifyComponent{
 
         // toggle attribute
         Theme.toggleAttributeAction(this.componentDetailPanel.querySelectorAll('[data-toggle]'));
+
+        // load options
+        this.loadOptions(result.component);
     }
 
     handleComponentClick(target){

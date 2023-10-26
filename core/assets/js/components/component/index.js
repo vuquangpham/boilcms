@@ -2,6 +2,7 @@ export default class Component{
     constructor(information){
         this.name = information.name;
         this.params = information.params;
+        this.options = information.options;
         this.isGroupComponent = this.name === 'row';
         this.component = this.createComponent();
     }
@@ -57,6 +58,7 @@ export default class Component{
     createContent(params){
         const contentDiv = document.createElement('div');
         contentDiv.setAttribute('data-component-content', '');
+        contentDiv.setAttribute('data-component-options', JSON.stringify(this.options));
 
         // group component
         if(this.isGroupComponent){
