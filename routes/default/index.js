@@ -38,8 +38,8 @@ router.get('*', (request, response, next) => {
             if (!result) return Promise.reject('Can not find!');
 
             // restrict role if post/page visibility is private
-            if(result.visibility === 'private'){
-                await restrictTo(request,response, 'admin')
+            if(result.visibility === 'private' && !restrictTo(response, 'admin')){
+                return Promise.reject('Account not found')
             }
 
             const pageBuilderContent = JSON.parse(result.content.content);

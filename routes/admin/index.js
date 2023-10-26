@@ -24,15 +24,14 @@ const upload = require('../../core/utils/upload.utils');
  * */
 router.all('*', (request, response, next) => {
 
-    restrictTo(request, response, 'admin')
-        .then(next)
-        .catch((err) => {
-            request.app.set('message', err.message)
+    if(!restrictTo(response, 'admin')){
+        request.app.set('message', 'Account not found')
 
-            sendEmptyToken(response)
+        sendEmptyToken(response)
 
-            response.redirect(`/${REGISTER_URL}`);
-        })
+        response.redirect(`/${REGISTER_URL}`);
+    }
+    next()
 })
 
 /**
