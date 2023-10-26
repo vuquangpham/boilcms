@@ -1,6 +1,7 @@
 const path = require("path");
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
 const Controller = require('../utils/controller');
+const Content = require("../utils/content");
 
 class ComponentController extends Controller{
     constructor(){
@@ -54,7 +55,8 @@ class ComponentController extends Controller{
                         classesName: p.className,
                         description: p.description,
                         paramName: p.paramName,
-                        type: p.type
+                        type: p.type,
+                        options: p.options
                     }));
 
                     Promise.all(promises)
@@ -65,12 +67,14 @@ class ComponentController extends Controller{
                         });
                 });
                 htmlPromises.push(promise);
+
             }else{
                 htmlPromises.push(Content.getHTML(path.join(directory, param.type + '.ejs'), {
                     classesName: param.className,
                     description: param.description,
                     paramName: param.paramName,
-                    type: param.type
+                    type: param.type,
+                    options: param.options
                 }));
             }
         });

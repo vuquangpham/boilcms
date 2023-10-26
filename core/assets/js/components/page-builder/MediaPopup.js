@@ -15,7 +15,7 @@ class Image{
 
         domEl.innerHTML = `
 <button style="border:none;" type="button"><label>
-    <input type="${this.isRadio ? 'radio' : 'checkbox'}" value="${this.id}" name="selected-image">
+    <input type="${this.isRadio ? 'radio' : 'checkbox'}" value="${this.id}" name="selected-media">
     <div class="single-image img-wrapper-cover t" data-media-item>
         <img src="${this.src}" alt="${this.name}" />
     </div>
@@ -34,6 +34,9 @@ export default class MediaPopup{
             mediaList: null
         };
 
+        // flag
+        this.isSingleImage = false;
+
         // fetch URL
         const urlObject = new URL(location.href);
         const baseUrl = urlObject.origin;
@@ -50,6 +53,10 @@ export default class MediaPopup{
         this.elements.mediaList = target.closest('[data-param]').querySelector('[data-media-list]');
         this.elements.mediaList.innerHTML = '';
 
+        // check type of image element (single or multiple)
+        const typeOfImage = target.closest('[data-type="image"]').getAttribute('data-options');
+        this.isSingleImage = typeOfImage === 'single-image';
+
         fetch(this.FETCH_URL, {
             method: 'get',
             action: 'get',
@@ -58,11 +65,11 @@ export default class MediaPopup{
             .then(res => res.json())
             .then(result => {
                 const data = result.data;
-                data.map(d => new Image(d))
+                data.map(d => new Image(d, this.isSingleImage))
                     .forEach(d => this.elements.mediaList.appendChild(d.domElement));
 
                 selectedMedias.forEach(id => {
-                    this.elements.mediaList.querySelector(`input[type="checkbox"][value="${id}"]`).checked = true;
+                    this.elements.mediaList.querySelector(`input[name="selected-media"][value="${id}"]`).checked = true;
                 });
             });
     }
@@ -94,7 +101,7 @@ export default class MediaPopup{
         })
             .then(res => res.json())
             .then((result) => {
-                const image = new Image(result);
+                const image = new Image(result, this.isSingleImage);
 
                 // re-assign dom element and clear the previous list
                 this.elements.mediaList = this.wrapper.querySelector('[data-media-list]');
@@ -106,7 +113,7 @@ export default class MediaPopup{
     handleAfterSelectedMedias(target){
         const wrapper = target.closest('[data-type]');
         const selectedMedias = Array
-            .from(wrapper.querySelectorAll('input[type="checkbox"]'))
+            .from(wrapper.querySelectorAll('input[name="selected-media"]'))
             .filter(c => c.checked)
             .map(c => c.value);
 

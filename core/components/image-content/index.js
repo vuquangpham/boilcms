@@ -18,7 +18,8 @@ class ImageContent extends Component{
                     type: ComponentController.paramTypes.IMAGE,
                     heading: 'Image',
                     paramName: 'image',
-                    classesName: 'image-class'
+                    classesName: 'image-class',
+                    options: 'single-image'
                 },
             ],
         });
