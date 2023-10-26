@@ -7,7 +7,19 @@ class Row extends Component{
             title: 'Row',
             description: 'Wrapper for elements',
             params: [],
-            order: -1
+            order: -1,
+
+            // options for ROW
+            options: [
+                {
+                    name: 'Full width section',
+                    paramName: 'has-full-width',
+                    value: {
+                        'No': '',
+                        'Yes': 'has-full-width-section'
+                    }
+                }
+            ]
         });
     }
 
