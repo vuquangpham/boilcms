@@ -5,15 +5,6 @@ const CategoryController = require('../../core/classes/category/category-control
 const Content = require('../../core/classes/utils/content');
 const {restrictTo} = require("../../core/utils/middleware.utils");
 
-/**
- * Middleware for authenticate user
- * */
-router.all('*', (request, response, next) => {
-    restrictTo(request,response,'admin')
-        .then(next)
-        .catch(err => next(err))
-});
-
 router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
     response.locals.params = {type, pageURL};
@@ -45,6 +36,11 @@ router.get('*', (request, response, next) => {
     promise
         .then(async (result) => {
             if (!result) return Promise.reject('Can not find!');
+
+            // restrict role if post/page visibility is private
+            if(result.visibility === 'private'){
+                await restrictTo(request,response, 'admin')
+            }
 
             const pageBuilderContent = JSON.parse(result.content.content);
             const html = await Content.getRenderHTML(pageBuilderContent);
