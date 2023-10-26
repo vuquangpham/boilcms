@@ -25,8 +25,9 @@ const modifyDate = (publishTime) => {
             <div class="posts-list__heading" data-column-wrapper="heading">
                 <div class="posts__list--title" data-column="Title">Title</div>
                 <div class="posts__list--author" data-column="Author">Author</div>
+                <div class="posts__list--state" data-column="State">State</div>
                 <div class="posts__list--categories" data-column="Categories">Categories</div>
-                <div class="posts__list--date" data-column="Date">Date</div>
+                <div class="posts__list--date" data-column="Date">Last Update</div>
             </div>
 
             <% data.forEach(post => { %>
@@ -47,9 +48,9 @@ const modifyDate = (publishTime) => {
                     <!-- todo: @vupham please do this task after done the account feature :'( -->
                     <div class="posts__item--author"
                          data-column="Author"><%= post.author.name; %></div>
+                    <div class="posts__item--status" data-title="Visibility" data-column="State"><%= post.visibility === 'private' ? `Private` : `Published`%></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
-                        <div class="posts__item--status" data-title="Visibility">Published</div>
                         <time data-title="Date"><%= modifyDate(post.publish) %></time>
                     </div>
                     <div class="posts__item--utils">
