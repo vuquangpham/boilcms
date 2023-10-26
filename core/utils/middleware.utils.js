@@ -32,36 +32,35 @@ const globalMiddleware = (request, response, next) => {
 /**
  * Check user authentication
  * */
-const checkAuthentication = (request, response) => {
-    return new Promise((resolve, reject) => {
-        let token = request.cookies.jwt;
+const authenticateUser = (request, response, next) => {
+    let token = request.cookies.jwt;
 
-        // Check token exists
-        if (!token) {
-            reject(new Error('Token was not found'));
+    // Check token exists
+    if (!token) {
+        response.locals.user = undefined
+        return next()
+    }
+
+    // Verify token
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+        if (err) {
+            console.error(err)
+            return next(err)
         }
-
-        // Verify token
-        jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-            if (err) {
-                reject(err);
-            }
-            User.findOne({_id: decoded.id})
-                .then(currentUser => {
-                    if (!currentUser) {
-                        reject(new Error('User does not exist'));
-                    } else if (currentUser.hasAlreadyChangedPassword(decoded.iat)) {
-                        // Check if the user changed password after the token was issued
-                        reject(new Error('Password has changed recently'));
-                    }
-
+        User.findOne({_id: decoded.id})
+            .then(currentUser => {
+                if (!currentUser || currentUser.hasAlreadyChangedPassword(decoded.iat)) {
+                    response.locals.user = undefined
+                } else {
                     response.locals.user = currentUser;
-                    resolve();
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        })
+                }
+                next()
+            })
+            .catch(err => {
+                response.locals.user = undefined
+                next()
+
+            })
     })
 }
 
@@ -83,5 +82,5 @@ const restrictTo = (request, response, ...role) => {
 }
 
 module.exports = {
-    globalMiddleware, checkAuthentication, restrictTo
+    globalMiddleware, authenticateUser, restrictTo
 }
