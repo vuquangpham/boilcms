@@ -115,9 +115,13 @@ export default class ModifyComponent{
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
+                const componentName = result.component.name;
                 this.loadComponent(result);
 
                 // load data to popup
+                if(this.isGroupComponent(componentName)) return;
+
+                // load data to popup and update the value
                 this.loadDataToPopup(params);
                 UpdateComponentState.updateThePreviousValue(this);
             });
@@ -184,6 +188,7 @@ export default class ModifyComponent{
     }
 
     loadDataToPopup(data){
+        console.log(data);
         data.forEach(d => {
             // group type
             if(d.key === 'group'){
