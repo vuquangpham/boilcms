@@ -26,7 +26,9 @@ class Media extends Category{
     /**
      * Validate input data to get the correct data
      * */
-    validateInputData(request, action = 'add'){
+    validateInputData(inputData, action = 'add'){
+        const request = inputData.request;
+
         // file doesn't change => edit action
         if(!request.file && action === 'edit'){
             return {

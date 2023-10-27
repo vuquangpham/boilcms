@@ -17,10 +17,10 @@ router.get('*', (request, response, next) => {
     let categoryItem = null;
 
     // special page type (without "pages" in ex /pages/home)
-    if (!pageURL) {
+    if(!pageURL){
         categoryItem = CategoryController.getSpecialCategoryItem();
         pageURL = type;
-    } else {
+    }else{
         categoryItem = CategoryController.getCategoryItem(type);
     }
 
@@ -34,13 +34,15 @@ router.get('*', (request, response, next) => {
 
     // solve promise
     promise
-        .then(async (result) => {
-            if (!result) return Promise.reject('Can not find!');
+        .then(async(result) => {
+            if(!result) return Promise.reject('Can not find!');
 
             // restrict role if post/page visibility is private
-            if (result.visibility === 'private' && !restrictTo(response, 'admin')) {
-                return Promise.reject('Account not found')
+            if(result.visibility === 'private' && !restrictTo(response, 'admin')){
+                return Promise.reject('Account not found');
             }
+
+            console.log(result);
 
             const pageBuilderContent = JSON.parse(result.content.content);
             const html = await Content.getRenderHTML(pageBuilderContent);
