@@ -13,11 +13,14 @@ const accountType = categories.find(c => c.type === 'account');
         <ul class="category__menu">
             <% categories.forEach(category => {
                 if(category.notShowInCategory) return; %>
+
+            <% const isActive = isActiveItem(category); %>
+
             <li class="category__menu-item">
-                <a class="category__menu-item--link <%= isActiveItem(category); %>"
+                <a class="category__menu-item--link <%= isActive %>"
                    href="<%= category.url; %>"><%= category.name; %></a>
 
-                <% if (category.children && category.children.length) { %>
+                <% if (category.children && category.children.length && isActive) { %>
                     <ul class="category__menu sub-menu">
                         <% category.children.forEach(child => { %>
                             <li class="category__menu-item">
