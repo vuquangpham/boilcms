@@ -76,7 +76,6 @@ router.get('*', (request, response, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
             next(err);
         });
 });
