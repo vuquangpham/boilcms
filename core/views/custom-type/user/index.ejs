@@ -1,1 +1,66 @@
-<h3>user</h3>
+<%
+// modify date publish
+const modifyDate = (publishTime) => {
+    const year = publishTime.getFullYear();
+    const month = (publishTime.getMonth() + 1).toString().padStart(2, '0');
+    const date = publishTime.getDate().toString().padStart(2, '0');
+    const hour = publishTime.getHours().toString().padStart(2, '0');
+    const minute = publishTime.getMinutes().toString().padStart(2, '0');
+    return `${date}/${month}/${year} at ${hour}:${minute}`;
+};
+%>
+
+<div class="posts-content">
+    <div class="posts-content__heading fl-center-v" style="gap:10px">
+        <h1><%= title; %></h1>
+    </div>
+</div>
+
+<% if (data.length === 0) { %>
+    <h2>No content</h2>
+<% } else { %>
+    <div class="posts-list" data-custom-table>
+        <div class="posts-list__inner">
+            <div class="posts-list__heading" data-column-wrapper="heading">
+                <div class="posts__list--user" data-column="User">User</div>
+                <div class="posts__list--role" data-column="Role">Role</div>
+                <div class="posts__list--email" data-column="Email">Email</div>
+                <div class="posts__list--create" data-column="Create At">Create At</div>
+            </div>
+
+            <% data.forEach(user => { %>
+
+                <div class="posts-list__item" data-column-wrapper="item">
+                    <div class="posts__item--user not-show-user" data-column="User">
+                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= user._id; %>"
+                           class="posts__item--link"><%= user.name; %></a>
+                        <div class="posts__item--utils">
+                            <a href="?post_type=<%= contentType; %>&action=edit&id=<%= user._id; %>"
+                               class="posts__item--link">Edit</a>
+                            <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
+                            <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>"
+                               class="posts__item--link trash">Trash</a>
+                        </div>
+                    </div>
+
+                    <div class="posts__item--role"
+                         data-column="Role"><%= user.role; %></div>
+
+                    <div class="posts__item--email"
+                         data-column="Email"><%= user.email; %></div>
+
+                    <div class="posts__item--create not-show-title" data-column="Create At">
+                        <time><%= modifyDate(user.createAt) %></time>
+                    </div>
+
+                    <div class="posts__item--utils">
+                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= user._id; %>"
+                           class="posts__item--link">Edit</a>
+                        <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
+                        <a href="#" class="posts__item--link trash">Trash</a>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+<% } %>
