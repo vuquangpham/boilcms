@@ -34,6 +34,10 @@ const User = new mongoose.Schema({
         }
     },
     changePasswordAt: Date,
+    createAt: {
+        default: () => Date.now(),
+        type: Date
+    },
     resetPasswordToken: {
         type: String,
         select: false
@@ -73,7 +77,7 @@ User.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
 
         // JWTTimeStamp is the time when the token was created, and passwordChangedTime is the time when the password was last updated
         const passwordChangedTime = parseInt(this.changePasswordAt.getTime() / 1000, 10);
-        return  JWTTimeStamp < passwordChangedTime
+        return JWTTimeStamp < passwordChangedTime
     }
     return false
 }
