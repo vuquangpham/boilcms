@@ -9,8 +9,15 @@ class Category{
             url: '',
             type: '',
             contentType: '',
+
+            // special type and show in category
             isSpecialType: false,
             notShowInCategory: false,
+
+            // children
+            children: [],
+
+            // reorder of category
             order: 0
         };
         const validatedOptions = this.validateOptions({...defaultOptions, ...options});
@@ -21,6 +28,7 @@ class Category{
         this.type = validatedOptions.type;
         this.contentType = validatedOptions.contentType;
         this.order = validatedOptions.order;
+        this.children = validatedOptions.children;
 
         this.notShowInCategory = validatedOptions.notShowInCategory;
         this.isSpecialType = validatedOptions.isSpecialType;
@@ -124,8 +132,8 @@ class Category{
      * Sign in user
      * @return {promise}
      * */
-    signIn(request) {
-        return request
+    signIn(request){
+        return request;
     }
 }
 

@@ -1,11 +1,11 @@
 <%
 const isActiveItem = (category) => {
-    return category.type === categoryItem.type ? 'active' : ''
-    return ''
-}
+    return category.type === categoryItem.type ? 'active' : '';
+    return '';
+};
 
 // custom type
-const accountType = categories.find(c => c.type === 'account')
+const accountType = categories.find(c => c.type === 'account');
 %>
 
 <div class="category__panel">
@@ -14,17 +14,27 @@ const accountType = categories.find(c => c.type === 'account')
             <% categories.forEach(category => {
                 if(category.notShowInCategory) return; %>
             <li class="category__menu-item">
-                <a class="category__menu-item--link <%= isActiveItem(category) %>"
-                   href="<%= category.url %>"><%= category.name %></a>
+                <a class="category__menu-item--link <%= isActiveItem(category); %>"
+                   href="<%= category.url; %>"><%= category.name; %></a>
+
+                <% if (category.children && category.children.length) { %>
+                    <ul class="category__menu sub-menu">
+                        <% category.children.forEach(child => { %>
+                            <li class="category__menu-item">
+                                <a class="category__menu-item--link" href="<%= child.url %>"><%= child.name %></a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } %>
             </li>
-            <% }) %>
+            <% }); %>
         </ul>
 
         <!-- account menu -->
         <ul class="account__menu">
             <li class="category__menu-item">
-                <a class="category__menu-item--link <%= isActiveItem(accountType) %>"
-                   href="<%= accountType.url %>">Account</a>
+                <a class="category__menu-item--link <%= isActiveItem(accountType); %>"
+                   href="<%= accountType.url; %>">Account</a>
             </li>
 
             <li class="category__menu-item">
