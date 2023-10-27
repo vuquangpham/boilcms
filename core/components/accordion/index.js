@@ -40,9 +40,8 @@ class Accordion extends Component{
 
     async render(data){
         const params = data.params;
-        console.log(params);
 
-        return `<div>Image content</div>`;
+        return `<div>Accordion</div>`;
     }
 }
 

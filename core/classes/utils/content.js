@@ -55,7 +55,8 @@ class Content{
         const component = {
             name: property.name,
             params: property.params || [],
-            children: property.children
+            children: property.children,
+            options: property.options
         };
 
         const componentInstance = ComponentController.getComponentBasedOnName(component.name);
