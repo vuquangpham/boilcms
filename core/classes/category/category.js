@@ -127,14 +127,6 @@ class Category{
                 });
         });
     }
-
-    /**
-     * Sign in user
-     * @return {promise}
-     * */
-    signIn(request){
-        return request;
-    }
 }
 
 module.exports = Category;
