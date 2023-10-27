@@ -54,8 +54,8 @@ class Account {
         })
     }
 
-    account(token){
-        return new Promise((resolve,reject) => {
+    account(token) {
+        return new Promise((resolve, reject) => {
 
         })
     }
@@ -65,10 +65,10 @@ class Account {
      * @return {promise}
      * */
     signIn(request) {
-        const { email, password } = request.body;
+        const {email, password} = request.body;
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await this.databaseModel.findOne({ email }).select('+password');
+                const user = await this.databaseModel.findOne({email}).select('+password');
                 if (!user) {
                     throw new Error('No user found')
                 }
@@ -97,7 +97,7 @@ class Account {
     /**
      *
      * */
-    updatePassword(){
+    updatePassword() {
 
     }
 

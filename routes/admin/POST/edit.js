@@ -6,7 +6,7 @@
  * */
 const handleEditAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
-    const data = categoryItem.validateInputData(request,response, 'edit');
+    const data = categoryItem.validateInputData(request, 'edit');
     const id = request.query.id;
 
     const promise = categoryItem.update(id, data);

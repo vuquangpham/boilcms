@@ -68,7 +68,7 @@ const authenticateUser = (request, response, next) => {
  * Restrict user access based on their roles.
  * @param response
  * @param role {Array | String} - An array of role allowed to access
- * @return {Boolean} - True if the user has permission , False if not.
+ * @return {Boolean} - True if the user has permission, False if not.
  * */
 const restrictTo = (response, ...role) => {
     return !(!response.locals.user || !role.includes(response.locals.user.role));
