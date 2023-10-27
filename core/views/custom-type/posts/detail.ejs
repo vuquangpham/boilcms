@@ -109,19 +109,15 @@ const getValueFromData = (name, property = '') => {
                 <div class="posts-detail__visibility">
                     <label for="visibility">Visibility</label>
                     <select name="visibility" id="visibility">
-                        <option <%= isSelectedValue('visibility', 'public') %> value="public" name="public">Public
+                        <option <%= isSelectedValue('visibility', 'public') ;%> value="public">Public
                         </option>
-                        <option <%= isSelectedValue('visibility', 'private') %> value="private" name="private">Private
+                        <option <%= isSelectedValue('visibility', 'private') ;%> value="private">Private
                         </option>
                     </select>
                 </div>
                 <div class="posts-detail__template">
                     <label for="template">Template</label>
                     <select name="template" id="template">
-                        <option <%= isSelectedValue('template', 'default') %> value="default" name="default">Default
-                        </option>
-                        <option <%= isSelectedValue('template', '1') %> value="1" name="1">1
-                        </option>
                     </select>
                 </div>
                 <button type="submit">Publish</button>
