@@ -13,9 +13,13 @@ const handleEditAction = (request, response) => {
     const promise = categoryItem.getDataById(pageId);
     const extraData = {};
 
-    // load components information
+    // post type
     if(categoryItem.contentType === Type.types.POSTS){
+        // load components information
         extraData.components = ComponentController.instances;
+
+        // load custom templates
+        extraData.templates = categoryItem.templates;
     }
 
     return [promise, extraData];
