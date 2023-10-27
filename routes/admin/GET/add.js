@@ -12,9 +12,13 @@ const handleAddAction = (request, response) => {
     const promise = Promise.resolve();
     const extraData = {};
 
-    // load components information
+    // posts type
     if(categoryItem.contentType === Type.types.POSTS){
+        // load components information
         extraData.components = ComponentController.instances;
+
+        // load custom templates
+        extraData.templates = categoryItem.templates;
     }
 
     return [promise, extraData];

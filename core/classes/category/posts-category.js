@@ -2,8 +2,8 @@ const Category = require('./category');
 const {stringToSlug} = require("../../utils/helper.utils");
 const PageBuilder = require("../../database/page-builder/model");
 
-class POSTS extends Category {
-    constructor(config) {
+class POSTS extends Category{
+    constructor(config){
         super(config);
     }
 
@@ -11,7 +11,7 @@ class POSTS extends Category {
      * Get specific data based on id
      * @return {Promise}
      * */
-    getDataById(id) {
+    getDataById(id){
         return new Promise((resolve, reject) => {
             this.databaseModel.findById(id).populate('content')
                 .then(data => {
@@ -27,7 +27,7 @@ class POSTS extends Category {
      * Get all data from category
      * @return {Promise}
      * */
-    getAllData() {
+    getAllData(){
         return new Promise((resolve, reject) => {
             this.databaseModel.find().populate('author')
                 .then(data => {
@@ -42,16 +42,25 @@ class POSTS extends Category {
     /**
      * Validate input data to get the correct data
      * */
-    validateInputData(request, action = 'add') {
+    validateInputData(inputData, action = 'add'){
+        const request = inputData.request;
+        const response = inputData.response;
+
         const title = request.body.title.trim();
         let url = stringToSlug(title);
-        const visibility = request.body.visibility.trim();
-        const author = request.response.locals.user._id;
 
+        // visibility and template
+        const visibility = request.body.visibility.trim();
+        const template = request.body.template;
+
+        // author
+        let author = response.locals.user._id;
+
+        // content of page builder
         let content = '';
 
-        switch (action) {
-            case 'add': {
+        switch(action){
+            case 'add':{
                 content = new PageBuilder({
                     content: request.body.content.trim()
                 });
@@ -60,7 +69,7 @@ class POSTS extends Category {
                 content.save();
                 break;
             }
-            case 'edit': {
+            case 'edit':{
                 content = request.body.content;
                 url = request.body.url;
 
@@ -68,19 +77,22 @@ class POSTS extends Category {
             }
         }
 
-        return {
+        const returnObj = {
             title,
             url,
             visibility,
             content,
-            author
+            template
         };
+
+        if(action === 'add') returnObj.author = author;
+        return returnObj;
     }
 
     /**
      * Update data to category
      * */
-    update(id, data) {
+    update(id, data){
         return new Promise((resolve, reject) => {
             this.databaseModel.findById(id).populate('content')
                 .then(post => {
@@ -92,6 +104,7 @@ class POSTS extends Category {
                     post.title = data.title;
                     post.url = data.url;
                     post.visibility = data.visibility;
+                    post.template = data.template;
 
                     // resolve
                     Promise.all([content.save(), post.save()])
@@ -105,7 +118,7 @@ class POSTS extends Category {
     /**
      * Delete post
      * */
-    delete(id) {
+    delete(id){
         return new Promise((resolve, reject) => {
             this.databaseModel.findById(id).populate('content')
                 .then(post => {
