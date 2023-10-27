@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 
-const userSchema = new mongoose.Schema({
+const User = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
 })
 
 // validate input between two processes adding from form and saving to database
-userSchema.pre('save', async function (next) {
+User.pre('save', async function (next) {
     // if password don't modify, go next middleware
     if (!this.isModified('password')) return next();
 
@@ -59,7 +59,7 @@ userSchema.pre('save', async function (next) {
 /**
  * Compare password hashed in database and password from request
  * */
-userSchema.methods.comparePassword = async function (candidatePassword, userPassword) {
+User.methods.comparePassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
 }
 
@@ -68,7 +68,7 @@ userSchema.methods.comparePassword = async function (candidatePassword, userPass
  * @param JWTTimeStamp {Number}
  * @return boolean
  * */
-userSchema.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
+User.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
     if (this.changePasswordAt) {
 
         // JWTTimeStamp is the time when the token was created, and passwordChangedTime is the time when the password was last updated
@@ -78,4 +78,4 @@ userSchema.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
     return false
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = User
