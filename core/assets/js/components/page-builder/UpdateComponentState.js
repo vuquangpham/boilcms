@@ -1,5 +1,6 @@
 import Component from "../component";
 import Quill from "quill";
+import MediaPopup from "./MediaPopup";
 
 class UpdateComponentState{
     constructor(){
@@ -193,6 +194,36 @@ class UpdateComponentState{
                 if(previousValue){
                     input.value = previousValue;
                 }
+            });
+        }
+
+        if(context.componentTypes.find(t => t === 'image')){
+            context.componentDetailPanel.querySelectorAll('[data-type="image"]').forEach(imageEl => {
+                const previousValue = imageEl.querySelector('[data-param-value]').getAttribute('data-param-value');
+                const imagesId = previousValue ? JSON.parse(previousValue) : [];
+
+                // handler
+                const instance = new MediaPopup();
+                const loadMediaPopup = instance.loadMediaById.bind(instance);
+                const loadPreviewMediaPopup = instance.loadPreviewMedias.bind(instance);
+
+                // get images
+                const promises = [];
+                imagesId.forEach(id => promises.push(loadMediaPopup(id)));
+
+                // handle images
+                Promise.all(promises)
+                    .then(data => {
+                        const urls = [];
+
+                        data.forEach(d => {
+                            const imageData = d.data;
+                            urls.push(imageData.url.small);
+                        });
+
+                        loadPreviewMediaPopup(imageEl, urls);
+                    })
+                    .catch(err => console.error(err.message));
             });
         }
     }

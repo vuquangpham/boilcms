@@ -74,6 +74,20 @@ export default class MediaPopup{
             });
     }
 
+    loadMediaById(id){
+        return new Promise((resolve, reject) => {
+            fetch(this.FETCH_URL, {
+                method: 'get',
+                action: 'edit',
+                id,
+                getJSON: true
+            })
+                .then(res => res.json())
+                .then(result => resolve(result))
+                .catch(err => reject(err));
+        });
+    }
+
     /**
      * Submitting the form for adding the new image
      * */
