@@ -55,6 +55,7 @@ class POSTS extends Category{
 
         // author
         let author = response.locals.user._id;
+        let authorName = response.locals.user.name
 
         // content of page builder
         let content = '';
@@ -85,7 +86,10 @@ class POSTS extends Category{
             template
         };
 
-        if(action === 'add') returnObj.author = author;
+        if(action === 'add') {
+            returnObj.author = author
+            returnObj.authorName = authorName
+        }
         return returnObj;
     }
 

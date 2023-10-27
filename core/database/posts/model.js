@@ -29,6 +29,9 @@ const Post = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         // because of the databaseModel in categories/user.js, User.type = 'user
         ref: 'user'
+    },
+    authorName: {
+        type: String,
     }
 });
 

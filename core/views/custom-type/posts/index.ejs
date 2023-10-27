@@ -51,10 +51,10 @@ const modifyDate = (publishTime) => {
                     </div>
 
                     <!-- todo: @vupham please do this task after done the account feature :'( -->
-                    <div class="posts__item--author"
-                         data-column="Author"><%= post.author.name; %></div>
+                    <div class="posts__item--author <%= post.author ? 'post__item--author-active' : 'post__item--author-deleted'%>"
+                         data-column="Author"><%= post.author ? `${post.author.name}` : `${post.authorName}` %></div>
                     <div class="posts__item--status" data-title="Visibility"
-                         data-column="State"><%= post.visibility === 'private' ? `Private` : `Published` ;%></div>
+                         data-column="State"><%= post.visibility === 'private' ? 'Private' : 'Published' ;%></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
                         <time data-title="Date"><%= modifyDate(post.publish) %></time>
