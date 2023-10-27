@@ -1,13 +1,13 @@
 <%
 // modify date publish
 const modifyDate = (publishTime) => {
-    const year = publishTime.getFullYear()
-    const month = (publishTime.getMonth() + 1).toString().padStart(2, '0')
-    const date = publishTime.getDate().toString().padStart(2, '0')
-    const hour = publishTime.getHours().toString().padStart(2, '0')
-    const minute = publishTime.getMinutes().toString().padStart(2, '0')
-    return `${date}/${month}/${year} at ${hour}:${minute}`
-}
+    const year = publishTime.getFullYear();
+    const month = (publishTime.getMonth() + 1).toString().padStart(2, '0');
+    const date = publishTime.getDate().toString().padStart(2, '0');
+    const hour = publishTime.getHours().toString().padStart(2, '0');
+    const minute = publishTime.getMinutes().toString().padStart(2, '0');
+    return `${date}/${month}/${year} at ${hour}:${minute}`;
+};
 %>
 
 <div class="posts-content">
@@ -31,6 +31,11 @@ const modifyDate = (publishTime) => {
             </div>
 
             <% data.forEach(post => { %>
+
+                <%
+                    const viewURL = isSpecialType ? '/' + post.url : '/' + type + '/' + post.url;
+                %>
+
                 <div class="posts-list__item" data-column-wrapper="item">
                     <div class="posts__item--title not-show-title" data-column="Title">
                         <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post.id; %>"
@@ -38,7 +43,7 @@ const modifyDate = (publishTime) => {
                         <div class="posts__item--utils">
                             <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
                                class="posts__item--link">Edit</a>
-                            <a href="/<%= type; %>/<%= post.url; %>" target="_blank" class="posts__item--link">View</a>
+                            <a href="<%= viewURL ;%>" target="_blank" class="posts__item--link">View</a>
                             <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
                             <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= post._id; %>"
                                class="posts__item--link trash">Trash</a>
@@ -48,7 +53,8 @@ const modifyDate = (publishTime) => {
                     <!-- todo: @vupham please do this task after done the account feature :'( -->
                     <div class="posts__item--author"
                          data-column="Author"><%= post.author.name; %></div>
-                    <div class="posts__item--status" data-title="Visibility" data-column="State"><%= post.visibility === 'private' ? `Private` : `Published`%></div>
+                    <div class="posts__item--status" data-title="Visibility"
+                         data-column="State"><%= post.visibility === 'private' ? `Private` : `Published` ;%></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
                         <time data-title="Date"><%= modifyDate(post.publish) %></time>

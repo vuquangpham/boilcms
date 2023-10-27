@@ -55,6 +55,7 @@ const handleGetMethod = (request, response, next) => {
                 contentType: categoryItem.contentType.name,
                 actionType: action.name,
                 type: categoryItem.type,
+                isSpecialType: categoryItem.isSpecialType,
                 ...extraData
             };
 
