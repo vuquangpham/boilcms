@@ -47,6 +47,9 @@ class Content{
     }
 
     async getRenderHTML(property){
+        // doesn't exist
+        if(!property) return '';
+
         const ComponentController = require('../component/component-controller');
 
         const component = {

@@ -4,7 +4,6 @@ const router = require('express').Router();
 const CategoryController = require('../../core/classes/category/category-controller');
 const Content = require('../../core/classes/utils/content');
 const {restrictTo} = require("../../core/utils/middleware.utils");
-const Type = require("../../core/classes/utils/type");
 
 router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
@@ -55,7 +54,7 @@ router.get('*', (request, response, next) => {
             /**
              * Page with custom template
              * */
-            if(categoryItem.templates){
+            if(categoryItem.templates && categoryItem.isCustomTemplate(result.template)){
                 // render to frontend
                 return response.render('default/templates/' + result.template, {
                     data: result,
@@ -66,7 +65,7 @@ router.get('*', (request, response, next) => {
             /**
              * Page with default template
              * */
-            const pageBuilderContent = JSON.parse(result.content.content);
+            const pageBuilderContent = result.content.content ? JSON.parse(result.content.content) : '';
             const html = await Content.getRenderHTML(pageBuilderContent);
 
             // render to frontend

@@ -22,7 +22,7 @@ class Pages extends POSTS{
      * Is a custom template
      * */
     isCustomTemplate(template){
-        return !!this.templates.find(t => t.name === template);
+        return template !== this.templates[0].name;
     }
 
     /**
