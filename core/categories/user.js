@@ -1,9 +1,10 @@
-const User = require('./../../database/user/model')
+const Type = require("../classes/utils/type");
+const Category = require("../classes/category/category");
 
 // const filterObj = require('./../../utils/helper.utils')
-class Account {
-    constructor() {
-        this.databaseModel = User
+class User extends Category{
+    constructor(config) {
+        super(config)
     }
 
     /**
@@ -51,12 +52,6 @@ class Account {
                 .catch(err => {
                     reject(err)
                 })
-        })
-    }
-
-    account(token) {
-        return new Promise((resolve, reject) => {
-
         })
     }
 
@@ -126,4 +121,9 @@ class Account {
     }
 }
 
-module.exports = new Account();
+module.exports = new User({
+    name: 'User',
+    url: '/user',
+    type: 'user',
+    contentType: Type.types.USER
+});
