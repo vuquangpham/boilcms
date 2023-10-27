@@ -12,7 +12,12 @@ const signToken = (userid) => {
  * @param res
  * */
 const sendAuthTokenAndCookies = (user, type, res) => {
-    let token = signToken(user._id);
+    let token
+
+    // if type = sign in, create token
+    if (type === 'sign-in') {
+        token = signToken(user._id);
+    }
 
     const cookiesOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000),

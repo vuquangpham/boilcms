@@ -4,6 +4,7 @@ const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
 
 const handlePostMethod = (request, response, next) => {
     const type = request.query.type;
+    const hasJSON = response.locals.getJSON;
     let promise;
 
     switch (type) {
@@ -19,18 +20,16 @@ const handlePostMethod = (request, response, next) => {
 
     promise
         .then(result => {
-            // redirect to admin page when sign in
+            if (hasJSON) return response.status(200).json(result)
+
+            // send token to client and save token in cookies
+            sendAuthTokenAndCookies(result, type, response)
+
+            // redirect to sign in when sign up
+
+            // redirect to admin page
             if (type === 'sign-in') {
-
-                // send token to client and save token in cookies
-                sendAuthTokenAndCookies(result, type, response)
-
                 response.redirect(`${ADMIN_URL}`)
-
-            } else if (type === 'sign-up') {
-
-                // redirect to sign in when sign up
-                response.redirect(`${REGISTER_URL}`)
             }
 
         })
