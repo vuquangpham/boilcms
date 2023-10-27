@@ -1,7 +1,7 @@
 const AccountType = require('../classes/utils/account-type');
 const Method = require('../classes/utils/method')
 const jwt = require("jsonwebtoken");
-const User = require("../database/user/model");
+const User = require('../categories/user')
 
 /**
  * middleware for all routing
@@ -47,7 +47,7 @@ const authenticateUser = (request, response, next) => {
             console.error(err)
             return next(err)
         }
-        User.findOne({_id: decoded.id})
+        User.getDataById({_id: decoded.id})
             .then(currentUser => {
                 if (!currentUser || currentUser.hasAlreadyChangedPassword(decoded.iat)) {
                     response.locals.user = undefined

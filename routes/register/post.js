@@ -1,4 +1,4 @@
-const Account = require('./../../core/classes/account/account')
+const User = require('../../core/categories/user')
 const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
 const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
 
@@ -9,12 +9,12 @@ const handlePostMethod = (request, response, next) => {
 
     switch (type) {
         case 'sign-up': {
-            const data = Account.validateInputData(request)
-            promise = Account.add(data)
+            const data = User.validateInputData(request)
+            promise = User.add(data)
             break;
         }
         case 'sign-in': {
-            promise = Account.signIn(request)
+            promise = User.signIn(request)
         }
     }
 
