@@ -90,6 +90,7 @@ class UpdateComponentState{
         // clear data
         newItem.querySelectorAll('[data-param-value]').forEach(e => e.setAttribute('data-param-value', ''));
         newItem.querySelectorAll('.ql-editor').forEach(e => e.innerHTML = '');
+        newItem.querySelectorAll('.ql-toolbar').forEach(e => e.remove());
 
         // register type
         newItem.querySelectorAll('[data-type]').forEach(typeEl => {
