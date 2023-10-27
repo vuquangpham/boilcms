@@ -29,7 +29,7 @@ router.all('*', (request, response, next) => {
 
         sendEmptyToken(response)
 
-        response.redirect(`/${REGISTER_URL}`);
+        return response.redirect(`/${REGISTER_URL}`);
     }
     next()
 })

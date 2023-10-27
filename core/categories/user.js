@@ -96,29 +96,6 @@ class User extends Category{
 
     }
 
-    /**
-     * Delete user account
-     * @param id {string}
-     * */
-    deleteUser(id){
-        return this.databaseModel.deleteOne({_id: id});
-    }
-
-    /**
-     * Get all user
-     * @return {promise}
-     * */
-    getAllUser(){
-        return new Promise((resolve, reject) => {
-            this.databaseModel.find()
-                .then(data => {
-                    resolve(data);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
-    }
 }
 
 module.exports = new User({
