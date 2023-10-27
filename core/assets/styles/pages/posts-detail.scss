@@ -114,3 +114,12 @@
   font-size: 13px;
   color: rgba(33, 37, 41, 0.75);
 }
+
+// avoid click on component util in wrapper
+[data-pb-components] > [data-component] > [data-component-utils] {
+  display: none;
+}
+
+[data-group-children] > [data-group-item]:first-child [data-group-remove] {
+  display: none;
+}
