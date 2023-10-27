@@ -110,19 +110,43 @@ export default class MediaPopup{
             .catch(err => console.error(err));
     }
 
+    /**
+     * Load Preview Medias
+     * */
+    loadPreviewMedias(wrapper, urls){
+        const selectedMediaEl = wrapper.querySelector('[data-selected-medias]');
+        selectedMediaEl.innerHTML = urls.map(url => {
+            return `
+<div data-selected-media-item class="img-wrapper-cover ar-1" style="width:200px;">
+     <img src="${url}" alt="selected-media">       
+</div>
+            `;
+        }).join('');
+    }
+
     handleAfterSelectedMedias(target){
         const wrapper = target.closest('[data-type]');
-        const selectedMedias = Array
-            .from(wrapper.querySelectorAll('input[name="selected-media"]'))
+        const mediaElements = Array.from(wrapper.querySelectorAll('input[name="selected-media"]'));
+
+        const selectedMedias = mediaElements
             .filter(c => c.checked)
             .map(c => c.value);
 
+        const selectedMediaElements = mediaElements.filter(mediaEl => mediaEl.checked);
+
+        // medias id
+        const selectedMediasId = selectedMediaElements.map(c => c.value);
+
+        // medias url
+        const selectedMediasURL = selectedMediaElements.map(c => c.closest('button').querySelector('img').src);
+
         // load media to the components
+        this.loadPreviewMedias(wrapper, selectedMediasURL);
 
         // save to the attribute
         target.closest('[data-param]')
             .querySelector('[data-param-value]')
-            .setAttribute('data-param-value', JSON.stringify(selectedMedias));
+            .setAttribute('data-param-value', JSON.stringify(selectedMediasId));
     }
 
     toggleCustomPopup(popupContent){
