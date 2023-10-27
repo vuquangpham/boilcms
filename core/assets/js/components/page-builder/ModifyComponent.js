@@ -283,7 +283,7 @@ export default class ModifyComponent{
         div.innerHTML = result.data;
 
         // reset the last one
-        this.componentDetailPanel.innerHTML = '';
+        this.componentDetailPanel.innerHTML = `<div data-component-name>${result.component.title}</div>`;
         this.componentDetailPanel.append(...[...div.children]);
         this.componentDetailPanel.dataset.component = result.component.name;
 
