@@ -4,6 +4,7 @@ const router = require('express').Router();
 const CategoryController = require('../../core/classes/category/category-controller');
 const Content = require('../../core/classes/utils/content');
 const {restrictTo} = require("../../core/utils/middleware.utils");
+const Type = require("../../core/classes/utils/type");
 
 router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
@@ -35,20 +36,38 @@ router.get('*', (request, response, next) => {
     // solve promise
     promise
         .then(async(result) => {
+            /**
+             * Page doesn't exist
+             * */
             if(!result) return Promise.reject('Can not find!');
 
-            // restrict role if post/page visibility is private
+            /**
+             * Page is private
+             * Restrict role if post/page visibility is private
+             * */
             if(result.visibility === 'private' && !restrictTo(response, 'admin')){
                 return Promise.reject('Account not found');
             }
 
-            console.log(result);
-
-            const pageBuilderContent = JSON.parse(result.content.content);
-            const html = await Content.getRenderHTML(pageBuilderContent);
-
             // page title
             const title = pageURL ? pageURL[0].toUpperCase() + pageURL.slice(1) : 'Home';
+
+            /**
+             * Page with custom template
+             * */
+            if(categoryItem.templates){
+                // render to frontend
+                return response.render('default/templates/' + result.template, {
+                    data: result,
+                    title,
+                });
+            }
+
+            /**
+             * Page with default template
+             * */
+            const pageBuilderContent = JSON.parse(result.content.content);
+            const html = await Content.getRenderHTML(pageBuilderContent);
 
             // render to frontend
             response.render('default', {

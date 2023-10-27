@@ -18,6 +18,16 @@ class Pages extends POSTS{
         this.getCustomTemplates();
     }
 
+    /**
+     * Is a custom template
+     * */
+    isCustomTemplate(template){
+        return !!this.templates.find(t => t.name === template);
+    }
+
+    /**
+     * Get custom view templates
+     * */
     getCustomTemplates(){
         readFilesInFolderInAsync(CUSTOM_TEMPLATES_DIRECTORY)
             .then(fileNames => {

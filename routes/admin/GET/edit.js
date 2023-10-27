@@ -17,7 +17,10 @@ const handleEditAction = (request, response) => {
     if(categoryItem.contentType === Type.types.POSTS){
         // load components information
         extraData.components = ComponentController.instances;
+    }
 
+    // pages
+    if(categoryItem.type === 'pages'){
         // load custom templates
         extraData.templates = categoryItem.templates;
     }

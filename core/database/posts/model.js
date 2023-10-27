@@ -17,6 +17,10 @@ const Post = new mongoose.Schema({
         type: Date,
         default: () => Date.now()
     },
+    template: {
+        type: String
+    },
+
     content: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'PageBuilder'
