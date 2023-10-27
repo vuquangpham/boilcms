@@ -6,7 +6,9 @@
  * */
 const handleAddAction = (request, response) => {
     const categoryItem = response.locals.categoryItem;
-    const data = categoryItem.validateInputData(request,response);
+    const mergedRequestResponse = {...request, response}
+
+    const data = categoryItem.validateInputData(mergedRequestResponse);
 
     const promise = categoryItem.add(data);
     const extraData = {};

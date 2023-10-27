@@ -49,7 +49,7 @@ class Category{
     /**
      * Validate input data to get the correct data
      * */
-    validateInputData(request, response){
+    validateInputData(request){
         return request;
     }
 
