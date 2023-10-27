@@ -27,7 +27,7 @@ router.get('*', (request, response, next) => {
     // promise
     const promise = !categoryItem
         // categoryItem doesn't exist
-        ? Promise.reject(new Error('Can not find!'))
+        ? Promise.reject(new Error('Can not find a category item!'))
 
         // get the content
         : categoryItem.databaseModel.findOne({url: pageURL}).populate('content');
