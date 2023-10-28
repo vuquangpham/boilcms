@@ -34,7 +34,7 @@ const User = new mongoose.Schema({
         }
     },
     changePasswordAt: Date,
-    createAt: {
+    registerAt: {
         default: () => Date.now(),
         type: Date
     },
@@ -42,7 +42,12 @@ const User = new mongoose.Schema({
         type: String,
         select: false
     },
-    resetPasswordTokenExpired: Date
+    resetPasswordTokenExpired: Date,
+    state: {
+        type: String,
+        enum: ['active', 'suspend'],
+        default: 'active'
+    },
 })
 
 // validate input between two processes adding from form and saving to database
