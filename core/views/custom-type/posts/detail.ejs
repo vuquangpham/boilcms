@@ -46,7 +46,6 @@ const getValueFromData = (name, property = '') => {
                     <% } %>
                 </div>
 
-                <div>Page Builder</div>
                 <div data-pb>
 
                     <div data-pb-inner>
@@ -61,7 +60,7 @@ const getValueFromData = (name, property = '') => {
                             </div>
                         </div>
 
-                        <label for="content">Backend Editor</label>
+                        <label class="be-editor" for="content">Backend Editor</label>
                         <textarea id="content" name="content" data-pb-json
                                   style="width:100%"><%= getValueFromData('content', 'content'); %></textarea>
                     </div>

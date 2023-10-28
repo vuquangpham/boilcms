@@ -5,15 +5,15 @@
 [data-pb] {
   // common style for button
   button {
-    --bg-color: var(--color-secondary);
-    --bg-color-hover: var(--color-primary);
+    --btn-bg-color: var(--color-secondary);
+    --btn-bg-color-hover: var(--color-primary);
     --color: var(--color-white);
     --color-hover: var(--color-white);
 
     padding: .5rem;
     border-radius: 0;
     border: none;
-    background: var(--bg-color);
+    background: var(--btn-bg-color);
 
     line-height: 1;
     color: var(--color);
@@ -21,9 +21,14 @@
     // hover
     &:hover,
     &:focus {
-      background: var(--bg-color-hover);
+      background: var(--btn-bg-color-hover);
       color: var(--color-hover);
     }
+  }
+
+  // page builder
+  [data-pb-components] {
+    margin-bottom: var(--spacing-30);
   }
 }
 
@@ -112,12 +117,12 @@
 
     // edit button
     [data-component-edit] {
-      --bg-color: var(--color-secondary);
+      --btn-bg-color: var(--color-secondary);
     }
 
     // delete button
     [data-component-delete] {
-      --bg-color: var(--color-error);
+      --btn-bg-color: var(--color-error);
     }
   }
 }
@@ -226,8 +231,8 @@
 
   /* cancel button */
   [data-pb-component-popup-cancel] {
-    --bg-color: transparent;
-    --bg-color-hover: var(--color-secondary);
+    --btn-bg-color: transparent;
+    --btn-bg-color-hover: var(--color-secondary);
     --color: var(--color-secondary);
     --color-hover: var(--color-white);
 
@@ -248,7 +253,8 @@
 [data-pb-components-popup] [data-component] {
   border: 1px solid transparent;
   padding: 10px;
-  border-radius: 4px;
+  background: var(--bg-color);
+
   text-align: left;
   transition: all 0.3s ease;
 }
@@ -257,6 +263,7 @@
 [data-pb-components-popup] [data-component]:hover,
 [data-pb-components-popup] [data-component]:focus {
   border-color: var(--color-secondary);
+  background: var(--bg-color);
 }
 
 [data-pb-components-popup] [data-component-title] {
