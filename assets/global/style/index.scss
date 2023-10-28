@@ -1,3 +1,3 @@
-@import "reset";
-@import "atomic";
-@import "variables";
+@import "./base/reset";
+@import "./vendors/atomic";
+@import "./utils/variables";
