@@ -131,7 +131,7 @@ export default class MediaPopup{
         const selectedMediaEl = wrapper.querySelector('[data-selected-medias]');
         selectedMediaEl.innerHTML = urls.map(url => {
             return `
-<div data-selected-media-item class="img-wrapper-cover ar-1" style="width:200px;">
+<div data-selected-media-item class="img-wrapper-cover ar-1">
      <img src="${url}" alt="selected-media">       
 </div>
             `;
