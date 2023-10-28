@@ -51,13 +51,7 @@ class ComponentController extends Controller{
     <button type="button" data-group-add>Add</button>
 </div>`;
 
-                    const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), {
-                        classesName: p.classesName,
-                        description: p.description,
-                        paramName: p.paramName,
-                        type: p.type,
-                        options: p.options
-                    }));
+                    const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), p));
 
                     Promise.all(promises)
                         .then(data => resolve(html.replace('#REPLACE', data.join(''))))
@@ -69,13 +63,7 @@ class ComponentController extends Controller{
                 htmlPromises.push(promise);
 
             }else{
-                htmlPromises.push(Content.getHTML(path.join(directory, param.type + '.ejs'), {
-                    classesName: param.classesName,
-                    description: param.description,
-                    paramName: param.paramName,
-                    type: param.type,
-                    options: param.options
-                }));
+                htmlPromises.push(Content.getHTML(path.join(directory, param.type + '.ejs'), param));
             }
         });
 
