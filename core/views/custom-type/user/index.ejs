@@ -8,6 +8,12 @@ const modifyDate = (publishTime) => {
     const minute = publishTime.getMinutes().toString().padStart(2, '0');
     return `${date}/${month}/${year} at ${hour}:${minute}`;
 };
+
+// validate selected value on select
+const isSelectedValue = (name, value) => {
+    return data[name] === value ? 'selected' : null;
+};
+
 %>
 
 <div class="posts-content">
@@ -32,15 +38,7 @@ const modifyDate = (publishTime) => {
 
                 <div class="posts-list__item" data-column-wrapper="item">
                     <div class="posts__item--user not-show-user" data-column="User">
-                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= user._id; %>"
-                           class="posts__item--link"><%= user.name; %></a>
-                        <div class="posts__item--utils">
-                            <a href="?post_type=<%= contentType; %>&action=edit&id=<%= user._id; %>"
-                               class="posts__item--link">Edit</a>
-                            <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
-                            <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>"
-                               class="posts__item--link trash">Trash</a>
-                        </div>
+                        <button class="posts__item--link" data-toggle="user-popup"><%= user.name; %></button>
                     </div>
 
                     <div class="posts__item--role"
@@ -61,6 +59,82 @@ const modifyDate = (publishTime) => {
                     </div>
                 </div>
             <% }); %>
+        </div>
+
+        <div data-popup>
+            <div data-popup-overflow>
+                <div data-popup-overlay data-toggle="user-popup"></div>
+
+                <!-- pop up content-->
+                <form method="post" action="#" data-popup-inner>
+
+                    <div class="user-popup fl-grid">
+
+                        <div class="user-popup__group">
+
+                            <!-- name -->
+                            <div class="fl-center-v">
+                                <label for="username">Username</label>
+                                <input id="username">
+                            </div>
+
+                            <!-- email -->
+                            <div class="fl-center-v">
+                                <label for="email">Email</label>
+                                <input id="email">
+                            </div>
+                        </div>
+
+                        <div class="user-popup__group">
+
+                            <!-- create at -->
+                            <div class="fl-center-v">
+                                <label for="create-at">Create at</label>
+                                <input id="create-at">
+                            </div>
+                        </div>
+
+                        <div class="user-popup__group">
+
+                            <!-- password -->
+                            <div class="fl-center-v">
+                                <label for="password">Password</label>
+                                <input type="password" value="hidden"  id="user-password" readonly>
+                                <button>Generate new password</button>
+                                <input id="password" type="text" readonly>
+                            </div>
+                        </div>
+
+                        <div class="user-popup__group">
+
+                            <!-- role -->
+                            <div class="fl-center-v">
+                                <label for="role">Role</label>
+                                <select name="role" id="role">
+                                    <option <%= isSelectedValue('role', 'user'); %> value="user">User
+                                    </option>
+                                    <option <%= isSelectedValue('role', 'admin'); %> value="admin">Admin
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="user-popup__group">
+
+                            <!-- status -->
+                            <div class="fl-center-v">
+                                <label for="status">Status</label>
+                                <select name="status" id="status">
+                                    <option <%= isSelectedValue('status', 'active'); %> value="active">Active
+                                    </option>
+                                    <option <%= isSelectedValue('status', 'suspend'); %> value="suspend">Suspend
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 <% } %>
