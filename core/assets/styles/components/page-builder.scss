@@ -3,29 +3,6 @@
 ********************************/
 /* page builder */
 [data-pb] {
-  // common style for button
-  button {
-    --btn-bg-color: var(--color-secondary);
-    --btn-bg-color-hover: var(--color-primary);
-    --color: var(--color-white);
-    --color-hover: var(--color-white);
-
-    padding: .5rem;
-    border-radius: 0;
-    border: none;
-    background: var(--btn-bg-color);
-
-    line-height: 1;
-    color: var(--color);
-
-    // hover
-    &:hover,
-    &:focus {
-      background: var(--btn-bg-color-hover);
-      color: var(--color-hover);
-    }
-  }
-
   // page builder
   [data-pb-components] {
     margin-bottom: var(--spacing-30);

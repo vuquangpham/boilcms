@@ -36,8 +36,8 @@ export default class Component{
 
         // inner HTML
         utilsDiv.innerHTML = `
-        <button type="button" data-toggle="component-panel" data-component-edit>Edit</button>
-        <button type="button" data-component-delete>Delete</button>
+        <button type="button" data-toggle="component-panel" data-component-edit class="btn_primary">Edit</button>
+        <button type="button" data-component-delete class="btn_primary">Delete</button>
         `;
 
         return utilsDiv;
@@ -49,7 +49,7 @@ export default class Component{
 
         // inner HTML
         addComponentDiv.innerHTML = `
-        <button type="button" data-toggle="components">Add More</button>
+        <button type="button" data-toggle="components" class="btn_primary">Add More</button>
         `;
 
         return addComponentDiv;

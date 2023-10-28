@@ -55,7 +55,7 @@ const getValueFromData = (name, property = '') => {
                             <div data-component="row" data-component-wrapper>
                                 <div data-component-children data-component-content></div>
                                 <div data-component-add>
-                                    <button type="button" data-toggle="components">Add</button>
+                                    <button type="button" data-toggle="components" class="btn_primary">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,8 @@ const getValueFromData = (name, property = '') => {
                                             data-component="<%= c.name; %>"
                                             data-action="add"
                                             data-toggle="components <%= c.name === 'row' ? '' : 'component-panel' %>"
-                                            type="button">
+                                            type="button"
+                                            class="btn_primary">
                                         <div data-component-title><%= c.title; %></div>
                                         <div data-component-description><%= c.description; %></div>
                                     </button>
@@ -95,10 +96,12 @@ const getValueFromData = (name, property = '') => {
 
                                 <!-- button group -->
                                 <div data-pb-component-button-group style="margin-top:auto;">
-                                    <button type="button" data-toggle="component-panel" data-pb-component-popup-save>
+                                    <button type="button" data-toggle="component-panel" class="btn_primary"
+                                            data-pb-component-popup-save>
                                         Save
                                     </button>
-                                    <button type="button" data-toggle="component-panel" data-pb-component-popup-cancel>
+                                    <button type="button" data-toggle="component-panel" class="btn_primary"
+                                            data-pb-component-popup-cancel>
                                         Cancel
                                     </button>
                                 </div>
@@ -133,7 +136,7 @@ const getValueFromData = (name, property = '') => {
                         </select>
                     </div>
                 <% } %>
-                <button type="submit">Publish</button>
+                <button type="submit" class="btn_primary">Publish</button>
             </div>
         </div>
 

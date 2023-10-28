@@ -94,6 +94,29 @@ input {
   width: auto;
 }
 
+/* button primary */
+[class*="btn_primary"] {
+  --btn-bg-color: var(--color-secondary);
+  --btn-bg-color-hover: var(--color-primary);
+  --color: var(--color-white);
+  --color-hover: var(--color-white);
+
+  padding: .5rem;
+  border-radius: 0;
+  border: none;
+  background: var(--btn-bg-color);
+
+  line-height: 1;
+  color: var(--color);
+
+  // hover
+  &:hover,
+  &:focus {
+    background: var(--btn-bg-color-hover);
+    color: var(--color-hover);
+  }
+}
+
 /**/
 .hidden {
   display: none;
