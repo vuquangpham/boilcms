@@ -11,6 +11,10 @@ const validatedOptions = options || ''
     <button data-param-value data-load-media type="button" data-custom-toggle="<%= id %>" class="button-style">+
     </button>
 
+    <% if (description) { %>
+        <div class="description"><%= description ;%></div>
+    <% } %>
+
     <!-- media popup -->
     <div data-pb-media-popup data-popup data-custom-toggle-content="<%= id %>">
         <div data-popup-overflow>

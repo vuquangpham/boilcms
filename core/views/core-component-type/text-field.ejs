@@ -4,5 +4,7 @@
         <input name="text-field" placeholder="Type something..."/>
     </div>
 
-    <div class="description"> <%= description %></div>
+    <% if (description) { %>
+        <div class="description"><%= description ;%></div>
+    <% } %>
 </div>
