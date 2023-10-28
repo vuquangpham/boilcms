@@ -1,6 +1,36 @@
+/************************
+* Post detail
+*************************/
 .posts-detail {
   display: flex;
   align-items: flex-start;
+
+  // layout
+  &--left {
+
+  }
+
+  &--right {
+
+  }
+
+  // title
+  &__title {
+    margin-bottom: 1.2rem;
+  }
+
+  // information
+  &__information {
+    margin-bottom: var(--spacing-24);
+  }
+}
+
+// content
+.posts-content {
+  // heading
+  &__heading {
+    margin-bottom: var(--spacing-14);
+  }
 }
 
 .posts-detail--left {

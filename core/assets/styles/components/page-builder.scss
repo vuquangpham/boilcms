@@ -175,24 +175,16 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: var(--gap);
+    row-gap: var(--gap);
 
     padding-top: var(--spacing-14);
+    margin: 0 calc(-1 * var(--gap) * 0.5);
   }
 
   /* component */
   [data-type] {
     width: 100%;
-
-    /* full column */
-    &.half {
-      width: calc(50% - var(--gap) * 0.5);
-    }
-
-    /* third column */
-    &.third {
-      width: calc(33.33% - 0.675 * var(--gap));
-    }
+    padding: 0 calc(var(--gap) * 0.5);
 
     /* media */
     [data-selected-medias] {
