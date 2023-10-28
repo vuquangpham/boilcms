@@ -26,6 +26,19 @@ class ComponentController extends Controller{
         return (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
     }
 
+    validateParam(params){
+        const defaultParam = {
+            type: this.paramTypes.TEXT,
+            heading: '',
+            paramName: '',
+            classesName: 'col-12',
+            options: '',
+            description: ''
+        };
+
+        return params.map(p => ({...defaultParam, ...p}));
+    }
+
     getHTML(instance){
         // import package
         const Content = require('../utils/content');
@@ -35,7 +48,10 @@ class ComponentController extends Controller{
         const directory = path.join(CORE_DIRECTORY, 'views', 'core-component-type');
         let htmlPromises = [];
 
-        instance.params.forEach(param => {
+        // validate params
+        const validatedParams = this.validateParam(instance.params);
+
+        validatedParams.forEach(param => {
             // group type
             if(param.type === 'group'){
 
