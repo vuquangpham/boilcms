@@ -110,9 +110,9 @@ const getValueFromData = (name, property = '') => {
             </div>
 
             <div class="posts-detail--right">
-                <div class="posts-detail__visibility">
+                <div class="posts-detail__dropdown fl-center-v">
                     <label for="visibility">Visibility</label>
-                    <select name="visibility" id="visibility">
+                    <select data-easy-select name="visibility" id="visibility">
                         <option <%= isSelectedValue('visibility', 'public'); %> value="public">Public
                         </option>
                         <option <%= isSelectedValue('visibility', 'private'); %> value="private">Private
@@ -120,9 +120,9 @@ const getValueFromData = (name, property = '') => {
                     </select>
                 </div>
                 <% if (typeof templates !== "undefined" && templates.length) { %>
-                    <div class="posts-detail__template">
+                    <div class="posts-detail__dropdown fl-center-v">
                         <label for="template">Template</label>
-                        <select name="template" id="template">
+                        <select data-easy-select name="template" id="template">
                             <%-
                                 templates.map(template => {
                                     const isSelected = isSelectedValue('template', template.name);

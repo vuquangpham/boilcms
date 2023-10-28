@@ -1,3 +1,5 @@
+@import "easy-select.min.scss";
+
 /*****************************************
 * Easy Select Custom
 *****************************************/
@@ -15,16 +17,19 @@ body .easy-select {
   //--es-scrollbar-thumb:;
 }
 
+// option
 body .es-option {
   font-size: 1.4rem;
   padding: 5px 12px;
 }
 
+// current option
 body .es-current .es-option {
   padding-right: 30px;
   min-width: 100px;
 }
 
+// arrow icon
 body .es-current .es-option:after {
   right: 10px;
 }

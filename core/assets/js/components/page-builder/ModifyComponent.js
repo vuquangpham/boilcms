@@ -251,9 +251,9 @@ export default class ModifyComponent{
             const description = o.description || '';
 
             return `
-<div data-option-param="${paramName}">
+<div class="fl-center-v posts-detail__dropdown" data-option-param="${paramName}">
     <span>${title}</span>
-    <select data-option-select="${paramName}">
+    <select data-easy-select data-option-select="${paramName}">
         ${values.map((v, index) => {
                 return `<option ${index === 0 ? 'selected' : ''} value="${v.value}">${v.key}</option>`;
             }).join('')}
@@ -307,6 +307,9 @@ export default class ModifyComponent{
 
         // load options
         this.loadOptions(result.component);
+
+        // init easy select
+        EasySelect.init();
     }
 
     handleComponentClick(target){

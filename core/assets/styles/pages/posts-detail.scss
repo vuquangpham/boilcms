@@ -23,6 +23,21 @@
   &__information {
     margin-bottom: var(--spacing-24);
   }
+
+  // dropdown
+  &__dropdown {
+    gap: 4px;
+
+    // bottom spacing
+    &:not(:last-child) {
+      margin-bottom: var(--spacing-10);
+    }
+
+    // label
+    label {
+      font-weight: 700;
+    }
+  }
 }
 
 // content
