@@ -219,6 +219,7 @@
     font-size: 1.4rem;
 
     padding-top: .5rem;
+    opacity: .6;
   }
 
   /* cancel button */
@@ -229,6 +230,19 @@
     --color-hover: var(--color-white);
 
     border: 1px solid var(--color-secondary);
+  }
+
+  /* options */
+  [data-option-wrapper] {
+    --gap: 1.2rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    // param
+    [data-option-param] {
+      width: calc(50% - var(--gap) * 0.5);
+    }
   }
 }
 

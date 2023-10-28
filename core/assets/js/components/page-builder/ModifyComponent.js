@@ -242,7 +242,7 @@ export default class ModifyComponent{
     loadOptions(component){
         const options = component.options;
 
-        let html = '<div>#REPLACE</div>';
+        let html = '<div data-option-wrapper>#REPLACE</div>';
 
         const optionsHTML = options.map(o => {
             const paramName = o.paramName;
@@ -251,13 +251,15 @@ export default class ModifyComponent{
             const description = o.description || '';
 
             return `
-<div class="fl-center-v posts-detail__dropdown" data-option-param="${paramName}">
-    <span>${title}</span>
-    <select data-easy-select data-option-select="${paramName}">
+<div data-option-param="${paramName}">
+    <div class="fl-center-v posts-detail__dropdown">
+        <span class="txt_14px">${title}</span>
+        <select data-easy-select data-option-select="${paramName}">
         ${values.map((v, index) => {
                 return `<option ${index === 0 ? 'selected' : ''} value="${v.value}">${v.key}</option>`;
             }).join('')}
-    </select>   
+        </select>   
+    </div>
     ${description ? `<div class="description">${description}</div>` : ''}
 </div>
             `;
