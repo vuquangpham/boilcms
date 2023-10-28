@@ -258,7 +258,7 @@ export default class ModifyComponent{
                 return `<option ${index === 0 ? 'selected' : ''} value="${v.value}">${v.key}</option>`;
             }).join('')}
     </select>   
-    ${description ? `<div>${description}</div>` : ''}
+    ${description ? `<div class="description">${description}</div>` : ''}
 </div>
             `;
         }).join('');
@@ -284,10 +284,16 @@ export default class ModifyComponent{
 
         // reset the last one
         this.componentDetailPanel.innerHTML = `<div data-component-information><span data-component-name>${result.component.title}</span></div>`;
-        const componentContent = document.createElement('div');
-        componentContent.setAttribute('data-component-content', '');
-        componentContent.append(...[...div.children]);
-        this.componentDetailPanel.appendChild(componentContent);
+
+        // children elements
+        if(result.data){
+            const componentContent = document.createElement('div');
+            componentContent.setAttribute('data-component-content', '');
+            componentContent.append(...[...div.children]);
+            this.componentDetailPanel.appendChild(componentContent);
+        }
+
+        // set component name
         this.componentDetailPanel.dataset.component = result.component.name;
 
         // init component script

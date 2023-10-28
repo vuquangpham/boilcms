@@ -32,7 +32,6 @@
   text-align: left;
   font-size: var(--fz-14);
 
-  min-height: 50px;
   position: relative;
 }
 
@@ -42,6 +41,7 @@
 [data-pb-inner] [data-component] {
   --alignment-spacing: 1.2rem;
 
+  min-height: 50px;
   background-color: white;
   padding: calc(var(--alignment-spacing) + .15rem) var(--alignment-spacing) var(--alignment-spacing);
 
@@ -131,7 +131,6 @@
   /* information */
   [data-component-information] {
     position: relative;
-    margin-bottom: var(--spacing-14);
 
     /* name */
     [data-component-name] {
@@ -172,6 +171,8 @@
     flex-wrap: wrap;
     align-items: flex-start;
     gap: var(--gap);
+
+    padding-top: var(--spacing-14);
   }
 
   /* component */
@@ -216,8 +217,9 @@
   }
 
   /* description */
-  [data-type] .description {
+  .description {
     font-style: italic;
+    font-size: 1.4rem;
 
     padding-top: .5rem;
   }
