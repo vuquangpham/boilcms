@@ -78,6 +78,16 @@ const capitalizeString = (string, character = ' ') => {
         .map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
 };
 
+// modify date publish
+const modifyDate = (publishTime) => {
+    const year = publishTime.getFullYear();
+    const month = (publishTime.getMonth() + 1).toString().padStart(2, '0');
+    const date = publishTime.getDate().toString().padStart(2, '0');
+    const hour = publishTime.getHours().toString().padStart(2, '0');
+    const minute = publishTime.getMinutes().toString().padStart(2, '0');
+    return `${date}/${month}/${year} at ${hour}:${minute}`;
+};
+
 
 module.exports = {
     stringToSlug,
@@ -87,5 +97,7 @@ module.exports = {
 
     minifyString,
     filterObj,
-    capitalizeString
+    capitalizeString,
+
+    modifyDate,
 };
