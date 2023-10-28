@@ -52,7 +52,7 @@ class ComponentController extends Controller{
 </div>`;
 
                     const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), {
-                        classesName: p.className,
+                        classesName: p.classesName,
                         description: p.description,
                         paramName: p.paramName,
                         type: p.type,
@@ -70,7 +70,7 @@ class ComponentController extends Controller{
 
             }else{
                 htmlPromises.push(Content.getHTML(path.join(directory, param.type + '.ejs'), {
-                    classesName: param.className,
+                    classesName: param.classesName,
                     description: param.description,
                     paramName: param.paramName,
                     type: param.type,
