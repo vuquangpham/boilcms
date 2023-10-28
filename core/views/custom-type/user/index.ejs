@@ -56,7 +56,7 @@ const isSelectedValue = (name, value) => {
 
                     <div class="users__item--action" data-column="Action">
 
-                        <button class="users__item--link" data-toggle="user-popup">Edit</button>
+                        <button class="users__item--link" data-toggle="user-popup" data-id="<%= user._id%>" data-user-item >Edit</button>
                         <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>"
                            class="users__item--link trash">Trash</a>
                     </div>
@@ -70,7 +70,7 @@ const isSelectedValue = (name, value) => {
                 <div data-popup-overlay data-toggle="user-popup"></div>
 
                 <!-- pop up content-->
-                <form method="post" action="#" data-popup-inner>
+                <form method="post" action="#" data-popup-inner data-user-form>
 
                     <div class="user-popup fl-grid">
 
@@ -79,13 +79,13 @@ const isSelectedValue = (name, value) => {
                             <!-- name -->
                             <div class="fl-center-v">
                                 <label for="username">Username</label>
-                                <input id="username">
+                                <input id="username" data-user-name>
                             </div>
 
                             <!-- email -->
                             <div class="fl-center-v">
                                 <label for="email">Email</label>
-                                <input id="email">
+                                <input id="email" data-user-email>
                             </div>
                         </div>
 
@@ -93,8 +93,8 @@ const isSelectedValue = (name, value) => {
 
                             <!-- create at -->
                             <div class="fl-center-v">
-                                <label for="create-at">Create at</label>
-                                <input id="create-at">
+                                <label for="register">Register</label>
+                                <input id="register" data-user-register readonly>
                             </div>
                         </div>
 
