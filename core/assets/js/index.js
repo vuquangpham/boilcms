@@ -3,6 +3,7 @@ import '@global/theme/theme.min.js';
 
 import './posts-type/posts';
 import './posts-type/media';
+import './posts-type/user';
 
 // vendors
 import '@global/easy-select/easy-select.min.js';
