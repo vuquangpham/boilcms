@@ -12,14 +12,14 @@ class ImageContent extends Component{
                     type: ComponentController.paramTypes.TEXT,
                     heading: 'Content',
                     paramName: 'content',
-                    classesName: 'content-class',
+                    classesName: 'half',
                     description: 'WYSIWYG Content'
                 },
                 {
                     type: ComponentController.paramTypes.IMAGE,
                     heading: 'Image',
                     paramName: 'image',
-                    classesName: 'image-class',
+                    classesName: 'half',
                     options: 'single-image',
                     description: 'Please select single image'
                 },

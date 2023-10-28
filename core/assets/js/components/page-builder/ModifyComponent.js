@@ -283,7 +283,7 @@ export default class ModifyComponent{
         div.innerHTML = result.data;
 
         // reset the last one
-        this.componentDetailPanel.innerHTML = `<div data-component-name>${result.component.title}</div>`;
+        this.componentDetailPanel.innerHTML = `<div data-component-information><span data-component-name>${result.component.title}</span></div>`;
         const componentContent = document.createElement('div');
         componentContent.setAttribute('data-component-content', '');
         componentContent.append(...[...div.children]);

@@ -25,6 +25,7 @@ body {
 a, button {
   color: var(--permalink-color);
   outline: none;
+  transition: all .3s ease;
 }
 
 button {
@@ -33,7 +34,6 @@ button {
 
 a {
   text-decoration: underline;
-  transition: color 0.3s ease;
 }
 
 a:hover,
