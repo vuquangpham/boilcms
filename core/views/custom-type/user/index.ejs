@@ -16,8 +16,8 @@ const isSelectedValue = (name, value) => {
 
 %>
 
-<div class="posts-content">
-    <div class="posts-content__heading fl-center-v" style="gap:10px">
+<div class="users-content">
+    <div class="users-content__heading fl-center-v" style="gap:10px">
         <h1><%= title; %></h1>
     </div>
 </div>
@@ -25,38 +25,42 @@ const isSelectedValue = (name, value) => {
 <% if (data.length === 0) { %>
     <h2>No content</h2>
 <% } else { %>
-    <div class="posts-list" data-custom-table>
-        <div class="posts-list__inner">
-            <div class="posts-list__heading" data-column-wrapper="heading">
-                <div class="posts__list--user" data-column="User">User</div>
-                <div class="posts__list--role" data-column="Role">Role</div>
-                <div class="posts__list--email" data-column="Email">Email</div>
-                <div class="posts__list--create" data-column="Create At">Create At</div>
+    <div class="users-list" data-custom-table data-user-wrapper>
+        <div class="users-list__inner">
+            <div class="users-list__heading" data-column-wrapper="heading">
+                <div class="users-list--user" data-column="User">User</div>
+                <div class="users-list--register" data-column="Register At">Register At</div>
+                <div class="users-list--email" data-column="Email">Email</div>
+                <div class="users-list--role" data-column="Role">Role</div>
+                <div class="users-list--state" data-column="State">State</div>
+                <div class="users-list--action" data-column="Action">Action</div>
             </div>
 
             <% data.forEach(user => { %>
 
-                <div class="posts-list__item" data-column-wrapper="item">
-                    <div class="posts__item--user not-show-user" data-column="User">
-                        <button class="posts__item--link" data-toggle="user-popup"><%= user.name; %></button>
+                <div class="users-list__item" data-column-wrapper="item">
+                    <div class="users__item--user not-show-user" data-column="User"><%= user.name%></div>
+
+                    <div class="users__item--register not-show-title" data-column="Register At">
+                        <time><%= modifyDate(user.registerAt) %></time>
                     </div>
 
-                    <div class="posts__item--role"
-                         data-column="Role"><%= user.role; %></div>
-
-                    <div class="posts__item--email"
+                    <div class="users__item--email"
                          data-column="Email"><%= user.email; %></div>
 
-                    <div class="posts__item--create not-show-title" data-column="Create At">
-                        <time><%= modifyDate(user.createAt) %></time>
+                    <div class="users__item--role"
+                         data-column="Role"><%= user.role; %></div>
+
+                    <div class="users__item--state"
+                         data-column="State"><%= user.state; %></div>
+
+                    <div class="users__item--action" data-column="Action">
+
+                        <button class="users__item--link" data-toggle="user-popup">Edit</button>
+                        <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>"
+                           class="users__item--link trash">Trash</a>
                     </div>
 
-                    <div class="posts__item--utils">
-                        <a href="?post_type=<%= contentType; %>&action=edit&id=<%= user._id; %>"
-                           class="posts__item--link">Edit</a>
-                        <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
-                        <a href="#" class="posts__item--link trash">Trash</a>
-                    </div>
                 </div>
             <% }); %>
         </div>
@@ -100,8 +104,8 @@ const isSelectedValue = (name, value) => {
                             <div class="fl-center-v">
                                 <label for="password">Password</label>
                                 <input type="password" value="hidden"  id="user-password" readonly>
-                                <button>Generate new password</button>
-                                <input id="password" type="text" readonly>
+                                <button type="button" data-user-generate-password-btn>Generate new password</button>
+                                <input id="password" type="text" readonly name="password" data-generate-password-input>
                             </div>
                         </div>
 
