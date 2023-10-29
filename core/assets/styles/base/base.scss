@@ -67,12 +67,12 @@ button:focus-visible {
   font-size: 1.4rem;
 }
 
-/* button primary */
-[class*="btn_primary"] {
+/* common button style */
+[class*="btn_"] {
   --btn-bg-color: var(--color-secondary);
   --btn-bg-color-hover: var(--color-primary);
-  --color: var(--color-white);
-  --color-hover: var(--color-white);
+  --btn-color: var(--color-white);
+  --btn-color-hover: var(--color-white);
 
   padding: .5rem .8rem;
   min-height: 3rem;
@@ -82,15 +82,21 @@ button:focus-visible {
   border: none;
   background: var(--btn-bg-color);
 
-  line-height: 1;
-  color: var(--color);
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--btn-color);
 
   // hover
   &:hover,
   &:focus {
     background: var(--btn-bg-color-hover);
-    color: var(--color-hover);
+    color: var(--btn-color-hover);
   }
+}
+
+/* button primary */
+[class*="btn_primary"] {
+  border: 1px solid transparent;
 
   // variations
   &.error {
@@ -102,29 +108,16 @@ button:focus-visible {
 [class*="btn_transparent"] {
   --btn-color: var(--color-secondary);
   --btn-color-hover: var(--color-white);
-  --btn-bg: transparent;
-  --btn-bg-hover: var(--color-primary);
+  --btn-bg-color: transparent;
+  --btn-bg-color-hover: var(--color-primary);
 
-  text-decoration: none;
-  font-weight: 500;
-  color: var(--btn-color);
-
-  padding: .5rem .8rem;
-  min-height: 3rem;
-  min-width: 6rem;
-
-  background-color: var(--btn-bg);
   border: 1px solid var(--btn-color);
 
-  transition-property: background-color, color;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-}
-
-[class*="btn_transparent"]:hover {
-  background-color: var(--btn-bg-hover);
-  color: var(--btn-color-hover);
-  border-color: var(--btn-bg-hover);
+  // hover
+  &:hover,
+  &:focus {
+    border-color: var(--btn-bg-color-hover);
+  }
 }
 
 /* custom title */
