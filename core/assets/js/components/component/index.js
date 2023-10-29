@@ -37,7 +37,7 @@ export default class Component{
         // inner HTML
         utilsDiv.innerHTML = `
         <button type="button" data-toggle="component-panel" data-component-edit class="btn_primary">Edit</button>
-        <button type="button" data-component-delete class="btn_primary">Delete</button>
+        <button type="button" data-component-delete class="btn_primary error">Delete</button>
         `;
 
         return utilsDiv;

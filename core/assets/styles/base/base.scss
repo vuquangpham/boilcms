@@ -54,44 +54,9 @@ button:focus-visible {
   color: var(--color-white);
 }
 
-/* button style */
-[class*="button-style"] {
-  --color: var(--color-secondary);
-  --color-hover: var(--color-white);
-  --bg: transparent;
-  --bg-hover: var(--color-secondary);
-
-  font-size: 14px;
-  text-decoration: none;
-  font-weight: 500;
-  color: var(--color);
-
-  padding: 6px 8px;
-  background-color: var(--bg);
-  border: 1px solid var(--color-secondary);
-
-  transition-property: background-color, color;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-}
-
-[class*="button-style"]:hover {
-  background-color: var(--bg-hover);
-  color: var(--color-hover);
-}
-
 /* text */
 .txt_14px {
-  font-size: 14px;
-}
-
-/* input */
-input {
-  min-height: 30px;
-  padding: 6px;
-  border: 1px solid var(--color-secondary);
-  font-size: 16px;
-  width: auto;
+  font-size: 1.4rem;
 }
 
 /* button primary */
@@ -101,7 +66,10 @@ input {
   --color: var(--color-white);
   --color-hover: var(--color-white);
 
-  padding: .5rem;
+  padding: .5rem .8rem;
+  min-height: 3rem;
+  min-width: 6rem;
+
   border-radius: 0;
   border: none;
   background: var(--btn-bg-color);
@@ -115,11 +83,46 @@ input {
     background: var(--btn-bg-color-hover);
     color: var(--color-hover);
   }
+
+  // variations
+  &.error {
+    --btn-bg-color: var(--color-error);
+  }
+}
+
+/* button style */
+[class*="btn_transparent"] {
+  --btn-color: var(--color-secondary);
+  --btn-color-hover: var(--color-white);
+  --btn-bg: transparent;
+  --btn-bg-hover: var(--color-primary);
+
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--btn-color);
+
+  padding: .5rem .8rem;
+  min-height: 3rem;
+  min-width: 6rem;
+
+  background-color: var(--btn-bg);
+  border: 1px solid var(--btn-color);
+
+  transition-property: background-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+[class*="btn_transparent"]:hover {
+  background-color: var(--btn-bg-hover);
+  color: var(--btn-color-hover);
+  border-color: var(--btn-bg-hover);
 }
 
 /* custom title */
 [data-custom-title] {
   position: relative;
+  margin-bottom: 2rem;
 
   /* name */
   span {
