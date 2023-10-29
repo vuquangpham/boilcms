@@ -254,7 +254,7 @@ export default class ModifyComponent{
             return `
 <div data-option-param="${paramName}" class="${className}">
     <div class="fl-center-v posts-detail__dropdown">
-        <span class="txt_14px">${title}</span>
+        <span class="fw-bold txt_14px">${title}</span>
         <select data-easy-select data-option-select="${paramName}">
         ${values.map((v, index) => {
                 return `<option ${index === 0 ? 'selected' : ''} value="${v.value}">${v.key}</option>`;
