@@ -10,11 +10,8 @@ const modifyDate = (publishTime) => {
 };
 %>
 
-<div class="posts-content">
-    <div class="posts-content__heading fl-center-v" style="gap:10px">
-        <h1><%= title; %></h1>
-        <a href="?post_type=post&action=add" class="btn_transparent">Add New</a>
-    </div>
+<div data-custom-title>
+    <span><%= title; %></span>
 </div>
 
 <% if (data.length === 0) { %>
@@ -43,7 +40,7 @@ const modifyDate = (publishTime) => {
                         <div class="posts__item--utils">
                             <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
                                class="posts__item--link">Edit</a>
-                            <a href="<%= viewURL ;%>" target="_blank" class="posts__item--link">View</a>
+                            <a href="<%= viewURL; %>" target="_blank" class="posts__item--link">View</a>
                             <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
                             <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= post._id; %>"
                                class="posts__item--link trash">Trash</a>
@@ -51,10 +48,10 @@ const modifyDate = (publishTime) => {
                     </div>
 
                     <!-- todo: @vupham please do this task after done the account feature :'( -->
-                    <div class="posts__item--author <%= post.author ? 'post__item--author-active' : 'post__item--author-deleted'%>"
+                    <div class="posts__item--author <%= post.author ? 'post__item--author-active' : 'post__item--author-deleted' %>"
                          data-column="Author"><%= post.author ? `${post.author.name}` : `${post.authorName}` %></div>
                     <div class="posts__item--status" data-title="Visibility"
-                         data-column="State"><%= post.visibility === 'private' ? 'Private' : 'Published' ;%></div>
+                         data-column="State"><%= post.visibility === 'private' ? 'Private' : 'Published'; %></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
                         <time data-title="Date"><%= modifyDate(post.publish) %></time>

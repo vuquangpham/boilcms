@@ -48,5 +48,11 @@ module.exports = new Pages({
     url: '/pages',
     type: 'pages',
     contentType: Type.types.POSTS,
-    isSpecialType: true
+    isSpecialType: true,
+    children: [
+        {
+            name: 'Add new',
+            url: '?post_type=post&action=add'
+        },
+    ]
 });

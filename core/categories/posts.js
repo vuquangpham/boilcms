@@ -11,5 +11,11 @@ module.exports = new Posts({
     name: 'Post',
     url: '/posts',
     type: 'posts',
-    contentType: Type.types.POSTS
+    contentType: Type.types.POSTS,
+    children: [
+        {
+            name: 'Add new',
+            url: '?post_type=post&action=add'
+        },
+    ]
 });
