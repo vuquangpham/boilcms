@@ -238,8 +238,10 @@
   padding: 10px;
   background: var(--bg-color);
 
+  display: flex;
+  flex-direction: column;
+
   text-align: left;
-  transition: all 0.3s ease;
 }
 
 /* hover */
@@ -259,6 +261,7 @@
 [data-pb-components-popup] [data-component-description] {
   font-size: 13px;
   color: rgba(33, 37, 41, 0.75);
+  line-height: 1.4;
 }
 
 // avoid click on component util in wrapper
