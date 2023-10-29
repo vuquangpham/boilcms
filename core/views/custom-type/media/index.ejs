@@ -1,77 +1,108 @@
-<form method="post" action="?posts_type=<%= contentType; %>&method=post&action=add" enctype="multipart/form-data">
-    <label for="name">Name: </label>
-    <input id="name" type="text" name="name">
-    <label for="image">Add Image: </label>
-    <input type="file" name="image" accept="image/*" id="image" required data-input-test>
-    <button class="button-style" type="submit">Add New</button>
-</form>
+<div class="media fl-grid">
 
-<div data-media-wrapper>
-    <div data-media-list class="flex-grid-template">
-        <% data.forEach(media => { %>
-            <button class="img-wrapper-cover skeleton-bg t" data-media-item data-toggle="media-popup"
-                    data-id="<%= media._id; %>">
-                <img data-media-img src="<%= media.url.small; %>" alt="<%= media.name; %>"/>
-            </button>
-        <% } ); %>
-    </div>
+    <!-- Upload new media -->
+    <form class="media__form" method="post" action="?posts_type=<%= contentType; %>&method=post&action=add"
+          enctype="multipart/form-data">
 
-    <div data-popup>
-        <div data-popup-overflow>
-            <div data-popup-overlay data-toggle="media-popup"></div>
+        <div data-custom-title>
+            <span>Upload Media</span>
+        </div>
 
-            <!-- popup content -->
-            <form method="post" action="?post_type=<%= contentType; %>&method=post&action=edit"
-                  enctype="multipart/form-data" data-popup-inner data-media-form>
+        <div data-form-group>
+            <div data-form-input>
+                <label for="name">Name:</label>
+                <input id="name" type="text" name="name">
+            </div>
+            <div data-form-description>Optional, we can get the name of the media.</div>
+        </div>
 
-                <div class="media-popup fl-grid">
+        <div data-form-group>
+            <div data-form-input>
+                <label for="image">Upload Image:</label>
+                <input type="file" name="image" accept="image/*" id="image" required>
+            </div>
+        </div>
 
-                    <div class="media-popup__col media-popup__col--left">
-                        <!-- preview media -->
-                        <div data-media-item class="img-wrapper-contain">
-                            <img src="" alt="">
+        <button class="btn_transparent" type="submit">Add New</button>
+    </form>
+
+    <!-- Media list -->
+    <div class="media__list" data-media-wrapper>
+
+        <div data-custom-title>
+            <span>Media List</span>
+        </div>
+
+        <!-- Media list -->
+        <div data-media-list class="fl-grid">
+            <% data.forEach(media => { %>
+                <button class="img-wrapper-cover skeleton-bg t" data-media-item data-toggle="media-popup"
+                        data-id="<%= media._id; %>">
+                    <img data-media-img src="<%= media.url.small; %>" alt="<%= media.name; %>"/>
+                </button>
+            <% } ); %>
+        </div>
+
+        <!-- Popup for each media item -->
+        <div data-popup>
+            <div data-popup-overflow>
+                <div data-popup-overlay data-toggle="media-popup"></div>
+
+                <!-- popup content -->
+                <form method="post" action="?post_type=<%= contentType; %>&method=post&action=edit"
+                      enctype="multipart/form-data" data-popup-inner data-media-form>
+
+                    <div class="media-popup fl-grid h100">
+
+                        <div class="media-popup__col media-popup__col--left fl-center-v">
+                            <!-- preview media -->
+                            <div data-media-item class="img-wrapper-contain w100">
+                                <img src="" alt="">
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="media-popup__col media-popup__col--right d-flex fd-column">
 
-                    <div class="media-popup__col media-popup__col--right">
-
-                        <!-- media information -->
-                        <div class="media-pop__group">
-                            <!-- name -->
-                            <div class="fl-center-v" style="gap:4px;">
-                                <label for="name">Name: </label>
-                                <input id="name" class="w100" data-media-name required placeholder="Name">
+                            <div data-form-group>
+                                <div data-form-input>
+                                    <label for="replace-name">Name</label>
+                                    <input id="replace-name" data-media-name data-text placeholder="Name">
+                                </div>
                             </div>
 
-                            <!-- URL -->
-                            <div class="fl-center-v" style="gap:4px;">
-                                <span>URL:</span>
-                                <a target="_blank" data-media-url class="d-inline-block ws-nowrap overflow-hidden"
-                                   style="text-overflow:ellipsis;"></a>
-                            </div>
-                        </div>
-
-                        <div class="media-popup__group">
-                            <!-- replace media -->
-                            <div>
-                                <label for="replace-media">Replace</label>
-                                <input type="file" id="replace-media" accept="image/*" data-media-replace>
+                            <div data-form-group>
+                                <div data-form-input>
+                                    <span data-label>URL:</span>
+                                    <a data-text="" target="_blank" data-media-url
+                                       class="d-inline-block ws-nowrap overflow-hidden"
+                                       style="text-overflow:ellipsis;"></a>
+                                </div>
                             </div>
 
-                            <div class="fl-center-v" style="gap:5px;">
-                                <button class="button-style" type="button" data-media-save-btn>Save</button>
-                                <button class="button-style" type="button" data-media-delete-btn>Delete</button>
-                                <button class="button-style" type="button" data-media-close-btn
+                            <div data-form-group>
+                                <div data-form-input>
+                                    <label for="replace-media">Replace Media</label>
+                                    <input type="file" id="replace-media" accept="image/*" data-media-replace>
+                                </div>
+
+                                <div data-form-description>This action will replace all selected images with the new
+                                    one.
+                                </div>
+                            </div>
+
+                            <div class="fl-center-v mt-auto" style="gap:5px;">
+                                <button class="btn_primary" type="button" data-media-save-btn>Save</button>
+                                <button class="btn_primary error" type="button" data-media-delete-btn>Delete</button>
+                                <button class="btn_transparent" type="button" data-media-close-btn
                                         data-toggle="media-popup">Cancel
                                 </button>
                             </div>
                         </div>
-                    </div>
 
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-

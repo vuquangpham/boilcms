@@ -1,11 +1,14 @@
 @import '@global/style';
 
-// base
+// utils
 @import "./utils/variables";
-@import "./base/base";
 @import "./utils/responsive";
 @import "./utils/mixins";
 @import "./utils/grid";
+
+// base
+@import "./base/base";
+@import "./base/form";
 
 // components
 @import './components/popup';

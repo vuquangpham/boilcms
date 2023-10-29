@@ -1,0 +1,60 @@
+// input
+input {
+  min-height: 3rem;
+  padding: .6rem;
+  border: 1px solid var(--color-secondary);
+  font-size: 1.6rem;
+  width: auto;
+}
+
+// upload files
+input[type="file"] {
+  font-size: 1.4rem;
+
+  // upload button
+  &::-webkit-file-upload-button {
+    background: #eee;
+    padding: .5rem;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+// form group
+[data-form-group] {
+
+  // form input
+  [data-form-input] {
+    display: flex;
+    align-items: center;
+
+    // label
+    [data-label],
+    label {
+      flex-basis: 160px;
+
+      font-size: var(--fz-14);
+      font-weight: 700;
+    }
+
+    // input
+    [data-text],
+    input {
+      width: 100%;
+    }
+  }
+
+  // description
+  [data-form-description] {
+    font-size: 1.3rem;
+    font-style: italic;
+
+    opacity: .6;
+    padding-top: .6rem;
+  }
+
+  // bottom spacing
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+}
