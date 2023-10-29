@@ -39,6 +39,11 @@
   content: "";
 }
 
+// user popup
+[data-user-popup] {
+  flex-direction: column;
+}
+
 // popup content
 [data-popup-inner] {
   display: flex;

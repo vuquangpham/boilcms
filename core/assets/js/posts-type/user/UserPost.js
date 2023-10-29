@@ -1,5 +1,4 @@
 import fetch from "@global/fetch";
-const {modifyDate} = require('../../../../utils/helper.utils')
 
 export default class UserPost {
     constructor(wrapper) {
@@ -14,7 +13,9 @@ export default class UserPost {
             userNameInput: wrapper.querySelector('[data-user-name]'),
             userEmailInput: wrapper.querySelector('[data-user-email]'),
             userRegisterInput: wrapper.querySelector('[data-user-register]'),
-            genPassInput: wrapper.querySelector('[data-generate-password-input]')
+            genPassInput: wrapper.querySelector('[data-generate-password-input]'),
+            selectRoleInput: wrapper.querySelector('[data-select-value]'),
+            optionInput: wrapper.querySelectorAll('[data-select-value] option')
         }
 
         // vars
@@ -24,6 +25,16 @@ export default class UserPost {
         // handle click action
         this.wrapper.addEventListener('click', this.handleWrapperClick.bind(this));
     }
+
+    // modify date publish
+    modifyDate = (publishTime) => {
+        const year = publishTime.getFullYear();
+        const month = (publishTime.getMonth() + 1).toString().padStart(2, '0');
+        const date = publishTime.getDate().toString().padStart(2, '0');
+        const hour = publishTime.getHours().toString().padStart(2, '0');
+        const minute = publishTime.getMinutes().toString().padStart(2, '0');
+        return `${date}/${month}/${year} at ${hour}:${minute}`;
+    };
 
     /**
      * Replace media item in popup
@@ -35,7 +46,16 @@ export default class UserPost {
         // change the input of the form
         this.elements.userNameInput.value = data.name;
         this.elements.userEmailInput.value = data.email;
-        this.elements.userRegisterInput.value = modifyDate(new Date(data.registerAt));
+        this.elements.userRegisterInput.textContent = this.modifyDate(new Date(data.registerAt));
+        this.elements.selectRoleInput.value = data.role
+
+        this.elements.optionInput.forEach(o =>{
+            if(o.getAttribute('value') === data.role){
+                o.setAttribute('selected', '')
+            }
+            else o.removeAttribute('selected')
+        })
+
     };
 
     showSingleUser(target) {
@@ -51,6 +71,7 @@ export default class UserPost {
         })
             .then(res => res.json())
             .then(result => {
+                console.log(result)
                 this.replaceUser(result.data)
             })
 

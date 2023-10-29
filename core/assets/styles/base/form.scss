@@ -49,6 +49,11 @@ input[type="file"] {
   }
 }
 
+// form column
+[data-form-column]{
+  display: flex;
+  gap: 5px;
+}
 // form group
 [data-form-group] {
 
