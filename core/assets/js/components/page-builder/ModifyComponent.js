@@ -249,9 +249,10 @@ export default class ModifyComponent{
             const title = o.name;
             const values = Object.entries(o.value).map(i => ({key: i[0], value: i[1]}));
             const description = o.description || '';
+            const className = o.className || 'col-6';
 
             return `
-<div data-option-param="${paramName}">
+<div data-option-param="${paramName}" class="${className}">
     <div class="fl-center-v posts-detail__dropdown">
         <span class="txt_14px">${title}</span>
         <select data-easy-select data-option-select="${paramName}">

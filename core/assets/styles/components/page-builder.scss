@@ -24,7 +24,6 @@
 }
 
 
-
 /*******************************
 * Page Builder > Content
 ********************************/
@@ -181,9 +180,11 @@
     display: flex;
     flex-wrap: wrap;
 
+    margin: 0 calc(-1 * var(--gap) * 0.5);
+
     // param
     [data-option-param] {
-      width: calc(50% - var(--gap) * 0.5);
+      padding: 0 calc(var(--gap) * 0.5);
     }
   }
 }

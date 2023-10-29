@@ -15,6 +15,7 @@ class Row extends Component{
                     name: 'Full width section',
                     paramName: 'has-full-width',
                     description: 'Make the section full width, outside of the container',
+                    className: "",
                     value: {
                         'No': '',
                         'Yes': 'has-full-width-section'
