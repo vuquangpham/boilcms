@@ -5,6 +5,31 @@ input {
   border: 1px solid var(--color-secondary);
   font-size: 1.6rem;
   width: auto;
+
+  // placeholder
+  &::-webkit-input-placeholder {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1.4rem;
+  }
+
+  &::-moz-placeholder {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1.4rem;
+  }
+
+  &:-ms-input-placeholder {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1.4rem;
+  }
+
+  &:-moz-placeholder {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1.4rem;
+  }
 }
 
 // upload files
