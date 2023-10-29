@@ -91,16 +91,6 @@
     display: flex;
     align-items: center;
     gap: 4px;
-
-    // edit button
-    [data-component-edit] {
-      --btn-bg-color: var(--color-secondary);
-    }
-
-    // delete button
-    [data-component-delete] {
-      --btn-bg-color: var(--color-error);
-    }
   }
 }
 
