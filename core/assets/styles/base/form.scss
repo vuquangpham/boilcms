@@ -11,24 +11,28 @@ input {
     font-family: inherit;
     font-weight: inherit;
     font-size: 1.4rem;
+    color: var(--placeholder-color);
   }
 
   &::-moz-placeholder {
     font-family: inherit;
     font-weight: inherit;
     font-size: 1.4rem;
+    color: var(--placeholder-color);
   }
 
   &:-ms-input-placeholder {
     font-family: inherit;
     font-weight: inherit;
     font-size: 1.4rem;
+    color: var(--placeholder-color);
   }
 
   &:-moz-placeholder {
     font-family: inherit;
     font-weight: inherit;
     font-size: 1.4rem;
+    color: var(--placeholder-color);
   }
 }
 
