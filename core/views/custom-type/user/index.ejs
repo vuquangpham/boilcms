@@ -8,11 +8,6 @@ const modifyDate = (publishTime) => {
     const minute = publishTime.getMinutes().toString().padStart(2, '0');
     return `${date}/${month}/${year} at ${hour}:${minute}`;
 };
-
-// validate selected value on select
-const isSelectedValue = (name, value) => {
-    return data[name] === value ? 'selected' : null;
-};
 %>
 
 <div data-custom-title>
@@ -71,70 +66,87 @@ const isSelectedValue = (name, value) => {
                 <!-- pop up content-->
                 <form method="post" action="#" data-popup-inner data-user-form>
 
-                    <div class="user-popup fl-grid">
+                    <div data-form-column class="fl-grid">
 
-                        <div class="user-popup__group">
+                        <div data-form-group>
 
                             <!-- name -->
-                            <div class="fl-center-v">
+                            <div data-form-input class="fl-center-v">
                                 <label for="username">Username</label>
                                 <input id="username" data-user-name>
                             </div>
+                        </div>
+
+                        <div data-form-group>
 
                             <!-- email -->
-                            <div class="fl-center-v">
+                            <div data-form-input class="fl-center-v">
                                 <label for="email">Email</label>
                                 <input id="email" data-user-email>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="user-popup__group">
+                    <div data-form-column>
+                        <div data-form-group>
+                            <div data-form-input>
 
-                            <!-- create at -->
-                            <div class="fl-center-v">
+                                <!-- register at-->
                                 <label for="register">Register</label>
-                                <input id="register" data-user-register readonly>
+                                <div id="register" data-user-register></div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="user-popup__group">
+                    <div data-form-column>
+                        <div data-form-group>
+                            <div data-form-input>
 
-                            <!-- password -->
-                            <div class="fl-center-v">
+                                <!-- password -->
                                 <label for="password">Password</label>
                                 <input type="password" value="hidden" id="user-password" readonly>
                                 <button type="button" data-user-generate-password-btn>Generate new password</button>
-                                <input id="password" type="text" readonly name="password" data-generate-password-input>
+
                             </div>
                         </div>
+                    </div>
 
-                        <div class="user-popup__group">
+                    <div data-form-column>
+                        <div data-form-group>
+                            <div data-form-input>
 
-                            <!-- role -->
-                            <div class="fl-center-v">
+                                <!-- role -->
                                 <label for="role">Role</label>
-                                <select name="role" id="role">
-                                    <option <%= isSelectedValue('role', 'user'); %> value="user">User
+                                <select data-select-value name="role" id="role">
+                                    <option value="user">User
                                     </option>
-                                    <option <%= isSelectedValue('role', 'admin'); %> value="admin">Admin
+                                    <option value="admin">Admin
                                     </option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="user-popup__group">
+                        <div data-form-group>
+                            <div data-form-input>
 
-                            <!-- status -->
-                            <div class="fl-center-v">
-                                <label for="status">Status</label>
-                                <select name="status" id="status">
-                                    <option <%= isSelectedValue('status', 'active'); %> value="active">Active
+                                <!-- state -->
+                                <label for="state">Status</label>
+                                <select name="state" id="state">
+                                    <option value="active">Active
                                     </option>
-                                    <option <%= isSelectedValue('status', 'suspend'); %> value="suspend">Suspend
+                                    <option value="suspend">Suspend
                                     </option>
                                 </select>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="fl-center-v mt-auto" style="gap:5px;">
+                        <button class="btn_primary" type="button" data-user-save-btn>Save</button>
+                        <button class="btn_primary error" type="button" data-user-delete-btn>Delete</button>
+                        <button class="btn_transparent" type="button" data-user-close-btn
+                                data-toggle="user-popup">Cancel
+                        </button>
                     </div>
                 </form>
             </div>
