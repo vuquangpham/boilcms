@@ -7,15 +7,23 @@
   [data-pb-components] {
     margin-bottom: var(--spacing-30);
   }
+
+  /* component */
+  [data-component] {
+    text-align: left;
+    font-size: var(--fz-14);
+
+    position: relative;
+  }
+
+  // button
+  [class*="btn_"] {
+    min-height: unset;
+    min-width: unset;
+  }
 }
 
-/* component */
-[data-component] {
-  text-align: left;
-  font-size: var(--fz-14);
 
-  position: relative;
-}
 
 /*******************************
 * Page Builder > Content
@@ -129,7 +137,6 @@
       flex-wrap: wrap;
       gap: 8px;
 
-      min-height: var(--size);
       margin-bottom: 1rem;
 
       /* media item */

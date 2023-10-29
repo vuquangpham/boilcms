@@ -8,6 +8,14 @@
 
 html {
   font-size: 62.5%;
+
+  @include responsive('tablet') {
+    font-size: 56%;
+  }
+
+  @include responsive('mobile') {
+    font-size: 52%;
+  }
 }
 
 body {

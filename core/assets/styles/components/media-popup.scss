@@ -1,57 +1,122 @@
-/**
-* Media popup
-**/
+/********************************
+* Media popup in media page
+********************************/
 .media-popup {
-  &__col--left {
-    width: 60%;
-    padding-right: 20px;
+  width: 100%;
+
+  &__col {
+    width: 100%
   }
 
-  &__col--right {
-    width: 40%;
-  }
-
-  @include responsive('tablet') {
-    &__col--left,
-    &__col--right {
-      width: 100%;
-    }
-
+  // min width 768px
+  @include responsive('tablet', true) {
     &__col--left {
-      margin-bottom: 25px;
+      width: 60%;
+      padding-right: 2rem
+    }
+
+    &__col--right {
+      width: 40%;
+    }
+  }
+
+  // max width 768px
+  @include responsive('tablet') {
+    &__col--left {
+      margin-bottom: 2rem;
     }
   }
 }
 
-// popup in page builder
+/********************************
+* Media popup in page builder
+********************************/
+[data-pb] .media-popup {
+  // layout for the list
+  [data-media-list] {
+    gap: .8rem;
+    margin-bottom: 1.6rem;
 
-// layout
-[data-pb-media-popup] [data-media-list] {
-  --grid-col: 5;
-}
+    // item
+    [data-media] {
+      flex-basis: 130px;
+      aspect-ratio: 3/2;
 
-// checkbox
-[data-media] input[type="radio"],
-[data-media] input[type="checkbox"] {
-  display: none;
-}
+      background: transparent;
+      border: none;
 
-// item
-[data-media] [data-media-item] {
-  padding: 4px;
-}
+      // responsive
+      @include responsive('tablet') {
+        flex-basis: 100px;
+      }
 
-// hover
-[data-media-list]:hover [data-media] [data-media-item]:not(:hover) {
-  opacity: 0.4;
-}
+      // label
+      label {
+        cursor: pointer;
+      }
 
-[data-media-list]:hover [data-media] input[type="radio"]:not(:checked) + [data-media-item]:hover,
-[data-media] input[type="radio"]:checked + [data-media-item],
-[data-media] input[type="checkbox"]:checked + [data-media-item] {
-  border-color: var(--color-primary);
-}
+      // hide the radio and checkbox
+      input[type="radio"],
+      input[type="checkbox"] {
+        display: none;
+      }
 
-[data-media-list]:hover [data-media] input[type="radio"]:checked + [data-media-item]:not(:hover) {
-  border-color: transparent;
+      // media item
+      [data-media-item] {
+        position: relative;
+
+        padding: .4rem;
+        border: 2px solid var(--color-gray);
+
+        // checked
+        &:before,
+        &:after {
+          content: "";
+
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          width: 20px;
+          height: 20px;
+
+          // hidden by default
+          opacity: 0;
+
+          transition: opacity .3s ease;
+        }
+
+        // background
+        &:before {
+          background: var(--color-secondary);
+        }
+
+        // checked icon
+        &:after {
+          content: "✓";
+          color: white;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      // hover and checked
+      &:hover [data-media-item],
+      &:focus [data-media-item],
+      input[type="radio"]:checked + [data-media-item],
+      input[type="checkbox"]:checked + [data-media-item] {
+        border-color: var(--color-secondary);
+      }
+
+
+      input[type="radio"]:checked + [data-media-item]:before,
+      input[type="radio"]:checked + [data-media-item]:after,
+      input[type="checkbox"]:checked + [data-media-item]:before,
+      input[type="checkbox"]:checked + [data-media-item]:after {
+        opacity: 1;
+      }
+    }
+  }
 }

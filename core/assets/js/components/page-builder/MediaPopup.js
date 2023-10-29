@@ -11,17 +11,16 @@ class Image{
 
     getDOMElement(){
         const domEl = document.createElement('div');
-        domEl.setAttribute('data-media', '');
 
         domEl.innerHTML = `
-<button style="border:none;" type="button"><label>
+<button type="button" data-media><label>
     <input type="${this.isRadio ? 'radio' : 'checkbox'}" value="${this.id}" name="selected-media">
     <div class="single-image img-wrapper-cover t" data-media-item>
         <img src="${this.src}" alt="${this.name}" />
     </div>
 </label></button>`;
 
-        return domEl;
+        return domEl.firstElementChild;
     }
 }
 
