@@ -110,38 +110,6 @@
 [data-pb-component-popup] {
   --gap: 1.5rem;
 
-  /* information */
-  [data-component-information] {
-    position: relative;
-
-    /* name */
-    [data-component-name] {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--color-white);
-
-      background: var(--color-secondary);
-      display: inline-block;
-      padding: .4rem .8rem;
-
-      position: relative;
-      z-index: 2;
-    }
-
-    /* line */
-    &:after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-
-      height: 1px;
-      width: 100%;
-      background: var(--color-secondary);
-    }
-  }
-
   /* popup content */
   [data-pb-component-popup-content] {
     margin-bottom: 2rem

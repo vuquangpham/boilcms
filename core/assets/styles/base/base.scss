@@ -117,6 +117,38 @@ input {
   }
 }
 
+/* custom title */
+[data-custom-title] {
+  position: relative;
+
+  /* name */
+  span {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-white);
+
+    background: var(--color-secondary);
+    display: inline-block;
+    padding: .4rem .8rem;
+
+    position: relative;
+    z-index: 2;
+  }
+
+  /* line */
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    height: 1px;
+    width: 100%;
+    background: var(--color-secondary);
+  }
+}
+
 /**/
 .hidden {
   display: none;

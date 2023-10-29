@@ -285,7 +285,7 @@ export default class ModifyComponent{
         div.innerHTML = result.data;
 
         // reset the last one
-        this.componentDetailPanel.innerHTML = `<div data-component-information><span data-component-name>${result.component.title}</span></div>`;
+        this.componentDetailPanel.innerHTML = `<div data-component-information data-custom-title><span data-component-name>${result.component.title}</span></div>`;
 
         // children elements
         if(result.data){
