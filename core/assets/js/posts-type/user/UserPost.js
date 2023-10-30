@@ -20,8 +20,6 @@ export default class UserPost {
             selectStateInput: wrapper.querySelector('[data-select-state-value]'),
             optionStateInput: wrapper.querySelectorAll('[data-select-state-value] option'),
 
-
-            genPassInput: wrapper.querySelector('[data-generate-password-input]'),
         }
 
         // vars
@@ -89,29 +87,6 @@ export default class UserPost {
             .catch(err => console.error(err))
     };
 
-    /**
-     * convert decimal to hex
-     * */
-    dec2hex(dec) {
-        return dec.toString(16).padStart(2, "0")
-    }
-
-    handeGeneratePassword(target) {
-        const formEl = target.closest('[data-user-form]');
-        const id = formEl.getAttribute('data-id');
-
-        const userEl = this.wrapper.querySelector(`[data-user-item][data-id="${id}"]`);
-        console.log('userEl', userEl)
-
-        const length = 20
-        const arr = new Uint8Array(length / 2)
-
-        window.crypto.getRandomValues(arr)
-        console.log(this.elements.genPassInput.textContent)
-
-        this.elements.genPassInput.textContent = Array.from(arr, this.dec2hex).join('')
-    }
-
     handleSaveUser(target) {
         const formEl = target.closest('[data-user-form]');
         const id = formEl.getAttribute('data-id');
@@ -133,7 +108,7 @@ export default class UserPost {
         })
             .then(res => res.json())
             .then((result) => {
-                console.log('results: ', result)
+
                 const mediaItemEl = this.wrapper.querySelector(`[data-user-item][data-id="${id}"] img`);
                 if (!mediaItemEl) {
                     console.error('Can not find an image with id', id);
@@ -156,16 +131,11 @@ export default class UserPost {
         let target = null;
 
         const singleUserItemEl = e.target.closest('button[data-user-item]')
-        const genPasswordBtnEl = e.target.closest('button[data-user-generate-password-btn]')
         const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
 
         if (singleUserItemEl) {
             functionHandling = this.showSingleUser.bind(this)
             target = singleUserItemEl
-
-        } else if (genPasswordBtnEl) {
-            functionHandling = this.handeGeneratePassword.bind(this)
-            target = genPasswordBtnEl
 
         } else if (saveUserBtnEl) {
             functionHandling = this.handleSaveUser.bind(this);
