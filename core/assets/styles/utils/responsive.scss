@@ -1,9 +1,9 @@
 $breakpoints: (
         'mobile-s': 480px,
         'mobile': 480px,
-        'tablet': 768px,
-        'desktop': 1024px,
-        'tablet-h': 1180px,
+        'tablet-v': 768px,
+        'tablet-h': 1024px,
+        'touches-device': 1180px,
 ) !default;
 
 /* Visibility Classes */
@@ -16,7 +16,7 @@ $breakpoints: (
 }
 
 /* Touch devices */
-@media only screen and (max-width: map-get($breakpoints, 'tablet-h')) {
+@media only screen and (max-width: map-get($breakpoints, 'touches-device')) {
   /* Visibility Classes */
   .hidden-touch-devices {
     display: none;
@@ -27,7 +27,7 @@ $breakpoints: (
 }
 
 /* Tablet horizontal */
-@media only screen and (max-width: map-get($breakpoints, 'desktop')) {
+@media only screen and (max-width: map-get($breakpoints, 'tablet-h')) {
   /* Visibility Classes */
   .hidden-tablet-h {
     display: none;
@@ -38,7 +38,7 @@ $breakpoints: (
 }
 
 /* Tablet vertical */
-@media only screen and (max-width: map-get($breakpoints, 'tablet')) {
+@media only screen and (max-width: map-get($breakpoints, 'tablet-v')) {
   /* Visibility Classes */
   .hidden-tablet-v {
     display: none;

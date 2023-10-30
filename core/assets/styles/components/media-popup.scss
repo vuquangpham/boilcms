@@ -9,7 +9,7 @@
   }
 
   // min width 768px
-  @include responsive('tablet', true) {
+  @include responsive('tablet-v', true) {
     &__col--left {
       width: 60%;
       padding-right: 2rem
@@ -21,7 +21,7 @@
   }
 
   // max width 768px
-  @include responsive('tablet') {
+  @include responsive('tablet-v') {
     &__col--left {
       margin-bottom: 2rem;
     }
@@ -46,7 +46,7 @@
       border: none;
 
       // responsive
-      @include responsive('tablet') {
+      @include responsive('tablet-v') {
         flex-basis: 100px;
       }
 

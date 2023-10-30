@@ -4,7 +4,7 @@
 .media {
 
   // min width 768px
-  @include responsive('tablet', true) {
+  @include responsive('tablet-v', true) {
     flex-direction: row-reverse;
 
     // form
@@ -20,7 +20,7 @@
   }
 
   // max-width 768px
-  @include responsive('tablet') {
+  @include responsive('tablet-v') {
     &__form {
       margin-bottom: 3rem;
     }
