@@ -4,11 +4,12 @@ const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
 
 const handlePostMethod = (request, response, next) => {
     const type = request.query.type;
+    const inputData = {request, response};
     let promise;
 
     switch (type) {
         case 'sign-up': {
-            const data = User.validateInputData(request)
+            const data = User.validateInputData(inputData)
             promise = User.add(data)
             break;
         }
