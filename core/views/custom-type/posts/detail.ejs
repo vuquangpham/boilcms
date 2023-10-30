@@ -13,6 +13,9 @@ const getValueFromData = (name, property = '') => {
     if(!isEditPost) return '';
     return property ? data[name][property] : data[name];
 };
+
+// URL of the page in FE
+const viewURL = isSpecialType ? '/' + data.url : '/' + type + '/' + data.url;
 %>
 
 <div data-custom-title>
@@ -36,10 +39,16 @@ const getValueFromData = (name, property = '') => {
                     </div>
 
                     <% if (isEditPost) { %>
-                        <div class="posts-detail__permalink">
-                            <label for="permalink" style="margin-right:10px;">Custom URL:</label>
-                            <input type="text" placeholder="URL" id="permalink" name="url"
-                                   value="<%= getValueFromData('url') %>">
+                        <div class="fl-grid ai-center" style="gap:10px;">
+                            <div class="posts-detail__permalink">
+                                <label for="permalink" style="margin-right:10px;">Custom URL:</label>
+                                <input type="text" placeholder="URL" id="permalink" name="url"
+                                       value="<%= getValueFromData('url') %>">
+                            </div>
+
+                            <div>
+                                <a href="<%= viewURL %>" target="_blank" class="btn_primary">View page</a>
+                            </div>
                         </div>
                     <% } %>
                 </div>

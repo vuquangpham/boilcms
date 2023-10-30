@@ -41,13 +41,11 @@ const modifyDate = (publishTime) => {
                             <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
                                class="posts__item--link">Edit</a>
                             <a href="<%= viewURL; %>" target="_blank" class="posts__item--link">View</a>
-                            <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
                             <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= post._id; %>"
                                class="posts__item--link trash">Trash</a>
                         </div>
                     </div>
 
-                    <!-- todo: @vupham please do this task after done the account feature :'( -->
                     <div class="posts__item--author <%= post.author ? 'post__item--author-active' : 'post__item--author-deleted' %>"
                          data-column="Author"><%= post.author ? `${post.author.name}` : `${post.authorName}` %></div>
                     <div class="posts__item--status" data-title="Visibility"
@@ -59,9 +57,9 @@ const modifyDate = (publishTime) => {
                     <div class="posts__item--utils">
                         <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
                            class="posts__item--link">Edit</a>
-                        <a href="/<%= type; %>/<%= post.url; %>" target="_blank" class="posts__item--link">View</a>
-                        <a href="#" target="_blank" class="posts__item--link">Quick Edit</a>
-                        <a href="#" class="posts__item--link trash">Trash</a>
+                        <a href="<%= viewURL; %>" target="_blank" class="posts__item--link">View</a>
+                        <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= post._id; %>"
+                           class="posts__item--link trash">Trash</a>
                     </div>
                 </div>
             <% }); %>
