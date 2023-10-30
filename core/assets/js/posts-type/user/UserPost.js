@@ -8,6 +8,7 @@ export default class UserPost {
 
             // popup
             popupForm: wrapper.querySelector('[data-user-form]'),
+            closePopupForm: wrapper.querySelector('[data-user-close-btn]'),
 
             // input fields
             userNameInput: wrapper.querySelector('[data-user-name]'),
@@ -68,7 +69,9 @@ export default class UserPost {
     };
 
     showSingleUser(target) {
-        const id = target.dataset.id;
+        const formEl = target.closest('[data-user-item]');
+        const id = formEl.getAttribute('data-id');
+        console.log(id)
 
         // get detail media
         // method: get, action on page edit to get detail page
@@ -109,15 +112,18 @@ export default class UserPost {
             .then(res => res.json())
             .then((result) => {
 
-                const mediaItemEl = this.wrapper.querySelector(`[data-user-item][data-id="${id}"] img`);
-                if (!mediaItemEl) {
+                const userItemEl = this.wrapper.querySelector(`[data-user-item][data-id="${id}"]`);
+                if (!userItemEl) {
                     console.error('Can not find an image with id', id);
                     return;
                 }
 
-                // update the new media
-                mediaItemEl.src = result.url.small;
-                mediaItemEl.alt = result.name;
+                // update the new user
+                userItemEl.querySelector('[data-user-item-name]').innerHTML = result.name
+                userItemEl.querySelector('[data-user-item-email]').innerHTML = result.email
+                userItemEl.querySelector('[data-user-item-role]').innerHTML = result.role
+                userItemEl.querySelector('[data-user-item-state]').innerHTML = result.state
+
 
                 // close the popup
                 this.elements.closePopupForm.click();
@@ -130,7 +136,7 @@ export default class UserPost {
         };
         let target = null;
 
-        const singleUserItemEl = e.target.closest('button[data-user-item]')
+        const singleUserItemEl = e.target.closest('button[data-user-detail]')
         const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
 
         if (singleUserItemEl) {
