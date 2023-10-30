@@ -96,12 +96,12 @@ button:focus-visible {
 
 /* button primary */
 [class*="btn_primary"] {
-  border: 1px solid transparent;
 
   // variations
   &.error {
     --btn-bg-color: var(--color-error);
   }
+
 }
 
 /* button style */
@@ -111,12 +111,12 @@ button:focus-visible {
   --btn-bg-color: transparent;
   --btn-bg-color-hover: var(--color-primary);
 
-  border: 1px solid var(--btn-color);
+  box-shadow: inset 0 0 0 1px var(--btn-color);
 
   // hover
   &:hover,
   &:focus {
-    border-color: var(--btn-bg-color-hover);
+    box-shadow: inset 0 0 0 1px var(--btn-bg-color-hover);
   }
 }
 
