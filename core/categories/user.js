@@ -65,7 +65,7 @@ class User extends Category{
             try{
                 const user = await this.databaseModel.findOne({email}).select('+password');
                 if(!user){
-                    throw new Error('No user found');
+                    throw new Error('Account not found');
                 }
                 const comparePassword = await user.comparePassword(password, user.password);
 

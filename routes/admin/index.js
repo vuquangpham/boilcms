@@ -24,7 +24,11 @@ const upload = require('../../core/utils/upload.utils');
  * */
 router.all('*', (request, response, next) => {
 
-    if (!restrictTo(response, 'admin')) {
+    if(!response.locals.token){
+        return response.redirect(`/${REGISTER_URL}`);
+    }
+
+    else if (!restrictTo(response, 'admin')) {
         request.app.set('message', 'Account not found')
 
         sendEmptyToken(response)
