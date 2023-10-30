@@ -344,6 +344,42 @@ export default class ModifyComponent{
         item.remove();
     }
 
+    handleDivideColumnsInGroup(target){
+        // data-group-divide-save
+        // const parent = target.closest('[data-group-divide]');
+        // const input = parent.querySelector('input');
+        // const errorMsgEl = parent.querySelector('[data-group-err-msg]');
+        //
+        // const value = input.value.trim();
+        // const columns = value.split('+').map(c => parseInt(c.trim()));
+        //
+        // // handle error
+        // let errorMessage = '';
+        // const total = columns.reduce((acc, cur) => acc + cur, 0);
+        //
+        // // validate the columns
+        // if(columns.some(v => !v)) errorMessage = "Invalid number exist!";
+        // else if(total > 12 || total < 0 || total !== 12) errorMessage = "The total must be equal to 12!";
+        //
+        // // has error
+        // if(errorMessage){
+        //     errorMsgEl.innerHTML = errorMessage;
+        //     parent.classList.add('has-error');
+        //     return;
+        // }else{
+        //     errorMsgEl.innerHTML = '';
+        //     parent.classList.remove('has-error');
+        // }
+
+        // handle the logic
+
+        // 0 co column => insert column vao
+
+        // them cols [3 4 5] => [2 2 2 6]
+
+        // giam cols [2 2 2 6] => [3 4 5]
+    }
+
     isModifyHandler(e){
         let functionForHandling = () => {
         }, target = null;
@@ -368,6 +404,9 @@ export default class ModifyComponent{
 
         // remove item in group
         const removeItemInGroupEl = e.target.closest('button[data-group-remove]');
+
+        // divide columns in component
+        const divideColumnBtn = e.target.closest('button[data-group-divide-save]');
 
         // add component button
         if(addButtonEl){
@@ -409,6 +448,12 @@ export default class ModifyComponent{
         else if(removeItemInGroupEl){
             functionForHandling = this.handleRemoveItemInGroupComponent.bind(this);
             target = removeItemInGroupEl;
+        }
+
+        // divide column in group
+        else if(divideColumnBtn){
+            functionForHandling = this.handleDivideColumnsInGroup.bind(this);
+            target = divideColumnBtn;
         }else{
             return null;
         }

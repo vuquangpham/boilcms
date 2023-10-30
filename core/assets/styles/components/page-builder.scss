@@ -98,6 +98,30 @@
     display: flex;
     align-items: center;
     gap: 4px;
+
+    /* group divide */
+    [data-group-divide] {
+
+      // err msg
+      [data-group-err-msg] {
+        display: none;
+
+        color: var(--color-error);
+      }
+
+      // has error
+      &.has-error {
+        // hidden the description
+        .description {
+          display: none;
+        }
+
+        // show err message
+        [data-group-err-msg] {
+          display: block;
+        }
+      }
+    }
   }
 }
 
