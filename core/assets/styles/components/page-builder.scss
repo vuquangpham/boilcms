@@ -145,6 +145,11 @@
 
     padding-top: var(--spacing-14);
     margin: 0 calc(-1 * var(--gap) * 0.5);
+
+    /* group inside content */
+    [data-group-children] {
+      margin: 0 calc(-1 * var(--gap) * 0.5);
+    }
   }
 
   /* component */
@@ -251,4 +256,8 @@
 
 [data-group-children] > [data-group-item]:first-child [data-group-remove] {
   display: none;
+}
+
+[data-group-item] {
+  min-height: 60px
 }

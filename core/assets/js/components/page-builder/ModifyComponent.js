@@ -320,6 +320,7 @@ export default class ModifyComponent{
 
         this.getComponentInfoFromServer(componentName)
             .then(result => {
+                // load component
                 this.loadComponent(result);
 
                 if(this.isGroupComponent(componentName)) this.handleSaveBtnClick(target);

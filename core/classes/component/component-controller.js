@@ -1,7 +1,6 @@
 const path = require("path");
 const {CORE_DIRECTORY} = require("../../utils/config.utils");
 const Controller = require('../utils/controller');
-const Content = require("../utils/content");
 
 class ComponentController extends Controller{
     constructor(){
@@ -61,14 +60,18 @@ class ComponentController extends Controller{
         validatedParams.forEach(param => {
             // group type
             if(param.type === 'group'){
+                const itemId = this.generateUID();
 
                 const promise = new Promise((resolve, reject) => {
                     const html = `
 <div data-type="group" data-param="group" data-id="${this.generateUID()}" data-group>
-    <div data-group-children>
-        <div data-group-item>
-            #REPLACE
-            <button type="button" data-group-remove>Delete</button>
+    <div data-group-children data-eta>
+        <div data-group-item data-item-id="${itemId}" class="ps-relative">
+            <div data-eta-receiver="${itemId}">
+                #REPLACE
+                <button type="button" data-group-remove>Delete</button>
+            </div>
+            <button type="button" class="ps-absolute t0 r0" data-eta-trigger="${itemId}">Collapse</button>
         </div>
     </div>
     <button type="button" data-group-add>Add</button>

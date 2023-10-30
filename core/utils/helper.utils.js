@@ -10,13 +10,6 @@ const getParamsOnRequest = (req, defaultParams) => {
 
 
 /**
- * Get server host URL
- * @param {Object} request
- * @return {String}
- * */
-// const getServerHostURL = (request) => request.protocol + '://' + request.get('host')
-
-/**
  * Get file name based on file size
  * @param sourceName {String}
  * @param size {String}

@@ -81,7 +81,12 @@ class UpdateComponentState{
         const id = item.querySelector('[data-id]')?.getAttribute('data-id');
         let newItemHTML = item.outerHTML;
 
+        // replace group id
         if(id) newItemHTML = newItemHTML.replaceAll(id, Date.now().toString());
+
+        // replace id for each item
+        const itemId = item?.getAttribute('data-item-id');
+        if(itemId) newItemHTML = newItemHTML.replaceAll(itemId, Date.now().toString());
 
         const div = document.createElement('div');
         div.innerHTML = newItemHTML;
