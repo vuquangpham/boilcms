@@ -21,7 +21,8 @@ const accountType = categories.find(c => c.type === 'account');
                 <% if (category.children && category.children.length && isActive) { %>
                     <ul class="category__menu sub-menu">
                         <% category.children.forEach(child => { %>
-                            <li class="category__menu-item">
+                            <% const isActiveSubPage = child.compare ? child.compare(data) : true; %>
+                            <li class="category__menu-item <%= isActiveSubPage ? 'active' : '' %>">
                                 <a href="<%= child.url %>"><%= child.name %></a>
                             </li>
                         <% }) %>

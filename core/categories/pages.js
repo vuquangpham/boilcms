@@ -52,7 +52,8 @@ module.exports = new Pages({
     children: [
         {
             name: 'Add new',
-            url: '?post_type=post&action=add'
+            url: '?post_type=post&action=add',
+            compare: (data) => data.actionType === 'add'
         },
     ]
 });

@@ -31,6 +31,8 @@
         align-items: center;
         min-height: 4rem;
         padding: .5rem 2rem;
+
+        font-weight: 700;
         text-decoration: none;
         color: var(--color-white);
         font-size: var(--fz-14);
@@ -45,6 +47,30 @@
       // active
       &.active a {
         background-color: var(--color-secondary);
+      }
+    }
+
+    // sub-menu
+    .sub-menu {
+
+      // item
+      li {
+        margin-bottom: 0;
+      }
+
+      a {
+        background: #dee2e6;
+        min-height: 3.5rem;
+
+        color: var(--color-primary);
+        font-size: var(--fz-14);
+      }
+
+      //hover
+      li.active a,
+      li a:focus,
+      li a:hover {
+        background: #a5d8ff !important;
       }
     }
   }

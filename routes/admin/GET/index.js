@@ -69,6 +69,7 @@ const handleGetMethod = (request, response, next) => {
                     response.render('admin', {
                         content: html,
                         title: pageTitle,
+                        data
                     });
                 });
         })
