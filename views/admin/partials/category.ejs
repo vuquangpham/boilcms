@@ -1,30 +1,28 @@
 <%
 const isActiveItem = (category) => {
     return category.type === categoryItem.type ? 'active' : '';
-    return '';
 };
 
 // custom type
 const accountType = categories.find(c => c.type === 'account');
 %>
 
-<div class="category__panel">
-    <div class="category__panel-inner">
-        <ul class="category__menu">
+<div class="category__panel ps-fixed" data-toggle="sidebar">
+    <div class="category__panel-inner overflow-auto h100 d-flex fd-column jc-space-between">
+        <ul class="category__menu category__menu--top">
             <% categories.forEach(category => {
                 if(category.notShowInCategory) return; %>
 
             <% const isActive = isActiveItem(category); %>
 
-            <li class="category__menu-item">
-                <a class="category__menu-item--link <%= isActive %>"
-                   href="<%= category.url; %>"><%= category.name; %></a>
+            <li class="category__menu-item <%= isActive %>">
+                <a href="<%= category.url; %>"><%= category.name; %></a>
 
                 <% if (category.children && category.children.length && isActive) { %>
                     <ul class="category__menu sub-menu">
                         <% category.children.forEach(child => { %>
                             <li class="category__menu-item">
-                                <a class="category__menu-item--link" href="<%= child.url %>"><%= child.name %></a>
+                                <a href="<%= child.url %>"><%= child.name %></a>
                             </li>
                         <% }) %>
                     </ul>
@@ -34,14 +32,13 @@ const accountType = categories.find(c => c.type === 'account');
         </ul>
 
         <!-- account menu -->
-        <ul class="account__menu">
-            <li class="category__menu-item">
-                <a class="category__menu-item--link <%= isActiveItem(accountType); %>"
-                   href="<%= accountType.url; %>">Account</a>
+        <ul class="category__menu category__menu--bottom">
+            <li class="category__menu-item <%= isActiveItem(accountType); %>">
+                <a href="<%= accountType.url; %>">Account</a>
             </li>
 
             <li class="category__menu-item">
-                <a class="category__menu-item--link" href="/register?type=log-out">Log out</a>
+                <a href="/register?type=log-out">Log out</a>
             </li>
         </ul>
     </div>

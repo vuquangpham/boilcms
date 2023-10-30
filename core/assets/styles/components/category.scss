@@ -1,139 +1,83 @@
-/**
-* Sidebar
-**/
+/******************************
+* Category
+*******************************/
 .category__panel {
   position: fixed;
   top: var(--header-height);
   left: 0;
   width: var(--category-width);
-  background: var(--color-primary);
   height: calc(100vh - var(--header-height));
-}
+  z-index: 2;
 
-.category__panel-inner {
-  overflow: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.account__menu {
-  margin-bottom: 30px;
-}
-
-/* item */
-.category__menu-item:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-/* link */
-.category__menu-item .category__menu-item--link {
-  display: flex;
-  align-items: center;
-  min-height: 40px;
-  padding: 5px 20px;
-  text-decoration: none;
-  color: var(--color-white);
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-/*hover */
-.category__menu-item .category__menu-item--link:not(.active):hover,
-.category__menu-item .category__menu-item--link:not(.active):focus {
-  background-color: rgba(34, 113, 177, 0.21);
-}
-
-/* active */
-.category__menu-item--link.active {
-  background-color: var(--color-secondary);
-}
-
-/*
-* Content
-**/
-.site-content {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-}
-
-.main-content {
-  width: 100%;
-}
-
-.main-content__inner {
-  padding: 20px;
-}
-
-/* responsive */
-@media only screen and (min-width: 1025px) {
-  .admin-panel__menu {
-    display: none;
+  // inner
+  &-inner {
+    background: var(--color-primary);
   }
 
-  /* content */
-  .main-content {
-    padding-left: calc(var(--category-width));
+  // menu
+  .category__menu {
+
+    // item
+    &-item {
+
+      // bottom spacing
+      &:not(:last-child) {
+        margin-bottom: .5rem;
+      }
+
+      // link
+      a {
+        display: flex;
+        align-items: center;
+        min-height: 4rem;
+        padding: .5rem 2rem;
+        text-decoration: none;
+        color: var(--color-white);
+        font-size: var(--fz-14);
+      }
+
+      // hover
+      &:not(.active) a:hover,
+      &:not(.active) a:focus {
+        background-color: rgba(34, 113, 177, 0.21);
+      }
+
+      // active
+      &.active a {
+        background-color: var(--color-secondary);
+      }
+    }
   }
 }
 
-@media only screen and (max-width: 1024px) {
-  /* panel */
+/*******************************
+* Responsive
+********************************/
+// max width 1024px
+@include responsive('tablet-h') {
   .category__panel {
-    transition: transform 0.3s ease;
-  }
-
-  /* toggle button */
-  .admin__panel--left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  /* menu */
-  .admin-panel__menu {
-    --bar-height: 2px;
-    width: 25px;
-    height: 20px;
-    position: relative;
-    background-color: transparent;
-    border: none;
-  }
-  .admin-panel__menu-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
     width: 100%;
-    height: var(--bar-height);
-    background-color: var(--color-white);
-    transition-property: top, transform;
-    transition-duration: 0.3s;
+    backdrop-filter: blur(5px);
+
+    transition-property: visibility, opacity;
+    transition-duration: .3s;
     transition-timing-function: ease;
-  }
-  .admin-panel__menu-bar:nth-child(2) {
-    top: 50%;
-    transform: translateY(-50%)
-  }
-  .admin-panel__menu-bar:last-child {
-    top: unset;
-    bottom: 0;
+
+    // inner
+    &-inner {
+      width: var(--category-width);
+
+      transition: transform .3s ease;
+    }
   }
 
   /* active */
   html:not(.sidebar-is-open) .category__panel {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  html:not(.sidebar-is-open) .category__panel-inner {
     transform: translateX(-100%)
-  }
-  html.sidebar-is-open .admin-panel__menu-bar:first-child,
-  html.sidebar-is-open .admin-panel__menu-bar:last-child {
-    top: 50%;
-    transform: translateY(-50%) rotate(45deg);
-  }
-  html.sidebar-is-open .admin-panel__menu-bar:last-child {
-    transform: translateY(-50%) rotate(-45deg);
-  }
-  html.sidebar-is-open .admin-panel__menu-bar:nth-child(2) {
-    transform: rotateY(90deg);
   }
 }
