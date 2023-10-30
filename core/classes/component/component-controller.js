@@ -36,7 +36,14 @@ class ComponentController extends Controller{
             description: ''
         };
 
-        return params.map(p => ({...defaultParam, ...p}));
+        return params.map(p => {
+            // has params inside
+            if(p.params){
+                p.params = this.validateParam(p.params);
+            }
+
+            return {...defaultParam, ...p};
+        });
     }
 
     getHTML(instance){
