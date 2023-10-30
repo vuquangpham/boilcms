@@ -2,21 +2,35 @@ const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
 
 // const filterObj = require('./../../utils/helper.utils')
-class User extends Category{
-    constructor(config){
+class User extends Category {
+    constructor(config) {
         super(config);
     }
 
     /**
      * Validate input user
      * */
-    validateInputData(request){
-        return {
-            name: request.body.name,
-            email: request.body.email,
-            password: request.body.password,
-            confirmPassword: request.body.confirmPassword
-        };
+    validateInputData(inputData, action = 'add') {
+        const request = inputData.request;
+
+        // input
+        const name = request.body.name.trim();
+        const email = request.body.email.trim();
+        const password = request.body.password;
+        const confirmPassword = request.body.confirmPassword
+
+        const returnObj = {
+            name,
+            email,
+            password,
+            confirmPassword
+        }
+
+        if (action === 'edit') {
+            returnObj.role = request.body.role;
+            returnObj.state = request.body.state;
+        }
+        return returnObj
     }
 
     /**
@@ -24,7 +38,7 @@ class User extends Category{
      * @param data {object}
      * @return {promise}
      * */
-    add(data){
+    add(data) {
         const instance = new this.databaseModel(data);
 
         return new Promise((resolve, reject) => {
@@ -43,7 +57,7 @@ class User extends Category{
      * @param field {string}
      * @return {promise}
      * */
-    findUser(field){
+    findUser(field) {
         return new Promise((resolve, reject) => {
             this.databaseModel.findOne(field).select('+password')
                 .then(data => {
@@ -59,22 +73,22 @@ class User extends Category{
      * Sign in user
      * @return {promise}
      * */
-    signIn(request){
+    signIn(request) {
         const {email, password} = request.body;
-        return new Promise(async(resolve, reject) => {
-            try{
+        return new Promise(async (resolve, reject) => {
+            try {
                 const user = await this.databaseModel.findOne({email}).select('+password');
-                if(!user){
+                if (!user) {
                     throw new Error('Account not found');
                 }
                 const comparePassword = await user.comparePassword(password, user.password);
 
-                if(!comparePassword){
+                if (!comparePassword) {
                     throw new Error('Wrong password');
                 }
 
                 resolve(user);
-            }catch(error){
+            } catch (error) {
                 reject(error);
             }
         });
@@ -85,14 +99,15 @@ class User extends Category{
      * @param id {string}
      * @param data {object}
      * */
-    updateUser(id, data){
+    update(id, data) {
+        console.log(data)
         return this.databaseModel.findOneAndUpdate({_id: id}, data);
     }
 
     /**
      *
      * */
-    updatePassword(){
+    updatePassword() {
 
     }
 

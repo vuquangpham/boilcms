@@ -13,9 +13,15 @@ export default class UserPost {
             userNameInput: wrapper.querySelector('[data-user-name]'),
             userEmailInput: wrapper.querySelector('[data-user-email]'),
             userRegisterInput: wrapper.querySelector('[data-user-register]'),
+
+            // select fields
+            selectRoleInput: wrapper.querySelector('[data-select-role-value]'),
+            optionRoleInput: wrapper.querySelectorAll('[data-select-role-value] option'),
+            selectStateInput: wrapper.querySelector('[data-select-state-value]'),
+            optionStateInput: wrapper.querySelectorAll('[data-select-state-value] option'),
+
+
             genPassInput: wrapper.querySelector('[data-generate-password-input]'),
-            selectRoleInput: wrapper.querySelector('[data-select-value]'),
-            optionInput: wrapper.querySelectorAll('[data-select-value] option')
         }
 
         // vars
@@ -49,11 +55,16 @@ export default class UserPost {
         this.elements.userRegisterInput.textContent = this.modifyDate(new Date(data.registerAt));
         this.elements.selectRoleInput.value = data.role
 
-        this.elements.optionInput.forEach(o =>{
-            if(o.getAttribute('value') === data.role){
+        this.elements.optionRoleInput.forEach(o => {
+            if (o.getAttribute('value') === data.role) {
                 o.setAttribute('selected', '')
-            }
-            else o.removeAttribute('selected')
+            } else o.removeAttribute('selected')
+        })
+
+        this.elements.optionStateInput.forEach(o => {
+            if (o.getAttribute('value') === data.state) {
+                o.setAttribute('selected', '')
+            } else o.removeAttribute('selected')
         })
 
     };
@@ -71,7 +82,6 @@ export default class UserPost {
         })
             .then(res => res.json())
             .then(result => {
-                console.log(result)
                 this.replaceUser(result.data)
             })
 
@@ -102,6 +112,44 @@ export default class UserPost {
         this.elements.genPassInput.textContent = Array.from(arr, this.dec2hex).join('')
     }
 
+    handleSaveUser(target) {
+        const formEl = target.closest('[data-user-form]');
+        const id = formEl.getAttribute('data-id');
+
+        const formData = new FormData();
+        formData.append('name', this.elements.userNameInput.value);
+        formData.append('email', this.elements.userEmailInput.value);
+        formData.append('role', this.elements.selectRoleInput.value);
+        formData.append('state', this.elements.selectStateInput.value)
+
+        fetch(this.FETCH_URL, {
+            method: 'post',
+            action: 'edit',
+            getJSON: true,
+            id: id
+        }, {
+            method: 'post',
+            body: formData
+        })
+            .then(res => res.json())
+            .then((result) => {
+                console.log('results: ', result)
+                const mediaItemEl = this.wrapper.querySelector(`[data-user-item][data-id="${id}"] img`);
+                if (!mediaItemEl) {
+                    console.error('Can not find an image with id', id);
+                    return;
+                }
+
+                // update the new media
+                mediaItemEl.src = result.url.small;
+                mediaItemEl.alt = result.name;
+
+                // close the popup
+                this.elements.closePopupForm.click();
+            })
+            .catch(err => console.error(err));
+    }
+
     handleWrapperClick(e) {
         let functionHandling = () => {
         };
@@ -109,14 +157,19 @@ export default class UserPost {
 
         const singleUserItemEl = e.target.closest('button[data-user-item]')
         const genPasswordBtnEl = e.target.closest('button[data-user-generate-password-btn]')
+        const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
 
         if (singleUserItemEl) {
             functionHandling = this.showSingleUser.bind(this)
             target = singleUserItemEl
-            console.log(singleUserItemEl)
+
         } else if (genPasswordBtnEl) {
             functionHandling = this.handeGeneratePassword.bind(this)
             target = genPasswordBtnEl
+
+        } else if (saveUserBtnEl) {
+            functionHandling = this.handleSaveUser.bind(this);
+            target = saveUserBtnEl
         }
 
         // call the function
