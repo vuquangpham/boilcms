@@ -2,16 +2,9 @@
 * Post detail
 *************************/
 .posts-detail {
-  display: flex;
-  align-items: flex-start;
-
   // layout
-  &--left {
-
-  }
-
-  &--right {
-
+  &__col {
+    width: 100%;
   }
 
   // title
@@ -22,6 +15,11 @@
   // information
   &__information {
     margin-bottom: var(--spacing-24);
+  }
+
+  // label
+  label {
+    font-size: var(--fz-14);
   }
 
   // dropdown
@@ -40,20 +38,32 @@
   }
 }
 
-.posts-detail--left {
-  width: 75%;
-  padding-right: 40px;
+/****************************
+* Post detail - Responsive
+****************************/
+// min width 1025px
+@include responsive('tablet-h', true) {
+  .posts-detail {
+    // layout
+    &__col {
+      &--left {
+        width: 75%;
+        padding-right: 2rem;
+      }
+
+      &--right {
+        width: 25%;
+      }
+    }
+  }
 }
 
-.posts-detail--right {
-  width: 25%;
-}
-
-.posts-detail__title input {
-  width: 100%;
-}
-
-/* label */
-.posts-detail label {
-  font-size: 14px;
+// max-width 1024px
+@include responsive('tablet-h') {
+  .posts-detail {
+    // layout
+    &__col--left {
+      margin-bottom: 2rem;
+    }
+  }
 }

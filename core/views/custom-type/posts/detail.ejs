@@ -15,11 +15,9 @@ const getValueFromData = (name, property = '') => {
 };
 %>
 
-<div class="posts-content">
-    <div class="posts-content__heading fl-center-v" style="gap:10px;">
-        <h1>Edit <%= title; %></h1>
-        <a href="?post_type=post&action=add" class="btn_transparent">Add New</a>
-    </div>
+<div data-custom-title>
+    <% const pageTitle = isEditPost ? 'Edit Post' : 'Add New Post' %>
+    <span><%= pageTitle; %></span>
 </div>
 
 <div class="container" data-post-detail>
@@ -27,14 +25,14 @@ const getValueFromData = (name, property = '') => {
           method="post"
           class="detail-post">
 
-        <div class="posts-detail">
-            <div class="posts-detail--left">
+        <div class="posts-detail fl-grid">
+            <div class="posts-detail__col posts-detail__col--left">
                 <div class="posts-detail__information">
 
                     <div class="posts-detail__title">
                         <label for="title" class="hidden">Add title</label>
                         <input type="text" placeholder="Title" id="title" name="title" required
-                               value="<%= getValueFromData('title') %>">
+                               class="w100" value="<%= getValueFromData('title') %>">
                     </div>
 
                     <% if (isEditPost) { %>
@@ -112,7 +110,7 @@ const getValueFromData = (name, property = '') => {
                 </div>
             </div>
 
-            <div class="posts-detail--right">
+            <div class="posts-detail__col posts-detail__col--right">
                 <div class="posts-detail__dropdown fl-center-v">
                     <label for="visibility">Visibility</label>
                     <select data-easy-select name="visibility" id="visibility">
