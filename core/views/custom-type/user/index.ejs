@@ -73,7 +73,7 @@ const modifyDate = (publishTime) => {
                             <!-- name -->
                             <div data-form-input class="fl-center-v">
                                 <label for="username">Username</label>
-                                <input id="username" data-user-name>
+                                <input id="username" data-user-name name="name">
                             </div>
                         </div>
 
@@ -82,7 +82,7 @@ const modifyDate = (publishTime) => {
                             <!-- email -->
                             <div data-form-input class="fl-center-v">
                                 <label for="email">Email</label>
-                                <input id="email" data-user-email>
+                                <input id="email" data-user-email name="email">
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ const modifyDate = (publishTime) => {
 
                                 <!-- role -->
                                 <label for="role">Role</label>
-                                <select data-select-value name="role" id="role">
+                                <select data-select-role-value name="role" id="role">
                                     <option value="user">User
                                     </option>
                                     <option value="admin">Admin
@@ -130,8 +130,8 @@ const modifyDate = (publishTime) => {
                             <div data-form-input>
 
                                 <!-- state -->
-                                <label for="state">Status</label>
-                                <select name="state" id="state">
+                                <label for="state">State</label>
+                                <select data-select-state-value name="state" id="state">
                                     <option value="active">Active
                                     </option>
                                     <option value="suspend">Suspend
