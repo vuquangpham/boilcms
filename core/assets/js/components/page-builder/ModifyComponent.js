@@ -146,7 +146,7 @@ export default class ModifyComponent{
         };
 
         // get params
-        Array.from(this.componentDetailPanel.querySelectorAll(':scope > [data-type]')).forEach(el => {
+        Array.from(this.componentDetailPanel.querySelectorAll('[data-component-content] > [data-type]')).forEach(el => {
             const paramValueEl = el.querySelector('[data-param-value]');
             const value = paramValueEl?.getAttribute('data-param-value');
 
