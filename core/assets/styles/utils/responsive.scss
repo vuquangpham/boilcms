@@ -6,6 +6,15 @@ $breakpoints: (
         'tablet-h': 1180px,
 ) !default;
 
+/* Visibility Classes */
+.hidden-mobile, .hidden-tablet-v, .hidden-tablet-h, .hidden-touch-devices {
+  display: block;
+}
+
+.show-mobile, .show-tablet-v, .show-tablet-h, .show-touch-devices {
+  display: none;
+}
+
 /* Touch devices */
 @media only screen and (max-width: map-get($breakpoints, 'tablet-h')) {
   /* Visibility Classes */
