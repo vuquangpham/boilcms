@@ -106,7 +106,8 @@ module.exports = new User({
     children: [
         {
             name: 'Add new',
-            url: ''
+            url: '&action=add',
+            compare: (data) => data.actionType === 'add'
         },
         {
             name: 'Admin',
