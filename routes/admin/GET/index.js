@@ -48,7 +48,6 @@ const handleGetMethod = (request, response, next) => {
 
     const [promise, extraData] = isCustomType ? [User.findUser(response.locals.user._id), {}] : funcForHandlingAction(request, response);
 
-    console.log(promise)
     // render data
     promise
         .then(result => {
@@ -61,7 +60,6 @@ const handleGetMethod = (request, response, next) => {
                 isSpecialType: categoryItem.isSpecialType,
                 ...extraData
             };
-            console.log('data: ', data)
 
             if(hasJSON) return response.status(200).json(data);
 

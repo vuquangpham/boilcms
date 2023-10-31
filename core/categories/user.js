@@ -124,11 +124,6 @@ module.exports = new User({
     contentType: Type.types.USER,
     children: [
         {
-            name: 'Add new',
-            url: '&action=add',
-            compare: (data) => data.actionType === 'add'
-        },
-        {
             name: 'Admin',
             url: '?filter=admin'
         }, {

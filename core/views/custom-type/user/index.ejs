@@ -16,139 +16,198 @@ const modifyDate = (publishTime) => {
 
 <% if (data.length === 0) { %>
     <h2>No content</h2>
-<% } else { %>
-    <div class="users-list" data-custom-table data-user-wrapper>
-        <div class="users-list__inner">
-            <div class="users-list__heading" data-column-wrapper="heading">
-                <div class="users-list--user" data-column="User">User</div>
-                <div class="users-list--register" data-column="Register At">Register At</div>
-                <div class="users-list--email" data-column="Email">Email</div>
-                <div class="users-list--role" data-column="Role">Role</div>
-                <div class="users-list--state" data-column="State">State</div>
-                <div class="users-list--action" data-column="Action">Action</div>
-            </div>
-
-            <% data.forEach(user => { %>
-
-                <div class="users-list__item" data-column-wrapper="item" data-id="<%= user._id %>" data-user-item>
-                    <div class="users__item--user not-show-user" data-column="User" data-user-item-name>
-                        <%= user.name; %></div>
-
-                    <div class="users__item--register not-show-title" data-column="Register At">
-                        <time><%= modifyDate(user.registerAt); %></time>
-                    </div>
-
-                    <div class="users__item--email"
-                         data-column="Email" data-user-item-email><%= user.email; %></div>
-
-                    <div class="users__item--role"
-                         data-column="Role" data-user-item-role><%= user.role; %></div>
-
-                    <div class="users__item--state"
-                         data-column="State" data-user-item-state><%= user.state; %></div>
-
-                    <div class="users__item--action" data-column="Action">
-
-                        <button class="users__item--link" data-toggle="user-popup" data-user-detail>Edit
-                        </button>
-                        <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>">Trash</a>
-                    </div>
-
-                </div>
-            <% }); %>
+<% }  %>
+<div class="users-list" data-custom-table data-user-wrapper>
+    <div class="users-list__inner">
+        <div class="users-list__heading" data-column-wrapper="heading">
+            <div class="users-list--user" data-column="User">User</div>
+            <div class="users-list--register" data-column="Register At">Register At</div>
+            <div class="users-list--email" data-column="Email">Email</div>
+            <div class="users-list--role" data-column="Role">Role</div>
+            <div class="users-list--state" data-column="State">State</div>
+            <div class="users-list--action" data-column="Action">Action</div>
         </div>
 
-        <div data-popup>
-            <div data-popup-overflow>
-                <div data-popup-overlay data-toggle="user-popup"></div>
+        <% data.forEach(user => { %>
 
-                <!-- pop up content-->
-                <form method="post" action="#" data-popup-inner data-user-form>
+            <div class="users-list__item" data-column-wrapper="item" data-id="<%= user._id %>" data-user-item>
+                <div class="users__item--user not-show-user" data-column="User" data-user-item-name>
+                    <%= user.name; %></div>
 
-                    <div data-form-column class="fl-grid">
+                <div class="users__item--register not-show-title" data-column="Register At">
+                    <time><%= modifyDate(user.registerAt); %></time>
+                </div>
 
-                        <div data-form-group>
+                <div class="users__item--email"
+                     data-column="Email" data-user-item-email><%= user.email; %></div>
 
-                            <!-- name -->
-                            <div data-form-input class="fl-center-v">
-                                <label for="username">Username</label>
-                                <input id="username" data-user-name name="name">
-                            </div>
-                        </div>
+                <div class="users__item--role"
+                     data-column="Role" data-user-item-role><%= user.role; %></div>
 
-                        <div data-form-group>
+                <div class="users__item--state"
+                     data-column="State" data-user-item-state><%= user.state; %></div>
 
-                            <!-- email -->
-                            <div data-form-input class="fl-center-v">
-                                <label for="email">Email</label>
-                                <input id="email" data-user-email name="email">
-                            </div>
-                        </div>
-                    </div>
+                <div class="users__item--action" data-column="Action">
 
-                    <div data-form-column>
-                        <div data-form-group>
-                            <div data-form-input>
+                    <button class="users__item--link" data-toggle="user-popup" data-user-detail>Edit
+                    </button>
+                    <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>">Trash</a>
+                </div>
 
-                                <!-- register at-->
-                                <label for="register">Register</label>
-                                <div id="register" data-user-register></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-form-column>
-                        <div data-form-group>
-                            <div data-form-input>
-
-                                <!-- password -->
-                                <label for="password">Password</label>
-                                <input type="password" value="hidden" id="password" readonly>
-                                <!--                                <button type="button" data-user-generate-password-btn>Generate new password</button>-->
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-form-column>
-                        <div data-form-group>
-                            <div data-form-input>
-
-                                <!-- role -->
-                                <label for="role">Role</label>
-                                <select data-select-role-value name="role" id="role">
-                                    <option value="user">User
-                                    </option>
-                                    <option value="admin">Admin
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div data-form-group>
-                            <div data-form-input>
-
-                                <!-- state -->
-                                <label for="state">State</label>
-                                <select data-select-state-value name="state" id="state">
-                                    <option value="active">Active
-                                    </option>
-                                    <option value="suspend">Suspend
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="fl-center-v mt-auto" style="gap:5px;">
-                        <button class="btn_primary" type="button" data-user-save-btn>Save</button>
-                        <button class="btn_primary error" type="button" data-user-delete-btn>Delete</button>
-                        <button class="btn_transparent" type="button" data-user-close-btn
-                                data-toggle="user-popup">Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
+        <% }); %>
+    </div>
+
+    <div style="margin-top: 5px">
+        <button class="btn_primary" data-toggle="user-register-popup">Add new</button>
+    </div>
+
+    <div data-user-popup data-popup>
+        <div data-popup-overflow>
+            <div data-popup-overlay data-toggle="user-popup"></div>
+
+            <!-- pop up content-->
+            <form method="post" action="#" data-popup-inner data-user-form>
+
+                <div data-form-column class="fl-grid">
+
+                    <div data-form-group>
+
+                        <!-- name -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="username">Username</label>
+                            <input id="username" data-user-name name="name">
+                        </div>
+                    </div>
+
+                    <div data-form-group>
+
+                        <!-- email -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="email">Email</label>
+                            <input id="email" data-user-email name="email">
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form-column>
+                    <div data-form-group>
+                        <div data-form-input>
+
+                            <!-- register at-->
+                            <label for="register">Register</label>
+                            <div id="register" data-user-register></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form-column>
+                    <div data-form-group>
+                        <div data-form-input>
+
+                            <!-- password -->
+                            <label for="password">Password</label>
+                            <input type="password" value="hidden" id="password" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form-column>
+                    <div data-form-group>
+                        <div data-form-input>
+
+                            <!-- role -->
+                            <label for="role">Role</label>
+                            <select data-select-role-value name="role" id="role">
+                                <option value="user">User
+                                </option>
+                                <option value="admin">Admin
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div data-form-group>
+                        <div data-form-input>
+
+                            <!-- state -->
+                            <label for="state">State</label>
+                            <select data-select-state-value name="state" id="state">
+                                <option value="active">Active
+                                </option>
+                                <option value="suspend">Suspend
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fl-center-v mt-auto" style="gap:5px;">
+                    <button class="btn_primary" type="button" data-user-save-btn>Save</button>
+                    <button class="btn_primary error" type="button" data-user-delete-btn>Delete</button>
+                    <button class="btn_transparent" type="button" data-user-close-btn
+                            data-toggle="user-popup">Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-<% } %>
+
+    <div data-user-register-popup data-popup>
+        <div data-popup-overflow>
+            <div data-popup-overlay data-toggle="user-register-popup"></div>
+
+            <form method="post" action="?type=<%= type %>&method=post" data-popup-inner>
+
+                <div data-form-column class="fl-grid">
+
+                    <div data-form-group>
+
+                        <!-- name -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="name">Username:</label>
+                            <input id="name" type="text" name="name" placeholder="Name">
+                        </div>
+                    </div>
+
+                    <div data-form-group>
+
+                        <!-- email -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="email">Email:</label>
+                            <input id="email" type="email" name="email" placeholder="Email" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form-column>
+
+                    <div data-form-group>
+
+                        <!-- password -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="password">Password:</label>
+                            <input id="password" type="password" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <div data-form-group>
+
+                        <!-- confirm password -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="confirm-password">Confirm:</label>
+                            <input id="confirm-password" type="password" name="confirmPassword" placeholder="Confirm"
+                                   required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div>
+                    <button class="btn_primary" type="submit">Sign Up</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
