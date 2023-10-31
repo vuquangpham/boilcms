@@ -160,6 +160,13 @@ export default class UserPost {
             })
     }
 
+    /**
+     * Handle add new user
+     * */
+    handleAddNewUser(target) {
+        console.log(target)
+    }
+
     handleWrapperClick(e) {
         let functionHandling = () => {
         };
@@ -168,6 +175,7 @@ export default class UserPost {
         const singleUserItemEl = e.target.closest('button[data-user-detail]')
         const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
         const deleteUserBtnEl = e.target.closest('button[data-user-delete-btn]')
+        const addNewUserBtnEl = e.target.closest('button[data-add-new-user-btn]')
 
         if (singleUserItemEl) {
             functionHandling = this.showSingleUser.bind(this)
@@ -180,7 +188,13 @@ export default class UserPost {
         } else if (deleteUserBtnEl) {
             functionHandling = this.handleDeleteUser.bind(this);
             target = deleteUserBtnEl
+
+        } else if (addNewUserBtnEl) {
+            console.log('12333')
+            functionHandling = this.handleAddNewUser.bind(this);
+            target = addNewUserBtnEl
         }
+
 
         // call the function
         functionHandling(target);
