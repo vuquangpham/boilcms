@@ -10,28 +10,65 @@ const modifyDate = (publishTime) => {
 };
 %>
 
-<div class="users-list__item" data-column-wrapper="item" data-id="<%= data._id %>" data-user-item>
-    <div class="users__item--user not-show-user" data-column="User" data-user-item-name>
-        <%= data.name; %></div>
+<form method="post" action="/boiler-admin/user?method=post&action=edit&id=<%= data._id%>">
+    <div>
+        <div data-form-column class="fl-grid">
 
-    <div class="users__item--register not-show-title" data-column="Register At">
-        <time><%= modifyDate(data.registerAt); %></time>
+            <div data-form-group>
+
+                <!-- name -->
+                <div data-form-input class="fl-center-v">
+                    <label for="username">Username</label>
+                    <input id="username" data-user-name name="name" value="<%= data.name%>">
+                </div>
+            </div>
+
+            <div data-form-group>
+
+                <!-- email -->
+                <div data-form-input class="fl-center-v">
+                    <label for="email">Email</label>
+                    <input id="email" data-user-email name="email" value="<%= data.email%>">
+                </div>
+            </div>
+        </div>
+
+        <div data-form-column>
+            <div data-form-group>
+                <div data-form-input>
+
+                    <!-- register at-->
+                    <label>Register</label>
+                    <div><time><%= data.registerAt%></time></div>
+                </div>
+            </div>
+        </div>
+
+        <div data-form-column>
+            <div data-form-group>
+                <div data-form-input>
+
+                    <!-- password -->
+                    <label for="password">Password</label>
+                    <input type="password" value="hidden" id="password" readonly>
+
+                </div>
+            </div>
+        </div>
+
+        <div data-form-column>
+            <div data-form-group>
+                <div data-form-input>
+
+                    <!-- role -->
+                    <label for="role">Role</label>
+                    <div id="role"><%=data.role%></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="fl-center-v mt-auto" style="gap:5px;">
+            <button type="submit" class="btn_primary">Save</button>
+        </div>
     </div>
-
-    <div class="users__item--email"
-         data-column="Email" data-user-item-email><%= data.email; %></div>
-
-    <div class="users__item--role"
-         data-column="Role" data-user-item-role><%= data.role; %></div>
-
-    <div class="users__item--state"
-         data-column="State" data-user-item-state><%= data.state; %></div>
-
-    <div class="users__item--action" data-column="Action">
-
-        <button class="users__item--link" data-toggle="user-popup" data-user-detail>Edit
-        </button>
-        <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= data._id; %>">Trash</a>
-    </div>
-
-</div>
+</form>
