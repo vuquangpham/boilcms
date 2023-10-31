@@ -313,6 +313,8 @@ export default class ModifyComponent{
 
         // init easy select
         EasySelect.init();
+
+        Accordion.create();
     }
 
     handleComponentClick(target){

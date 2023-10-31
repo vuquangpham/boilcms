@@ -1,12 +1,14 @@
 import '../styles/index.scss';
-import '@global/theme/theme.min.js';
 
+// vendors
+import '@global/theme/theme.min.js';
+import '@global/accordion/Accordion.min.js';
+import '@global/easy-select/easy-select.min.js';
+
+// posts-type
 import './posts-type/posts';
 import './posts-type/media';
 import './posts-type/user';
-
-// vendors
-import '@global/easy-select/easy-select.min.js';
 
 // init easy select
 EasySelect.init();
