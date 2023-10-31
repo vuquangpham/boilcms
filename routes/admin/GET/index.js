@@ -5,6 +5,8 @@ const handleAddAction = require('./add');
 const handleGetAction = require('./get');
 const handleEditAction = require('./edit');
 
+const User = require('../../../core/categories/user')
+
 /**
  * Handle GET method
  * @param {Object} request
@@ -44,8 +46,9 @@ const handleGetMethod = (request, response, next) => {
         }
     }
 
-    const [promise, extraData] = isCustomType ? [Promise.resolve(), {}] : funcForHandlingAction(request, response);
+    const [promise, extraData] = isCustomType ? [User.findUser(response.locals.user._id), {}] : funcForHandlingAction(request, response);
 
+    console.log(promise)
     // render data
     promise
         .then(result => {
@@ -58,6 +61,7 @@ const handleGetMethod = (request, response, next) => {
                 isSpecialType: categoryItem.isSpecialType,
                 ...extraData
             };
+            console.log('data: ', data)
 
             if(hasJSON) return response.status(200).json(data);
 

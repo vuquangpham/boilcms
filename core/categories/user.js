@@ -54,12 +54,12 @@ class User extends Category {
 
     /**
      * Find user by 1 input of user such as: id, email
-     * @param field {string}
-     * @return {promise}
+     * @param id {string}
+     * @return {Promise}
      * */
-    findUser(field) {
+    findUser(id) {
         return new Promise((resolve, reject) => {
-            this.databaseModel.findOne(field).select('+password')
+            this.databaseModel.findOne({_id: id}).select('+password')
                 .then(data => {
                     resolve(data);
                 })
