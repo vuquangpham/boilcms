@@ -15,7 +15,10 @@ const getValueFromData = (name, property = '') => {
 };
 
 // URL of the page in FE
-const viewURL = isSpecialType ? '/' + data.url : '/' + type + '/' + data.url;
+let viewURL = '';
+if(isEditPost){
+    viewURL = isSpecialType ? '/' + data.url : '/' + type + '/' + data.url;
+}
 %>
 
 <div data-custom-title>
