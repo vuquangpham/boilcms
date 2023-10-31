@@ -31,27 +31,27 @@ const modifyDate = (publishTime) => {
             <% data.forEach(user => { %>
 
                 <div class="users-list__item" data-column-wrapper="item" data-id="<%= user._id %>" data-user-item>
-                    <div class="users__item--user not-show-user" data-column="User" data-user-item-name ><%= user.name; %></div>
+                    <div class="users__item--user not-show-user" data-column="User" data-user-item-name>
+                        <%= user.name; %></div>
 
                     <div class="users__item--register not-show-title" data-column="Register At">
                         <time><%= modifyDate(user.registerAt); %></time>
                     </div>
 
                     <div class="users__item--email"
-                         data-column="Email" data-user-item-email ><%= user.email; %></div>
+                         data-column="Email" data-user-item-email><%= user.email; %></div>
 
                     <div class="users__item--role"
-                         data-column="Role" data-user-item-role ><%= user.role; %></div>
+                         data-column="Role" data-user-item-role><%= user.role; %></div>
 
                     <div class="users__item--state"
-                         data-column="State" data-user-item-state ><%= user.state; %></div>
+                         data-column="State" data-user-item-state><%= user.state; %></div>
 
                     <div class="users__item--action" data-column="Action">
 
                         <button class="users__item--link" data-toggle="user-popup" data-user-detail>Edit
                         </button>
-                        <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>"
-                           class="users__item--link trash">Trash</a>
+                        <a href="?post_type=<%= contentType; %>&method=post&action=delete&id=<%= user._id; %>">Trash</a>
                     </div>
 
                 </div>

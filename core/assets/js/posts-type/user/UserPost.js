@@ -42,7 +42,7 @@ export default class UserPost {
     };
 
     /**
-     * Replace media item in popup
+     * Replace user item in popup
      * */
     replaceUser(data) {
         // set the id for the form
@@ -68,10 +68,12 @@ export default class UserPost {
 
     };
 
+    /**
+     * Show single user item
+     * */
     showSingleUser(target) {
         const formEl = target.closest('[data-user-item]');
         const id = formEl.getAttribute('data-id');
-        console.log(id)
 
         // get detail media
         // method: get, action on page edit to get detail page
@@ -90,6 +92,9 @@ export default class UserPost {
             .catch(err => console.error(err))
     };
 
+    /**
+     * Handle save user
+     * */
     handleSaveUser(target) {
         const formEl = target.closest('[data-user-form]');
         const id = formEl.getAttribute('data-id');
@@ -124,11 +129,35 @@ export default class UserPost {
                 userItemEl.querySelector('[data-user-item-role]').innerHTML = result.role
                 userItemEl.querySelector('[data-user-item-state]').innerHTML = result.state
 
-
                 // close the popup
                 this.elements.closePopupForm.click();
             })
             .catch(err => console.error(err));
+    }
+
+    /**
+     * Handle delete user
+     * */
+    handleDeleteUser(target) {
+        const formEl = target.closest('[data-user-form]');
+        const id = formEl.getAttribute('data-id');
+
+        fetch(this.FETCH_URL, {
+            action: 'delete',
+            method: 'post',
+            getJSON: true,
+            id: id
+        })
+            .then(() => {
+                // get deleted user item and remove the dom
+                const deletedUserItem = this.wrapper.querySelector(`[data-user-item][data-id="${id}"]`);
+                if (deletedUserItem) {
+                    deletedUserItem.remove();
+                }
+
+                // close the popup
+                this.elements.closePopupForm.click();
+            })
     }
 
     handleWrapperClick(e) {
@@ -138,6 +167,7 @@ export default class UserPost {
 
         const singleUserItemEl = e.target.closest('button[data-user-detail]')
         const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
+        const deleteUserBtnEl = e.target.closest('button[data-user-delete-btn]')
 
         if (singleUserItemEl) {
             functionHandling = this.showSingleUser.bind(this)
@@ -146,6 +176,10 @@ export default class UserPost {
         } else if (saveUserBtnEl) {
             functionHandling = this.handleSaveUser.bind(this);
             target = saveUserBtnEl
+
+        } else if (deleteUserBtnEl) {
+            functionHandling = this.handleDeleteUser.bind(this);
+            target = deleteUserBtnEl
         }
 
         // call the function
