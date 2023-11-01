@@ -12,7 +12,7 @@ router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
 
     // static folder => skip the middleware
-    if(type === "upload" || type === "favicon.ico") return;
+    if(type === "upload" || type.includes("favicon")) return;
 
     response.locals.params = {type, pageURL};
     next();
