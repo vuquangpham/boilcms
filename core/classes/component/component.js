@@ -32,6 +32,10 @@ class Component{
         return params.find(p => p.key === paramName)?.value || '';
     }
 
+    getOptions(options, optionName){
+        return options.find(o => o.key === optionName)?.value || '';
+    }
+
     render(data){
     }
 }
