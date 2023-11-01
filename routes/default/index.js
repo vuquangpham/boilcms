@@ -10,6 +10,10 @@ const DOMPurify = require('isomorphic-dompurify');
 
 router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
+
+    // static folder => skip the middleware
+    if(type === "upload" || type === "favicon.ico") return;
+
     response.locals.params = {type, pageURL};
     next();
 });
