@@ -13,6 +13,35 @@ class Media extends Category{
     }
 
     /**
+     * Get data by ID
+     * */
+    getDataById(id){
+        return new Promise((resolve) => {
+            this.databaseModel.findById(id)
+                .then(data => {
+                    // not found => get default image
+                    if(!data) throw new Error('No image');
+
+                    // resolve the result
+                    resolve(data);
+                })
+
+                .catch(_ => {
+
+                    // resolve the default image
+                    resolve({
+                        name: 'Default image',
+                        url: {
+                            original: '/themes/default.png',
+                            small: '/themes/default.png'
+                        },
+                        type: 'default image'
+                    });
+                });
+        });
+    }
+
+    /**
      * Delete directory in redundant media
      * */
     deleteAssetDirectory(media){

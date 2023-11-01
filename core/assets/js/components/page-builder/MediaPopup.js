@@ -63,13 +63,27 @@ export default class MediaPopup{
         })
             .then(res => res.json())
             .then(result => {
+                let notHaveCheckedImage = false;
+
+                // append images to the DOM
                 const data = result.data;
                 data.map(d => new Image(d, this.isSingleImage))
                     .forEach(d => this.elements.mediaList.appendChild(d.domElement));
 
                 selectedMedias.forEach(id => {
-                    this.elements.mediaList.querySelector(`input[name="selected-media"][value="${id}"]`).checked = true;
+                    const element = this.elements.mediaList.querySelector(`input[name="selected-media"][value="${id}"]`);
+                    if(element) return element.checked = true;
+
+                    // flag for showing the error with the default image
+                    notHaveCheckedImage = true;
                 });
+
+                if(notHaveCheckedImage){
+                    const errorDiv = document.createElement('div');
+                    errorDiv.classList.add('description', 'error');
+                    errorDiv.innerHTML = "The chosen image has been deleted. Please upload or select the other one!";
+                    this.elements.mediaList.insertAdjacentElement('beforeend', errorDiv);
+                }
             });
     }
 
