@@ -102,17 +102,21 @@ class User extends Category {
     forgetPassword(request) {
         const {email} = request.body;
         return new Promise(async (resolve, reject) => {
+            try{
+                const user = await this.databaseModel.findOne({email})
 
-            const user = await this.databaseModel.findOne({email})
+                // email doesn't exist
+                if (!user) reject(new Error('Email not found'))
 
-            // user doesn't exist
-            if (!user) reject(new Error('User not found'))
+                // generate the random reset token and save reset token to data
+                const resetToken = user.createPasswordResetToken();
+                await user.save({validateBeforeSave: false})
 
-            // generate the random reset token and save reset token to data
-            const resetToken = user.createPasswordResetToken();
-            await user.save({validateBeforeSave: false})
+                resolve(resetToken)
 
-            resolve(resetToken)
+            }catch (error){
+                reject(error)
+            }
         })
     }
 
@@ -120,36 +124,39 @@ class User extends Category {
      * Reset password
      * */
     resetPassword(request, resetUrlToken = '') {
-
         return new Promise(async (resolve, reject) => {
+            try{
 
-            // check token is valid and dont expired
-            const hashedToken = crypto
-                .createHash('sha256')
-                .update(resetUrlToken)
-                .digest('hex')
+                // check token is valid and dont expired
+                const hashedToken = crypto
+                    .createHash('sha256')
+                    .update(resetUrlToken)
+                    .digest('hex')
 
-            const user = await this.databaseModel.findOne({
-                resetPasswordToken: hashedToken,
-            })
+                const user = await this.databaseModel.findOne({
+                    resetPasswordToken: hashedToken,
+                })
 
-            // user doesn't exist
-            if (!user) {
-                reject(new Error('Account not found'))
+                // user doesn't exist
+                if (!user) {
+                    reject(new Error('Account not found'))
+                }
+                // check password
+                if (request.body.password !== request.body.confirmPassword) {
+                    reject(new Error(`Password don't match`))
+                }
+
+                // get new password and confirm password
+                user.password = request.body.password;
+                user.confirmPassword = request.body.confirmPassword
+                user.resetPasswordToken = undefined;
+                user.resetPasswordTokenExpired = undefined
+
+                await user.save()
+                resolve()
+            }catch(error){
+                reject(error)
             }
-            // check password
-            if (request.body.password !== request.body.confirmPassword) {
-                reject(new Error(`Password don't match`))
-            }
-
-            // get new password and confirm password
-            user.password = request.body.password;
-            user.confirmPassword = request.body.confirmPassword
-            user.resetPasswordToken = undefined;
-            user.resetPasswordTokenExpired = undefined
-
-            await user.save()
-            resolve()
         })
     }
 
@@ -164,7 +171,6 @@ class User extends Category {
                 .then(_ => resolve(this.getDataById({_id: id})))
                 .catch(err => reject(err));
         });
-
     }
 
 }

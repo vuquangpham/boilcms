@@ -29,13 +29,16 @@ const handlePostMethod = (request, response, next) => {
 
     promise
         .then(result => {
+            // clear error message
+            request.app.set('message', '')
+
             // redirect to admin page when sign in
             if (type === 'sign-in') {
 
                 // send token to client and save token in cookies
                 sendAuthTokenAndCookies(result, type, response)
 
-                return response.redirect(`${ADMIN_URL}`)
+                response.redirect(`${ADMIN_URL}`)
 
             } else if (type === 'sign-up') {
 
