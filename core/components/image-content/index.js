@@ -43,9 +43,10 @@ class ImageContent extends Component{
 
     async render(data){
         const params = data.params;
+        const options = data.options;
 
         // options
-        const isRightPosition = data.options.find(o => o.key === 'image-alignment').value;
+        const isRightPosition = this.getOptions(options, 'image-alignment');
 
         // content
         const content = params.find(p => p.key === 'content');

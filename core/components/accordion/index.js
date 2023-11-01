@@ -45,14 +45,13 @@ class Accordion extends Component{
         let groupHTML = '';
 
         // content
-        const content = params.find(p => p.key === 'content');
+        const content = this.getParam(params, 'content');
 
         // group
-        const group = params.find(p => p.key === 'group').value;
-        group.forEach(p => {
-            const heading = p.find(p => p.key === 'heading').value;
-            const text = p.find(p => p.key === 'text').value;
-
+        const group = this.getParam(params, 'group');
+        group.forEach(gParam => {
+            const heading = this.getParam(gParam, 'heading');
+            const text = this.getParam(gParam, 'text');
             groupHTML += `
 <div class="item">
     <div class="heading">${heading}</div>
@@ -63,7 +62,7 @@ class Accordion extends Component{
 
         return `
 <div class="accordion">
-    <div class="heading">${content.value}</div>
+    <div class="heading">${content}</div>
     <div class="group">${groupHTML}</div>
 </div>`;
     }
