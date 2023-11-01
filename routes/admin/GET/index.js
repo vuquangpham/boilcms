@@ -46,7 +46,7 @@ const handleGetMethod = (request, response, next) => {
         }
     }
 
-    const [promise, extraData] = isCustomType ? [User.findUser(response.locals.user._id), {}] : funcForHandlingAction(request, response);
+    const [promise, extraData] = isCustomType ? [User.find(response.locals.user._id), {}] : funcForHandlingAction(request, response);
 
     // render data
     promise
