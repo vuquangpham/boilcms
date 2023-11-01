@@ -279,7 +279,17 @@ export default class ModifyComponent{
             .from(
                 new Set(result.component
                     .params
-                    .map(p => p.type))
+                    .reduce((acc, cur) => {
+                        if(cur.type !== "group"){
+                            acc.push(cur.type);
+                            return acc;
+                        }
+                        const params = cur.params;
+                        params.forEach(p => {
+                            acc.push(p.type);
+                        });
+                        return acc;
+                    }, []))
             );
 
         const div = document.createElement('div');
