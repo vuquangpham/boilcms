@@ -127,14 +127,16 @@ class User extends Category {
         return new Promise(async (resolve, reject) => {
             try{
 
-                // check token is valid and dont expired
+                // hash token from query
                 const hashedToken = crypto
                     .createHash('sha256')
                     .update(resetUrlToken)
                     .digest('hex')
 
+                // check token is valid and dont expired
                 const user = await this.databaseModel.findOne({
                     resetPasswordToken: hashedToken,
+                    resetPasswordTokenExpired: { $gte: Date.now()}
                 })
 
                 // user doesn't exist
