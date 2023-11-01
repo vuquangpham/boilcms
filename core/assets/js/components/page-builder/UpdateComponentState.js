@@ -2,9 +2,6 @@ import Component from "../component";
 import Quill from "quill";
 import MediaPopup from "./MediaPopup";
 
-
-import sanitizeHtml from 'sanitize-html';
-
 class UpdateComponentState{
     constructor(){
     }
@@ -139,7 +136,7 @@ class UpdateComponentState{
             // update the param value
             editor.on('text-change', () => {
                 const value = editorElement.querySelector('.ql-editor').innerHTML;
-                editorElement.setAttribute('data-param-value', sanitizeHtml(value));
+                editorElement.setAttribute('data-param-value', value);
             });
 
             context.editors.push(editor);
@@ -160,7 +157,7 @@ class UpdateComponentState{
             if(clearLastValue) input.value = '';
 
             input.addEventListener('input', () => {
-                previousValueEl.setAttribute('data-param-value', sanitizeHtml(input.value));
+                previousValueEl.setAttribute('data-param-value', input.value);
             });
         });
     }
