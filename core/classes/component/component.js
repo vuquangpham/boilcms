@@ -28,6 +28,10 @@ class Component{
         return config;
     }
 
+    getParam(params, paramName){
+        return params.find(p => p.key === paramName)?.value || '';
+    }
+
     render(data){
     }
 }
