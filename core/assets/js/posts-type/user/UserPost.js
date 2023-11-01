@@ -190,7 +190,6 @@ export default class UserPost {
             target = deleteUserBtnEl
 
         } else if (addNewUserBtnEl) {
-            console.log('12333')
             functionHandling = this.handleAddNewUser.bind(this);
             target = addNewUserBtnEl
         }
