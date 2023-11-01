@@ -1,5 +1,6 @@
 const ComponentController = require('../../classes/component/component-controller');
 const Component = require('../../classes/component/component');
+const Media = require('../../categories/media');
 
 class ImageContent extends Component{
     constructor(){
@@ -24,13 +25,45 @@ class ImageContent extends Component{
                     description: 'Please select single image'
                 },
             ],
+
+            options: [
+                {
+                    name: 'Image alignment',
+                    paramName: 'image-alignment',
+                    description: 'Change the alignment of the image',
+                    className: "",
+                    value: {
+                        'Left': '',
+                        'Right': 'image-position-right'
+                    }
+                }
+            ]
         });
     }
 
     async render(data){
         const params = data.params;
 
-        return `<div>Image content</div>`;
+        // options
+        const isRightPosition = data.options.find(o => o.key === 'image-alignment').value;
+
+        // content
+        const content = params.find(p => p.key === 'content');
+
+        // image
+        const image = params.find(p => p.key === 'image');
+        const imageData = await Media.getDataById((JSON.parse(image.value)));
+        const imageURL = imageData.url;
+
+        return `
+<div class="image-content ${isRightPosition ? 'image-position-right' : ''}">
+    <div class="image-content__col content">
+        ${content.value}
+    </div>
+    <div class="image-content__col image">
+        <img src="${imageURL.original}" alt="${imageData.name}">
+    </div>
+</div>`;
     }
 }
 
