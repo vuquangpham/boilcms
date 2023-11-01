@@ -4,7 +4,9 @@ const router = require('express').Router();
 const CategoryController = require('../../core/classes/category/category-controller');
 const Content = require('../../core/classes/utils/content');
 const {restrictTo} = require("../../core/utils/middleware.utils");
-const sanitizeHtml = require("sanitize-html");
+
+// purify the DOM
+const DOMPurify = require('isomorphic-dompurify');
 
 router.get('*', (request, response, next) => {
     const [type, pageURL] = getParamsOnRequest(request, ['', '']);
@@ -72,7 +74,7 @@ router.get('*', (request, response, next) => {
             // render to frontend
             response.render('default', {
                 data: result,
-                content: sanitizeHtml(html),
+                content: DOMPurify.sanitize(html),
                 title,
             });
         })
