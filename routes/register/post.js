@@ -1,9 +1,10 @@
 const User = require('../../core/categories/user')
 const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
-const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
+const {ADMIN_URL, REGISTER_URL, RESET_PASSWORD_URL} = require("../../core/utils/config.utils");
 
 const handlePostMethod = (request, response, next) => {
     const type = request.query.type;
+    const resetUrlToken = request.query.token
     const inputData = {request, response};
     let promise;
 
@@ -15,6 +16,14 @@ const handlePostMethod = (request, response, next) => {
         }
         case 'sign-in': {
             promise = User.signIn(request)
+            break;
+        }
+        case 'forget-password': {
+            promise = User.forgetPassword(request)
+            break;
+        }
+        case 'reset-password': {
+            promise = User.resetPassword(request, resetUrlToken)
         }
     }
 
@@ -31,6 +40,14 @@ const handlePostMethod = (request, response, next) => {
             } else if (type === 'sign-up') {
 
                 // redirect to sign in when sign up
+                response.redirect(`${REGISTER_URL}`)
+
+            } else if (type === 'forget-password') {
+
+                response.redirect(`${REGISTER_URL}?type=${RESET_PASSWORD_URL}&token=${result}`)
+
+            } else if (type === 'reset-password') {
+
                 response.redirect(`${REGISTER_URL}`)
             }
 

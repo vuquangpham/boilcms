@@ -14,6 +14,7 @@ const handleGetMethod = (request, response, next) => {
 
     const type = response.locals.accountType.name;
     const token = response.locals.token
+    const resetUrlToken = request.query.token
 
     // check if user logged and user want to log-out
     const logOutAction = AccountType.getActionType('log-out')
@@ -30,7 +31,7 @@ const handleGetMethod = (request, response, next) => {
 
     // render html
     const directory = path.join(process.cwd(), 'views', 'register', 'type', `${type}` + '.ejs')
-    Content.getHTML((directory),{type: type} )
+    Content.getHTML((directory),{type: type, resetUrlToken: resetUrlToken} )
         .then(html => {
             response.render('register/index', {
                 content: html,

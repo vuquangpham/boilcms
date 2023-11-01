@@ -9,6 +9,12 @@ class AccountType {
             },
             LOGOUT: {
                 name: 'log-out'
+            },
+            FORGET: {
+                name: 'forget-password'
+            },
+            RESET: {
+                name: 'reset-password'
             }
         };
     }
@@ -19,7 +25,7 @@ class AccountType {
      * @param defaultAction {Object}
      * @return {Object}
      * */
-    getActionType(type, defaultAction = this.types.SIGNIN){
+    getActionType(type, defaultAction = this.types.SIGNIN) {
         return this.isValidAction(type)
             ? Object.values(this.types).find(instance => instance.name === type)
             : defaultAction;
@@ -30,7 +36,7 @@ class AccountType {
      * @param actionType
      * @return boolean
      */
-    isValidAction(actionType){
+    isValidAction(actionType) {
         return !!Object.values(this.types).find(instance => instance.name === actionType);
     }
 }
