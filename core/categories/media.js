@@ -30,12 +30,13 @@ class Media extends Category{
 
                     // resolve the default image
                     resolve({
+                        _id: 'default-image',
                         name: 'Default image',
                         url: {
                             original: '/themes/default.png',
                             small: '/themes/default.png'
                         },
-                        type: 'default image'
+                        type: 'image/png'
                     });
                 });
         });
