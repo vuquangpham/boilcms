@@ -1,5 +1,6 @@
 const ComponentController = require('../../classes/component/component-controller');
 const Component = require('../../classes/component/component');
+const Media = require("../../categories/media");
 
 class Accordion extends Component{
     constructor(){
@@ -41,7 +42,30 @@ class Accordion extends Component{
     async render(data){
         const params = data.params;
 
-        return `<div>Accordion</div>`;
+        let groupHTML = '';
+
+        // content
+        const content = params.find(p => p.key === 'content');
+
+        // group
+        const group = params.find(p => p.key === 'group').value;
+        group.forEach(p => {
+            const heading = p.find(p => p.key === 'heading').value;
+            const text = p.find(p => p.key === 'text').value;
+
+            groupHTML += `
+<div class="item">
+    <div class="heading">${heading}</div>
+    <div class="text">${text}</div>
+</div>
+            `;
+        });
+
+        return `
+<div class="accordion">
+    <div class="heading">${content.value}</div>
+    <div class="group">${groupHTML}</div>
+</div>`;
     }
 }
 
