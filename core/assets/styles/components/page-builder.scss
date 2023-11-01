@@ -190,6 +190,11 @@
 
     padding-top: .5rem;
     opacity: .6;
+
+    &.error {
+      color: var(--color-error);
+      opacity: 1;
+    }
   }
 
   /* options */
