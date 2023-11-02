@@ -1,9 +1,15 @@
 const jwt = require("jsonwebtoken");
-const signToken = (userid) => {
-    return jwt.sign({id: userid}, process.env.JWT_SECRET_KEY, {
+
+/**
+ * Create JWT token
+ * @param id {string}
+ * @return {Object}
+ * */
+const signToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRED_IN
-    })
-}
+    });
+};
 
 /**
  * If type is sign-in then sign JWT token for user, save token in cookie, else if type is sign-up send json for client
@@ -17,8 +23,8 @@ const sendAuthTokenAndCookies = (user, type, res) => {
     const cookiesOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000),
         httpOnly: true
-    }
-    res.cookie('jwt', token, cookiesOptions)
+    };
+    res.cookie('jwt', token, cookiesOptions);
 };
 
 /**
@@ -29,9 +35,9 @@ const sendEmptyToken = (res) => {
     res.cookie('jwt', '', {
         maxAge: 5 * 1000,
         httpOnly: true
-    })
-}
+    });
+};
 
 module.exports = {
     signToken, sendAuthTokenAndCookies, sendEmptyToken
-}
+};
