@@ -1,6 +1,9 @@
 const User = require('../../core/categories/user')
+
+// config
 const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
 const {ADMIN_URL, REGISTER_URL, RESET_PASSWORD_URL} = require("../../core/utils/config.utils");
+const {splitUrl} = require("../../core/utils/helper.utils");
 
 const handlePostMethod = (request, response, next) => {
     const type = request.query.type;
@@ -57,7 +60,17 @@ const handlePostMethod = (request, response, next) => {
         })
         .catch(err => {
             request.app.set('message', err.message)
-            response.redirect(`${REGISTER_URL}`)
+
+            // reload current page if have error when post
+            if(type === 'sign-in'){
+                response.redirect(`${REGISTER_URL}`)
+
+            } else if(type === 'sign-up' || type === 'forget-password'){
+                response.redirect(`${splitUrl(request.originalUrl,0, 1, '&')}`)
+
+            } else if(type === 'reset-password'){
+                response.redirect(`${splitUrl(request.originalUrl,0, 2, '&')}`)
+            }
         })
 }
 

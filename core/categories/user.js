@@ -101,6 +101,7 @@ class User extends Category {
      * */
     forgetPassword(request) {
         const {email} = request.body;
+
         return new Promise(async (resolve, reject) => {
             try{
                 const user = await this.databaseModel.findOne({email})
@@ -116,6 +117,7 @@ class User extends Category {
 
             }catch (error){
                 reject(error)
+
             }
         })
     }
