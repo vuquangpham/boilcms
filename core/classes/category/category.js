@@ -65,7 +65,11 @@ class Category{
      * Update data to category
      * */
     update(id, data){
-        return this.databaseModel.findOneAndUpdate({_id: id}, data);
+        return new Promise((resolve, reject) => {
+            this.databaseModel.findOneAndUpdate({_id: id}, data)
+                .then(_ => resolve(this.getDataById({_id: id})))
+                .catch(err => reject(err));
+        });
     }
 
 
