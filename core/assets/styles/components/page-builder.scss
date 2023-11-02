@@ -208,11 +208,13 @@
 
     display: flex;
     flex-wrap: wrap;
+    row-gap: var(--gap);
 
     margin: 0 calc(-1 * var(--gap) * 0.5);
 
     // param
     [data-option-param] {
+      width: 100%;
       padding: 0 calc(var(--gap) * 0.5);
     }
   }

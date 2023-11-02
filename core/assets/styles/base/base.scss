@@ -10,11 +10,7 @@ html {
   font-size: 62.5%;
 
   @include responsive('tablet-v') {
-    font-size: 56%;
-  }
-
-  @include responsive('mobile') {
-    font-size: 52%;
+    font-size: 60%;
   }
 }
 

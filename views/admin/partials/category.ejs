@@ -15,7 +15,7 @@ const accountType = categories.find(c => c.type === 'account');
 
             <% const isActive = isActiveItem(category); %>
 
-            <li class="category__menu-item <%= isActive %>">
+            <li class="category__menu-item <%= isActive; %>">
                 <a href="<%= category.url; %>"><%= category.name; %></a>
 
                 <% if (category.children && category.children.length && isActive) { %>
@@ -33,7 +33,7 @@ const accountType = categories.find(c => c.type === 'account');
         </ul>
 
         <!-- account menu -->
-        <ul class="category__menu category__menu--bottom">
+        <ul class="category__menu category__menu--bottom" style="padding: 3rem 0;">
             <li class="category__menu-item <%= isActiveItem(accountType); %>">
                 <a href="<%= accountType.url; %>">Account</a>
             </li>
