@@ -1,16 +1,16 @@
 const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
-const crypto = require('crypto')
+const {generateSHA256Token} = require("../utils/token.utils");
 
-class User extends Category {
-    constructor(config) {
+class User extends Category{
+    constructor(config){
         super(config);
     }
 
     /**
      * Validate input user
      * */
-    validateInputData(inputData, action = 'add') {
+    validateInputData(inputData, action = 'add'){
         const request = inputData.request;
 
         // input
@@ -26,7 +26,7 @@ class User extends Category {
             confirmPassword
         };
 
-        if (action === 'edit') {
+        if(action === 'edit'){
             returnObj.role = request.body.role;
             returnObj.state = request.body.state;
         }
@@ -38,7 +38,7 @@ class User extends Category {
      * @param data {object}
      * @return {promise}
      * */
-    add(data) {
+    add(data){
         const instance = new this.databaseModel(data);
 
         return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ class User extends Category {
      * @param id {string}
      * @return {Promise}
      * */
-    find(id) {
+    find(id){
         return new Promise((resolve, reject) => {
             this.databaseModel.findOne({_id: id}).select('+password')
                 .then(data => {
@@ -73,23 +73,23 @@ class User extends Category {
      * Sign in user
      * @return {promise}
      * */
-    signIn(request) {
+    signIn(request){
         const {email, password} = request.body;
-        return new Promise(async (resolve, reject) => {
-            try {
+        return new Promise(async(resolve, reject) => {
+            try{
                 const user = await this.databaseModel.findOne({email}).select('+password');
 
                 // user doesn't exist
-                if (!user) throw new Error('Account not found');
+                if(!user) throw new Error('Account not found');
 
                 // comparing the password characters
                 const comparePassword = await user.comparePassword(password, user.password);
-                if (!comparePassword) throw new Error('Wrong password');
+                if(!comparePassword) throw new Error('Wrong password');
 
                 // found the user
                 resolve(user);
 
-            } catch (error) {
+            }catch(error){
                 reject(error);
             }
         });
@@ -98,47 +98,44 @@ class User extends Category {
     /**
      * Forget password
      * */
-    forgetPassword(request) {
+    forgetPassword(request){
         const {email} = request.body;
 
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
             try{
-                const user = await this.databaseModel.findOne({email})
+                const user = await this.databaseModel.findOne({email});
 
                 // email doesn't exist
-                if (!user) reject(new Error('Email not found'))
+                if(!user) reject(new Error('Email not found'));
 
                 // generate the random reset token and save reset token to data
                 const resetToken = user.createPasswordResetToken();
-                await user.save({validateBeforeSave: false})
+                await user.save({validateBeforeSave: false});
 
-                resolve(resetToken)
+                resolve(resetToken);
 
-            }catch (error){
-                reject(error)
+            }catch(error){
+                reject(error);
 
             }
-        })
+        });
     }
 
     /**
      * Reset password
      * */
-    resetPassword(request, resetUrlToken = '') {
-        return new Promise(async (resolve, reject) => {
+    resetPassword(request, token = ''){
+        return new Promise(async(resolve, reject) => {
             try{
 
                 // hash token from query
-                const hashedToken = crypto
-                    .createHash('sha256')
-                    .update(resetUrlToken)
-                    .digest('hex')
+                const hashedToken = generateSHA256Token(token);
 
                 // check token is valid and dont expired
                 const user = await this.databaseModel.findOne({
                     resetPasswordToken: hashedToken,
-                    resetPasswordTokenExpired: { $gte: Date.now()}
-                })
+                    resetPasswordTokenExpired: {$gte: Date.now()}
+                });
 
                 // user doesn't exist
                 if(!user) reject(new Error('Account not found'));
@@ -148,16 +145,16 @@ class User extends Category {
 
                 // get new password and confirm password
                 user.password = request.body.password;
-                user.confirmPassword = request.body.confirmPassword
+                user.confirmPassword = request.body.confirmPassword;
                 user.resetPasswordToken = undefined;
-                user.resetPasswordTokenExpired = undefined
+                user.resetPasswordTokenExpired = undefined;
 
-                await user.save()
-                resolve()
+                await user.save();
+                resolve();
             }catch(error){
-                reject(error)
+                reject(error);
             }
-        })
+        });
     }
 }
 

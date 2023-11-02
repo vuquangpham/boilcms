@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 /**
  * Create JWT token
@@ -38,6 +39,12 @@ const sendEmptyToken = (res) => {
     });
 };
 
+
+/**
+ * Generate sha-256 token
+ * */
+const generateSHA256Token = (token = "") => crypto.createHash('sha256').update(token).digest('hex');
+
 module.exports = {
-    signToken, sendAuthTokenAndCookies, sendEmptyToken
+    signToken, sendAuthTokenAndCookies, sendEmptyToken, generateSHA256Token
 };
