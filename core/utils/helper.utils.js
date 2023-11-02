@@ -17,7 +17,7 @@ const getParamsOnRequest = (req, defaultParams) => {
  * @return {String}
  * */
 const getFilenameBasedOnSize = (sourceName, size, extension) => {
-    if(!size) return sourceName + '.' + extension;
+    if (!size) return sourceName + '.' + extension;
     return sourceName + '-' + size + '.' + extension;
 };
 
@@ -27,7 +27,7 @@ const getFilenameBasedOnSize = (sourceName, size, extension) => {
  * @return string
  * */
 const stringToSlug = (string) => {
-    if(!string) return '';
+    if (!string) return '';
     return string.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd').replace(/Đ/g, 'D')
@@ -52,7 +52,7 @@ const minifyString = (string) => string.replace(/\s+/g, '');
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
     Object.keys(obj).forEach(el => {
-        if(allowedFields.includes(el)) newObj[el] = obj[el];
+        if (allowedFields.includes(el)) newObj[el] = obj[el];
     });
     return newObj;
 };
@@ -64,14 +64,16 @@ const filterObj = (obj, ...allowedFields) => {
  * @return {string}
  * */
 const capitalizeString = (string, character = ' ') => {
-    if(string.length === 1) return string;
+    if (string.length === 1) return string;
 
     return string.toLowerCase()
         .split(character)
         .map(s => s[0].toUpperCase() + s.slice(1)).join(' ');
 };
 
-// modify date publish
+/**
+ * Modify date from date time mongoose to custom date time
+ * */
 const modifyDate = (publishTime) => {
     const year = publishTime.getFullYear();
     const month = (publishTime.getMonth() + 1).toString().padStart(2, '0');
@@ -80,6 +82,19 @@ const modifyDate = (publishTime) => {
     const minute = publishTime.getMinutes().toString().padStart(2, '0');
     return `${date}/${month}/${year} at ${hour}:${minute}`;
 };
+
+/**
+ * Split url to get what you need
+ * @param currentUrl {String}
+ * @param start {Number}
+ * @param end {Number}
+ * @param character {String}
+ * @return {String}
+ * */
+const splitUrl = (currentUrl, start, end, character = ' ') => {
+    const parts = currentUrl.split(character)
+    return parts.slice(start, end).join(character)
+}
 
 
 module.exports = {
@@ -91,6 +106,7 @@ module.exports = {
     minifyString,
     filterObj,
     capitalizeString,
+    splitUrl,
 
     modifyDate,
 };
