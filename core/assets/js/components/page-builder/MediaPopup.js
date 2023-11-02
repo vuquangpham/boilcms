@@ -1,28 +1,5 @@
-import fetch from "@global/fetch";
-
-class Image{
-    constructor(imageObject, isRadio = false){
-        this.src = imageObject.url.small;
-        this.name = imageObject.name;
-        this.id = imageObject._id;
-        this.isRadio = isRadio;
-        this.domElement = this.getDOMElement();
-    }
-
-    getDOMElement(){
-        const domEl = document.createElement('div');
-
-        domEl.innerHTML = `
-<button type="button" data-media><label>
-    <input type="${this.isRadio ? 'radio' : 'checkbox'}" value="${this.id}" name="selected-media">
-    <div class="single-image img-wrapper-cover t" data-media-item>
-        <img src="${this.src}" alt="${this.name}" />
-    </div>
-</label></button>`;
-
-        return domEl.firstElementChild;
-    }
-}
+import Media from '../media/index';
+import Image from '../image';
 
 export default class MediaPopup{
     constructor(wrapper){
@@ -44,61 +21,31 @@ export default class MediaPopup{
     }
 
     loadAllMedias(target){
+
         // selected media
         const mediaValueOnParam = target.closest('[data-param]').querySelector('[data-param-value]').getAttribute('data-param-value');
         const selectedMedias = mediaValueOnParam ? JSON.parse(mediaValueOnParam) : [];
-
-        // re-assign dom element and clear the previous list
-        this.elements.mediaList = target.closest('[data-param]').querySelector('[data-media-list]');
-        this.elements.mediaList.innerHTML = '';
 
         // check type of image element (single or multiple)
         const typeOfImage = target.closest('[data-type="image"]').getAttribute('data-options');
         this.isSingleImage = typeOfImage === 'single-image';
 
-        fetch(this.FETCH_URL, {
-            method: 'get',
-            action: 'get',
-            getJSON: true
-        })
-            .then(res => res.json())
-            .then(result => {
-                let notHaveCheckedImage = false;
+        Media.loadAllMedias({
+            previousImagesId: selectedMedias,
+            wrapper: target.closest('[data-param]').querySelector('[data-media-list]'),
+            type: this.isSingleImage ? "radio" : "checkbox",
+            fetchURL: this.FETCH_URL,
 
-                // append images to the DOM
-                const data = result.data;
-                data.map(d => new Image(d, this.isSingleImage))
-                    .forEach(d => this.elements.mediaList.appendChild(d.domElement));
-
-                selectedMedias.forEach(id => {
-                    const element = this.elements.mediaList.querySelector(`input[name="selected-media"][value="${id}"]`);
-                    if(element) return element.checked = true;
-
-                    // flag for showing the error with the default image
-                    notHaveCheckedImage = true;
-                });
-
-                if(notHaveCheckedImage){
+            onAfterLoaded: (result) => {
+                if(result.notHaveCheckedImage){
                     const errorDiv = document.createElement('div');
                     errorDiv.classList.add('description', 'error');
                     errorDiv.innerHTML = "The chosen image has been deleted. Please upload or select the other one!";
-                    this.elements.mediaList.insertAdjacentElement('beforeend', errorDiv);
+                    result.wrapper.insertAdjacentElement('beforeend', errorDiv);
                 }
-            });
-    }
-
-    loadMediaById(id){
-        return new Promise((resolve, reject) => {
-            fetch(this.FETCH_URL, {
-                method: 'get',
-                action: 'edit',
-                id,
-                getJSON: true
-            })
-                .then(res => res.json())
-                .then(result => resolve(result))
-                .catch(err => reject(err));
+            }
         });
+
     }
 
     /**
@@ -107,34 +54,18 @@ export default class MediaPopup{
     handleSubmitForm(e){
         e.preventDefault();
 
-        // re-assign the dom
-        this.elements.mediaNameInput = this.elements.popupForm.querySelector('[data-media-name]');
-        this.elements.replaceMediaInput = this.elements.popupForm.querySelector('[data-add-media]');
-
-        // the input doesn't exist
-        if(!this.elements.replaceMediaInput.files || !this.elements.replaceMediaInput.files[0]) return;
-
-        const formData = new FormData();
-        formData.append('name', this.elements.mediaNameInput.value);
-        formData.append('image', this.elements.replaceMediaInput.files[0]);
-
-        fetch(this.FETCH_URL, {
-            method: 'post',
-            action: 'add',
-            getJSON: true,
-        }, {
-            method: 'post',
-            body: formData
-        })
-            .then(res => res.json())
-            .then((result) => {
+        Media.handleUploadNewImage({
+            nameInput: this.elements.popupForm.querySelector('[data-media-name]'),
+            uploadInput: this.elements.popupForm.querySelector('[data-add-media]'),
+            fetchURL: this.FETCH_URL,
+            onAfterUpload: (result) => {
                 const image = new Image(result, this.isSingleImage);
 
                 // re-assign dom element and clear the previous list
                 this.elements.mediaList = this.wrapper.querySelector('[data-media-list]');
                 this.elements.mediaList.appendChild(image.domElement);
-            })
-            .catch(err => console.error(err));
+            }
+        });
     }
 
     /**
@@ -153,27 +84,25 @@ export default class MediaPopup{
 
     handleAfterSelectedMedias(target){
         const wrapper = target.closest('[data-type]');
-        const mediaElements = Array.from(wrapper.querySelectorAll('input[name="selected-media"]'));
 
-        const selectedMedias = mediaElements
-            .filter(c => c.checked)
-            .map(c => c.value);
+        Media.handleSavedMedia({
+            wrapper,
+            onAfterSaved: (result) => {
+                // medias url
+                const selectedMediasUrl = result.mediasObject.map(o => o.url);
 
-        const selectedMediaElements = mediaElements.filter(mediaEl => mediaEl.checked);
+                // load media to the components
+                this.loadPreviewMedias(wrapper, selectedMediasUrl);
 
-        // medias id
-        const selectedMediasId = selectedMediaElements.map(c => c.value);
+                // medias id
+                const selectedMediasId = result.mediasObject.map(o => o.id);
 
-        // medias url
-        const selectedMediasURL = selectedMediaElements.map(c => c.closest('button').querySelector('img').src);
-
-        // load media to the components
-        this.loadPreviewMedias(wrapper, selectedMediasURL);
-
-        // save to the attribute
-        target.closest('[data-param]')
-            .querySelector('[data-param-value]')
-            .setAttribute('data-param-value', JSON.stringify(selectedMediasId));
+                // save to the attribute
+                target.closest('[data-param]')
+                    .querySelector('[data-param-value]')
+                    .setAttribute('data-param-value', JSON.stringify(selectedMediasId));
+            }
+        });
     }
 
     toggleCustomPopup(popupContent){

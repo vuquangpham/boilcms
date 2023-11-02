@@ -2,6 +2,8 @@ import Component from "../component";
 import Quill from "quill";
 import MediaPopup from "./MediaPopup";
 
+import Media from '../media';
+
 class UpdateComponentState{
     constructor(){
     }
@@ -210,12 +212,11 @@ class UpdateComponentState{
 
                 // handler
                 const instance = new MediaPopup();
-                const loadMediaPopup = instance.loadMediaById.bind(instance);
                 const loadPreviewMediaPopup = instance.loadPreviewMedias.bind(instance);
 
                 // get images
                 const promises = [];
-                imagesId.forEach(id => promises.push(loadMediaPopup(id)));
+                imagesId.forEach(id => promises.push(Media.loadMediaById(instance.FETCH_URL, id)));
 
                 // handle images
                 Promise.all(promises)
