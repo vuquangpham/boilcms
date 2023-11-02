@@ -1,4 +1,4 @@
-const User = require('../../core/categories/user')
+const User = require('../../core/categories/user');
 
 // config
 const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
@@ -7,71 +7,93 @@ const {splitUrl} = require("../../core/utils/helper.utils");
 
 const handlePostMethod = (request, response, next) => {
     const type = request.query.type;
-    const resetUrlToken = request.query.token
+    const resetUrlToken = request.query.token;
     const inputData = {request, response};
     let promise;
 
-    switch (type) {
-        case 'sign-up': {
-            const data = User.validateInputData(inputData)
-            promise = User.add(data)
+    switch(type){
+        case 'sign-up':{
+            const data = User.validateInputData(inputData);
+            promise = User.add(data);
             break;
         }
-        case 'sign-in': {
-            promise = User.signIn(request)
+        case 'sign-in':{
+            promise = User.signIn(request);
             break;
         }
-        case 'forget-password': {
-            promise = User.forgetPassword(request)
+        case 'forget-password':{
+            promise = User.forgetPassword(request);
             break;
         }
-        case 'reset-password': {
-            promise = User.resetPassword(request, resetUrlToken)
+        case 'reset-password':{
+            promise = User.resetPassword(request, resetUrlToken);
         }
     }
 
     promise
         .then(result => {
             // clear error message
-            request.app.set('message', '')
+            request.app.set('message', '');
 
-            // redirect to admin page when sign in
-            if (type === 'sign-in') {
+            // vars
+            let redirectURL = '';
 
-                // send token to client and save token in cookies
-                sendAuthTokenAndCookies(result, type, response)
+            switch(type){
+                // redirect to sign-in page
+                case "sign-in":{
+                    // send token to client and save token in cookies
+                    sendAuthTokenAndCookies(result, type, response);
 
-                response.redirect(`${ADMIN_URL}`)
+                    // redirect
+                    redirectURL = ADMIN_URL;
+                    break;
+                }
 
-            } else if (type === 'sign-up') {
+                // redirect to reset password page
+                case "forget-password":{
+                    redirectURL = `${REGISTER_URL}?type=${RESET_PASSWORD_URL}&token=${result}`;
+                    break;
+                }
 
-                // redirect to sign in when sign up
-                response.redirect(`${REGISTER_URL}`)
-
-            } else if (type === 'forget-password') {
-
-                response.redirect(`${REGISTER_URL}?type=${RESET_PASSWORD_URL}&token=${result}`)
-
-            } else if (type === 'reset-password') {
-
-                response.redirect(`${REGISTER_URL}`)
+                // redirect to register page
+                case "sign-up":
+                case "reset-password":{
+                    redirectURL = REGISTER_URL;
+                    break;
+                }
             }
 
+            // redirect URL
+            response.redirect(redirectURL);
         })
         .catch(err => {
-            request.app.set('message', err.message)
+            // set error message
+            request.app.set('message', err.message);
 
-            // reload current page if have error when post
-            if(type === 'sign-in'){
-                response.redirect(`${REGISTER_URL}`)
+            // vars
+            let redirectURL = '';
 
-            } else if(type === 'sign-up' || type === 'forget-password'){
-                response.redirect(`${splitUrl(request.originalUrl,0, 1, '&')}`)
+            switch(type){
+                case "sign-in":{
+                    redirectURL = REGISTER_URL;
+                    break;
+                }
 
-            } else if(type === 'reset-password'){
-                response.redirect(`${splitUrl(request.originalUrl,0, 2, '&')}`)
+                case "sign-up":
+                case "forget-password":{
+                    redirectURL = splitUrl(request.originalUrl, 0, 1, '&');
+                    break;
+                }
+
+                case"reset-password":{
+                    redirectURL = splitUrl(request.originalUrl, 0, 2, '&');
+                    break;
+                }
             }
-        })
-}
+
+            // redirect URL
+            response.redirect(redirectURL);
+        });
+};
 
 module.exports = handlePostMethod;
