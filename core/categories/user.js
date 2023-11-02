@@ -138,7 +138,7 @@ class User extends Category{
                 });
 
                 // user doesn't exist
-                if(!user) reject(new Error('Account not found'));
+                if(!user) reject(new Error(`The reset token doesn't exist. Please check it again!`));
 
                 // check password
                 if(request.body.password !== request.body.confirmPassword) reject(new Error(`Password don't match`));
