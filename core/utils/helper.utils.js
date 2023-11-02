@@ -84,7 +84,7 @@ const modifyDate = (publishTime) => {
 };
 
 /**
- * Split url to get what you need
+ * Splits a given URL string into parts based on a specified character, and then joins a subset of those parts back together.
  * @param currentUrl {String}
  * @param start {Number}
  * @param end {Number}
