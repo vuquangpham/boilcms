@@ -2,7 +2,6 @@ const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
 const crypto = require('crypto')
 
-// const filterObj = require('./../../utils/helper.utils')
 class User extends Category {
     constructor(config) {
         super(config);
@@ -142,13 +141,10 @@ class User extends Category {
                 })
 
                 // user doesn't exist
-                if (!user) {
-                    reject(new Error('Account not found'))
-                }
+                if(!user) reject(new Error('Account not found'));
+
                 // check password
-                if (request.body.password !== request.body.confirmPassword) {
-                    reject(new Error(`Password don't match`))
-                }
+                if(request.body.password !== request.body.confirmPassword) reject(new Error(`Password don't match`));
 
                 // get new password and confirm password
                 user.password = request.body.password;
@@ -163,20 +159,6 @@ class User extends Category {
             }
         })
     }
-
-    /**
-     * Update user account except password
-     * @param id {string}
-     * @param data {object}
-     * */
-    update(id, data) {
-        return new Promise((resolve, reject) => {
-            this.databaseModel.findOneAndUpdate({_id: id}, data)
-                .then(_ => resolve(this.getDataById({_id: id})))
-                .catch(err => reject(err));
-        });
-    }
-
 }
 
 module.exports = new User({
