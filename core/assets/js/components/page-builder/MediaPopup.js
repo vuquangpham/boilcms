@@ -68,19 +68,6 @@ export default class MediaPopup{
         });
     }
 
-    /**
-     * Load Preview Medias
-     * */
-    loadPreviewMedias(wrapper, urls){
-        const selectedMediaEl = wrapper.querySelector('[data-selected-medias]');
-        selectedMediaEl.innerHTML = urls.map(url => {
-            return `
-<div data-selected-media-item class="img-wrapper-cover ar-1">
-     <img src="${url}" alt="selected-media">       
-</div>
-            `;
-        }).join('');
-    }
 
     handleAfterSelectedMedias(target){
         const wrapper = target.closest('[data-type]');
@@ -92,7 +79,7 @@ export default class MediaPopup{
                 const selectedMediasUrl = result.mediasObject.map(o => o.url);
 
                 // load media to the components
-                this.loadPreviewMedias(wrapper, selectedMediasUrl);
+                Media.loadPreviewMedias(wrapper, selectedMediasUrl);
 
                 // medias id
                 const selectedMediasId = result.mediasObject.map(o => o.id);

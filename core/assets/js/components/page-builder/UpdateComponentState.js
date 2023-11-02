@@ -192,6 +192,8 @@ class UpdateComponentState{
                 }
             });
         }
+
+        // input only
         if(context.componentTypes.find(t => t === 'text-field')){
 
             context.componentDetailPanel.querySelectorAll('[data-type="text-field"]').forEach(textField => {
@@ -205,18 +207,15 @@ class UpdateComponentState{
             });
         }
 
+        // image
         if(context.componentTypes.find(t => t === 'image')){
             context.componentDetailPanel.querySelectorAll('[data-type="image"]').forEach(imageEl => {
                 const previousValue = imageEl.querySelector('[data-param-value]').getAttribute('data-param-value');
                 const imagesId = previousValue ? JSON.parse(previousValue) : [];
 
-                // handler
-                const instance = new MediaPopup();
-                const loadPreviewMediaPopup = instance.loadPreviewMedias.bind(instance);
-
                 // get images
                 const promises = [];
-                imagesId.forEach(id => promises.push(Media.loadMediaById(instance.FETCH_URL, id)));
+                imagesId.forEach(id => promises.push(Media.loadMediaById(new MediaPopup().FETCH_URL, id)));
 
                 // handle images
                 Promise.all(promises)
@@ -228,7 +227,7 @@ class UpdateComponentState{
                             urls.push(imageData.url.small);
                         });
 
-                        loadPreviewMediaPopup(imageEl, urls);
+                        Media.loadPreviewMedias(imageEl, urls);
                     })
                     .catch(err => console.error(err.message));
             });

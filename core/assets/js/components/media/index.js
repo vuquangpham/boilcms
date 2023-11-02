@@ -80,6 +80,21 @@ class MediaPopup{
 
 
     /**
+     * Load preview medias
+     * */
+    loadPreviewMedias(wrapper, urls){
+        const selectedMediaEl = wrapper.querySelector('[data-selected-medias]');
+        selectedMediaEl.innerHTML = urls.map(url => {
+            return `
+<div data-selected-media-item class="img-wrapper-cover ar-1">
+     <img src="${url}" alt="selected-media">       
+</div>
+            `;
+        }).join('');
+    }
+
+
+    /**
      * Handle upload new image
      * */
     handleUploadNewImage(options){
