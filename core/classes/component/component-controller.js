@@ -70,7 +70,7 @@ class ComponentController extends Controller{
         <div data-group-item data-item-id="${itemId}" class="ps-relative">
             
             <div data-receiver="${itemId}">
-                <div class="fl-grid">#REPLACE</div>
+                <div class="fl-grid" style="row-gap:1.5rem">#REPLACE</div>
             </div>
             
             <div class="ps-absolute t0 fl-center-v" style="gap:4px; right:0.8rem;">
