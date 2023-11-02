@@ -65,16 +65,22 @@ class ComponentController extends Controller{
                 const promise = new Promise((resolve, reject) => {
                     const html = `
 <div data-type="group" data-param="group" data-id="${this.generateUID()}" data-group>
+    <div data-custom-title style="margin-bottom:1.2rem"data-custom-title style="margin-bottom:1.2rem"><span>${param.heading}</span></div>
     <div data-group-children data-accordion>
         <div data-group-item data-item-id="${itemId}" class="ps-relative">
+            
             <div data-receiver="${itemId}">
-                #REPLACE
-                <button type="button" data-group-remove>Delete</button>
+                <div class="fl-grid">#REPLACE</div>
             </div>
-            <button type="button" class="ps-absolute t0 r0" data-trigger="${itemId}">Collapse</button>
+            
+            <div class="ps-absolute t0 fl-center-v" style="gap:4px; right:0.8rem;">
+                <button type="button" class="btn_primary" data-group-button data-trigger="${itemId}"><span>▼</span></button>
+                <button type="button" class="btn_primary error" data-group-button data-group-remove>X</button>
+            </div>
+            
         </div>
     </div>
-    <button type="button" data-group-add>Add</button>
+    <button type="button" class="btn_primary w100" style="margin-top:1rem" data-group-add>Add</button>
 </div>`;
 
                     const promises = param.params.map(p => Content.getHTML(path.join(directory, p.type + '.ejs'), p));

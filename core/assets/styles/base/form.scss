@@ -49,6 +49,12 @@ input[type="file"] {
   }
 }
 
+// select
+select {
+  padding: .5rem 1rem;
+  font-size: var(--fz-14);
+}
+
 // form column
 [data-form-column] {
   display: flex;

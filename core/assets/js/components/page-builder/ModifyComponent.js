@@ -124,6 +124,9 @@ export default class ModifyComponent{
                     this.loadDataToPopup(params);
                 }
 
+                // init accordion
+                Accordion.create();
+
                 // validate the previous value
                 UpdateComponentState.updateThePreviousValue(this);
             });
@@ -321,10 +324,7 @@ export default class ModifyComponent{
         // load options
         this.loadOptions(result.component);
 
-        // init easy select
-        EasySelect.init();
-
-        Accordion.create();
+        // EasySelect.init();
     }
 
     handleComponentClick(target){
@@ -336,6 +336,9 @@ export default class ModifyComponent{
                 this.loadComponent(result);
 
                 if(this.isGroupComponent(componentName)) this.handleSaveBtnClick(target);
+
+                // init Accordion
+                Accordion.create();
             });
     }
 

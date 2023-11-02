@@ -13,7 +13,8 @@ class Accordion extends Component{
                     type: ComponentController.paramTypes.TEXT,
                     heading: 'Content',
                     paramName: 'content',
-                    classesName: 'content-class'
+                    classesName: '',
+                    description: 'WYSIWYG text block.'
                 },
                 {
                     type: 'group',
@@ -25,13 +26,15 @@ class Accordion extends Component{
                             type: ComponentController.paramTypes.TEXT_FIELD,
                             heading: 'Heading',
                             paramName: 'heading',
-                            classesName: 'heading-class'
+                            classesName: 'col-4',
+                            description: 'Heading'
                         },
                         {
                             type: ComponentController.paramTypes.TEXT,
                             heading: 'Text',
                             paramName: 'text',
-                            classesName: 'text-class'
+                            classesName: 'col-8',
+                            description: 'Content'
                         },
                     ]
                 }
