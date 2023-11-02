@@ -42,6 +42,8 @@ const sendEmptyToken = (res) => {
 
 /**
  * Generate sha-256 token
+ * @param token {String}
+ * @return {String}
  * */
 const generateSHA256Token = (token = "") => crypto.createHash('sha256').update(token).digest('hex');
 
