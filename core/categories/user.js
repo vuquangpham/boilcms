@@ -18,19 +18,17 @@ class User extends Category {
         const email = request.body.email;
         const password = request.body.password;
         const confirmPassword = request.body.confirmPassword;
+        const role = request.body.role;
+        const state = request.body.state
 
-        const returnObj = {
+        return {
             name,
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            role,
+            state
         };
-
-        if (action === 'edit') {
-            returnObj.role = request.body.role;
-            returnObj.state = request.body.state;
-        }
-        return returnObj;
     }
 
     /**
@@ -156,6 +154,20 @@ class User extends Category {
             }
         });
     }
+
+    /**
+     * Update user data
+     * */
+    // update(id, data) {
+    //     if(data.password !== undefined){
+    //         this.updatePassword(id, inputData)
+    //     }
+    //     return new Promise((resolve, reject) => {
+    //         this.databaseModel.findOneAndUpdate({_id: id}, data)
+    //             .then(_ => resolve(this.getDataById({_id: id})))
+    //             .catch(err => reject(err));
+    //     });
+    // }
 
     /**
      * Update password

@@ -105,17 +105,6 @@ const modifyDate = (publishTime) => {
                     <div data-form-group>
                         <div data-form-input>
 
-                            <!-- password -->
-                            <label for="password">Password</label>
-                            <input type="password" value="hidden" id="password" readonly>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-form-column>
-                    <div data-form-group>
-                        <div data-form-input>
-
                             <!-- role -->
                             <label for="role">Role</label>
                             <select data-select-role-value name="role" id="role">
@@ -157,7 +146,7 @@ const modifyDate = (publishTime) => {
         <div data-popup-overflow>
             <div data-popup-overlay data-toggle="user-register-popup"></div>
 
-            <form method="post" action="?type=<%= type %>&method=post" data-popup-inner>
+            <form method="post" action="?type=<%= type %>&method=post" data-popup-inner data-register-form>
 
                 <div data-form-column class="fl-grid">
 
@@ -166,7 +155,7 @@ const modifyDate = (publishTime) => {
                         <!-- name -->
                         <div data-form-input class="fl-center-v">
                             <label for="name">Username:</label>
-                            <input id="name" type="text" name="name" placeholder="Name">
+                            <input id="name" type="text" name="name" placeholder="Name" data-user-register-name>
                         </div>
                     </div>
 
@@ -175,7 +164,8 @@ const modifyDate = (publishTime) => {
                         <!-- email -->
                         <div data-form-input class="fl-center-v">
                             <label for="email">Email:</label>
-                            <input id="email" type="email" name="email" placeholder="Email" required>
+                            <input id="email" type="email" name="email" placeholder="Email" data-user-register-email
+                                   required>
                         </div>
                     </div>
                 </div>
@@ -187,7 +177,8 @@ const modifyDate = (publishTime) => {
                         <!-- password -->
                         <div data-form-input class="fl-center-v">
                             <label for="password">Password:</label>
-                            <input id="password" type="password" name="password" placeholder="Password" required>
+                            <input id="password" type="password" name="password" placeholder="Password"
+                                   data-user-register-password required>
                         </div>
                     </div>
 
@@ -196,8 +187,39 @@ const modifyDate = (publishTime) => {
                         <!-- confirm password -->
                         <div data-form-input class="fl-center-v">
                             <label for="confirm-password">Confirm:</label>
-                            <input id="confirm-password" type="password" name="confirmPassword" placeholder="Confirm"
+                            <input id="confirm-password" type="password" name="confirmPassword"
+                                   data-user-register-confirm-password placeholder="Confirm"
                                    required>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-form-column>
+                    <div data-form-group>
+                        <div data-form-input>
+
+                            <!-- role -->
+                            <label for="role">Role</label>
+                            <select data-user-register-role name="role" id="role">
+                                <option value="user">User
+                                </option>
+                                <option value="admin">Admin
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div data-form-group>
+                        <div data-form-input>
+
+                            <!-- state -->
+                            <label for="state">State</label>
+                            <select data-user-register-state name="state" id="state">
+                                <option value="active">Active
+                                </option>
+                                <option value="suspend">Suspend
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
