@@ -9,7 +9,7 @@
   /* Field border */
   --form-radius: 0px;
   --form-border-width: 1px;
-  --form-border-color: var(--color-gray);
+  --form-border-color: var(--color-primary);
   --form-border-color-hover: var(--color-secondary);
   --form-outline: 1px solid var(--form-border-color-hover);
 
@@ -24,12 +24,11 @@
   /* Choice */
   --form-choice-size: 20px;
   --form-choice-color: #fff;
-  --form-choice-bg-active: var(--text-color);
+  --form-choice-bg-active: var(--color-secondary);
 }
 
 .txt_color_white {
   --form-placeholder-color: #fff;
-  --form-color: #fff;
   --form-color-error: var(--form-color-error);
   --form-border-color-hover: var(--color-secondary);
 }
@@ -156,7 +155,6 @@ input[type="file"] {
   font-size: 1.4rem;
   display: flex;
   align-items: center;
-  padding-top: calc((var(--form-field-height) - 32px) * 0.5);
   cursor: pointer;
 
   // upload button
@@ -182,35 +180,47 @@ input[type="file"] {
 
   label {
     display: block !important;
-    padding-left: 2.5rem;
-    background: green;
+    padding-left: 3rem;
 
     position: relative;
+    cursor: pointer;
 
     // checkbox
     &:before,
     &:after {
       content: "";
       position: absolute;
-
       left: 0;
-      top: .2em;
+      top: .1em;
+
+      transition: all .3s ease;
     }
 
-    // checkbox
+    // box
     &:before {
-      width: 1.8rem;
+      width: 2rem;
       aspect-ratio: 1;
 
+      border: var(--form-border-width) solid var(--form-border-color);
       background: var(--form-bg);
     }
 
+    // checked icon
     &:after {
       content: "✓";
-      left: .25em;
+      left: .45em;
+      top: .25em;
+
+      font-size: 1.2rem;
 
       opacity: 0;
       visibility: hidden;
+    }
+
+    // hover
+    &:hover:before,
+    &:focus:before {
+      border-color: var(--form-border-color-hover);
     }
   }
 
@@ -221,6 +231,7 @@ input[type="file"] {
     // checkbox
     &:before {
       background: var(--form-choice-bg-active);
+      border-color: var(--form-border-color-hover);
     }
 
     // checked
@@ -230,9 +241,27 @@ input[type="file"] {
     }
   }
 
-  // checkbox
-
   // radio
+  input[type="radio"] + label {
+
+    // radio box
+    &:before {
+      border-radius: 50%;
+    }
+
+    // checked
+    &:after {
+      content: "";
+      width: .8rem;
+      aspect-ratio: 1;
+
+      background: #fff;
+      border-radius: 50%;
+
+      top: .65em;
+      left: .5em;
+    }
+  }
 }
 
 
