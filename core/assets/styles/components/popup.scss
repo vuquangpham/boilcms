@@ -64,7 +64,8 @@ html:not(.component-panel-is-open) [data-pb-component-popup][data-popup],
 html:not(.components-is-open) [data-pb-components-popup][data-popup],
 html:not(.user-register-popup-is-open) [data-user-wrapper] [data-user-register-popup][data-popup],
 html:not(.user-popup-is-open) [data-user-wrapper] [data-user-popup][data-popup],
-html:not(.media-popup-is-open) [data-media-wrapper] [data-popup] {
+html:not(.media-popup-is-open) [data-media-wrapper] [data-popup],
+html:not(.account-popup-is-open) [data-account-wrapper] [data-account-popup][data-popup]{
   opacity: 0;
   visibility: hidden
 }

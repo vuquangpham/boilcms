@@ -9,6 +9,7 @@ import '@global/easy-select/easy-select.min.js';
 import './posts-type/posts';
 import './posts-type/media';
 import './posts-type/user';
+import './posts-type/account'
 
 // init easy select
 EasySelect.init();
