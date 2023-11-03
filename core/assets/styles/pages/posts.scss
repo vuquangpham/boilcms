@@ -59,9 +59,6 @@
 /* responsive */
 // 1024 - 768
 @include responsive('tablet-h', 'tablet-v') {
-  body {
-    background: red;
-  }
   /* list */
   .posts-list {
     --author-width: 130px;
