@@ -33,6 +33,12 @@ body {
   color: var(--color-white);
 }
 
+// list
+.txt_color_white ul > li:before {
+  background: white;
+  border-color: white;
+}
+
 /* text */
 .txt_14px {
   font-size: 1.4rem;

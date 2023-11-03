@@ -1,3 +1,6 @@
+/********************************
+* Permalink and button
+*********************************/
 a, button {
   color: var(--permalink-color);
   outline: none;
@@ -23,10 +26,11 @@ button:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-secondary);
 }
 
-/* Headings */
+/*******************************
+* Headings and paragraph
+********************************/
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-heading);
-  margin-bottom: 2rem;
   display: block;
   font-family: var(--font-secondary);
   line-height: 1.3;
@@ -64,14 +68,25 @@ h6 {
   font-size: var(--size-h6);
 }
 
-p {
-  margin-bottom: 1.8rem;
+/* inside boil-content */
+.boil-content {
+  // heading
+  h1, h2, h3, h4, h5, h6,
+  [class*="heading-1"], [class*="heading-2"], [class*="heading-3"],
+  [class*="heading-4"], [class*="heading-5"], [class*="heading-6"] {
+    margin-bottom: 2rem;
+  }
+
+  // paragraph
+  p {
+    margin-bottom: 1.8rem;
+  }
+
+  & :last-child {
+    margin-bottom: 0;
+  }
 }
 
-/* clear bottom spacing */
-.boil-content :last-child {
-  margin-bottom: 0;
-}
 
 /* Default unordered list for text block */
 ul {
