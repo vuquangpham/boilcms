@@ -56,9 +56,14 @@ export default class AccountPost {
             method: 'post',
             body: formData
         })
-            .then((result) => {
+            .then(result => {
+
+                // only false return json, if true it not return json
                 if (result.ok !== true) {
-                    this.elements.errorMessagePopup.innerHTML = 'Current password or password do not match';
+                    return result.json()
+                        .then(res => {
+                            this.elements.errorMessagePopup.innerHTML = res.errorMessage
+                        })
                 } else this.elements.errorMessagePopup.innerHTML = 'Password updated';
 
             })
