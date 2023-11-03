@@ -51,6 +51,7 @@ const handlePostMethod = (request, response, next) => {
             if (component && hasJSON) return response.status(200).json({content: result, component: component});
             if (hasJSON) return response.status(200).json(result);
 
+            // if post method don't have hasJSON or component, then return URL
             let URL = '';
             switch (action.name) {
                 case 'add' : {
@@ -62,6 +63,7 @@ const handlePostMethod = (request, response, next) => {
                     break;
                 }
                 case 'edit': {
+                    // return the current URL
                     URL = request.get('referer');
                     break;
                 }
