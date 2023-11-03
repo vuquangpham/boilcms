@@ -1,6 +1,6 @@
 const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
-const {generateSHA256Token} = require("../utils/token.utils");
+const {generateSHA256Token, sendAuthTokenAndCookies} = require("../utils/token.utils");
 
 class User extends Category{
     constructor(config){
@@ -14,8 +14,8 @@ class User extends Category{
         const request = inputData.request;
 
         // input
-        const name = request.body.name.trim();
-        const email = request.body.email.trim();
+        const name = request.body.name;
+        const email = request.body.email;
         const password = request.body.password;
         const confirmPassword = request.body.confirmPassword;
 
@@ -106,7 +106,7 @@ class User extends Category{
                 const user = await this.databaseModel.findOne({email});
 
                 // email doesn't exist
-                if(!user) reject(new Error('Email not found'));
+                if(!user) throw new Error('Email not found');
 
                 // generate the random reset token and save reset token to data
                 const resetToken = user.createPasswordResetToken();
@@ -138,10 +138,10 @@ class User extends Category{
                 });
 
                 // user doesn't exist
-                if(!user) reject(new Error(`The reset token doesn't exist. Please check it again!`));
+                if(!user) throw new Error(`The reset token doesn't exist. Please check it again!`);
 
                 // check password
-                if(request.body.password !== request.body.confirmPassword) reject(new Error(`Password don't match`));
+                if(request.body.password !== request.body.confirmPassword) throw new Error(`Password don't match`);
 
                 // get new password and confirm password
                 user.password = request.body.password;
@@ -156,6 +156,43 @@ class User extends Category{
             }
         });
     }
+
+    /**
+     * Update password
+     * */
+    updatePassword(id, inputData) {
+        const request = inputData.request;
+        const response = inputData.response
+        const { currentPassword, password, confirmPassword} = request.body
+
+        return new Promise(async (resolve, reject) => {
+            try{
+                // find user
+                const user = await this.databaseModel.findById(id).select('+password')
+
+                // compare password in database with password from input
+                const comparePassword = await user.comparePassword(currentPassword, user.password)
+                if(!comparePassword) throw (new Error('The password is not correct'))
+
+                console.log('password, confirmPassword: ', password, confirmPassword)
+                // check password
+                if(request.body.password !== request.body.confirmPassword)  throw new Error(`Password don't match`);
+
+                // save new password
+                user.password = password;
+                user.confirmPassword = confirmPassword
+
+                await user.save()
+
+                // send new token and save in cookies
+                sendAuthTokenAndCookies(user,response)
+                resolve()
+            }catch(error){
+                reject(error)
+            }
+        })
+    }
+
 }
 
 module.exports = new User({
