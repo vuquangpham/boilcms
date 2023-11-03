@@ -12,7 +12,10 @@ export default class AccountPost {
             // input fields
             currentPasswordInput: wrapper.querySelector('[data-current-password]'),
             passwordInput: wrapper.querySelector('[data-password]'),
-            confirmPasswordInput: wrapper.querySelector('[data-confirm-password]')
+            confirmPasswordInput: wrapper.querySelector('[data-confirm-password]'),
+
+            // error message
+            errorMessagePopup: wrapper.querySelector('[data-error-message]')
         }
 
         // vars
@@ -25,10 +28,13 @@ export default class AccountPost {
 
     handleShowAccountPopup() {
 
-        // clear input when show account popup
-        this.elements.currentPasswordInput = '';
-        this.elements.passwordInput = '';
-        this.elements.confirmPasswordInput = '';
+        //  clear input when show account popup
+        this.elements.currentPasswordInput.value = '';
+        this.elements.passwordInput.value = '';
+        this.elements.confirmPasswordInput.value = '';
+
+        // clear message
+        this.elements.errorMessagePopup.innerHTML = ''
     }
 
     handleUpdatePasswordAccount(target) {
@@ -51,9 +57,10 @@ export default class AccountPost {
             body: formData
         })
             .then((result) => {
+                if (result.ok !== true) {
+                    this.elements.errorMessagePopup.innerHTML = 'Current password or password do not match';
+                } else this.elements.errorMessagePopup.innerHTML = 'Password updated';
 
-                // close the popup
-                this.elements.closePopupForm.click();
             })
             .catch(err => console.error(err));
     }
@@ -64,10 +71,14 @@ export default class AccountPost {
         let target = null;
 
         const updatePasswordBtnEl = e.target.closest('button[data-account-password-update-btn]')
+        const showPopupChangePasswordBtnEl = e.target.closest('button[data-change-password]')
 
         if (updatePasswordBtnEl) {
             functionHandling = this.handleUpdatePasswordAccount.bind(this)
             target = updatePasswordBtnEl
+
+        } else if (showPopupChangePasswordBtnEl) {
+            functionHandling = this.handleShowAccountPopup.bind(this)
         }
 
         // call the function

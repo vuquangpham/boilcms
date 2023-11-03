@@ -54,7 +54,7 @@ const modifyDate = (publishTime) => {
                         <input type="password" value="hidden" id="password" readonly>
 
                         <!-- button for update-->
-                        <button class="btn_primary" type="button" data-toggle="account-popup">Change password</button>
+                        <button class="btn_primary" type="button" data-toggle="account-popup" data-change-password >Change password</button>
 
                     </div>
                 </div>
@@ -107,7 +107,11 @@ const modifyDate = (publishTime) => {
                             <label for="confirm-password">Password</label>
                             <input type="password" id="confirm-password" name="confirm-password" data-confirm-password>
                         </div>
+
                     </div>
+
+                    <!-- render error message -->
+                    <div data-error-message></div>
                 </div>
                 <div class="fl-center-v mt-auto" style="gap:5px;">
                     <button class="btn_primary" type="button" data-account-password-update-btn>Save</button>
