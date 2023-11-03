@@ -9,8 +9,15 @@ const handleEditAction = (request, response) => {
     const inputData = {request, response};
     const data = categoryItem.validateInputData(inputData, 'edit');
     const id = request.query.id;
+    let promise
 
-    const promise = categoryItem.update(id, data);
+    // if user change edit password
+    if (categoryItem.name === 'User' && data.password !== undefined) {
+        promise = categoryItem.updatePassword(id, inputData)
+    } else {
+        promise = categoryItem.update(id, data);
+    }
+
     const extraData = {};
 
     return [promise, extraData];
