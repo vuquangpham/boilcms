@@ -2,15 +2,15 @@ const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
 const {generateSHA256Token, sendAuthTokenAndCookies} = require("../utils/token.utils");
 
-class User extends Category{
-    constructor(config){
+class User extends Category {
+    constructor(config) {
         super(config);
     }
 
     /**
      * Validate input user
      * */
-    validateInputData(inputData, action = 'add'){
+    validateInputData(inputData, action = 'add') {
         const request = inputData.request;
 
         // input
@@ -26,7 +26,7 @@ class User extends Category{
             confirmPassword
         };
 
-        if(action === 'edit'){
+        if (action === 'edit') {
             returnObj.role = request.body.role;
             returnObj.state = request.body.state;
         }
@@ -38,7 +38,7 @@ class User extends Category{
      * @param data {object}
      * @return {promise}
      * */
-    add(data){
+    add(data) {
         const instance = new this.databaseModel(data);
 
         return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ class User extends Category{
      * @param id {string}
      * @return {Promise}
      * */
-    find(id){
+    find(id) {
         return new Promise((resolve, reject) => {
             this.databaseModel.findOne({_id: id}).select('+password')
                 .then(data => {
@@ -73,23 +73,23 @@ class User extends Category{
      * Sign in user
      * @return {promise}
      * */
-    signIn(request){
+    signIn(request) {
         const {email, password} = request.body;
-        return new Promise(async(resolve, reject) => {
-            try{
+        return new Promise(async (resolve, reject) => {
+            try {
                 const user = await this.databaseModel.findOne({email}).select('+password');
 
                 // user doesn't exist
-                if(!user) throw new Error('Account not found');
+                if (!user) throw new Error('Account not found');
 
                 // comparing the password characters
                 const comparePassword = await user.comparePassword(password, user.password);
-                if(!comparePassword) throw new Error('Wrong password');
+                if (!comparePassword) throw new Error('Wrong password');
 
                 // found the user
                 resolve(user);
 
-            }catch(error){
+            } catch (error) {
                 reject(error);
             }
         });
@@ -98,15 +98,15 @@ class User extends Category{
     /**
      * Forget password
      * */
-    forgetPassword(request){
+    forgetPassword(request) {
         const {email} = request.body;
 
-        return new Promise(async(resolve, reject) => {
-            try{
+        return new Promise(async (resolve, reject) => {
+            try {
                 const user = await this.databaseModel.findOne({email});
 
                 // email doesn't exist
-                if(!user) throw new Error('Email not found');
+                if (!user) throw new Error('Email not found');
 
                 // generate the random reset token and save reset token to data
                 const resetToken = user.createPasswordResetToken();
@@ -114,7 +114,7 @@ class User extends Category{
 
                 resolve(resetToken);
 
-            }catch(error){
+            } catch (error) {
                 reject(error);
 
             }
@@ -124,9 +124,9 @@ class User extends Category{
     /**
      * Reset password
      * */
-    resetPassword(request, token = ''){
-        return new Promise(async(resolve, reject) => {
-            try{
+    resetPassword(request, token = '') {
+        return new Promise(async (resolve, reject) => {
+            try {
 
                 // hash token from query
                 const hashedToken = generateSHA256Token(token);
@@ -138,10 +138,10 @@ class User extends Category{
                 });
 
                 // user doesn't exist
-                if(!user) throw new Error(`The reset token doesn't exist. Please check it again!`);
+                if (!user) throw new Error(`The reset token doesn't exist. Please check it again!`);
 
                 // check password
-                if(request.body.password !== request.body.confirmPassword) throw new Error(`Password don't match`);
+                if (request.body.password !== request.body.confirmPassword) throw new Error(`Password don't match`);
 
                 // get new password and confirm password
                 user.password = request.body.password;
@@ -151,7 +151,7 @@ class User extends Category{
 
                 await user.save();
                 resolve();
-            }catch(error){
+            } catch (error) {
                 reject(error);
             }
         });
@@ -163,20 +163,19 @@ class User extends Category{
     updatePassword(id, inputData) {
         const request = inputData.request;
         const response = inputData.response
-        const { currentPassword, password, confirmPassword} = request.body
+        const {currentPassword, password, confirmPassword} = request.body
 
         return new Promise(async (resolve, reject) => {
-            try{
+            try {
                 // find user
                 const user = await this.databaseModel.findById(id).select('+password')
 
                 // compare password in database with password from input
                 const comparePassword = await user.comparePassword(currentPassword, user.password)
-                if(!comparePassword) throw (new Error('The password is not correct'))
+                if (!comparePassword) throw (new Error('The password is not correct'))
 
-                console.log('password, confirmPassword: ', password, confirmPassword)
                 // check password
-                if(request.body.password !== request.body.confirmPassword)  throw new Error(`Password don't match`);
+                if (request.body.password !== request.body.confirmPassword) throw new Error(`Password don't match`);
 
                 // save new password
                 user.password = password;
@@ -185,9 +184,9 @@ class User extends Category{
                 await user.save()
 
                 // send new token and save in cookies
-                sendAuthTokenAndCookies(user,response)
+                sendAuthTokenAndCookies(user, response)
                 resolve()
-            }catch(error){
+            } catch (error) {
                 reject(error)
             }
         })
