@@ -1,7 +1,34 @@
 body.register {
   padding-top: 0;
+
+  // background
+  background: var(--color-primary);
+
+  // btn primary size
+  [class*="btn"] {
+    min-height: 4rem;
+    font-size: 1.6rem;
+  }
 }
 
 .register-form {
   padding: 2rem;
+
+  // inner
+  &__inner {
+    max-width: 35rem;
+  }
+
+  // heading
+  &__heading {
+    margin-bottom: var(--spacing-24)
+  }
+
+  // content
+  &__content {
+
+    label {
+      display: none
+    }
+  }
 }

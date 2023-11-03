@@ -1,10 +1,67 @@
-// input
+:root {
+  /* Field size */
+  --form-field-size: 11rem; /* height of textarea */
+  --form-field-height: 4rem;
+  --form-field-padding-h: 2rem;
+  --form-font-size: 1.4rem;
+  --form-font: inherit;
+
+  /* Field border */
+  --form-radius: 0px;
+  --form-border-width: 1px;
+  --form-border-color: var(--color-gray);
+  --form-border-color-hover: var(--color-secondary);
+  --form-outline: 1px solid var(--form-border-color-hover);
+
+  /* Field colors */
+  --form-bg: #fff;
+  --form-bg-hover: #fff;
+  --form-color: var(--text-color);
+  --form-color-hover: var(--text-color);
+  --form-color-error: var(--color-error, red);
+  --form-placeholder-color: var(--color-placeholder, #ccc);
+
+  /* Choice */
+  --form-choice-size: 20px;
+  --form-choice-color: #fff;
+  --form-choice-bg-active: var(--text-color);
+}
+
+.txt_color_white {
+  --form-placeholder-color: #fff;
+  --form-color: #fff;
+  --form-color-error: var(--form-color-error);
+  --form-border-color-hover: var(--color-secondary);
+}
+
+/* responsive */
+@media only screen and (max-width: 768px) {
+  :root {
+    /* Field size */
+    --form-field-size: 140px; /* height of textarea */
+  }
+}
+
+
+/******************************
+* Input
+*******************************/
 input {
-  min-height: 3rem;
-  padding: .6rem;
-  border: 1px solid var(--color-secondary);
-  font-size: 1.6rem;
-  width: auto;
+  background: var(--form-bg);
+  color: var(--form-color);
+  font-size: var(--form-font-size);
+  font-family: var(--form-font);
+
+  width: 100%;
+  height: var(--form-field-height);
+  display: block;
+  padding: .5rem var(--form-field-padding-h);
+  margin: 0 !important;
+  -webkit-appearance: none !important;
+  -webkit-border-radius: var(--form-radius) !important;
+  border-radius: var(--form-radius) !important;
+  border: var(--form-border-width) solid var(--form-border-color);
+  transition: all .3s ease;
 
   // placeholder
   &::-webkit-input-placeholder {
@@ -36,9 +93,71 @@ input {
   }
 }
 
-// upload files
+
+/******************************
+* Text area
+*******************************/
+textarea {
+  height: var(--form-field-size);
+  padding: 1.5rem var(--form-field-padding-h);
+  resize: vertical;
+  transition: border-color .3s, background-color .3s, color .3s;
+}
+
+
+/******************************
+* Hover & focus
+*******************************/
+textarea:not([readonly]):hover,
+textarea:not([readonly]):focus,
+input:not([readonly]):hover,
+input:not([readonly]):focus {
+  --form-placeholder-color: rgba(25, 32, 84, 0.5);
+  --form-border-color: var(--form-border-color-hover);
+
+  background: var(--form-bg-hover);
+  color: var(--form-color-hover);
+}
+
+
+/*********************
+ * A11y
+**********************/
+input:not([readonly]):focus-visible,
+textarea:not([readonly]):focus-visible {
+  box-shadow: 0 0 0 1px var(--form-border-color-hover);
+  border-color: var(--form-border-color-hover);
+  transition: none;
+  outline: none;
+}
+
+
+/*********************
+ * Error
+**********************/
+input[aria-invalid="true"], input[aria-invalid="true"]:hover {
+  box-shadow: 0 0 0 2px var(--form-color-error);
+}
+
+
+/*********************
+ * Readonly
+**********************/
+input[readonly] {
+  --form-bg: rgba(0, 0, 0, .03);
+  --form-border-color: rgba(0, 0, 0, .03);
+}
+
+
+/*********************
+ * Files
+**********************/
 input[type="file"] {
   font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  padding-top: calc((var(--form-field-height) - 32px) * 0.5);
+  cursor: pointer;
 
   // upload button
   &::-webkit-file-upload-button {
@@ -46,16 +165,117 @@ input[type="file"] {
     padding: .5rem;
     border: none;
     cursor: pointer;
+    font-family: var(--primary-font);
   }
 }
 
-// select
+
+/*********************
+ * Checkbox & radio
+**********************/
+.-checkbox-radio {
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    display: block !important;
+    padding-left: 2.5rem;
+    background: green;
+
+    position: relative;
+
+    // checkbox
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+
+      left: 0;
+      top: .2em;
+    }
+
+    // checkbox
+    &:before {
+      width: 1.8rem;
+      aspect-ratio: 1;
+
+      background: var(--form-bg);
+    }
+
+    &:after {
+      content: "✓";
+      left: .25em;
+
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  // checked
+  input[type="checkbox"]:checked + label,
+  input[type="radio"]:checked + label {
+
+    // checkbox
+    &:before {
+      background: var(--form-choice-bg-active);
+    }
+
+    // checked
+    &:after {
+      opacity: 1;
+      visibility: visible
+    }
+  }
+
+  // checkbox
+
+  // radio
+}
+
+
+/*********************
+ * Select
+**********************/
 select {
   padding: .5rem 1rem;
   font-size: var(--fz-14);
 }
 
-// form column
+
+/********************************
+* Form fields
+********************************/
+.form-fields {
+  --gap-v: 1rem;
+  --gap-h: 1.2rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-h) var(--gap-v);
+
+  // field
+  .field {
+    --col: 1;
+    width: calc((100% - var(--gap-h) * (var(--col) - 1)) / var(--col));
+
+    // half
+    &.half {
+      --col: 2;
+    }
+
+    // third
+    &.third {
+      --col: 3;
+    }
+  }
+}
+
+/*********************
+ * Form > Columns
+**********************/
 [data-form-column] {
   display: flex;
   gap: 5px;
@@ -76,12 +296,6 @@ select {
 
       font-size: var(--fz-14);
       font-weight: 700;
-    }
-
-    // input
-    [data-text],
-    input {
-      width: 100%;
     }
   }
 

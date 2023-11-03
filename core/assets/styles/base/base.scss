@@ -30,6 +30,7 @@ body {
 .txt_color_white {
   --color-text: var(--color-white);
   --permalink-color: var(--color-white);
+  --permalink-color-hover: var(--color-secondary);
   color: var(--color-white);
 }
 
@@ -37,6 +38,12 @@ body {
 .txt_color_white ul > li:before {
   background: white;
   border-color: white;
+}
+
+// btn
+.txt_color_white [class*="btn_primary"] {
+  --btn-bg-color-hover: var(--color-white);
+  --btn-color-hover: var(--color-secondary);
 }
 
 /* text */
