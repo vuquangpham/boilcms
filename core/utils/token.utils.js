@@ -13,12 +13,11 @@ const signToken = (id) => {
 };
 
 /**
- * If type is sign-in then sign JWT token for user, save token in cookie, else if type is sign-up send json for client
+ * Sign JWT token for user, save token in cookie
  * @param user {object}
- * @param type {String}
  * @param res
  * */
-const sendAuthTokenAndCookies = (user, type, res) => {
+const sendAuthTokenAndCookies = (user, res) => {
     let token = signToken(user._id);
 
     const cookiesOptions = {

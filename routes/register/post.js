@@ -42,7 +42,7 @@ const handlePostMethod = (request, response, next) => {
                 // redirect to sign-in page
                 case "sign-in":{
                     // send token to client and save token in cookies
-                    sendAuthTokenAndCookies(result, type, response);
+                    sendAuthTokenAndCookies(result, response);
 
                     // redirect
                     redirectURL = ADMIN_URL;
