@@ -49,6 +49,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "dotenv": "^16.3.1",
+    "file-loader": "^6.2.0",
     "ip": "^1.1.8",
     "mini-css-extract-plugin": "^2.7.6",
     "nodemon": "^3.0.1",
