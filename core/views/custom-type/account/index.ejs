@@ -10,65 +10,112 @@ const modifyDate = (publishTime) => {
 };
 %>
 
-<form method="post" action="/boiler-admin/user?method=post&action=edit&id=<%= data._id%>">
-    <div>
-        <div data-form-column class="fl-grid">
+<div data-account-wrapper>
+    <form method="post" action="user?method=post&action=edit&id=<%= data._id%>">
+        <div>
+            <div data-form-column class="fl-grid">
 
-            <div data-form-group>
+                <div data-form-group>
 
-                <!-- name -->
-                <div data-form-input class="fl-center-v">
-                    <label for="username">Username</label>
-                    <input id="username" data-user-name name="name" value="<%= data.name%>">
+                    <!-- name -->
+                    <div data-form-input class="fl-center-v">
+                        <label for="username">Username</label>
+                        <input id="username" data-user-name name="name" value="<%= data.name%>">
+                    </div>
+                </div>
+
+                <div data-form-group>
+
+                    <!-- email -->
+                    <div data-form-input class="fl-center-v">
+                        <label for="email">Email</label>
+                        <input id="email" data-user-email name="email" value="<%= data.email%>">
+                    </div>
                 </div>
             </div>
 
-            <div data-form-group>
+            <div data-form-column>
+                <div data-form-group>
+                    <div data-form-input>
 
-                <!-- email -->
-                <div data-form-input class="fl-center-v">
-                    <label for="email">Email</label>
-                    <input id="email" data-user-email name="email" value="<%= data.email%>">
+                        <!-- register at-->
+                        <label>Register</label>
+                        <div><time><%= data.registerAt%></time></div>
+                    </div>
                 </div>
+            </div>
+
+            <div data-form-column>
+                <div data-form-group>
+                    <div data-form-input>
+
+                        <!-- password -->
+                        <label for="password">Password</label>
+                        <input type="password" value="hidden" id="password" readonly>
+
+                        <!-- button for update-->
+                        <button class="btn_primary" type="button" data-toggle="account-popup">Change password</button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div data-form-column>
+                <div data-form-group>
+                    <div data-form-input>
+
+                        <!-- role -->
+                        <label for="role">Role</label>
+                        <div id="role"><%=data.role%></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="fl-center-v mt-auto" style="gap:5px;">
+                <button type="submit" class="btn_primary">Save</button>
             </div>
         </div>
+    </form>
 
-        <div data-form-column>
-            <div data-form-group>
-                <div data-form-input>
+    <!-- change password pop-up -->
+    <div data-account-popup data-popup>
+        <div data-popup-overflow>
+            <div data-popup-overlay data-toggle="account-popup"></div>
 
-                    <!-- register at-->
-                    <label>Register</label>
-                    <div><time><%= data.registerAt%></time></div>
+            <!-- pop up content-->
+            <form method="post" action="#" data-popup-inner data-account-form data-id="<%= data._id%>">
+
+                <div data-form-column class="fl-grid">
+
+                    <div data-form-group>
+
+                        <!-- current password -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" name="current-password" data-current-password>
+                        </div>
+
+
+                        <!-- new password -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" data-password>
+                        </div>
+
+                        <!-- confirm new password -->
+                        <div data-form-input class="fl-center-v">
+                            <label for="confirm-password">Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password" data-confirm-password>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div data-form-column>
-            <div data-form-group>
-                <div data-form-input>
-
-                    <!-- password -->
-                    <label for="password">Password</label>
-                    <input type="password" value="hidden" id="password" readonly>
-
+                <div class="fl-center-v mt-auto" style="gap:5px;">
+                    <button class="btn_primary" type="button" data-account-password-update-btn>Save</button>
+                    <button class="btn_transparent" type="button" data-account-close-btn
+                            data-toggle="account-popup">Cancel
+                    </button>
                 </div>
-            </div>
-        </div>
-
-        <div data-form-column>
-            <div data-form-group>
-                <div data-form-input>
-
-                    <!-- role -->
-                    <label for="role">Role</label>
-                    <div id="role"><%=data.role%></div>
-                </div>
-            </div>
-
-        </div>
-        <div class="fl-center-v mt-auto" style="gap:5px;">
-            <button type="submit" class="btn_primary">Save</button>
+            </form>
         </div>
     </div>
-</form>
+</div>
