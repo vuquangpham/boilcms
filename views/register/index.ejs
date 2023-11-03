@@ -17,18 +17,24 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/themes/favicon-16x16.png">
     <link rel="manifest" href="/themes/site.webmanifest">
 
+    <link rel="stylesheet" href="/themes/main-be.css">
+    <script src="/themes/main-be.js" defer></script>
+
 </head>
-<body>
+<body class="register">
 
+<div class="register-form fl-center h-screen">
+    <div class="register-form__inner">
+        <h1><%= title ;%></h1>
 
-<h1><%= title%></h1>
+        <%- content; %>
 
-<%- content; %>
-
-<!-- render message-->
-<% if(message) { %>
-    <h1><%= message%></h1>
-<% }%>
+        <!-- render message-->
+        <% if(message) { %>
+            <h1><%= message ;%></h1>
+        <% } %>
+    </div>
+</div>
 
 
 </body>
