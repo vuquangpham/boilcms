@@ -51,6 +51,10 @@ body {
   font-size: 1.4rem;
 }
 
+.txt_color_error {
+  color: var(--color-error);
+}
+
 /* common button style */
 [class*="btn_"] {
   --btn-bg-color: var(--color-secondary);
