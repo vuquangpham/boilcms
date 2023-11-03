@@ -1,4 +1,6 @@
-@import '@global/style';
+// global
+@import '@global/style/reset.scss';
+@import '@global/style/atomic.scss';
 
 // utils
 @import "./utils/variables";
@@ -8,6 +10,7 @@
 
 // base
 @import "./base/base";
+@import "./base/typo";
 @import "./base/form";
 @import "./base/fonts";
 
@@ -29,3 +32,5 @@
 
 // vendors
 @import './vendors/quill';
+@import './vendors/easy-select.min';
+@import './vendors/easy-select-custom';

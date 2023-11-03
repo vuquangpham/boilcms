@@ -26,31 +26,6 @@ body {
   color: var(--text-color);
 }
 
-a, button {
-  color: var(--permalink-color);
-  outline: none;
-  transition: all .3s ease;
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  text-decoration: underline;
-}
-
-a:hover,
-a:focus {
-  color: var(--permalink-color-hover);
-}
-
-/* a11y */
-a:focus-visible,
-button:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--color-secondary);
-}
-
 /* Txt color white */
 .txt_color_white {
   --color-text: var(--color-white);

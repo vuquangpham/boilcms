@@ -1,0 +1,113 @@
+a, button {
+  color: var(--permalink-color);
+  outline: none;
+  transition: all .3s ease;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+  color: var(--permalink-color-hover);
+}
+
+/* a11y */
+a:focus-visible,
+button:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-secondary);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading);
+  margin-bottom: 2rem;
+  display: block;
+  font-family: var(--font-secondary);
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.boil-content [class*="heading-1"],
+h1 {
+  font-size: var(--size-h1);
+}
+
+.boil-content [class*="heading-2"],
+h2 {
+  font-size: var(--size-h2);
+}
+
+.boil-content [class*="heading-3"],
+h3 {
+  font-size: var(--size-h3);
+}
+
+.boil-content [class*="heading-4"],
+h4 {
+  font-size: var(--size-h4);
+}
+
+.boil-content [class*="heading-5"],
+h5 {
+  font-size: var(--size-h5);
+}
+
+.boil-content [class*="heading-6"],
+h6 {
+  font-size: var(--size-h6);
+}
+
+p {
+  margin-bottom: 1.8rem;
+}
+
+/* clear bottom spacing */
+.boil-content :last-child {
+  margin-bottom: 0;
+}
+
+/* Default unordered list for text block */
+ul {
+  list-style: none;
+  margin: 0;
+}
+
+ul ul {
+  padding-top: 1.5rem;
+}
+
+ul:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+ul > li {
+  padding: 0 0 0 2rem;
+  position: relative;
+}
+
+ul > li:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+ul > li:before {
+  content: "";
+  position: absolute;
+  top: .5em;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50px;
+  background: #000;
+  border: 1px solid #000;
+}
+
+ul ul > li:before {
+  background: #fff;
+}
