@@ -30,8 +30,9 @@ const User = new mongoose.Schema({
         type: String,
         required: true,
         validate: {
-            validator: function(el){
-                return el === this.password;
+            // this is only work on create and save
+            validator: function (el) {
+                return el === this.password
             },
         }
     },
@@ -53,9 +54,9 @@ const User = new mongoose.Schema({
 });
 
 // validate input between two processes adding from form and saving to database
-User.pre('save', async function(next){
+User.pre('save', async function (next) {
     // if password don't modify, go next middleware
-    if(!this.isModified('password')) return next();
+    if (!this.isModified('password')) return next();
 
     // Hash password with const is 12
     this.password = await bcrypt.hash(this.password, 12);
@@ -70,7 +71,7 @@ User.pre('save', async function(next){
 /**
  * Compare password hashed in database and password from request
  * */
-User.methods.comparePassword = async function(candidatePassword, userPassword){
+User.methods.comparePassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
@@ -79,8 +80,8 @@ User.methods.comparePassword = async function(candidatePassword, userPassword){
  * @param JWTTimeStamp {Number}
  * @return boolean
  * */
-User.methods.hasAlreadyChangedPassword = function(JWTTimeStamp){
-    if(this.changePasswordAt){
+User.methods.hasAlreadyChangedPassword = function (JWTTimeStamp) {
+    if (this.changePasswordAt) {
 
         // JWTTimeStamp is the time when the token was created, and passwordChangedTime is the time when the password was last updated
         const passwordChangedTime = parseInt(this.changePasswordAt.getTime() / 1000, 10);
@@ -92,7 +93,7 @@ User.methods.hasAlreadyChangedPassword = function(JWTTimeStamp){
 /**
  *
  * */
-User.methods.createPasswordResetToken = function(){
+User.methods.createPasswordResetToken = function () {
     // create reset token
     const token = crypto.randomBytes(32).toString('hex');
 
