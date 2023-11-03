@@ -42,7 +42,6 @@ router.all('*', (request, response, next) => {
  * Middleware for registering variables
  * */
 router.all('*', (request, response, next) => {
-    request.app.set('message', '')
 
     // params, default point to the dashboard page
     const [type] = getParamsOnRequest(request, ['default']);

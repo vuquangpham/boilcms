@@ -32,9 +32,6 @@ const handlePostMethod = (request, response, next) => {
 
     promise
         .then(result => {
-            // clear error message
-            request.app.set('message', '');
-
             // vars
             let redirectURL = '';
 
