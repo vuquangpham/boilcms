@@ -81,7 +81,9 @@ const handlePostMethod = (request, response, next) => {
         })
         .catch(err => {
             console.log(err);
-            response.status(500).json({errorMessage: err.message});
+            if (hasJSON) return response.status(500).json({errorMessage: err.message});
+
+            next(err)
         });
 };
 
