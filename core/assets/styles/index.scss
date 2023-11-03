@@ -9,6 +9,7 @@
 // base
 @import "./base/base";
 @import "./base/form";
+@import "./base/fonts";
 
 // components
 @import './components/popup';
@@ -24,6 +25,7 @@
 @import "./pages/posts-detail";
 @import "./pages/media";
 @import "./pages/user";
+@import "./pages/register";
 
 // vendors
 @import './vendors/quill';
