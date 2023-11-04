@@ -285,19 +285,42 @@ select {
   flex-wrap: wrap;
   gap: var(--gap-h) var(--gap-v);
 
+  // label
+  label {
+    font-weight: 600;
+    font-size: var(--fz-14)
+  }
+
   // field
   .field {
     --col: 1;
     width: calc((100% - var(--gap-h) * (var(--col) - 1)) / var(--col));
 
-    // half
-    &.half {
-      --col: 2;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+
+    // vertical layout
+    &.vertical-layout {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      gap: .2rem;
     }
 
-    // third
-    &.third {
-      --col: 3;
+
+    // min width 769px
+    @include responsive('tablet-v', true) {
+      // half
+      &.half {
+        --col: 2;
+      }
+
+      // third
+      &.third {
+        --col: 3;
+      }
     }
   }
 }

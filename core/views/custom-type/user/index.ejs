@@ -86,69 +86,50 @@ const modifyDate = (publishTime) => {
             <!-- pop up content-->
             <form method="post" action="#" data-popup-inner data-user-form>
 
-                <div data-form-column class="fl-grid">
-
-                    <div data-form-group>
-
-                        <!-- name -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="username">Username</label>
-                            <input id="username" data-user-name name="name">
-                        </div>
-                    </div>
-
-                    <div data-form-group>
-
-                        <!-- email -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="email">Email</label>
-                            <input id="email" data-user-email name="email">
-                        </div>
-                    </div>
+                <div data-custom-title>
+                    <span>Edit User</span>
                 </div>
 
-                <div data-form-column>
-                    <div data-form-group>
-                        <div data-form-input>
-
-                            <!-- register at-->
-                            <label for="register">Register</label>
-                            <div id="register" data-user-register></div>
-                        </div>
+                <div class="form-fields">
+                    <div class="field half vertical-layout">
+                        <label for="username">Username</label>
+                        <input id="username" data-user-name name="name" placeholder="Username" required>
                     </div>
+
+                    <div class="field half vertical-layout">
+                        <label for="email">Email</label>
+                        <input id="email" data-user-email name="email" placeholder="Email" required>
+                    </div>
+
+                    <div class="field third vertical-layout">
+                        <label>Register</label>
+                        <div data-user-register></div>
+                    </div>
+
+                    <div class="field third vertical-layout">
+                        <!-- role -->
+                        <label for="role">Role</label>
+                        <select data-select-role-value name="role" id="role">
+                            <option value="user">User
+                            </option>
+                            <option value="admin">Admin
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="field third vertical-layout">
+                        <label for="state">State</label>
+                        <select data-select-state-value name="state" id="state">
+                            <option value="active">Active
+                            </option>
+                            <option value="suspend">Suspend
+                            </option>
+                        </select>
+                    </div>
+
                 </div>
 
-                <div data-form-column>
-                    <div data-form-group>
-                        <div data-form-input>
-
-                            <!-- role -->
-                            <label for="role">Role</label>
-                            <select data-select-role-value name="role" id="role">
-                                <option value="user">User
-                                </option>
-                                <option value="admin">Admin
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div data-form-group>
-                        <div data-form-input>
-
-                            <!-- state -->
-                            <label for="state">State</label>
-                            <select data-select-state-value name="state" id="state">
-                                <option value="active">Active
-                                </option>
-                                <option value="suspend">Suspend
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="fl-center-v mt-auto" style="gap:5px;">
+                <div class="fl-center-v mt-auto" style="gap:.4rem; padding-top:2rem">
                     <button class="btn_primary" type="button" data-user-save-btn>Save</button>
                     <button class="btn_primary error" type="button" data-user-delete-btn>Delete</button>
                     <button class="btn_transparent" type="button" data-user-close-btn
@@ -165,84 +146,61 @@ const modifyDate = (publishTime) => {
 
             <form method="post" action="?type=<%= type %>&method=post" data-popup-inner data-register-form>
 
-                <div data-form-column class="fl-grid">
-
-                    <div data-form-group>
-
-                        <!-- name -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="name">Username:</label>
-                            <input id="name" type="text" name="name" placeholder="Name" data-user-register-name>
-                        </div>
-                    </div>
-
-                    <div data-form-group>
-
-                        <!-- email -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="email">Email:</label>
-                            <input id="email" type="email" name="email" placeholder="Email" data-user-register-email
-                                   required>
-                        </div>
-                    </div>
+                <div data-custom-title>
+                    <span>Add New User</span>
                 </div>
 
-                <div data-form-column>
-
-                    <div data-form-group>
-
-                        <!-- password -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="password">Password:</label>
-                            <input id="password" type="password" name="password" placeholder="Password"
-                                   data-user-register-password required>
-                        </div>
+                <div class="form-fields">
+                    <div class="field half">
+                        <label class="hidden" for="name">Username</label>
+                        <input id="name" type="text" name="name" placeholder="Username" required
+                               data-user-register-name>
                     </div>
 
-                    <div data-form-group>
-
-                        <!-- confirm password -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="confirm-password">Confirm:</label>
-                            <input id="confirm-password" type="password" name="confirmPassword"
-                                   data-user-register-confirm-password placeholder="Confirm"
-                                   required>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-form-column>
-                    <div data-form-group>
-                        <div data-form-input>
-
-                            <!-- role -->
-                            <label for="role">Role</label>
-                            <select data-user-register-role name="role" id="role">
-                                <option value="user">User
-                                </option>
-                                <option value="admin">Admin
-                                </option>
-                            </select>
-                        </div>
+                    <div class="field half">
+                        <label class="hidden" for="email">Email</label>
+                        <input id="email" type="email" name="email" placeholder="Email" data-user-register-email
+                               required>
                     </div>
 
-                    <div data-form-group>
-                        <div data-form-input>
+                    <div class="field half">
+                        <label class="hidden" for="password">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Password"
+                               data-user-register-password required>
+                    </div>
 
-                            <!-- state -->
-                            <label for="state">State</label>
-                            <select data-user-register-state name="state" id="state">
-                                <option value="active">Active
-                                </option>
-                                <option value="suspend">Suspend
-                                </option>
-                            </select>
-                        </div>
+                    <div class="field half">
+                        <label class="hidden" for="confirm-password">Confirm</label>
+                        <input id="confirm-password" type="password" name="confirmPassword"
+                               data-user-register-confirm-password placeholder="Confirm Password"
+                               required>
+                    </div>
+
+                    <div class="field half">
+                        <!-- role -->
+                        <label for="role">Role</label>
+                        <select data-easy-select data-user-register-role name="role" id="role">
+                            <option value="user">User
+                            </option>
+                            <option value="admin">Admin
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="field half">
+                        <!-- state -->
+                        <label for="state">State</label>
+                        <select data-easy-select data-user-register-state name="state" id="state">
+                            <option value="active">Active
+                            </option>
+                            <option value="suspend">Suspend
+                            </option>
+                        </select>
                     </div>
                 </div>
 
                 <!-- Submit -->
-                <div class="fl-center-v" style="gap:.4rem; margin-top:auto; padding-top:2rem;">
+                <div class="fl-center-v mt-auto" style="gap:.4rem; padding-top:2rem;">
                     <button class="btn_primary" type="submit" data-add-new-user-btn>Add</button>
                     <button class="btn_transparent" type="submit" data-toggle="user-register-popup">Cancel</button>
                 </div>
