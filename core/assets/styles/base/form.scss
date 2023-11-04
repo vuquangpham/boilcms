@@ -45,7 +45,7 @@
 /******************************
 * Input
 *******************************/
-input {
+input:not([type="button"]) {
   background: var(--form-bg);
   color: var(--form-color);
   font-size: var(--form-font-size);
@@ -109,8 +109,8 @@ textarea {
 *******************************/
 textarea:not([readonly]):hover,
 textarea:not([readonly]):focus,
-input:not([readonly]):hover,
-input:not([readonly]):focus {
+input:not([type="button"]):not([readonly]):hover,
+input:not([type="button"]):not([readonly]):focus {
   --form-placeholder-color: rgba(25, 32, 84, 0.5);
   --form-border-color: var(--form-border-color-hover);
 
@@ -322,6 +322,15 @@ select {
         --col: 3;
       }
     }
+  }
+
+  // footer
+  .footer {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+
+    padding-top: 2rem;
   }
 }
 

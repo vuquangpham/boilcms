@@ -11,69 +11,46 @@ const modifyDate = (publishTime) => {
 %>
 
 <div data-account-wrapper>
-    <form method="post" action="user?method=post&action=edit&id=<%= data._id%>">
-        <div>
-            <div data-form-column class="fl-grid">
+    <div data-custom-title>
+        <span>Account</span>
+    </div>
 
-                <div data-form-group>
+    <form method="post" action="user?method=post&action=edit&id=<%= data._id; %>">
 
-                    <!-- name -->
-                    <div data-form-input class="fl-center-v">
-                        <label for="username">Username</label>
-                        <input id="username" data-user-name name="name" value="<%= data.name%>">
-                    </div>
-                </div>
+        <div class="form-fields">
 
-                <div data-form-group>
-
-                    <!-- email -->
-                    <div data-form-input class="fl-center-v">
-                        <label for="email">Email</label>
-                        <input id="email" data-user-email name="email" value="<%= data.email%>">
-                    </div>
-                </div>
+            <div class="field half vertical-layout">
+                <label for="username">Username</label>
+                <input id="username" data-user-name name="name" value="<%= data.name; %>" placeholder="Username"
+                       required>
             </div>
 
-            <div data-form-column>
-                <div data-form-group>
-                    <div data-form-input>
-
-                        <!-- register at-->
-                        <label>Register</label>
-                        <div><time><%= data.registerAt%></time></div>
-                    </div>
-                </div>
+            <div class="field half vertical-layout">
+                <label for="email">Email</label>
+                <input id="email" data-user-email name="email" value="<%= data.email; %>" placeholder="Email" required>
             </div>
 
-            <div data-form-column>
-                <div data-form-group>
-                    <div data-form-input>
-
-                        <!-- password -->
-                        <label for="password">Password</label>
-                        <input type="password" value="hidden" id="password" readonly>
-
-                        <!-- button for update-->
-                        <button class="btn_primary" type="button" data-toggle="account-popup" data-change-password >Change password</button>
-
-                    </div>
-                </div>
+            <div class="field half vertical-layout">
+                <!-- register at-->
+                <label>Register</label>
+                <time class="txt_14px"><%= modifyDate(data.registerAt) %></time>
             </div>
 
-            <div data-form-column>
-                <div data-form-group>
-                    <div data-form-input>
-
-                        <!-- role -->
-                        <label for="role">Role</label>
-                        <div id="role"><%=data.role%></div>
-                    </div>
-                </div>
-
+            <div class="field half vertical-layout">
+                <label>Role</label>
+                <div class="tt-capitalize txt_14px"><%= data.role; %></div>
             </div>
-            <div class="fl-center-v mt-auto" style="gap:5px;">
-                <button type="submit" class="btn_primary">Save</button>
+
+            <div class="field half vertical-layout">
+                <label>Password</label>
+                <input class="btn_transparent w100" type="button" value="Change password" data-toggle="account-popup"
+                       data-change-password>
             </div>
+
+        </div>
+
+        <div style="padding-top:2rem">
+            <button type="submit" class="btn_primary">Save</button>
         </div>
     </form>
 
@@ -83,41 +60,35 @@ const modifyDate = (publishTime) => {
             <div data-popup-overlay data-toggle="account-popup"></div>
 
             <!-- pop up content-->
-            <form method="post" action="#" data-popup-inner data-account-form data-id="<%= data._id%>">
+            <form method="post" action="#" data-popup-inner data-account-form data-id="<%= data._id; %>">
 
-                <div data-form-column class="fl-grid">
+                <div class="form-fields">
 
-                    <div data-form-group>
-
-                        <!-- current password -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="current-password">Current Password</label>
-                            <input type="password" id="current-password" name="current-password" data-current-password>
-                        </div>
-
-
-                        <!-- new password -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" data-password>
-                        </div>
-
-                        <!-- confirm new password -->
-                        <div data-form-input class="fl-center-v">
-                            <label for="confirm-password">Password</label>
-                            <input type="password" id="confirm-password" name="confirm-password" data-confirm-password>
-                        </div>
-
+                    <div class="field vertical-layout">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" name="current-password" data-current-password
+                               required placeholder="Current Password">
                     </div>
 
-                    <!-- render error message -->
-                    <div data-error-message></div>
-                </div>
-                <div class="fl-center-v mt-auto" style="gap:5px;">
-                    <button class="btn_primary" type="button" data-account-password-update-btn>Save</button>
-                    <button class="btn_transparent" type="button" data-account-close-btn
-                            data-toggle="account-popup">Cancel
-                    </button>
+                    <div class="field vertical-layout">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" data-password required
+                               placeholder="Password">
+                    </div>
+
+                    <div class="field vertical-layout">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" data-confirm-password
+                               required placeholder="Confirm Password">
+                    </div>
+
+                    <div class="footer">
+                        <button class="btn_primary" type="button" data-account-password-update-btn>Save</button>
+                        <button class="btn_transparent" type="button" data-account-close-btn
+                                data-toggle="account-popup">Cancel
+                        </button>
+                    </div>
+
                 </div>
             </form>
         </div>
