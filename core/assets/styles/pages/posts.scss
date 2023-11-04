@@ -60,7 +60,7 @@
 // 1024 - 768
 @include responsive('tablet-h', 'tablet-v') {
   /* list */
-  .posts-list {
+  body .posts-list {
     --author-width: 130px;
     --categories-width: 130px;
     --date-width: 150px;
@@ -77,7 +77,7 @@
     --title-width: calc(100% - var(--author-width) - var(--categories-width) - var(--date-width));
     --author-width: 160px;
     --categories-width: 160px;
-    --date-width: 180px;
+    --date-width: 260px;
   }
 
   /* each columns */
