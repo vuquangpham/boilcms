@@ -12,23 +12,30 @@ class User extends Category {
      * */
     validateInputData(inputData, action = 'add') {
         const request = inputData.request;
+        const response = inputData.response
 
         // input
         const name = request.body.name;
         const email = request.body.email;
+        const currentPassword = request.body.currentPassword;
         const password = request.body.password;
         const confirmPassword = request.body.confirmPassword;
         const role = request.body.role;
         const state = request.body.state
 
-        return {
+        const returnObject = {
             name,
             email,
+            currentPassword,
             password,
             confirmPassword,
             role,
             state
-        };
+        }
+
+        if (action === 'edit') returnObject.response = response
+
+        return returnObject
     }
 
     /**
@@ -158,24 +165,39 @@ class User extends Category {
     /**
      * Update user data
      * */
-    // update(id, data) {
-    //     if(data.password !== undefined){
-    //         this.updatePassword(id, inputData)
-    //     }
-    //     return new Promise((resolve, reject) => {
-    //         this.databaseModel.findOneAndUpdate({_id: id}, data)
-    //             .then(_ => resolve(this.getDataById({_id: id})))
-    //             .catch(err => reject(err));
-    //     });
-    // }
+    update(id, data) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // update password
+                if (data.password !== undefined) {
+                    await this.updatePassword(id, data)
+                } else {
+
+                    // update user data
+                    const dataInput = {
+                        name: data.name,
+                        email: data.email,
+                        role: data.role,
+                        state: data.state
+                    }
+
+                    await this.databaseModel.findOneAndUpdate({_id: id}, dataInput)
+                        .then(_ => resolve(this.getDataById({_id: id})))
+                        .catch(err => reject(err));
+                }
+
+            } catch (err) {
+                reject(err)
+            }
+        })
+    }
 
     /**
      * Update password
      * */
-    updatePassword(id, inputData) {
-        const request = inputData.request;
-        const response = inputData.response
-        const {currentPassword, password, confirmPassword} = request.body
+    updatePassword(id, data) {
+
+        const response = data.response
 
         return new Promise(async (resolve, reject) => {
             try {
@@ -183,20 +205,21 @@ class User extends Category {
                 const user = await this.databaseModel.findById(id).select('+password')
 
                 // compare password in database with password from input
-                const comparePassword = await user.comparePassword(currentPassword, user.password)
+                const comparePassword = await user.comparePassword(data.currentPassword, user.password)
                 if (!comparePassword) throw (new Error('The password is not correct'))
 
                 // check password
-                if (request.body.password !== request.body.confirmPassword) throw new Error(`Password don't match`);
+                if (data.password !== data.confirmPassword) throw new Error(`Password don't match`);
 
                 // save new password
-                user.password = password;
-                user.confirmPassword = confirmPassword
+                user.password = data.password;
+                user.confirmPassword = data.confirmPassword
 
                 await user.save()
 
                 // send new token and save in cookies
                 sendAuthTokenAndCookies(user, response)
+
                 resolve()
             } catch (error) {
                 reject(error)
