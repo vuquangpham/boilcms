@@ -9,7 +9,7 @@
   transition-duration: 0.3s;
   transition-timing-function: ease;
   backdrop-filter: blur(5px);
-  z-index: 2;
+  z-index: 20;
 }
 
 [data-popup-overlay] {
@@ -21,17 +21,24 @@
 }
 
 [data-popup-overflow] {
+  --padding: 2rem;
+
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: calc(var(--header-height) + 20px) 20px 20px;
+  padding: calc(var(--header-height) + var(--padding)) var(--padding) var(--padding);
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
   overflow: auto;
+
+  // responsive
+  @include responsive('mobile') {
+    --padding: 1.5rem;
+  }
 }
 
 [data-popup-overflow]:before,
