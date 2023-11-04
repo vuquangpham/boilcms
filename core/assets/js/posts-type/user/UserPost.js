@@ -137,7 +137,11 @@ export default class UserPost {
                 userItemEl.querySelector('[data-user-item-name]').innerHTML = result.name
                 userItemEl.querySelector('[data-user-item-email]').innerHTML = result.email
                 userItemEl.querySelector('[data-user-item-role]').innerHTML = result.role
-                userItemEl.querySelector('[data-user-item-state]').innerHTML = result.state
+                userItemEl.querySelector('[data-user-item-state] span').innerHTML = result.state
+
+                // add class for custom state
+                result.state === 'active' ? userItemEl.querySelector('[data-user-item-state] span').className = 'badge badge--green' :
+                    userItemEl.querySelector('[data-user-item-state] span').className = 'badge badge--red'
 
                 // close the popup
                 this.elements.closePopupForm.click();

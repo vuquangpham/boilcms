@@ -51,7 +51,7 @@ const modifyDate = (publishTime) => {
                      data-column="Role" data-user-item-role><%= user.role; %></div>
 
                 <div class="users__item--state <%= user.state === 'active' ? 'active-state' : 'suspend-state'%>"
-                     data-column="State" data-user-item-state><span class="badge badge--red"><%= user.state; %></span>
+                     data-column="State" data-user-item-state><span class="<%= user.state === 'active' ? 'badge badge--green' : 'badge badge--red'%>"><%= user.state; %></span>
                 </div>
 
                 <div class="users__item--action fl-center-v" style="gap:.8rem" data-column="Action">
