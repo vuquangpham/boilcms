@@ -17,6 +17,11 @@ const modifyDate = (publishTime) => {
 <% if (data.length === 0) { %>
     <h2>No content</h2>
 <% } %>
+
+<div style="margin-bottom:1rem">
+    <button class="btn_primary" data-toggle="user-register-popup">Add New</button>
+</div>
+
 <div class="users-list" data-custom-table data-user-wrapper>
     <div class="users-list__inner">
         <div class="users-list__heading" data-column-wrapper="heading">
@@ -72,10 +77,6 @@ const modifyDate = (publishTime) => {
 
             </div>
         <% }); %>
-    </div>
-
-    <div style="margin-top: 5px">
-        <button class="btn_primary" data-toggle="user-register-popup">Add new</button>
     </div>
 
     <div data-user-popup data-popup>
@@ -241,8 +242,9 @@ const modifyDate = (publishTime) => {
                 </div>
 
                 <!-- Submit -->
-                <div>
+                <div class="fl-center-v" style="gap:.4rem; margin-top:auto; padding-top:2rem;">
                     <button class="btn_primary" type="submit" data-add-new-user-btn>Add</button>
+                    <button class="btn_transparent" type="submit" data-toggle="user-register-popup">Cancel</button>
                 </div>
 
             </form>
