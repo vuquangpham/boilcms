@@ -44,8 +44,8 @@ if(isEditPost){
                     <% if (isEditPost) { %>
                         <div class="fl-grid ai-center" style="gap:10px;">
                             <div class="posts-detail__permalink">
-                                <label for="permalink" style="margin-right:10px;">Custom URL:</label>
-                                <input type="text" placeholder="URL" id="permalink" name="url"
+                                <label for="permalink" class="hidden">Custom URL:</label>
+                                <input type="text" placeholder="Custom URL" id="permalink" name="url"
                                        value="<%= getValueFromData('url') %>">
                             </div>
 
