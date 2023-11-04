@@ -1,6 +1,6 @@
 import fetch from "@global/fetch";
 
-export default class UserPost {
+export default class EditUser {
     constructor(wrapper) {
         this.wrapper = wrapper
 
@@ -20,16 +20,6 @@ export default class UserPost {
             optionRoleInput: wrapper.querySelectorAll('[data-select-role-value] option'),
             selectStateInput: wrapper.querySelector('[data-select-state-value]'),
             optionStateInput: wrapper.querySelectorAll('[data-select-state-value] option'),
-
-            // register popup input fields
-            userNameRegisterInput: wrapper.querySelector('[data-user-register-name]'),
-            userEmailRegisterInput: wrapper.querySelector('[data-user-register-email]'),
-            userPasswordRegisterInput: wrapper.querySelector('[data-user-register-password]'),
-            userConfirmPasswordRegisterInput: wrapper.querySelector('[data-user-register-confirm-password]'),
-
-            // select register value
-            selectRoleRegisterInput: wrapper.querySelector('[data-user-register-role]'),
-            selectStateRegisterInput: wrapper.querySelector('[data-user-register-state]'),
 
         }
 
@@ -139,7 +129,7 @@ export default class UserPost {
                 userItemEl.querySelector('[data-user-item-role]').innerHTML = result.role
                 userItemEl.querySelector('[data-user-item-state] span').innerHTML = result.state
 
-                // add class for custom state
+                // add class for any state
                 result.state === 'active' ? userItemEl.querySelector('[data-user-item-state] span').className = 'badge badge--green' :
                     userItemEl.querySelector('[data-user-item-state] span').className = 'badge badge--red'
 
@@ -174,36 +164,6 @@ export default class UserPost {
             })
     }
 
-    /**
-     * Handle add new user
-     * */
-    handleAddNewUser() {
-
-        const formData = new FormData();
-        formData.append('name', this.elements.userNameRegisterInput.value);
-        formData.append('email', this.elements.userEmailRegisterInput.value);
-        formData.append('password', this.elements.userPasswordRegisterInput.value);
-        formData.append('confirmPassword', this.elements.userConfirmPasswordRegisterInput.value);
-        formData.append('role', this.elements.selectRoleRegisterInput.value);
-        formData.append('state', this.elements.selectStateRegisterInput.value)
-
-        fetch(this.FETCH_URL, {
-            method: 'post',
-            action: 'add',
-            getJSON: true,
-
-        }, {
-            method: 'post',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(_ => {
-
-                // close the popup
-                this.elements.closePopupForm.click();
-            })
-            .catch(err => console.error(err));
-    }
 
     handleWrapperClick(e) {
         let functionHandling = () => {
@@ -213,7 +173,6 @@ export default class UserPost {
         const singleUserItemEl = e.target.closest('button[data-user-edit]');
         const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
         const deleteUserBtnEl = e.target.closest('button[data-user-delete-btn]')
-        const addNewUserBtnEl = e.target.closest('button[data-add-new-user-btn]')
 
         if (singleUserItemEl) {
             functionHandling = this.showSingleUser.bind(this)
@@ -226,11 +185,7 @@ export default class UserPost {
         } else if (deleteUserBtnEl) {
             functionHandling = this.handleDeleteUser.bind(this);
             target = deleteUserBtnEl
-
-        } else if (addNewUserBtnEl) {
-            functionHandling = this.handleAddNewUser.bind(this);
         }
-
 
         // call the function
         functionHandling(target);

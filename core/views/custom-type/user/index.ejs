@@ -23,7 +23,7 @@ const modifyDate = (publishTime) => {
 </div>
 
 <div class="users-list" data-custom-table data-user-wrapper>
-    <div class="users-list__inner">
+    <div class="users-list__inner" data-edit-user-wrapper>
         <div class="users-list__heading" data-column-wrapper="heading">
             <div class="users-list--user" data-column="User">User</div>
             <div class="users-list--register" data-column="Register At">Register At</div>
@@ -47,11 +47,12 @@ const modifyDate = (publishTime) => {
                 <div class="users__item--email wb-break-all"
                      data-column="Email" data-user-item-email><%= user.email; %></div>
 
-                <div class="users__item--role tt-capitalize <%= user.role === 'admin' ? 'admin-role' : 'user-role'%>"
+                <div class="users__item--role tt-capitalize <%= user.role === 'admin' ? 'admin-role' : 'user-role' %>"
                      data-column="Role" data-user-item-role><%= user.role; %></div>
 
-                <div class="users__item--state <%= user.state === 'active' ? 'active-state' : 'suspend-state'%>"
-                     data-column="State" data-user-item-state><span class="<%= user.state === 'active' ? 'badge badge--green' : 'badge badge--red'%>"><%= user.state; %></span>
+                <div class="users__item--state <%= user.state === 'active' ? 'active-state' : 'suspend-state' %>"
+                     data-column="State" data-user-item-state><span
+                            class="<%= user.state === 'active' ? 'badge badge--green' : 'badge badge--red' %>"><%= user.state; %></span>
                 </div>
 
                 <div class="users__item--action fl-center-v" style="gap:.8rem" data-column="Action">
@@ -77,73 +78,74 @@ const modifyDate = (publishTime) => {
 
             </div>
         <% }); %>
-    </div>
 
-    <div data-user-popup data-popup>
-        <div data-popup-overflow>
-            <div data-popup-overlay data-toggle="user-popup"></div>
+        <div data-user-popup data-popup>
+            <div data-popup-overflow>
+                <div data-popup-overlay data-toggle="user-popup"></div>
 
-            <!-- pop up content-->
-            <form method="post" action="#" data-popup-inner data-user-form>
+                <!-- pop up content-->
+                <form method="post" action="#" data-popup-inner data-user-form>
 
-                <div data-custom-title>
-                    <span>Edit User</span>
-                </div>
-
-                <div class="form-fields">
-                    <div class="field half vertical-layout">
-                        <label for="username">Username</label>
-                        <input id="username" data-user-name name="name" placeholder="Username" required>
+                    <div data-custom-title>
+                        <span>Edit User</span>
                     </div>
 
-                    <div class="field half vertical-layout">
-                        <label for="email">Email</label>
-                        <input id="email" data-user-email name="email" placeholder="Email" required>
-                    </div>
+                    <div class="form-fields">
+                        <div class="field half vertical-layout">
+                            <label for="username">Username</label>
+                            <input id="username" data-user-name name="name" placeholder="Username" required>
+                        </div>
 
-                    <div class="field third vertical-layout">
-                        <label>Register</label>
-                        <div data-user-register></div>
-                    </div>
+                        <div class="field half vertical-layout">
+                            <label for="email">Email</label>
+                            <input id="email" data-user-email name="email" placeholder="Email" required>
+                        </div>
 
-                    <div class="field third vertical-layout">
-                        <!-- role -->
-                        <label for="role">Role</label>
-                        <select data-select-role-value name="role" id="role">
-                            <option value="user">User
-                            </option>
-                            <option value="admin">Admin
-                            </option>
-                        </select>
-                    </div>
+                        <div class="field third vertical-layout">
+                            <label>Register</label>
+                            <div data-user-register></div>
+                        </div>
 
-                    <div class="field third vertical-layout">
-                        <label for="state">State</label>
-                        <select data-select-state-value name="state" id="state">
-                            <option value="active">Active
-                            </option>
-                            <option value="suspend">Suspend
-                            </option>
-                        </select>
-                    </div>
+                        <div class="field third vertical-layout">
+                            <!-- role -->
+                            <label for="role">Role</label>
+                            <select data-select-role-value name="role" id="role">
+                                <option value="user">User
+                                </option>
+                                <option value="admin">Admin
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="footer">
-                        <button class="btn_primary" type="button" data-user-save-btn>Save</button>
-                        <button class="btn_primary error" type="button" data-user-delete-btn>Delete</button>
-                        <button class="btn_transparent" type="button" data-user-close-btn
-                                data-toggle="user-popup">Cancel
-                        </button>
+                        <div class="field third vertical-layout">
+                            <label for="state">State</label>
+                            <select data-select-state-value name="state" id="state">
+                                <option value="active">Active
+                                </option>
+                                <option value="suspend">Suspend
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="footer">
+                            <button class="btn_primary" type="button" data-user-save-btn>Save</button>
+                            <button class="btn_primary error" type="button" data-user-delete-btn>Delete</button>
+                            <button class="btn_transparent" type="button" data-user-close-btn
+                                    data-toggle="user-popup">Cancel
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
-    <div data-user-register-popup data-popup>
+
+    <div data-user-register-popup data-popup data-register-user-wrapper>
         <div data-popup-overflow>
             <div data-popup-overlay data-toggle="user-register-popup"></div>
 
-            <form method="post" action="?type=<%= type %>&method=post" data-popup-inner data-register-form>
+            <form method="post" action="?type=<%= type %>&method=post" data-popup-inner>
 
                 <div data-custom-title>
                     <span>Add New User</span>
