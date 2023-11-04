@@ -7,11 +7,11 @@
   }
 
   [data-custom-table] [data-column-wrapper] {
-    min-height: 50px;
+    min-height: 5rem;
   }
   [data-custom-table] [data-column] {
-    padding: 15px;
-    font-size: 14px;
+    padding: 1.5rem;
+    font-size: var(--fz-14);
   }
 
   /* each columns */
@@ -43,11 +43,11 @@
 
   /* column */
   [data-custom-table] [data-column-wrapper="item"] [data-column] {
-    font-size: 14px;
+    font-size: var(--fz-14);
   }
   [data-custom-table] [data-column-wrapper="item"] [data-column]:not(:last-child),
   [data-custom-table] [data-column-wrapper="item"] [data-column] [data-title]:not(:last-child) {
-    margin-bottom: 5px;
+    margin-bottom: .5rem;
   }
 
   /* title with data attribute */
@@ -63,11 +63,11 @@
 
   /* item */
   [data-custom-table] [data-column-wrapper="item"] {
-    padding: 20px;
+    padding: 2rem;
     border-radius: 3px;
     border: 1px solid var(--color-secondary);
   }
   [data-custom-table] [data-column-wrapper="item"]:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 }
