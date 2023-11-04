@@ -1,5 +1,5 @@
 /* custom table */
-@media only screen and (min-width: 767px) {
+@include responsive('tablet-v', true) {
   /* column */
   [data-custom-table] [data-column-wrapper] {
     display: flex;
@@ -35,7 +35,7 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@include responsive('tablet-v') {
   /* heading */
   [data-custom-table] [data-column-wrapper="heading"] {
     display: none;
