@@ -218,9 +218,9 @@ class User extends Category{
                 await user.save();
 
                 // send new token and save in cookies
-                const token = sendAuthTokenAndCookies(user, response);
+                sendAuthTokenAndCookies(user, response);
 
-                resolve(token);
+                resolve();
             }catch(error){
                 reject(error);
             }
