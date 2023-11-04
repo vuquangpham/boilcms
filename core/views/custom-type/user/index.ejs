@@ -47,10 +47,10 @@ const modifyDate = (publishTime) => {
                 <div class="users__item--email wb-break-all"
                      data-column="Email" data-user-item-email><%= user.email; %></div>
 
-                <div class="users__item--role tt-capitalize"
+                <div class="users__item--role tt-capitalize <%= user.role === 'admin' ? 'admin-role' : 'user-role'%>"
                      data-column="Role" data-user-item-role><%= user.role; %></div>
 
-                <div class="users__item--state"
+                <div class="users__item--state <%= user.state === 'active' ? 'active-state' : 'suspend-state'%>"
                      data-column="State" data-user-item-state><span class="badge badge--red"><%= user.state; %></span>
                 </div>
 
