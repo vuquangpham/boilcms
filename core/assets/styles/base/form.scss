@@ -2,7 +2,7 @@
   /* Field size */
   --form-field-size: 11rem; /* height of textarea */
   --form-field-height: 4rem;
-  --form-field-padding-h: 2rem;
+  --form-field-padding-h: 1.4rem;
   --form-font-size: 1.4rem;
   --form-font: inherit;
 
@@ -309,6 +309,14 @@ select {
       gap: .2rem;
     }
 
+    // description
+    .description {
+      font-size: 1.3rem;
+      font-style: italic;
+
+      opacity: .6;
+      padding-top: .6rem;
+    }
 
     // min width 769px
     @include responsive('tablet-v', true) {
@@ -335,7 +343,7 @@ select {
 }
 
 /*********************
- * Form > Columns
+ * Form columns
 **********************/
 [data-form-column] {
   display: flex;
@@ -360,14 +368,6 @@ select {
     }
   }
 
-  // description
-  [data-form-description] {
-    font-size: 1.3rem;
-    font-style: italic;
-
-    opacity: .6;
-    padding-top: .6rem;
-  }
 
   // bottom spacing
   &:not(:last-child) {
