@@ -170,4 +170,10 @@ body {
     background: var(--color-success);
     color: #fff;
   }
+
+  // responsive
+  @include responsive('mobile') {
+    padding: .2rem .4rem;
+    min-width: unset;
+  }
 }

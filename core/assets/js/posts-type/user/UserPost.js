@@ -206,7 +206,7 @@ export default class UserPost {
         };
         let target = null;
 
-        const singleUserItemEl = e.target.closest('button[data-user-detail]')
+        const singleUserItemEl = e.target.closest('button[data-user-edit]');
         const saveUserBtnEl = e.target.closest('button[data-user-save-btn]')
         const deleteUserBtnEl = e.target.closest('button[data-user-delete-btn]')
         const addNewUserBtnEl = e.target.closest('button[data-add-new-user-btn]')
