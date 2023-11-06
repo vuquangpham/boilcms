@@ -1,8 +1,5 @@
 // global
-@import '@global/style/reset.scss';
-@import '@global/style/atomic.scss';
-@import '@global/style/responsive.scss';
-@import '@global/style/mixins.scss';
+@import '@global/style/index.scss';
 
 // utils
 @import "./utils/variables";
