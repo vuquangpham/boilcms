@@ -10,8 +10,8 @@ const {CORE_DIRECTORY} = require("../core/utils/config.utils");
 const IS_DEV_MODE = process.env.DEV_MODE === "true";
 
 // front end
-const dirApp = path.join(__dirname, '..', 'assets', 'js');
-const dirGlobal = path.join(__dirname, '..', 'assets', 'global');
+const dirApp = path.join(__dirname, '..', 'app', 'js');
+const dirGlobal = path.join(__dirname, '..', 'assets');
 const dirShared = path.join(__dirname, '..', 'shared');
 const dirPublic = path.join(__dirname, '..', 'public', 'themes');
 

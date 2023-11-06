@@ -1,5 +1,5 @@
 import Component from "../component";
-import fetch from "@global/fetch";
+import fetch from "@global/js/fetch";
 import UpdateComponentState from "./UpdateComponentState";
 
 // WYSIWYG editor

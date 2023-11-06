@@ -1,4 +1,4 @@
-import fetch from "@global/fetch";
+import fetch from "@global/js/fetch";
 import Image from '../image';
 
 class MediaPopup{
