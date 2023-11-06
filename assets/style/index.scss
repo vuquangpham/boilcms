@@ -1,7 +1,7 @@
 // reset
-@import "./reset";
-@import "./atomic";
+@import "./base/reset";
+@import "./base/atomic";
 
 // utils
-@import "./responsive";
-@import "./mixins";
+@import "./utils/responsive";
+@import "./utils/mixins";
