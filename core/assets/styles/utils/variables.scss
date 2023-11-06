@@ -1,25 +1,28 @@
 :root {
+  // color vars
   --color-primary: #1d2327;
   --color-secondary: #2271b1;
   --color-white: #f0f0f1;
   --color-gray: rgba(210, 210, 210, 0);
   --color-error: #f03e3e;
   --color-success: #37b24d;
+  --placeholder-color: #adb5bd;
 
+  // text and bg
   --text-color: #212529;
   --bg-color: #f8f9fa;
 
+  // permalink
   --permalink-color: var(--color-secondary);
   --permalink-color-hover: var(--color-primary);
 
-  --placeholder-color: #adb5bd;
-
+  // font
   --primary-font: "Be Vietnam Pro", sans-serif;
 
-  /* Header */
+  // header
   --header-height: 46px;
 
-  /* Sidebar */
+  // category
   --category-width: 200px;
 
   // vertical spacing
@@ -47,10 +50,12 @@
   --size-h6: var(--fz-16);
 }
 
-/* responsive */
-@media only screen and (max-width: 425px) {
+/************************************
+* Responsive
+************************************/
+@include responsive('mobile') {
   :root {
-    /* Sidebar */
+    // category
     --category-width: 100%;
   }
 }
