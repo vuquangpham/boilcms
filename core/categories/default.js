@@ -11,5 +11,6 @@ module.exports = new Default({
     name: 'Dashboard',
     url: '/',
     type: 'default',
-    contentType: Type.types.DEFAULT
+    contentType: Type.types.DEFAULT,
+    acceptRole: 'admin'
 });

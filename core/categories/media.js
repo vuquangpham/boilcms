@@ -135,5 +135,6 @@ module.exports = new Media({
     name: 'Media',
     url: '/media',
     type: 'media',
-    contentType: Type.types.MEDIA
+    contentType: Type.types.MEDIA,
+    acceptRole: 'admin'
 });

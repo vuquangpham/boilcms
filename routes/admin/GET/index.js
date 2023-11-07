@@ -6,6 +6,7 @@ const handleGetAction = require('./get');
 const handleEditAction = require('./edit');
 
 const User = require('../../../core/categories/user')
+const {restrictTo} = require("../../../core/utils/middleware.utils");
 
 /**
  * Handle GET method
@@ -19,7 +20,9 @@ const handleGetMethod = (request, response, next) => {
     const action = response.locals.action;
     const hasJSON = response.locals.getJSON;
 
-    if(!categoryItem) return response.redirect('/' + ADMIN_URL);
+    if (!categoryItem || !restrictTo(response, categoryItem.acceptRole)) {
+        return response.redirect('/' + ADMIN_URL);
+    }
 
     // function for handling action
     let funcForHandlingAction = () => {
@@ -29,17 +32,17 @@ const handleGetMethod = (request, response, next) => {
     const isCustomType = categoryItem.contentType.isCustomType;
 
     // custom type
-    if(!isCustomType){
-        switch(action.name){
-            case 'get':{
+    if (!isCustomType) {
+        switch (action.name) {
+            case 'get': {
                 funcForHandlingAction = handleGetAction;
                 break;
             }
-            case 'add':{
+            case 'add': {
                 funcForHandlingAction = handleAddAction;
                 break;
             }
-            case 'edit':{
+            case 'edit': {
                 funcForHandlingAction = handleEditAction;
                 break;
             }
@@ -61,7 +64,7 @@ const handleGetMethod = (request, response, next) => {
                 ...extraData
             };
 
-            if(hasJSON) return response.status(200).json(data);
+            if (hasJSON) return response.status(200).json(data);
 
             const pageTitle = categoryItem.name[0].toUpperCase() + categoryItem.name.slice(1);
 
