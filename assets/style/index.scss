@@ -1,8 +1,9 @@
-// reset
-@import "./base/reset";
-@import "./base/atomic";
-
 // utils
 @import "./utils/responsive";
 @import "./utils/mixins";
 @import "./utils/variables";
+
+// reset
+@import "./base/reset";
+@import "./base/atomic";
+@import "./base/base";
