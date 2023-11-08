@@ -20,7 +20,7 @@ const handleGetMethod = (request, response, next) => {
     const action = response.locals.action;
     const hasJSON = response.locals.getJSON;
 
-    if (!categoryItem || !restrictTo(response, categoryItem.acceptRole)) {
+    if (!categoryItem || !restrictTo(response, ...categoryItem.acceptRole)) {
         return response.redirect('/' + ADMIN_URL);
     }
 
