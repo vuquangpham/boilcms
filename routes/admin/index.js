@@ -18,6 +18,7 @@ const handlePostMethod = require('./POST');
 
 // handle upload action
 const upload = require('../../core/utils/upload.utils');
+const {ADMIN_URL} = require("../../core/utils/config.utils");
 
 /**
  * Middleware for authenticate user
@@ -26,17 +27,15 @@ router.all('*', (request, response, next) => {
 
     if(!response.locals.token){
         return response.redirect(`/${REGISTER_URL}`);
-    }
+    }else if(!restrictTo(response, 'admin')){
+        request.app.set('message', 'Account not found');
 
-    else if (!restrictTo(response, 'admin')) {
-        request.app.set('message', 'Account not found')
-
-        sendEmptyToken(response)
+        sendEmptyToken(response);
 
         return response.redirect(`/${REGISTER_URL}`);
     }
-    next()
-})
+    next();
+});
 
 /**
  * Middleware for registering variables
@@ -64,13 +63,18 @@ router.all('*', (request, response, next) => {
  * */
 router.all('*', upload.single('image'), (request, response, next) => {
     const method = response.locals.method;
+    const categoryItem = response.locals.categoryItem;
 
-    switch (method.name) {
-        case 'get': {
+    // validate the role or the category item to reach the category
+    if(!categoryItem || !restrictTo(response, ...categoryItem.acceptedRoles)) return response.redirect('/' + ADMIN_URL);
+
+
+    switch(method.name){
+        case 'get':{
             handleGetMethod(request, response, next);
             break;
         }
-        case 'post': {
+        case 'post':{
             handlePostMethod(request, response, next);
         }
     }

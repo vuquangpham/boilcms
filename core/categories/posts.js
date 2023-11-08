@@ -18,5 +18,4 @@ module.exports = new Posts({
             url: '?post_type=post&action=add'
         },
     ],
-    acceptRole: ['admin']
 });

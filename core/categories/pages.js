@@ -56,5 +56,4 @@ module.exports = new Pages({
             compare: (data) => data.actionType === 'add'
         },
     ],
-    acceptRole: ['admin']
 });

@@ -1,7 +1,7 @@
 const AccountType = require('../classes/utils/account-type');
-const Method = require('../classes/utils/method')
+const Method = require('../classes/utils/method');
 const jwt = require("jsonwebtoken");
-const User = require('../categories/user')
+const User = require('../categories/user');
 
 /**
  * middleware for all routing
@@ -27,7 +27,7 @@ const globalMiddleware = (request, response, next) => {
     response.locals.accountType = AccountType.getActionType(accountType);
 
     next();
-}
+};
 
 /**
  * Check user authentication
@@ -36,33 +36,33 @@ const authenticateUser = (request, response, next) => {
     let token = request.cookies.jwt;
 
     // Check token exists
-    if (!token) {
-        response.locals.user = undefined
-        return next()
+    if(!token){
+        response.locals.user = undefined;
+        return next();
     }
 
     // Verify token
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-        if (err) {
-            console.error(err)
-            return next(err)
+        if(err){
+            console.error(err);
+            return next(err);
         }
         User.getDataById({_id: decoded.id})
             .then(currentUser => {
-                if (!currentUser || currentUser.hasAlreadyChangedPassword(decoded.iat)) {
-                    response.locals.user = undefined
-                } else {
+                if(!currentUser || currentUser.hasAlreadyChangedPassword(decoded.iat)){
+                    response.locals.user = undefined;
+                }else{
                     response.locals.user = currentUser;
                 }
-                next()
+                next();
             })
             .catch(err => {
-                response.locals.user = undefined
-                next()
+                response.locals.user = undefined;
+                next();
 
-            })
-    })
-}
+            });
+    });
+};
 
 /**
  * Restrict user access based on their roles and their state
@@ -71,9 +71,18 @@ const authenticateUser = (request, response, next) => {
  * @return {Boolean} - True if the user has permission, False if not.
  * */
 const restrictTo = (response, ...roles) => {
-    return !(!response.locals.user || response.locals.user.state !== 'active' || !roles.find(r => r === response.locals.user.role));
-}
+    const user = response.locals.user;
+
+    // use doesn't exist
+    if(!user) return false;
+
+    // user state is not active
+    if(user.state !== 'active') return false;
+
+    // valid roles
+    return !!roles.find(r => r === user.role);
+};
 
 module.exports = {
     globalMiddleware, authenticateUser, restrictTo
-}
+};

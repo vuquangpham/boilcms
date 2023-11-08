@@ -21,7 +21,7 @@ class Category{
             order: 0,
 
             // role can access this data
-            acceptRole: ''
+            acceptedRoles: ["*"]
         };
         const validatedOptions = this.validateOptions({...defaultOptions, ...options});
         if(!validatedOptions) return null;
@@ -36,7 +36,7 @@ class Category{
         this.notShowInCategory = validatedOptions.notShowInCategory;
         this.isSpecialType = validatedOptions.isSpecialType;
 
-        this.acceptRole = validatedOptions.acceptRole
+        this.acceptedRoles = validatedOptions.acceptedRoles;
     }
 
     /**
@@ -55,6 +55,13 @@ class Category{
         if(options.type && options.contentType.model){
             this.databaseModel = mongoose.model(options.type, options.contentType.model);
         }
+
+        // validate roles
+        if(options.acceptedRoles.length === 1 && options.acceptedRoles[0] === "*"){
+            options.acceptedRoles = ['admin', 'user'];
+        }
+
+        console.log(options.acceptedRoles);
 
         return options;
     }

@@ -12,5 +12,4 @@ module.exports = new Default({
     url: '/',
     type: 'default',
     contentType: Type.types.DEFAULT,
-    acceptRole: ['admin']
 });
