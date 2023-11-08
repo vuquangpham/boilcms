@@ -61,8 +61,6 @@ class Category{
             options.acceptedRoles = ['admin', 'user'];
         }
 
-        console.log(options.acceptedRoles);
-
         return options;
     }
 

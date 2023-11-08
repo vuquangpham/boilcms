@@ -1,9 +1,9 @@
-const User = require('../../../core/categories/user');
 const Content = require('../../../core/classes/utils/content');
 
 const handleAddAction = require('./add');
 const handleGetAction = require('./get');
 const handleEditAction = require('./edit');
+const handleCustomTypeAction = require('./custom-type');
 
 /**
  * Handle GET method
@@ -25,24 +25,26 @@ const handleGetMethod = (request, response, next) => {
     const isCustomType = categoryItem.contentType.isCustomType;
 
     // custom type
-    if (!isCustomType) {
-        switch (action.name) {
-            case 'get': {
+    if(isCustomType) funcForHandlingAction = handleCustomTypeAction;
+
+    // not has custom type
+    else
+        switch(action.name){
+            case 'get':{
                 funcForHandlingAction = handleGetAction;
                 break;
             }
-            case 'add': {
+            case 'add':{
                 funcForHandlingAction = handleAddAction;
                 break;
             }
-            case 'edit': {
+            case 'edit':{
                 funcForHandlingAction = handleEditAction;
                 break;
             }
         }
-    }
 
-    const [promise, extraData] = isCustomType ? [User.find(response.locals.user._id), {}] : funcForHandlingAction(request, response);
+    const [promise, extraData] = funcForHandlingAction(request, response);
 
     // render data
     promise
@@ -57,7 +59,7 @@ const handleGetMethod = (request, response, next) => {
                 ...extraData
             };
 
-            if (hasJSON) return response.status(200).json(data);
+            if(hasJSON) return response.status(200).json(data);
 
             const pageTitle = categoryItem.name[0].toUpperCase() + categoryItem.name.slice(1);
 
