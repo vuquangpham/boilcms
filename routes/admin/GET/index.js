@@ -1,12 +1,9 @@
+const User = require('../../../core/categories/user');
 const Content = require('../../../core/classes/utils/content');
-const {ADMIN_URL} = require("../../../core/utils/config.utils");
 
 const handleAddAction = require('./add');
 const handleGetAction = require('./get');
 const handleEditAction = require('./edit');
-
-const User = require('../../../core/categories/user')
-const {restrictTo} = require("../../../core/utils/middleware.utils");
 
 /**
  * Handle GET method
