@@ -243,5 +243,5 @@ module.exports = new User({
             url: '?filter=user'
         }
     ],
-    acceptRole: 'admin'
+    acceptRole: ['admin']
 });

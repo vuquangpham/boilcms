@@ -67,13 +67,12 @@ const authenticateUser = (request, response, next) => {
 /**
  * Restrict user access based on their roles and their state
  * @param response
- * @param role {Array | String} - An array of role allowed to access
+ * @param roles {Array | String} - An array of role allowed to access
  * @return {Boolean} - True if the user has permission, False if not.
  * */
-const restrictTo = (response, ...role) => {
-    return !(!response.locals.user || !role.includes(response.locals.user.role) || response.locals.user.state !== 'active');
+const restrictTo = (response, ...roles) => {
+    return !(!response.locals.user || response.locals.user.state !== 'active' || !roles.find(r => r === response.locals.user.role));
 }
-
 
 module.exports = {
     globalMiddleware, authenticateUser, restrictTo
