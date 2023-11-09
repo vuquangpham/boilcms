@@ -46,14 +46,20 @@ const handlePostMethod = (request, response, next) => {
                     break;
                 }
 
-                // redirect to reset password page
+                // redirect to register page
                 case "forget-password":{
-                    redirectURL = `${REGISTER_URL}?type=${RESET_PASSWORD_URL}&token=${result}`;
+                    // set notification
+                    request.app.set('notification', {
+                        type: 'success',
+                        message: 'Please check your mail box to get the reset password URL!'
+                    });
+                    redirectURL = REGISTER_URL;
                     break;
                 }
-
-                // redirect to register page
-                case "sign-up":
+                case "sign-up":{
+                    redirectURL = REGISTER_URL;
+                    break;
+                }
                 case "reset-password":{
                     redirectURL = REGISTER_URL;
                     break;

@@ -1,6 +1,9 @@
 const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
 const {generateSHA256Token, sendAuthTokenAndCookies} = require("../utils/token.utils");
+const {sendEmail} = require("../utils/email.utils");
+const {getProtocolAndDomain} = require("../utils/helper.utils");
+const {REGISTER_URL, RESET_PASSWORD_URL} = require("../utils/config.utils");
 
 class User extends Category{
     constructor(config){
@@ -117,6 +120,21 @@ class User extends Category{
                 const resetToken = user.createPasswordResetToken();
                 await user.save({validateBeforeSave: false});
 
+                const urlForResettingPassword = getProtocolAndDomain(request) + `${REGISTER_URL}?type=${RESET_PASSWORD_URL}&token=${resetToken}`;
+                sendEmail({
+                    to: user.email,
+                    subject: 'RESET PASSWORD',
+                    html: `<a target="_blank" href="${urlForResettingPassword}">Reset Password</a>`
+                })
+                    .then(info => {
+                        // todo: handle after sending email
+                        console.log(info);
+                    })
+                    .catch(err => {
+                        // todo: handle error
+                        console.log(err);
+                    });
+
                 resolve(resetToken);
 
             }catch(error){
@@ -155,6 +173,9 @@ class User extends Category{
                 user.resetPasswordTokenExpired = undefined;
 
                 await user.save();
+
+                // send the
+
                 resolve();
             }catch(error){
                 reject(error);
