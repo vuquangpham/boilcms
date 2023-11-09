@@ -10,6 +10,15 @@ const getParamsOnRequest = (req, defaultParams) => {
 
 
 /**
+ * Get protocol and domain
+ * @param request {Object}
+ * @return {String}
+ * */
+const getProtocolAndDomain = (request) => {
+    return request.protocol + '://' + request.get('host') + '/';
+};
+
+/**
  * Get file name based on file size
  * @param sourceName {String}
  * @param size {String}
@@ -17,7 +26,7 @@ const getParamsOnRequest = (req, defaultParams) => {
  * @return {String}
  * */
 const getFilenameBasedOnSize = (sourceName, size, extension) => {
-    if (!size) return sourceName + '.' + extension;
+    if(!size) return sourceName + '.' + extension;
     return sourceName + '-' + size + '.' + extension;
 };
 
@@ -27,7 +36,7 @@ const getFilenameBasedOnSize = (sourceName, size, extension) => {
  * @return string
  * */
 const stringToSlug = (string) => {
-    if (!string) return '';
+    if(!string) return '';
     return string.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/đ/g, 'd').replace(/Đ/g, 'D')
@@ -52,7 +61,7 @@ const minifyString = (string) => string.replace(/\s+/g, '');
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
     Object.keys(obj).forEach(el => {
-        if (allowedFields.includes(el)) newObj[el] = obj[el];
+        if(allowedFields.includes(el)) newObj[el] = obj[el];
     });
     return newObj;
 };
@@ -64,7 +73,7 @@ const filterObj = (obj, ...allowedFields) => {
  * @return {string}
  * */
 const capitalizeString = (string, character = ' ') => {
-    if (string.length === 1) return string;
+    if(string.length === 1) return string;
 
     return string.toLowerCase()
         .split(character)
@@ -92,14 +101,15 @@ const modifyDate = (publishTime) => {
  * @return {String}
  * */
 const splitUrl = (currentUrl, start, end, character = ' ') => {
-    const parts = currentUrl.split(character)
-    return parts.slice(start, end).join(character)
-}
+    const parts = currentUrl.split(character);
+    return parts.slice(start, end).join(character);
+};
 
 
 module.exports = {
     stringToSlug,
 
+    getProtocolAndDomain,
     getParamsOnRequest,
     getFilenameBasedOnSize,
 
