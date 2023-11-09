@@ -121,7 +121,7 @@ User.methods.createPasswordResetToken = function(){
     // hash reset token and save in database
     this.resetPasswordToken = generateSHA256Token(token);
 
-    // create resetPasswordTokenExpired
+    // create resetPasswordTokenExpired - 10 minutes
     this.resetPasswordTokenExpired = Date.now() + 10 * 60 * 1000;
 
     return token;
