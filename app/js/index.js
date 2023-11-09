@@ -1,2 +1,5 @@
+// style
 import '../styles/index.scss';
-console.log('hi from FE');
+
+// vendors
+import '@global/vendors/theme/theme.min.js';

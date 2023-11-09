@@ -5,6 +5,12 @@
   //// font
   --primary-font: "Montserrat", sans-serif;
 
+  // container
+  --100vw: 100vw;
+  --container: 1180px;
+  --gap-container: 40px;
+  --gap-side: clamp(var(--gap-container), calc((var(--100vw) - var(--container)) * 0.5));
+
   //// color vars
   //--color-primary: #1d2327;
   //--color-secondary: #2271b1;
