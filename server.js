@@ -51,10 +51,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // global middleware
-app.use(globalMiddleware)
+app.use(globalMiddleware);
 
 // global authentication
-app.use(authenticateUser)
+app.use(authenticateUser);
 
 // admin routing
 app.use('/' + ADMIN_URL, adminRouting);

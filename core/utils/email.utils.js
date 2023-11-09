@@ -1,4 +1,20 @@
 const nodemailer = require('nodemailer');
+const Mailgen = require('mailgen');
+const {getProtocolAndDomain} = require('./helper.utils');
+const {REGISTER_URL} = require("./config.utils");
+
+// Configure mailgen by setting a theme and your product info
+const mailGenerator = new Mailgen({
+    theme: 'default',
+    product: {
+        // Appears in header & footer of e-mails
+        name: 'BoilCMS',
+        link: 'https://github.com/vuquangpham',
+        // Optional product logo
+        logo: 'https://avatars.githubusercontent.com/u/30406982?v=4'
+    }
+});
+
 
 /**
  * Mail transporter for sending email with nodemailer
@@ -35,4 +51,38 @@ const sendEmail = (information) => {
     return mailTransporter.sendMail(validateInformation);
 };
 
-module.exports = {sendEmail};
+
+/**
+ * Send forgot password mail
+ * @param information {Object}
+ * @return {Promise}
+ * */
+const sendForgotPasswordEmail = (information) => {
+    const userName = information.user.name;
+    const resetPasswordURL = information.resetPasswordURL;
+    const expiredURL = information.expiredURL;
+    const email = {
+        body: {
+            name: userName,
+            intro: 'We heard that you lost your password. Sorry about that!\n',
+            action: {
+                instructions: 'But don’t worry! You can use the following button to reset your password:',
+                button: {
+                    color: '#22bc66', // Optional action button color
+                    text: 'Reset your password',
+                    link: resetPasswordURL
+                }
+            },
+            outro: 'If you don’t use this link within 10 minutes, it will expire. To get a new password reset link, visit: ' + expiredURL
+        }
+    };
+
+    const content = mailGenerator.generate(email);
+    return sendEmail({
+        to: information.user.email,
+        subject: '[BoilCMS] Reset your password',
+        html: content
+    });
+};
+
+module.exports = {sendEmail, sendForgotPasswordEmail};
