@@ -1,7 +1,7 @@
 const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
 const {generateSHA256Token, sendAuthTokenAndCookies} = require("../utils/token.utils");
-const {sendForgotPasswordEmail, sendEmail} = require("../utils/email.utils");
+const {sendForgotPasswordEmail, sendEmail, sendValidateEmail} = require("../utils/email.utils");
 const {getProtocolAndDomain} = require("../utils/helper.utils");
 const {REGISTER_URL, RESET_PASSWORD_URL, VERIFY_EMAIL_URL} = require("../utils/config.utils");
 
@@ -58,11 +58,11 @@ class User extends Category{
                     const verifyEmailToken = instance.createVerifyEmailToken();
                     await instance.save({validateBeforeSave: false});
 
-                    const urlForVerifyEmail = getProtocolAndDomain(request) + `${REGISTER_URL}?type=${VERIFY_EMAIL_URL}&token=${verifyEmailToken}&method=post`;
-                    sendEmail({
-                        to: instance.email,
-                        subject: 'VERIFY EMAIL',
-                        html: `<a target="_blank" href="${urlForVerifyEmail}">Verify Email</a>`
+                    // send email
+                    const confirmationEmailURL = getProtocolAndDomain(request) + `${REGISTER_URL}?type=${VERIFY_EMAIL_URL}&token=${verifyEmailToken}&method=post`;
+                    sendValidateEmail({
+                        user: result,
+                        confirmationEmailURL
                     })
                         .then(info => {
                             // todo: handle after sending email
@@ -72,6 +72,7 @@ class User extends Category{
                             // todo: handle error
                             console.log(err);
                         });
+
                     resolve(result);
                 })
                 .catch(err => {
@@ -266,7 +267,7 @@ class User extends Category{
      * Validate email
      * */
     verifyEmail(token = ''){
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
 
             try{
                 // hash token from query
@@ -288,11 +289,11 @@ class User extends Category{
 
                 await user.save({validateBeforeSave: false});
 
-                resolve()
+                resolve();
             }catch(error){
-                reject(error)
+                reject(error);
             }
-        })
+        });
     }
 
 }

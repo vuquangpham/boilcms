@@ -85,4 +85,37 @@ const sendForgotPasswordEmail = (information) => {
     });
 };
 
-module.exports = {sendEmail, sendForgotPasswordEmail};
+
+/**
+ * Send validate email address
+ * @param information {Object}
+ * @return {Promise}
+ * */
+const sendValidateEmail = (information) => {
+    const userName = information.user.name;
+    const confirmationEmailURL = information.confirmationEmailURL;
+    const email = {
+        body: {
+            name: userName,
+            intro: 'Welcome to our site. This is just a quick email to say that we\'ve received your account information.\n',
+            action: {
+                instructions: 'You have 10 minutes to confirm your email address by clicking the button below',
+                button: {
+                    color: '#22bc66', // Optional action button color
+                    text: 'Confirm your email',
+                    link: confirmationEmailURL
+                }
+            },
+            outro: 'If you don’t use this link within 10 minutes, it will expire. To get a new confirmation link, please visit the account settings!'
+        }
+    };
+
+    const content = mailGenerator.generate(email);
+    return sendEmail({
+        to: information.user.email,
+        subject: '[BoilCMS] Confirm your email',
+        html: content
+    });
+};
+
+module.exports = {sendEmail, sendForgotPasswordEmail, sendValidateEmail};
