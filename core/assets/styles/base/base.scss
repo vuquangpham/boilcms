@@ -1,7 +1,3 @@
-body {
-  padding-top: var(--header-height);
-}
-
 // btn
 .txt_color_white [class*="btn_primary"] {
   --btn-bg-color-hover: var(--color-white);
@@ -19,41 +15,6 @@ body {
 
 .txt_color_success {
   color: var(--color-success);
-}
-
-/* common button style */
-[class*="btn_"] {
-  --btn-bg-color: var(--color-secondary);
-  --btn-bg-color-hover: var(--color-primary);
-  --btn-color: var(--color-white);
-  --btn-color-hover: var(--color-white);
-
-  padding: .5rem .8rem;
-  min-height: 3rem;
-  min-width: 6rem;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 0;
-  border: none;
-  background: var(--btn-bg-color);
-
-  text-decoration: none;
-  font-weight: 600;
-  color: var(--btn-color);
-  line-height: 1.2;
-
-  transition: all .3s ease;
-
-  // hover
-  &:hover,
-  &:focus {
-    background: var(--btn-bg-color-hover);
-    color: var(--btn-color-hover);
-  }
 }
 
 /* button primary */
