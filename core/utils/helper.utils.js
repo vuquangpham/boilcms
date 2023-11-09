@@ -105,6 +105,14 @@ const splitUrl = (currentUrl, start, end, character = ' ') => {
     return parts.slice(start, end).join(character);
 };
 
+const splitString = (currentString, character = ' ') => {
+    return currentString.split(character).map(value => value.trim())
+}
+// const ex1 = splitString('size: Small | Medium | Large', ':')
+// console.log('string: ', ex1)
+// const ex2 = splitString(ex1[1], '|')
+// console.log(ex2)
+
 
 module.exports = {
     stringToSlug,
