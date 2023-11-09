@@ -26,6 +26,13 @@ button:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-secondary);
 }
 
+// ul
+ul {
+  li:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
 /*******************************
 * Headings and paragraph
 ********************************/
