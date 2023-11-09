@@ -25,15 +25,22 @@ const {ADMIN_URL} = require("../../core/utils/config.utils");
  * */
 router.all('*', (request, response, next) => {
 
-    if(!response.locals.token){
-        return response.redirect(`/${REGISTER_URL}`);
-    }else if(!restrictTo(response, 'admin')){
-        request.app.set('message', 'Account not found');
+    // the token doesn't exist
+    if(!response.locals.token) return response.redirect(`/${REGISTER_URL}`);
+
+    // do not have permission
+    if(!restrictTo(response, 'admin')){
+        request.app.set('notification', {
+            type: 'error',
+            message: `You do not have permission to access the site. Please contact the administrator to get more detail!`
+        });
 
         sendEmptyToken(response);
 
         return response.redirect(`/${REGISTER_URL}`);
     }
+
+    // call the next middleware
     next();
 });
 

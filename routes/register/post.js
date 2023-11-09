@@ -65,7 +65,10 @@ const handlePostMethod = (request, response, next) => {
         })
         .catch(err => {
             // set error message
-            request.app.set('message', err.message);
+            request.app.set('notification', {
+                type: 'error',
+                message: err.message
+            });
 
             // vars
             let redirectURL = '';

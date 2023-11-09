@@ -85,11 +85,11 @@ class User extends Category{
                 const user = await this.databaseModel.findOne({email}).select('+password');
 
                 // user doesn't exist
-                if(!user) throw new Error('Account not found');
+                if(!user) throw new Error(`Account hasn't been existed yet. You can create the new one with that information!`);
 
                 // comparing the password characters
                 const comparePassword = await user.comparePassword(password, user.password);
-                if(!comparePassword) throw new Error('Wrong password');
+                if(!comparePassword) throw new Error(`The password is not correct. Please try again!`);
 
                 // found the user
                 resolve(user);

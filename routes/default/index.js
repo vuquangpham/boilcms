@@ -52,7 +52,7 @@ router.get('*', (request, response, next) => {
              * Restrict role if post/page visibility is private
              * */
             if(result.visibility === 'private' && !restrictTo(response, 'admin')){
-                return Promise.reject('Account not found');
+                return Promise.reject(`You do not have permission to access the private page!`);
             }
 
             // page title

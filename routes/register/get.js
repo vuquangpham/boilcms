@@ -29,10 +29,11 @@ const handleGetMethod = (request, response, next) => {
     const pageTitle = capitalizeString(type, '-');
 
     // error message
-    const errMessage = request.app.get('message');
+    const notification = request.app.get('notification');
 
-    // clear the message after showing
-    if(errMessage) request.app.set('message', undefined);
+    // clear the notification after showing
+    console.log(notification);
+    if(notification) request.app.set('notification', undefined);
 
     // render html
     const directory = path.join(process.cwd(), 'views', 'register', 'type', `${type}` + '.ejs');
@@ -41,7 +42,7 @@ const handleGetMethod = (request, response, next) => {
             response.render('register/index', {
                 content: html,
                 title: pageTitle,
-                message: errMessage
+                notification: notification
             });
         })
         .catch(err => {
