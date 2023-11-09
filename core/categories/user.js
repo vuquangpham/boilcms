@@ -1,7 +1,7 @@
 const Type = require("../classes/utils/type");
 const Category = require("../classes/category/category");
 const {generateSHA256Token, sendAuthTokenAndCookies} = require("../utils/token.utils");
-const {sendForgotPasswordEmail} = require("../utils/email.utils");
+const {sendForgotPasswordEmail, sendEmail} = require("../utils/email.utils");
 const {getProtocolAndDomain} = require("../utils/helper.utils");
 const {REGISTER_URL, RESET_PASSWORD_URL, VERIFY_EMAIL_URL} = require("../utils/config.utils");
 

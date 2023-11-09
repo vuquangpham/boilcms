@@ -116,6 +116,8 @@ const handlePostMethod = (request, response, next) => {
                 }
 
                 case "verify":{
+                    // TODO when verify email, then verify email token has expired, if user logged-in redirect to account page(FE) to resend, else if user didn't log in redirect to register, (check token here to consider user had logged in before)
+
                     // set notification
                     request.app.set('notification', {
                         type: 'error',

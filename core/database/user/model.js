@@ -147,7 +147,7 @@ User.methods.createVerifyEmailToken = function (){
     this.verifyEmailToken = generateSHA256Token(token);
 
     // create verifyEmailTokenExpired in 10 minutes
-    this.verifyEmailTokenExpired = Date.now() + 5 * 1000;
+    this.verifyEmailTokenExpired = Date.now() + 10 * 60 * 1000;
 
     return token;
 
