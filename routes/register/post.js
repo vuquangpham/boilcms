@@ -2,7 +2,7 @@ const User = require('../../core/categories/user');
 
 // config
 const {sendAuthTokenAndCookies} = require("../../core/utils/token.utils");
-const {ADMIN_URL, REGISTER_URL, RESET_PASSWORD_URL} = require("../../core/utils/config.utils");
+const {ADMIN_URL, REGISTER_URL} = require("../../core/utils/config.utils");
 const {splitUrl} = require("../../core/utils/helper.utils");
 
 const handlePostMethod = (request, response, next) => {
