@@ -32,7 +32,6 @@ const handleGetMethod = (request, response, next) => {
     const notification = request.app.get('notification');
 
     // clear the notification after showing
-    console.log(notification);
     if(notification) request.app.set('notification', undefined);
 
     // render html
