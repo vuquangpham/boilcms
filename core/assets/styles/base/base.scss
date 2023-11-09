@@ -17,6 +17,10 @@ body {
   color: var(--color-error);
 }
 
+.txt_color_success {
+  color: var(--color-success);
+}
+
 /* common button style */
 [class*="btn_"] {
   --btn-bg-color: var(--color-secondary);

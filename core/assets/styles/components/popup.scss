@@ -53,7 +53,7 @@
 
   overflow: auto;
   width: 100%;
-  max-width: 1024px;
+  max-width: 100rem;
   position: relative;
   z-index: 999;
   background-color: #fff;
@@ -71,11 +71,13 @@ html:not(.components-is-open) [data-pb-components-popup][data-popup],
 html:not(.user-register-popup-is-open) [data-user-wrapper] [data-user-register-popup][data-popup],
 html:not(.user-popup-is-open) [data-user-wrapper] [data-user-popup][data-popup],
 html:not(.media-popup-is-open) [data-media-wrapper] [data-popup],
-html:not(.account-popup-is-open) [data-account-wrapper] [data-account-popup][data-popup]{
+html:not(.account-popup-is-open) [data-account-wrapper] [data-account-popup][data-popup],
+html:not(.notification-is-open) body.register [data-popup] {
   opacity: 0;
   visibility: hidden
 }
 
+// custom toggle
 [data-custom-toggle-content]:not(.active) {
   opacity: 0;
   visibility: hidden;
