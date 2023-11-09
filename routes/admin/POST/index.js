@@ -1,4 +1,5 @@
 const ComponentController = require("../../../core/classes/component/component-controller");
+const Type = require('../../../core/classes/utils/type');
 
 const handleGetAction = require('./get');
 const handleAddAction = require('./add');
@@ -24,20 +25,20 @@ const handlePostMethod = (request, response, next) => {
     // handle component information
     const component = ComponentController.getComponentBasedOnName(request.body.componentName);
 
-    switch (action.name) {
-        case 'get': {
+    switch(action.name){
+        case 'get':{
             funcForHandlingAction = handleGetAction;
             break;
         }
-        case 'add': {
+        case 'add':{
             funcForHandlingAction = handleAddAction;
             break;
         }
-        case 'edit': {
+        case 'edit':{
             funcForHandlingAction = handleEditAction;
             break;
         }
-        case 'delete': {
+        case 'delete':{
             funcForHandlingAction = handleDeleteAction;
             break;
         }
@@ -48,13 +49,20 @@ const handlePostMethod = (request, response, next) => {
     promise
         .then(result => {
             // return JSON
-            if (component && hasJSON) return response.status(200).json({content: result, component: component});
-            if (hasJSON) return response.status(200).json(result);
+            if(component && hasJSON) return response.status(200).json({content: result, component: component});
+            if(hasJSON) return response.status(200).json(result);
 
             // if post method don't have hasJSON or component, then return URL
             let URL = '';
-            switch (action.name) {
-                case 'add' : {
+            switch(action.name){
+                case 'add' :{
+
+                    // media type
+                    if(categoryItem.contentType === Type.types.MEDIA){
+                        URL = categoryItem.url;
+                        break;
+                    }
+
                     URL = categoryItem.url + '&' + new URLSearchParams({
                         action: 'edit',
                         method: 'get',
@@ -62,30 +70,29 @@ const handlePostMethod = (request, response, next) => {
                     });
                     break;
                 }
-                case 'edit': {
+                case 'edit':{
                     // return the current URL
                     URL = request.get('referer');
                     break;
                 }
-                case 'delete': {
+                case 'delete':{
                     URL = categoryItem.url + '&' + new URLSearchParams({
                         action: 'get',
                         method: 'get',
                     });
                     break;
                 }
-                default: {
+                default:{
                     URL = request.params.type;
                 }
             }
-
             response.redirect(URL);
         })
         .catch(err => {
             console.log(err);
-            if (hasJSON) return response.status(500).json({errorMessage: err.message});
+            if(hasJSON) return response.status(500).json({errorMessage: err.message});
 
-            next(err)
+            next(err);
         });
 };
 
