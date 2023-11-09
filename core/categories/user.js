@@ -3,7 +3,7 @@ const Category = require("../classes/category/category");
 const {generateSHA256Token, sendAuthTokenAndCookies} = require("../utils/token.utils");
 const {sendForgotPasswordEmail} = require("../utils/email.utils");
 const {getProtocolAndDomain} = require("../utils/helper.utils");
-const {REGISTER_URL, RESET_PASSWORD_URL} = require("../utils/config.utils");
+const {REGISTER_URL, RESET_PASSWORD_URL, VERIFY_EMAIL_URL} = require("../utils/config.utils");
 
 class User extends Category{
     constructor(config){
@@ -44,14 +44,34 @@ class User extends Category{
     /**
      * Add new user
      * @param data {object}
+     * @param request
      * @return {promise}
      * */
-    add(data){
+    add(data, request){
         const instance = new this.databaseModel(data);
 
         return new Promise((resolve, reject) => {
             instance.save()
-                .then(result => {
+                .then(async result => {
+
+                    // generate the random reset token and save reset token to data
+                    const verifyEmailToken = instance.createVerifyEmailToken();
+                    await instance.save({validateBeforeSave: false});
+
+                    const urlForVerifyEmail = getProtocolAndDomain(request) + `${REGISTER_URL}?type=${VERIFY_EMAIL_URL}&token=${verifyEmailToken}&method=post`;
+                    sendEmail({
+                        to: instance.email,
+                        subject: 'VERIFY EMAIL',
+                        html: `<a target="_blank" href="${urlForVerifyEmail}">Verify Email</a>`
+                    })
+                        .then(info => {
+                            // todo: handle after sending email
+                            console.log(info);
+                        })
+                        .catch(err => {
+                            // todo: handle error
+                            console.log(err);
+                        });
                     resolve(result);
                 })
                 .catch(err => {
@@ -156,8 +176,8 @@ class User extends Category{
                     resetPasswordTokenExpired: {$gte: Date.now()}
                 });
 
-                // user doesn't exist
-                if(!user) throw new Error(`The reset token doesn't exist. Please check it again!`);
+                // user doesn't exist or reset token has expired
+                if(!user) throw new Error(`The reset token has expired. Please check it again!`);
 
                 // check password
                 if(request.body.password !== request.body.confirmPassword) throw new Error(`Password don't match`);
@@ -169,8 +189,6 @@ class User extends Category{
                 user.resetPasswordTokenExpired = undefined;
 
                 await user.save();
-
-                // send the
 
                 resolve();
             }catch(error){
@@ -242,6 +260,39 @@ class User extends Category{
                 reject(error);
             }
         });
+    }
+
+    /**
+     * Validate email
+     * */
+    verifyEmail(token = ''){
+        return new Promise(async (resolve, reject) => {
+
+            try{
+                // hash token from query
+                const hashedToken = generateSHA256Token(token);
+
+                // check token is valid and dont expired
+                const user = await this.databaseModel.findOne({
+                    verifyEmailToken: hashedToken,
+                    verifyEmailTokenExpired: {$gte: Date.now()}
+                });
+
+                // token doesn't exist or reset token has expired
+                if(!user) throw new Error(`The validate email token has expired. Please check it again!`);
+
+                // update user
+                user.verifyEmailToken = undefined;
+                user.verifyEmailTokenExpired = undefined;
+                user.isEmailValidate = true;
+
+                await user.save({validateBeforeSave: false});
+
+                resolve()
+            }catch(error){
+                reject(error)
+            }
+        })
     }
 
 }

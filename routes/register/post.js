@@ -14,7 +14,7 @@ const handlePostMethod = (request, response, next) => {
     switch(type){
         case 'sign-up':{
             const data = User.validateInputData(inputData);
-            promise = User.add(data);
+            promise = User.add(data, request);
             break;
         }
         case 'sign-in':{
@@ -27,6 +27,11 @@ const handlePostMethod = (request, response, next) => {
         }
         case 'reset-password':{
             promise = User.resetPassword(request, resetUrlToken);
+            break;
+        }
+        case 'verify': {
+            promise = User.verifyEmail(resetUrlToken);
+            break;
         }
     }
 
@@ -57,10 +62,24 @@ const handlePostMethod = (request, response, next) => {
                     break;
                 }
                 case "sign-up":{
+                    // set notification
+                    request.app.set('notification', {
+                        type: 'success',
+                        message: 'Please check your mail box to get the verify email!'
+                    });
                     redirectURL = REGISTER_URL;
                     break;
                 }
                 case "reset-password":{
+                    redirectURL = REGISTER_URL;
+                    break;
+                }
+                case "verify": {
+                    // set notification
+                    request.app.set('notification', {
+                        type: 'success',
+                        message: 'You have successfully verify email address. You can log in now!'
+                    });
                     redirectURL = REGISTER_URL;
                     break;
                 }
@@ -95,6 +114,17 @@ const handlePostMethod = (request, response, next) => {
                     redirectURL = splitUrl(request.originalUrl, 0, 2, '&');
                     break;
                 }
+
+                case "verify":{
+                    // set notification
+                    request.app.set('notification', {
+                        type: 'error',
+                        message: 'Unfortunately, your verify email token is expired. Please try again!'
+                    });
+                    redirectURL = REGISTER_URL;
+                    break;
+                }
+
             }
 
             // redirect URL

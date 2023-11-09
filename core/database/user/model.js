@@ -59,6 +59,14 @@ const User = new mongoose.Schema({
     },
     resetPasswordTokenExpired: Date,
 
+    // for verify email
+    verifyEmailToken: {
+        type: String,
+        select: false
+    },
+
+    verifyEmailTokenExpired: Date,
+
     // user role
     role: {
         type: String,
@@ -72,6 +80,10 @@ const User = new mongoose.Schema({
         enum: ['active', 'suspend'],
         default: 'active'
     },
+    isEmailValidate: {
+        type: Boolean,
+        default: false
+    }
 });
 
 // validate input between two processes adding from form and saving to database
@@ -121,10 +133,24 @@ User.methods.createPasswordResetToken = function(){
     // hash reset token and save in database
     this.resetPasswordToken = generateSHA256Token(token);
 
-    // create resetPasswordTokenExpired - 10 minutes
+    // create resetPasswordTokenExpired 10 minutes
     this.resetPasswordTokenExpired = Date.now() + 10 * 60 * 1000;
 
     return token;
 };
+
+User.methods.createVerifyEmailToken = function (){
+    // create reset token
+    const token = crypto.randomBytes(32).toString('hex');
+
+    // hash reset token and save in database
+    this.verifyEmailToken = generateSHA256Token(token);
+
+    // create verifyEmailTokenExpired in 10 minutes
+    this.verifyEmailTokenExpired = Date.now() + 5 * 1000;
+
+    return token;
+
+}
 
 module.exports = User;

@@ -15,6 +15,9 @@ class AccountType {
             },
             RESET: {
                 name: 'reset-password'
+            },
+            VERIFY: {
+                name: 'verify'
             }
         };
     }
