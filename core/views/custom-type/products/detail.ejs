@@ -1,0 +1,70 @@
+<div data-custom-title>
+    <span>Add new product</span>
+</div>
+
+<div class="container" data-post-detail>
+    <form action="?post_type=post&method=post&action=<%= actionType %>"
+          method="post"
+          class="detail-product">
+
+        <div class="products-detail fl-grid">
+            <div class="products-detail__col products-detail__col--left">
+                <div class="products-detail__information">
+
+                    <div class="products-detail__title">
+                        <label for="title" class="hidden">Add title</label>
+                        <input type="text" placeholder="Title" id="title" name="title" required
+                               class="w100">
+                    </div>
+
+                </div>
+
+                <div class="products-detail__information">
+
+                    <div class="products-detail__title">
+                        <label for="description" class="hidden">Product Description</label>
+                        <textarea type="text" placeholder="Description" id="description" name="description" required
+                                  class="w100"></textarea>
+                    </div>
+                </div>
+
+                <div class="products-detail__dropdown fl-center-v">
+                    <label for="product-type">Product type</label>
+                    <select data-easy-select name="visibility" id="product-type">
+                        <option value="simple">Simple Product
+                        </option>
+                        <option value="variable">Variable Product
+                        </option>
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div class="products-detail__col products-detail__col--right">
+                <div class="products-detail__dropdown fl-center-v">
+                    <label for="visibility">Visibility</label>
+                    <select data-easy-select name="visibility" id="visibility">
+                        <option value="public">Public
+                        </option>
+                        <option value="private">Private
+                        </option>
+                    </select>
+                </div>
+
+                <div class="products-detail__dropdown fl-center-v">
+                    <label for="state">Status</label>
+                    <select data-easy-select data-user-register-state name="state" id="state">
+                        <option value="active">Active
+                        </option>
+                        <option value="suspend">Suspend
+                        </option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn_primary">Publish</button>
+            </div>
+        </div>
+
+    </form>
+</div>
