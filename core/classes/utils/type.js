@@ -2,6 +2,7 @@ const DefaultType = require('../../database/default/model');
 const PostType = require('../../database/posts/model');
 const MediaType = require('../../database/media/model');
 const UserType = require('../../database/user/model');
+const ProductType = require('../../database/product/model')
 
 class Type{
     constructor(){
@@ -21,6 +22,10 @@ class Type{
             USER: {
                 name: 'user',
                 model: UserType
+            },
+            PRODUCTS: {
+                name: 'products',
+                model: ProductType
             },
             ACCOUNT: {
                 name: 'account',
