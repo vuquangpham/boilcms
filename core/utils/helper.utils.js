@@ -125,6 +125,7 @@ module.exports = {
     filterObj,
     capitalizeString,
     splitUrl,
+    splitString,
 
     modifyDate,
 };

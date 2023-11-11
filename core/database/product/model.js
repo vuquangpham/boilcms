@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const {modifyDate} = require("../../utils/helper.utils");
 
 const Product = new mongoose.Schema({
     name: {
@@ -17,14 +18,26 @@ const Product = new mongoose.Schema({
     visibility: {
         type: String
     },
-    simpleProductType:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'simple'
+    publish: {
+        type: Date,
+        default: () => Date.now()
     },
-    variableProductType: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'variable'
-    }
+    publishFormatted: String,
+    price: {
+        type: Number
+    },
+    salePrice: {
+        type: Number
+    },
+    inventory: {
+        type: Number
+    },
+    attributes: {}
+})
+
+Product.pre('save', function (next) {
+    this.publishFormatted = modifyDate(this.publish)
+    next()
 })
 
 module.exports = Product
