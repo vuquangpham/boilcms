@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const {modifyDate} = require("../../utils/helper.utils")
+
 
 const Post = new mongoose.Schema({
     title: {
@@ -17,6 +19,9 @@ const Post = new mongoose.Schema({
         type: Date,
         default: () => Date.now()
     },
+    publishFormatted: {
+        type: String
+    },
     template: {
         type: String
     },
@@ -34,5 +39,10 @@ const Post = new mongoose.Schema({
         type: String,
     }
 });
+
+Post.pre('save', function (next){
+    this.publishFormatted = modifyDate(this.publish)
+    next()
+})
 
 module.exports = Post;

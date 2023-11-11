@@ -89,7 +89,7 @@ const modifyDate = (publishTime) => {
     const date = publishTime.getDate().toString().padStart(2, '0');
     const hour = publishTime.getHours().toString().padStart(2, '0');
     const minute = publishTime.getMinutes().toString().padStart(2, '0');
-    return `${date}/${month}/${year} at ${hour}:${minute}`;
+    return `${month}/${date}/${year} at ${hour}:${minute}`;
 };
 
 /**

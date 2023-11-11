@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const {generateSHA256Token} = require("../../utils/token.utils");
+const {modifyDate} = require("../../utils/helper.utils")
 
 const User = new mongoose.Schema({
     name: {
@@ -52,6 +53,10 @@ const User = new mongoose.Schema({
         type: Date
     },
 
+    registerAtFormatted: {
+        type: String,
+    },
+
     // for resetting password
     resetPasswordToken: {
         type: String,
@@ -88,6 +93,10 @@ const User = new mongoose.Schema({
 
 // validate input between two processes adding from form and saving to database
 User.pre('save', async function(next){
+
+    // formatted date
+    this.registerAtFormatted = modifyDate(this.registerAt)
+
     // if password don't modify, go next middleware
     if(!this.isModified('password')) return next();
 
