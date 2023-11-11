@@ -1,15 +1,3 @@
-<%
-// modify date publish
-const modifyDate = (publishTime) => {
-    const year = publishTime.getFullYear();
-    const month = (publishTime.getMonth() + 1).toString().padStart(2, '0');
-    const date = publishTime.getDate().toString().padStart(2, '0');
-    const hour = publishTime.getHours().toString().padStart(2, '0');
-    const minute = publishTime.getMinutes().toString().padStart(2, '0');
-    return `${date}/${month}/${year} at ${hour}:${minute}`;
-};
-%>
-
 <div data-custom-title>
     <span><%= title; %></span>
 </div>
@@ -41,7 +29,7 @@ const modifyDate = (publishTime) => {
                     <%= user.name; %></div>
 
                 <div class="users__item--register" data-column="Register At">
-                    <time><%= modifyDate(user.registerAt); %></time>
+                    <time><%= user.registerAtFormatted %></time>
                 </div>
 
                 <div class="users__item--email wb-break-all"

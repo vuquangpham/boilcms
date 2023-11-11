@@ -40,7 +40,7 @@
                          data-column="State"><%= post.visibility === 'private' ? 'Private' : 'Published'; %></div>
                     <div class="posts__item--categories" data-column="Categories">Categories</div>
                     <div class="posts__item--date not-show-title" data-column="Date">
-                        <time data-title="Date"><%= modifyDate(post.publish) %></time>
+                        <time data-title="Date"><%= post.publishFormatted %></time>
                     </div>
                     <div class="posts__item--utils">
                         <a href="?post_type=<%= contentType; %>&action=edit&id=<%= post._id; %>"
