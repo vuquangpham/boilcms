@@ -10,6 +10,7 @@ import './posts-type/posts';
 import './posts-type/media';
 import './posts-type/user';
 import './posts-type/account'
+import './posts-type/product';
 
 // init easy select
 EasySelect.init();

@@ -19,7 +19,7 @@ const getValueFromData = (name, property = '') => {
     <span>Add new product</span>
 </div>
 
-<div class="container" data-post-detail>
+<div class="container" data-post-detail data-product-wrapper>
     <form action="?post_type=product&method=post&action=<%= actionType %>"
           method="post"
           class="detail-product">
@@ -65,29 +65,39 @@ const getValueFromData = (name, property = '') => {
                     </div>
 
                     <div class="products-detail__sale-price">
-                        <label for="sale-price" class="hidden">Add title</label>
+                        <label for="sale-price" class="hidden"></label>
                         <input type="text" placeholder="Sale price" id="sale-price" name="salePrice"
                                class="w100" value="<%= getValueFromData('salePrice') %>">
                     </div>
 
                     <div class="products-detail__inventory">
-                        <label for="inventory" class="hidden">Add title</label>
+                        <label for="inventory" class="hidden"></label>
                         <input type="text" placeholder="Inventory" id="inventory" name="inventory"
                                class="w100" value="<%= getValueFromData('inventory') %>">
                     </div>
 
-                    <div class="products-detail__attribute-name">
-                        <label for="attribute-name" class="hidden">Add title</label>
-                        <input type="text" placeholder="Attribute name" id="attribute-name" name="attributeName"
-                               class="w100" value="<%= getValueFromData('attribute') %>">
+                    <div>
+                        <button type="button" data-add-new-attribute>Add new</button>
                     </div>
 
-                    <div class="products-detail__attribute-value">
-                        <label for="attribute-value" class="hidden">Add title</label>
-                        <textarea type="text"
-                                  placeholder="Enter some descriptive text. Use “|” to separate different values."
-                                  id="attribute-value" name="attributeValue" required
-                                  class="w100"><%= getValueFromData('attribute')%></textarea>
+                    <div data-product-attributes>
+                        <div data-taxonomy data-attribute-number="0">
+                            <div data-single-attribute>
+                                <div class="products-detail__attribute-name">
+                                    <label for="attribute-name" class="hidden"></label>
+                                    <input type="text" placeholder="Attribute name" id="attribute-name" name="attributeName[0]"
+                                           class="w100" value="<%= getValueFromData('attribute') %>">
+                                </div>
+
+                                <div class="products-detail__attribute-value">
+                                    <label for="attribute-value" class="hidden"></label>
+                                    <textarea type="text"
+                                              placeholder="Enter some descriptive text. Use “|” to separate different values."
+                                              id="attribute-value" name="attributeValue[0]" required
+                                              class="w100"><%= getValueFromData('attribute')%></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

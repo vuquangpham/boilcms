@@ -1,10 +1,50 @@
 const Category = require("../../core/classes/category/category")
 const Types = require("../../core/classes/utils/type")
+const {splitString} = require("../../core/utils/helper.utils")
 
-class Product extends Category{
+class Product extends Category {
     constructor(config) {
         super(config);
     }
+
+    /**
+     * Validate input product
+     * */
+    validateInputData(inputData, action = 'add') {
+        const request = inputData.request;
+        const response = inputData.response;
+
+        // input
+        const name = request.body.name;
+        const description = request.body.description;
+        const status = request.body.status;
+        const visibility = request.body.visibility;
+        const price = request.body.price;
+        const salePrice = request.body.salePrice;
+        const inventory = request.body.inventory
+
+        // get attribute values
+        const attributeName = request.body.attributeName
+        const attributeValue = splitString(request.body.attributeValue, '|')
+        let attributes = {}
+        attributes[attributeName] = attributeValue
+
+        const returnObject = {
+            name,
+            description,
+            status,
+            visibility,
+            price,
+            salePrice,
+            inventory,
+            attributes
+        };
+
+        if (action === 'edit') returnObject.response = response;
+
+        return returnObject;
+    };
+
 }
 
 module.exports = new Product({
