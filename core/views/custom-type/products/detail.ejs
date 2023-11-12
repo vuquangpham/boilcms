@@ -4,13 +4,13 @@ const isEditPost = actionType === 'edit';
 
 // validate selected value on select
 const isSelectedValue = (name, value) => {
-    if(!isEditPost) return null;
+    if (!isEditPost) return null;
     return data[name] === value ? 'selected' : null;
 };
 
 // get value from data
 const getValueFromData = (name, property = '') => {
-    if(!isEditPost) return '';
+    if (!isEditPost) return '';
     return property ? data[name][property] : data[name];
 };
 %>
@@ -23,7 +23,7 @@ const getValueFromData = (name, property = '') => {
     <form action="?post_type=product&method=post&action=<%= actionType %>"
           method="post"
           class="detail-product">
-        <h1><%= actionType%></h1>
+        <h1><%= actionType %></h1>
 
         <div class="products-detail fl-grid">
             <div class="products-detail__col products-detail__col--left">
@@ -42,7 +42,7 @@ const getValueFromData = (name, property = '') => {
                     <div class="products-detail__title">
                         <label for="description" class="hidden">Product Description</label>
                         <textarea type="text" placeholder="Description" id="description" name="description"
-                                  class="w100" ><%= getValueFromData('description') %></textarea>
+                                  class="w100"><%= getValueFromData('description') %></textarea>
                     </div>
                 </div>
 
@@ -81,20 +81,28 @@ const getValueFromData = (name, property = '') => {
                     </div>
 
                     <div data-product-attributes>
-                        <div data-taxonomy data-attribute-number="0">
-                            <div data-single-attribute>
-                                <div class="products-detail__attribute-name">
-                                    <label for="attribute-name" class="hidden"></label>
-                                    <input type="text" placeholder="Attribute name" id="attribute-name" name="attributeName[0]"
-                                           class="w100" value="<%= getValueFromData('attribute') %>">
+                        <div data-attribute-number="0">
+                            <div data-taxonomy>
+                                <div>
+                                    <div data-attribute-name>New attribute</div>
+                                    <button type="button" data-delete-attribute>Remove</button>
                                 </div>
 
-                                <div class="products-detail__attribute-value">
-                                    <label for="attribute-value" class="hidden"></label>
-                                    <textarea type="text"
-                                              placeholder="Enter some descriptive text. Use “|” to separate different values."
-                                              id="attribute-value" name="attributeValue[0]" required
-                                              class="w100"><%= getValueFromData('attribute')%></textarea>
+                                <div>
+                                    <div class="products-detail__attribute-name" data-attribute-product-name>
+                                        <label for="attribute-name" class="hidden"></label>
+                                        <input type="text" placeholder="Attribute name" id="attribute-name"
+                                               name="attributeName[0]"
+                                               class="w100">
+                                    </div>
+
+                                    <div class="products-detail__attribute-value">
+                                        <label for="attribute-value" class="hidden"></label>
+                                        <textarea type="text"
+                                                  placeholder="Enter some descriptive text. Use “|” to separate different values."
+                                                  id="attribute-value" name="attributeValue[0]" required
+                                                  class="w100"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
