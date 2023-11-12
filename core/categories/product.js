@@ -25,9 +25,12 @@ class Product extends Category {
 
         // get attribute values
         const attributeName = request.body.attributeName
-        const attributeValue = splitString(request.body.attributeValue, '|')
+        const attributeValue = request.body.attributeValue
         let attributes = {}
-        attributes[attributeName] = attributeValue
+
+        for (let i = 0; i < attributeName.length; i++) {
+            attributes[attributeName[i]] = splitString(attributeValue[i], '|')
+        }
 
         const returnObject = {
             name,
